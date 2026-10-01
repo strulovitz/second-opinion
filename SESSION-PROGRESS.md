@@ -21,6 +21,7 @@ Second Opinion: a medical knowledge globe built only from medical textbooks, ope
    - BIBLE/appendix-B-territory-atlas.md (189 lines)
    - BIBLE/appendix-C-entity-and-altitude-registry.md (200 lines)
    - BIBLE/appendix-D-treatment-heaviness-groups.md (248 lines)
+   - BIBLE/appendix-templates.md (793 lines; the 4 appendix files joined A+B+C+D in order, as the closing note of delivery 13 asks)
 3. Set the commit author for this repo to Nir Strulovitz <nir.strulovitz@gmail.com> (the first commit was amended to fix this).
 
 ## Situation now
