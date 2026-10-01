@@ -17,6 +17,8 @@ Second Opinion: a medical knowledge globe built only from medical textbooks, ope
    - BIBLE/part-07-viewer.md (691 lines)
    - BIBLE/part-08-manager-operating-protocol.md (393 lines)
    - BIBLE/part-09-publishing-and-ledger.md (525 lines)
+   - BIBLE/appendix-A-field-registry.md (156 lines)
+   - BIBLE/appendix-B-territory-atlas.md (189 lines)
 3. Set the commit author for this repo to Nir Strulovitz <nir.strulovitz@gmail.com> (the first commit was amended to fix this).
 
 ## Situation now
@@ -24,7 +26,7 @@ Second Opinion: a medical knowledge globe built only from medical textbooks, ope
 - The BIBLE itself says the future "manager" will create AGENTS.md and PROGRESS.md in this repo (Part 2, section 5). Those are NOT these files. This file (SESSION-PROGRESS.md) only records the work of saving the BIBLE, so it does not collide with the manager's PROGRESS.md.
 
 ## What we still need to do
-1. Save the 4 appendix templates when Nir pastes them: Appendix A (Field Registry), B (Territory Atlas), C (Entity and Altitude Registry), D (Treatment Heaviness Groups and Classes). Fable may deliver them as two pastes (A+B, then C+D). Use the File: line in each header for the file name (suggested: BIBLE/appendix-A-....md etc.).
+1. Appendices A and B are saved (delivery 12 of 13). Still to save: C and D (the last delivery). Original note: save the 4 appendix templates when Nir pastes them: Appendix A (Field Registry), B (Territory Atlas), C (Entity and Altitude Registry), D (Treatment Heaviness Groups and Classes). Fable may deliver them as two pastes (A+B, then C+D). Use the File: line in each header for the file name (suggested: BIBLE/appendix-A-....md etc.).
 2. After each paste: save verbatim, commit and push only the new file plus this progress file, update this file.
 3. After the appendices the BIBLE is complete (13 deliveries). Nothing is built yet; building is done later by a separate manager following AGENTS.md/PROGRESS.md as defined in BIBLE Part 8.
 
