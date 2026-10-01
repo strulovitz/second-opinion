@@ -19,14 +19,13 @@ Second Opinion: a medical knowledge globe built only from medical textbooks, ope
 - The BIBLE itself says the future "manager" will create AGENTS.md and PROGRESS.md in this repo (Part 2, section 5). Those are NOT these files. This file (SESSION-PROGRESS.md) only records the work of saving the BIBLE, so it does not collide with the manager's PROGRESS.md.
 
 ## What we still need to do
-1. Save Part 4 (Phase B, the Reading Pipeline) when Nir pastes it.
-2. Save Part 5 (Phase C, altitude assignment).
-3. Save Part 6 (the HTML pages).
-4. Save Part 7 (the Viewer).
-5. Save Part 8 (Manager Operating Protocol).
-6. Save Part 9 (Publishing and the Quality Ledger).
-7. Save Appendix A (Field Registry), B (Territory Atlas), C (Entity and Altitude Registry), D (Treatment Heaviness Groups and Classes).
-8. After each part: commit and push only the new file (plus this progress file when updated), and update this file.
+1. Save Part 5 (Phase C, altitude assignment).
+2. Save Part 6 (the HTML pages).
+3. Save Part 7 (the Viewer).
+4. Save Part 8 (Manager Operating Protocol).
+5. Save Part 9 (Publishing and the Quality Ledger).
+6. Save Appendix A (Field Registry), B (Territory Atlas), C (Entity and Altitude Registry), D (Treatment Heaviness Groups and Classes).
+7. After each part: commit and push only the new file (plus this progress file when updated), and update this file.
 
 ## Rule for saving
 Each part is saved verbatim, word for word, as-is, in its own text file inside BIBLE/, named by the "File:" line in the part's header.
