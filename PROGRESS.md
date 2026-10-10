@@ -1,14 +1,15 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 2 (Environment and Data Model) -- in progress. DONE: books stored, environment inventoried, Java + Neo4j installed and running, Python .venv created, repository layout and .gitignore in place, AGENTS.md and PROGRESS.md written, the Neo4j schema applied and kitchen/db.py + kitchen/slug.py proven. LEFT: LICENSE files, README.md, the placeholder site/index.html, the proposed mount at /2nd-opinion/, first commit and push.
+Part 2 (Environment and Data Model) -- COMPLETE. All ten checkpoint lines of BIBLE part 2 section 10 are satisfied and evidenced below. Waiting for BIBLE part 3 (Phase A -- Building the Skeleton).
 
 ## NEXT STEP
-Create LICENSE and LICENSE-CONTENT.md (MIT for the code, CC BY 4.0 for the generated data), README.md, the placeholder site/index.html with the single disclaimer, and the proposed mount at /2nd-opinion/. Then commit and push.
+HUMAN to confirm the placeholder on a phone, then start BIBLE part 3 (Phase A: geography from the 42 Tables of Contents, entity registry from the Indexes, the duplicate-book rule, page_offset detection, the Freeze).
 
 ## QUESTIONS FOR HUMAN
 
-### Q1 (2026-10-10) -- APPROVAL NEEDED: how to mount the site at /2nd-opinion/
+### Q1 (2026-10-10) -- ANSWERED: the human said YES. The symlink below was created; see DONE 2026-10-10 (site mounted and live).
+
 
 **Finding from the inventory (Part 2 section 1.6).** The web root of
 www.strulovitz.org is `~/strulovitz-website/exports/`, served by Caddy
@@ -160,6 +161,40 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-10 -- First commit pushed, and the site is LIVE (Part 2 sections 8 and 9)
+
+The human approved the symlink proposal. Nothing in Caddy, in the Cloudflare
+Tunnel or in Apache was modified.
+
+```
+$ ln -s ~/second-opinion/site ~/strulovitz-website/exports/2nd-opinion
+$ ls -la ~/strulovitz-website/exports/2nd-opinion
+2nd-opinion -> /home/nir/second-opinion/site
+
+$ curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8081/2nd-opinion/
+200
+$ curl -s -o /dev/null -w "%{http_code}" https://www.strulovitz.org/2nd-opinion/
+200
+$ curl -s https://www.strulovitz.org/2nd-opinion/ | grep <title>
+<title>Second Opinion - under construction</title>
+```
+
+The disclaimer of Law 12 is present once, at the bottom of index.html only.
+
+Commit and push (Part 2 section 9):
+
+```
+$ git log --oneline | head -1
+9658b85 Part 2: environment, layout, Neo4j schema, placeholder site
+$ git status --short      # clean tree
+```
+
+Exactly 18 files were sent, the largest PROGRESS.md at 11,282 bytes. No file
+over 40 MB. Verified before the push: `kitchen/.env` (the password),
+`kitchen/books/` (the 13 GB of PDFs), `kitchen/pages/`, `kitchen/transcripts/`,
+`kitchen/extractions/` and `.venv/` are all ignored, so none of them left the
+laptop.
 
 
 ### 2026-10-10 -- Neo4j schema applied and helpers proven (Part 2 section 6)
