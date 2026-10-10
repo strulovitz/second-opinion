@@ -1,30 +1,35 @@
-"""kitchen/toc_to_json.py -- STEP A2 (BIBLE part 3, sections 4.3 and 4.4).
+"""kitchen/toc_to_json.py -- STEP A2, page-at-a-time extraction.
 
-Send each book's Table of Contents text to the free local READER and save
-kitchen/logs/<BOOK_ID>-toc.json.
+WHY THIS VERSION EXISTS (all measured on 2026-10-10, see PROGRESS.md):
 
-AMENDMENT 3.4 (declared by the manager, recorded in PROGRESS.md): the BIBLE's
-prompt P-A2 asks for one JSON object per book. That FAILED on real books, and
-the BIBLE's own rule for that case (section 4.4) is to re-send the failing
-portion with the error appended -- never to hand-edit. Two concrete failures
-were measured on 2026-10-10:
+1. One giant prompt per book fails. qwen3.8:27b spends hidden-reasoning
+   tokens BEFORE answering; with max_tokens=3000 it burned the whole budget
+   reasoning and returned an EMPTY string (finish_reason="length"). With
+   16,000 it usually answered, but it dropped whole sections -- SABISTON-22
+   lost SECTION I entirely.
 
-  * SABISTON-22 -- "Expecting ',' delimiter" at character 2214: chapter titles
-    contain double quotes, which the model did not escape, and the answer was
-    also cut off at the 8000-token limit because the book has many chapters.
-  * NELSON-2024 -- "no JSON found" on chunk 2: the answer was truncated mid
-    object, so no closing brace ever appeared.
+2. reasoning_effort="none" fixes the empty answer but hurts quality on
+   judgement tasks.
 
-A single JSON object spanning a whole book's contents is therefore the wrong
-shape for a local 27B model. The SAME information schema as the BIBLE is kept
-verbatim -- province name, part name, chapter number, verbatim chapter title,
-printed page_start -- but emitted one record per LINE. A line cannot be
-truncated into invalid syntax, quotes need no escaping, and a partial answer
-still yields the chapters that did arrive.
+3. The resolution is to make each call so small that no reasoning is needed:
+   ONE TABLE-OF-CONTENTS PAGE AT A TIME, reasoning off, as pure
+   transcription. Small inputs, small outputs, no truncation, no drift, and
+   a failure costs one page instead of a whole book.
 
-Output lines, tab separated:
-    P<TAB>province_name<TAB>part_name
-    C<TAB>chapter_number_or_dash<TAB>chapter_title<TAB>page_start
+Output: kitchen/logs/<BOOK_ID>-toc.json in the BIBLE's schema
+(provinces -> chapters -> number / title / page_start).
+
+AMENDMENT 3.4: the BIBLE's prompt P-A2 asks for one JSON object per book.
+That shape cannot survive a 27B local model on a real Table of Contents
+(unescaped quotes in chapter titles, truncation mid-object). The same
+information schema is kept; only the framing changes, to tab separated
+records, which cannot be truncated into invalid syntax:
+
+    P<TAB>province name<TAB>heading of the level above (or the same name)
+    C<TAB>chapter number or a dash<TAB>verbatim chapter title<TAB>printed page
+
+Everything is written per book as soon as it finishes, and every page is
+logged, so an interrupted run never loses completed work.
 """
 import json
 import re
@@ -37,76 +42,96 @@ from reader import ask  # noqa: E402
 KITCHEN = Path(__file__).resolve().parent
 LOGS = KITCHEN / "logs"
 
-SYSTEM = """You extract the Table of Contents of one medical textbook into a list. Output ONLY those lines, nothing else.
+SYSTEM = """You transcribe the Table of Contents page you are given. Output ONLY the lines described, nothing else.
 
-For every PROVINCE (a Part, Section, Unit or Book heading) output one line:
-P<TAB>name of the province heading<TAB>heading of the level above it (or the same name)
+For every heading that names a Part, Section, Unit or Book, and that has chapters under it, output:
+P<TAB>heading name<TAB>heading of the level above it (or the same name)
 
-For every CHAPTER (the smallest numbered unit that has its own starting page) output one line:
-C<TAB>chapter number as printed, or a single dash if the book does not number chapters<TAB>the full chapter title, verbatim including punctuation<TAB>the printed starting page as a bare integer
+For every chapter entry -- a title together with the printed page number where that chapter starts -- output:
+C<TAB>chapter number as printed, or a single dash if there is none<TAB>the complete chapter title exactly as printed<TAB>the printed page number
 
 Rules:
-- Keep titles VERBATIM including punctuation. Join titles that wrap over two lines.
-- Ignore author names, editors and contributor lists.
-- Ignore front matter with roman-numeral pages (preface, contributors, dedication).
-- Ignore entries with no page number (online-only chapters, videos, atlases).
-- If the book has no heading above the chapters, use one province named ALL.
-- Never write commentary, notes, markdown, code fences or JSON. Only P and C lines."""
+- Copy titles word for word, including punctuation. If a title wraps onto a second line, join it into one.
+- A TAB separates the fields.
+- Skip: author and editor names, contributor lists, front matter with roman numerals, and lines with no page number.
+- If the page has no Table of Contents entries at all, output nothing.
+- No commentary, no markdown, no JSON, no explanation."""
 
-MAX_CHARS = 20000
-CUT = re.compile(r"^\s*(P|C)\t")
-
-
-def split_toc(text: str):
-    """Split at a Part/Section heading so no entry is cut in half."""
-    if len(text) <= MAX_CHARS:
-        return [text]
-    lines = text.splitlines()
-    marks = [i for i, ln in enumerate(lines)
-             if re.match(r"\s*(PART|SECTION|UNIT|BOOK)\s+[IVXLC0-9]", ln, re.I)]
-    if not marks:
-        return [text[i:i + MAX_CHARS] for i in range(0, len(text), MAX_CHARS)]
-    chunks, start, pos = [], 0, 0
-    for m in marks[1:]:
-        # compare CHARACTERS consumed, not line numbers
-        if sum(len(l) + 1 for l in lines[start:m]) > MAX_CHARS * 0.5:
-            chunks.append("\n".join(lines[start:m]))
-            start = m
-    chunks.append("\n".join(lines[start:]))
-    return [c for c in chunks if c.strip()]
+FRONT_WORDS = re.compile(r"\b(preface|contributors?|acknowledg\w*|dedication|"
+                         r"about the authors?|front matter|index|glossary|"
+                         r"advertisement|erratum|copyright|foreword)\b", re.I)
+PAGE_FIELD = re.compile(r"(\d{1,5})\s*$")
 
 
-def parse(answer: str, doc: dict):
-    """Turn the reader's P/C lines into the BIBLE's JSON shape."""
+def pages_of(text: str):
+    """pdftotext separates pages with a form feed, so pages come back exactly."""
+    return [p for p in text.split("\f")]
+
+
+def parse(answer: str, doc: dict, province: str):
+    """Fold one page's P/C lines into the document. Returns lines accepted."""
     cur = None
+    got = 0
     for raw in answer.splitlines():
-        if not CUT.match(raw):
+        if not raw.strip():
             continue
-        f = raw.rstrip("\n").split("\t")
-        if f[0] == "P" and len(f) >= 3:
-            cur = {"name": f[1].strip(), "part_name": f[2].strip(), "chapters": []}
+        f = raw.split("\t")
+        if len(f) < 2:
+            # tolerate spaces if the model dropped the tabs
+            f = re.split(r"\s{2,}", raw.strip())
+        f = [x.strip() for x in f]
+        if f[0] == "P" and len(f) >= 3 and f[1]:
+            cur = {"name": f[1], "part_name": f[2] or f[1], "chapters": []}
             doc["provinces"].append(cur)
+            got += 1
         elif f[0] == "C" and len(f) >= 4:
-            num, title, page = f[1].strip(), f[2].strip(), f[3].strip()
-            m = re.match(r"^(\d+)", page)
-            if not m or not title:
+            num, title, tail = f[1], f[2], f[3]
+            m = PAGE_FIELD.search(tail)
+            if not title or not m or FRONT_WORDS.search(title):
                 continue
             if cur is None:
-                cur = {"name": "ALL", "part_name": "ALL", "chapters": []}
+                cur = {"name": province, "part_name": province, "chapters": []}
                 doc["provinces"].append(cur)
             cur["chapters"].append({
-                "number": None if num in ("-", "") else num,
+                "number": None if num in ("-", "", "—") else num,
                 "title": title,
                 "page_start": int(m.group(1)),
             })
-    return doc
+            got += 1
+    return got
 
 
-def run_chunk(text, repair=""):
-    user = text
-    if repair:
-        user = text[:3000] + "\n[...]\n\n" + repair
-    return ask(SYSTEM, user, max_tokens=16000, expect_json=False)
+def extract(bid):
+    src = LOGS / f"{bid}-toc.txt"
+    if not src.exists():
+        return None, f"no {bid}-toc.txt"
+    pages = pages_of(src.read_text())
+    doc = {"provinces": []}
+    province, empty, failed = "ALL", [], []
+    for i, page in enumerate(pages):
+        if len(page.strip()) < 40:
+            continue
+        try:
+            ans = ask(SYSTEM, page, max_tokens=6000, expect_json=False,
+                      retries=2, no_reasoning=True)
+        except Exception as exc:  # noqa: BLE001 - recorded, never hidden
+            failed.append(i + 1)
+            continue
+        if not ans.strip():
+            empty.append(i + 1)
+            continue
+        got = parse(ans, doc, province)
+        if got:
+            province = doc["provinces"][-1]["name"]
+        elif not empty:
+            empty.append(i + 1)
+    (LOGS / f"{bid}-toc.json").write_text(
+        json.dumps(doc, indent=1, ensure_ascii=False))
+    n = sum(len(p["chapters"]) for p in doc["provinces"])
+    note = f"{len(empty)} pages with no entries"
+    if failed:
+        note += f", {len(failed)} failed"
+    return (len(doc["provinces"]), n, note), None
 
 
 def main():
@@ -115,41 +140,17 @@ def main():
              if b["status"] == "candidate" and b["toc_images"]]
     if wanted:
         books = [b for b in books if b["book_id"] in wanted]
-    print(f"reader: converting {len(books)} TOCs", flush=True)
+    print(f"reader: extracting {len(books)} TOCs page by page", flush=True)
     for b in books:
         bid = b["book_id"]
-        src = LOGS / f"{bid}-toc.txt"
-        if not src.exists():
-            print(f"  {bid:26s} SKIP (no toc.txt)", flush=True)
+        res, err = extract(bid)
+        if err:
+            print(f"  {bid:26s} SKIP ({err})", flush=True)
             continue
-        parts = split_toc(src.read_text())
-        doc = {"provinces": []}
-        failed = 0
-        for i, chunk in enumerate(parts):
-            got, doc, bad = "", doc, None
-            for attempt in range(2):
-                try:
-                    got = run_chunk(chunk, bad or "")
-                except Exception as exc:  # noqa: BLE001 - recorded, never hidden
-                    bad = f"The previous attempt failed: {exc}. Output only P and C lines."
-                    continue
-                before = len(doc["provinces"]) and sum(
-                    len(p["chapters"]) for p in doc["provinces"])
-                parse(got, doc)
-                after = sum(len(p["chapters"]) for p in doc["provinces"])
-                if after == before:
-                    bad = ("The previous attempt returned no parsable C line with a "
-                           "page number. Use a TAB between the four fields.")
-                else:
-                    break
-            else:
-                failed += 1
-        ch = sum(len(p["chapters"]) for p in doc["provinces"])
-        (LOGS / f"{bid}-toc.json").write_text(
-            json.dumps(doc, indent=1, ensure_ascii=False))
-        print(f"  {bid:26s} provinces={len(doc['provinces']):3d} "
-              f"chapters={ch:4d} chunks={len(parts)} "
-              f"{'OK' if not failed else f'{failed} FAILED CHUNKS'}", flush=True)
+        np_, nc, note = res
+        flag = "  <-- " if nc < 5 else ""
+        print(f"  {bid:26s} provinces={np_:3d} chapters={nc:4d} {note}{flag}",
+              flush=True)
 
 
 if __name__ == "__main__":

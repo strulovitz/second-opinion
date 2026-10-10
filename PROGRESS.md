@@ -23,7 +23,7 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 
 ## NEXT STEP
-14 of the 37 books still have no usable Table of Contents because their
+15 of the 37 books still have no usable Table of Contents because their
 contents are hard to LOCATE, not hard to read. The next attempt is the
 VISION fallback of BIBLE part 3 section 4.1: render the candidate front
 matter pages as PNG images and let qwen3.8:27b (capabilities include
@@ -198,6 +198,60 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-10 -- VISION locator + page-at-a-time extraction: 22 of 37 books now have a geography
+
+Three findings, in order.
+
+**1. The model can SEE a Table of Contents; regex cannot.** kitchen/vis_locate.py
+renders the front matter at 55 dpi, pastes 20 pages onto one labelled contact
+sheet and asks the multimodal model which page numbers are the contents. It
+reproduced HARRISON-22's known-correct range 7-18 EXACTLY, and it found a
+contents page for BRAUNWALD-12 that no text rule had located. Vision pass 1
+located 10 of 16 books; a deeper pass over images 71-210 located 3 more
+(BRENNER-11 135-208, MURRAY-7 203, NELSON-2024 117-124).
+
+**2. One giant prompt per book cannot work with this model.** qwen3.8:27b
+spends hidden-reasoning tokens before answering; with max_tokens=3000 it
+consumed the entire budget reasoning and returned an EMPTY string. Giving it
+16,000 tokens worked, but it dropped whole sections (SABISTON-22 lost SECTION I
+entirely). Disabling reasoning fixes the empty answer but degrades judgement.
+
+**3. The resolution: one Table-of-Contents PAGE at a time, reasoning off, as
+pure transcription.** Small input, small output, nothing to truncate, and a
+failure costs one page instead of a whole book. This is AMENDMENT 3.4, and it
+is dramatically better than every earlier attempt:
+
+```
+BEFORE (whole-book prompt)      AFTER (page at a time)
+CAMPBELL-2020   415 chapters ->  862 chapters
+DEVITA-12        64 chapters ->  269 chapters
+BOLOGNIA-2024   161 chapters ->  194 chapters
+SABISTON-22      93 chapters ->  124 chapters
+THOMPSON-2023    64 chapters ->  116 chapters
+HARRISON-22     494 chapters ->  435 chapters   (needs validation, see below)
+```
+
+Result: **22 of 37 books have a usable Table of Contents, 2,859 chapters in
+total.** 15 books remain:
+
+```
+no TOC located at all (9): BRADDOM-6, BRANT-5, GREEN-HAND-2021, HAZZARD-2022,
+    IRWIN-RIPPE-2023, KAPLAN-11, MILLER-10, STAHL-2024, WILLIAMS-HEMATOLOGY-2021
+located but yielded <5 chapters (6): BRAUNWALD-12, MANDELL-9, MURRAY-7,
+    NELSON-2024, ROSEN-2022, YOUMANS-4
+```
+
+Of these, YOUMANS-4 (images 21-52) and part of BRAUNWALD-12 have IMAGE-ONLY
+contents: pdftotext returns 0 characters there, so they must be read with the
+vision reader, not the text reader. ROSEN-2024's vision answer pointed at
+image 3, which turns out to be the copyright page -- a wrong answer that the
+page-at-a-time reader correctly refused to invent anything from.
+STAHL-2024 appears genuinely to have no contents page at all: it is a drug
+guide organised one monograph per drug, which is a different structure and is
+recorded as such rather than faked.
+
+### 2026-10-10 -- Step A2 reader run: 17 of 31 books converted, 14 still open
 
 ### 2026-10-10 -- Step A2 reader run: 17 of 31 books converted, 14 still open
 

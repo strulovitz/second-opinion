@@ -102,10 +102,7 @@
   "text_layer": true,
   "image_dir": "kitchen/pages/BRADDOM-6",
   "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": [
-   58,
-   61
-  ],
+  "toc_images": null,
   "index_images": [
    1332,
    1372
@@ -148,8 +145,8 @@
   "image_dir": "kitchen/pages/BRAUNWALD-12",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   40,
-   49
+   5,
+   25
   ],
   "index_images": [
    1023,
@@ -159,7 +156,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 6 contents pages)"
  },
  {
   "book_id": "BRENNER-11",
@@ -172,8 +169,8 @@
   "image_dir": "kitchen/pages/BRENNER-11",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   64,
-   79
+   135,
+   208
   ],
   "index_images": [
    3312,
@@ -183,7 +180,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "accepted copy of an identical pair"
+  "notes": "accepted copy of an identical pair; TOC range set by the vision pass on 2026-10-10 (found 3 contents pages)"
  },
  {
   "book_id": "CAMPBELL-2020",
@@ -312,10 +309,7 @@
   "text_layer": true,
   "image_dir": "kitchen/pages/GREEN-HAND-2021",
   "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": [
-   24,
-   27
-  ],
+  "toc_images": null,
   "index_images": null,
   "page_offset": null,
   "field_name": "",
@@ -466,8 +460,8 @@
   "image_dir": "kitchen/pages/MANDELL-9",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   50,
-   54
+   41,
+   41
   ],
   "index_images": [
    4597,
@@ -477,7 +471,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)"
  },
  {
   "book_id": "MIDDLETON-2019",
@@ -490,8 +484,8 @@
   "image_dir": "kitchen/pages/MIDDLETON-2019",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   32,
-   36
+   49,
+   64
   ],
   "index_images": [
    1669,
@@ -501,7 +495,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "UNCERTAIN: the file name shows '9' which may be an edition or an ISBN fragment; year used until the human decides"
+  "notes": "UNCERTAIN: the file name shows '9' which may be an edition or an ISBN fragment; year used until the human decides; TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)"
  },
  {
   "book_id": "MILLER-10",
@@ -532,8 +526,8 @@
   "image_dir": "kitchen/pages/MURRAY-7",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   33,
-   34
+   203,
+   203
   ],
   "index_images": [
    3247,
@@ -543,7 +537,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)"
  },
  {
   "book_id": "NELSON-2024",
@@ -556,15 +550,15 @@
   "image_dir": "kitchen/pages/NELSON-2024",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   5,
-   21
+   117,
+   124
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 5 contents pages)"
  },
  {
   "book_id": "OXFORD-6",
@@ -622,8 +616,8 @@
   "image_dir": "kitchen/pages/ROCKWOOD-10",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   67,
-   71
+   16,
+   18
   ],
   "index_images": [
    3577,
@@ -633,7 +627,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 3 contents pages)"
  },
  {
   "book_id": "ROSEN-2022",
@@ -646,8 +640,8 @@
   "image_dir": "kitchen/pages/ROSEN-2022",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   30,
-   33
+   3,
+   3
   ],
   "index_images": [
    2886,
@@ -657,7 +651,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)"
  },
  {
   "book_id": "SABISTON-22",
@@ -691,15 +685,15 @@
   "image_dir": "kitchen/pages/SLEISENGER-11",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   54,
-   54
+   21,
+   33
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)"
  },
  {
   "book_id": "STAHL-2024",
@@ -711,10 +705,7 @@
   "text_layer": true,
   "image_dir": "kitchen/pages/STAHL-2024",
   "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": [
-   66,
-   67
-  ],
+  "toc_images": null,
   "index_images": [
    598,
    603
@@ -757,8 +748,8 @@
   "image_dir": "kitchen/pages/WILLIAMS-ENDO-2024",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   56,
-   59
+   26,
+   60
   ],
   "index_images": [
    1954,
@@ -768,7 +759,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)"
  },
  {
   "book_id": "WILLIAMS-HEMATOLOGY-2021",
@@ -799,8 +790,8 @@
   "image_dir": "kitchen/pages/WILLIAMS-OBSTETRICS-26",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   45,
-   48
+   16,
+   20
   ],
   "index_images": [
    3216,
@@ -810,7 +801,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "disambiguated from the other two Williams books"
+  "notes": "disambiguated from the other two Williams books; TOC range set by the vision pass on 2026-10-10 (found 5 contents pages)"
  },
  {
   "book_id": "YOUMANS-4",
@@ -823,8 +814,8 @@
   "image_dir": "kitchen/pages/YOUMANS-4",
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
-   9,
-   9
+   21,
+   52
   ],
   "index_images": [
    6164,
@@ -834,6 +825,6 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 32 contents pages)"
  }
 ]

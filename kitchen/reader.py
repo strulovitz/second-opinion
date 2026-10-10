@@ -16,7 +16,7 @@ def _extract_json(text):
     return text[start:end + 1]
 
 def ask(system, user, images=None, max_tokens=6000, temperature=0.0,
-        expect_json=True, retries=3, timeout=3600):
+        expect_json=True, retries=3, timeout=3600, no_reasoning=None):
     url = env("READER_BASE_URL").rstrip("/") + "/chat/completions"
     no_think = env("READER_NO_THINK_TAG", "")
     if no_think:
@@ -49,7 +49,9 @@ def ask(system, user, images=None, max_tokens=6000, temperature=0.0,
     # reasoning_effort="none" -- but reasoning genuinely helps quality on
     # hard pages, so the default is to ALLOW reasoning and always budget
     # enough max_tokens for reasoning PLUS the answer.
-    if env("READER_NO_REASONING", "") == "1":
+    if no_reasoning is None:
+        no_reasoning = env("READER_NO_REASONING", "") == "1"
+    if no_reasoning:
         body["reasoning_effort"] = "none"
     last_error = None
     for attempt in range(retries):
