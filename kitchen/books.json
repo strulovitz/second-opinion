@@ -48,55 +48,6 @@
   "notes": "pdfinfo calls it the South Asian Edition; no edition number stated"
  },
  {
-  "book_id": "BAILEY-2023",
-  "pdf_file": "P. Ronan O’Connell, Andrew W. McCaskie, Robert D. Sayers - Bailey and Love’s SHORT PRACTICE of SURGERY 1 (2023, CRC Press) [10.1201_9781003106852] - libgen.li.pdf",
-  "title": "Bailey and Love's Short Practice of Surgery",
-  "edition": "",
-  "year": 2023,
-  "page_count_images": 1696,
-  "text_layer": true,
-  "image_dir": "kitchen/pages/BAILEY-2023",
-  "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": [
-   6,
-   9
-  ],
-  "index_images": [
-   1668,
-   1695
-  ],
-  "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
-  "notes": "accepted copy of an identical pair; no edition number stated"
- },
- {
-  "book_id": "BAILEY-2023",
-  "pdf_file": "P. Ronan O’Connell, Andrew W. McCaskie, Robert D. Sayers - Bailey and Love’s SHORT PRACTICE of SURGERY 1 (2023, CRC Press) [10.1201_9781003106852] - libgen.li-1.pdf",
-  "title": "Bailey and Love's Short Practice of Surgery",
-  "edition": "",
-  "year": 2023,
-  "page_count_images": 1696,
-  "text_layer": true,
-  "image_dir": "kitchen/pages/BAILEY-2023",
-  "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": [
-   6,
-   9
-  ],
-  "index_images": [
-   1668,
-   1695
-  ],
-  "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "rejected-duplicate",
-  "notes": "byte-identical duplicate of the accepted copy (sha256 proven); file kept on disk, never read",
-  "duplicate_of": "BAILEY-2023"
- },
- {
   "book_id": "BENZON-2023",
   "pdf_file": "Honorio T. Benzon, James P. Rathmell,Christopher L. Wu, Dennis C - Practical Management of Pain (2023, Elsevier) - libgen.li.pdf",
   "title": "Practical Management of Pain",
@@ -235,31 +186,6 @@
   "notes": "accepted copy of an identical pair"
  },
  {
-  "book_id": "BRENNER-11",
-  "pdf_file": "Brenner and Rector's The Kidney, 2-Volume Set -- Alan S_ L_ Yu, Glenn M_ Chertow, Philip A_ Marsden, Valerie -- 2-volume set, 11, 2019 -- Elsevier - -- isbn13 9780323532655 -- f7b79dd7d165457ea0666766b0239aa1 -- Anna’s Archiv-1.pdf",
-  "title": "Brenner and Rector's The Kidney",
-  "edition": "11",
-  "year": 2019,
-  "page_count_images": 3529,
-  "text_layer": true,
-  "image_dir": "kitchen/pages/BRENNER-11",
-  "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": [
-   64,
-   79
-  ],
-  "index_images": [
-   3312,
-   3312
-  ],
-  "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "rejected-duplicate",
-  "notes": "byte-identical duplicate of the accepted copy (sha256 proven); file kept on disk, never read",
-  "duplicate_of": "BRENNER-11"
- },
- {
   "book_id": "CAMPBELL-2020",
   "pdf_file": "Frederick M. Azar_ S. Terry Canale_ James H. Beaty - Campbell's Operative Orthopaedics (2020, Elsevier) - libgen.li.pdf",
   "title": "Campbell's Operative Orthopaedics",
@@ -351,31 +277,6 @@
   "cluster": "",
   "status": "candidate",
   "notes": "edition from pdfinfo ('14th E'); accepted copy of an identical pair"
- },
- {
-  "book_id": "GOODMAN-14",
-  "pdf_file": "Laurence Brunton, Bjorn Knollmann - Goodman and Gilman's The Pharmacological Basis of Therapeutics (2023, McGraw Hill _ Medical) - libgen.li-1.pdf",
-  "title": "Goodman and Gilman's The Pharmacological Basis of Therapeutics",
-  "edition": "14",
-  "year": 2023,
-  "page_count_images": 1664,
-  "text_layer": true,
-  "image_dir": "kitchen/pages/GOODMAN-14",
-  "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": [
-   8,
-   9
-  ],
-  "index_images": [
-   1614,
-   1664
-  ],
-  "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "rejected-duplicate",
-  "notes": "byte-identical duplicate of the accepted copy (sha256 proven); file kept on disk, never read",
-  "duplicate_of": "GOODMAN-14"
  },
  {
   "book_id": "GRAY-2020",
@@ -571,30 +472,6 @@
   "index_images": [
    4597,
    4597
-  ],
-  "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
-  "notes": ""
- },
- {
-  "book_id": "MARINO-2025",
-  "pdf_file": "Marino&_039_s The ICU Book{Paul L. Marino}(2025, Wolters Kluwer){107717832} libgen.li.pdf",
-  "title": "Marino's The ICU Book",
-  "edition": "",
-  "year": 2025,
-  "page_count_images": 947,
-  "text_layer": true,
-  "image_dir": "kitchen/pages/MARINO-2025",
-  "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": [
-   10,
-   11
-  ],
-  "index_images": [
-   886,
-   947
   ],
   "page_offset": null,
   "field_name": "",

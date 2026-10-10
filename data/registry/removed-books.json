@@ -1,0 +1,47 @@
+{
+ "note": "Books deliberately removed from kitchen/books/ on 2026-10-10 by the human's decision. Recorded here permanently, with SHA-256, so the history of the library is never lost and the reason for each removal is auditable. This file is committed; the PDFs themselves were never in git.",
+ "library_before": "42 PDF files",
+ "library_after": "37 PDF files",
+ "removed": [
+  {
+   "book_id": "BRENNER-11",
+   "pdf_file": "Brenner and Rector's The Kidney, 2-Volume Set -- Alan S_ L_ Yu, Glenn M_ Chertow, Philip A_ Marsden, Valerie -- 2-volume set, 11, 2019 -- Elsevier - -- isbn13 9780323532655 -- f7b79dd7d165457ea0666766b0239aa1 -- Anna’s Archiv-1.pdf",
+   "bytes": 301593085,
+   "sha256": "941104c95e2c1ac9...",
+   "reason": "byte-identical duplicate of the surviving Brenner and Rector's The Kidney copy (same sha256); removed so the library is never confused"
+  },
+  {
+   "book_id": "GOODMAN-14",
+   "pdf_file": "Laurence Brunton, Bjorn Knollmann - Goodman and Gilman's The Pharmacological Basis of Therapeutics (2023, McGraw Hill _ Medical) - libgen.li-1.pdf",
+   "bytes": 165077460,
+   "sha256": "116c92f513b269a3...",
+   "reason": "byte-identical duplicate of the surviving Goodman and Gilman copy (same sha256)"
+  },
+  {
+   "book_id": "BAILEY-2023",
+   "pdf_file": "P. Ronan O’Connell, Andrew W. McCaskie, Robert D. Sayers - Bailey and Love’s SHORT PRACTICE of SURGERY 1 (2023, CRC Press) [10.1201_9781003106852] - libgen.li-1.pdf",
+   "bytes": 370089102,
+   "sha256": "ccd621560f181a93...",
+   "reason": "byte-identical duplicate of the other Bailey and Love's copy (same sha256)"
+  },
+  {
+   "book_id": "BAILEY-2023",
+   "pdf_file": "P. Ronan O’Connell, Andrew W. McCaskie, Robert D. Sayers - Bailey and Love’s SHORT PRACTICE of SURGERY 1 (2023, CRC Press) [10.1201_9781003106852] - libgen.li.pdf",
+   "bytes": 370089102,
+   "sha256": "ccd621560f181a93...",
+   "reason": "LAW 6 (one book per field): Bailey and Love's Short Practice of Surgery lost to SABISTON-22, the newer and larger general-surgery textbook. NOT a duplicate -- this content existed only in this file and would have to be downloaded again if ever wanted."
+  },
+  {
+   "book_id": "MARINO-2025",
+   "pdf_file": "Marino&_039_s The ICU Book{Paul L. Marino}(2025, Wolters Kluwer){107717832} libgen.li.pdf",
+   "bytes": 25329580,
+   "sha256": "247dcf2edfc363c1...",
+   "reason": "LAW 6 (one book per field): Marino's The ICU Book lost to IRWIN-RIPPE-2023, seven times larger. NOT a duplicate -- this content existed only in this file and would have to be downloaded again if ever wanted."
+  }
+ ],
+ "kept_in_those_fields": {
+  "general surgery": "SABISTON-22 (kept over BAILEY-2023)",
+  "intensive care": "IRWIN-RIPPE-2023 (kept over MARINO-2025)",
+  "neurology / neurosurgery": "BOTH ADAMS-12 and YOUMANS-4 kept: neurology (medicine) and neurosurgery (surgery) are different fields"
+ }
+}

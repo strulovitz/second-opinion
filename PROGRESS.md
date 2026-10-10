@@ -3,7 +3,24 @@
 ## CURRENT PHASE
 Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Tier deviation recorded: BIBLE part 3 asks for [SWITCH TO SMART] on the writing steps, but the human has nobody to switch models with, so Space Bunny (the manager) executes every step itself, including the SMART ones.
 
-DONE in part 3 so far: Step A0 (book intake, all 42 PDFs), Step A1 (duplicate detection -- 3 byte-identical pairs proven by sha256, human decision pending), and the locator for Step A2 (TOC and Index page ranges for 39 books).
+DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
+
+**AMENDMENT 3.3 (declared by the manager, confirmed by the human on 2026-10-10):
+THE LIBRARY IS 37 BOOKS, NOT 42.** The BIBLE was written before the PDFs
+arrived and says "42" throughout. The BIBLE files are NEVER edited (that is a
+standing project rule), so the correct number is declared here as an
+amendment, exactly as BIBLE part 3 itself amends parts 1 and 2 (AMENDMENT 3.1
+and 3.2). Wherever a later part says "42 books", read "the books", and use
+the count in kitchen/books.json, which is the single source of truth: it
+holds exactly 37 records, 130,457 pages.
+
+Why 37, item by item, with the human's agreement:
+  42 files -> 39 after removing 3 byte-identical duplicate pairs
+  (sha256-proven: Goodman & Gilman, Brenner & Rector's Kidney,
+  Bailey & Love) -> 37 after LAW 6 removed one book per same-field pair
+  (Bailey & Love lost to Sabiston; Marino's ICU Book lost to Irwin & Rippe).
+  The five deleted files, their sizes and their SHA-256 hashes are recorded
+  forever in data/registry/removed-books.json. Nothing was silently dropped.
 
 ## NEXT STEP
 Extract the Table of Contents text of each accepted book into kitchen/logs/<BOOK_ID>-toc.txt, then run the free local READER (qwen3.8:27b via Ollama) with prompt P-A2 to convert each TOC into provinces+chapters JSON, validate it with kitchen/toc_validate.py, and detect page_offset (section 4.6). The 6 books with no located TOC and the 2 with image-only front matter (BRAUNWALD-12 images 21-29, YOUMANS-4 images 17-52) need the vision fallback of section 4.1 first.
@@ -52,6 +69,16 @@ handle /2nd-opinion/* {
 
 ## BLOCKED
 - (nothing)
+
+## AMENDMENTS DECLARED BY THE MANAGER
+- AMENDMENT 3.1 (from BIBLE part 3): continents have equal area; page-count
+  proportionality applies to provinces and districts inside each continent.
+- AMENDMENT 3.2 (from BIBLE part 3): Territory.border_geojson is null for all
+  territories; borders are raster pixels, with raster_code, colour_hex and
+  bbox_px instead.
+- AMENDMENT 3.3 (NEW, 2026-10-10): the library is **37 books, not 42**. See
+  CURRENT PHASE for the full item-by-item reason. The BIBLE text is not
+  edited.
 
 ## LATER, IF MONEY
 - (nothing yet)
@@ -164,6 +191,40 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-10 -- 5 PDFs deleted, library is now 37 books / 130,457 pages
+
+```
+$ ls kitchen/books/*.pdf | wc -l
+37
+$ du -sh kitchen/books
+12G
+```
+
+Each file was hashed BEFORE deletion and the record committed to
+data/registry/removed-books.json. The three duplicate pairs shared their
+survivor's sha256 exactly. Two of the deletions (Bailey & Love's Short
+Practice of Surgery, Marino's The ICU Book) were NOT duplicates: they were
+unique books dropped under Law 6, one book per field, and that is stated
+plainly in the record.
+
+books.json was rewritten to hold exactly the 37 surviving books, all with
+status "candidate".
+
+Vision check for the two image-only contents (BRAUNWALD-12 images 21-29,
+YOUMANS-4 images 17-52). The BIBLE (part 3, section 4.1) says: if the text
+layer is missing, render the pages and give THEM to the reader in vision
+mode. No download and no outside service is needed, because the model
+already on this laptop is multimodal:
+
+```
+$ curl -s http://localhost:11434/api/show -d '{"name":"qwen3.8:27b"}'
+capabilities: ['completion', 'vision', 'tools', 'thinking']
+```
+
+So the vision fallback of section 4.1 is available today for free and
+offline, exactly as the BIBLE intends. (tesseract OCR is NOT installed and is
+not needed.)
+
 ### 2026-10-10 -- Step A1: the three duplicate books proven, and the human's decision is REQUIRED
 
 Full SHA-256 of the three suspicious pairs (files of identical size):
@@ -184,14 +245,12 @@ So the library is **39 unique books, not 42**. NOTHING was deleted from disk:
 the losing copy of each pair stays in kitchen/books/ and carries
 status "rejected-duplicate" in books.json so it is never read again.
 
-**DECISION NEEDED (BIBLE 3.3: the human decides):** the pairs are
-byte-identical, so keeping either copy loses nothing. Recommendation: accept
-the first copy and reject the "-1" copy, as already marked in books.json.
-Also note two POSSIBLE same-field pairs that are NOT byte-identical and need a
-real decision under Law 6 (one book per field):
-  - SABISTON-22 (general surgery) vs BAILEY-2023 (short practice of surgery)
-  - IRWIN-RIPPE-2023 (intensive care) vs MARINO-2025 (the ICU Book)
-  - YOUMANS-4 (neurosurgery) vs ADAMS-12 (neurology) -- borderline
+**DECISION TAKEN (the human, 2026-10-10):** the 3 byte-identical copies were
+DELETED from disk so the library can never be confused, and the same-field
+choices were approved as proposed: SABISTON-22 kept over BAILEY-2023,
+IRWIN-RIPPE-2023 kept over MARINO-2025, and BOTH ADAMS-12 and YOUMANS-4 kept
+because neurology (medicine) and neurosurgery (surgery) are different fields.
+All five files are recorded with SHA-256 in data/registry/removed-books.json.
 ### 2026-10-10 -- Step A0: book intake of all 42 PDFs
 
 kitchen/intake.py (pdfinfo + pdffonts + a probe page at 40% depth), run over
