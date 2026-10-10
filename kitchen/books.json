@@ -1,0 +1,962 @@
+[
+ {
+  "book_id": "ADAMS-12",
+  "pdf_file": "Allan H. Ropper, Martin A. Samuels, Joshua P. Klein, Sashank Pra - Adams and Victor's Principles of Neurology, 12th Edition (True PDF) (2023, McGraw Hill) - libgen.li.pdf",
+  "title": "Adams and Victor's Principles of Neurology",
+  "edition": "12",
+  "year": 2023,
+  "page_count_images": 1616,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/ADAMS-12",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   6,
+   7
+  ],
+  "index_images": [
+   1530,
+   1615
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "AVERY-2021",
+  "pdf_file": "Avery &amp_ MacDonald’s Neonatology_ Pathophysiology and Management of the Newborn{James P. Boardman_ Alan M. Groves_ Jayashree Ramasethu}(2021, Wolters Kluwer (India) Pvt Ltd){111969565} libgen.li.pdf",
+  "title": "Avery & MacDonald's Neonatology: Pathophysiology and Management of the Newborn",
+  "edition": "",
+  "year": 2021,
+  "page_count_images": 1019,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/AVERY-2021",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   20,
+   21
+  ],
+  "index_images": [
+   981,
+   1011
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "pdfinfo calls it the South Asian Edition; no edition number stated"
+ },
+ {
+  "book_id": "BAILEY-2023",
+  "pdf_file": "P. Ronan O’Connell, Andrew W. McCaskie, Robert D. Sayers - Bailey and Love’s SHORT PRACTICE of SURGERY 1 (2023, CRC Press) [10.1201_9781003106852] - libgen.li.pdf",
+  "title": "Bailey and Love's Short Practice of Surgery",
+  "edition": "",
+  "year": 2023,
+  "page_count_images": 1696,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BAILEY-2023",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   6,
+   9
+  ],
+  "index_images": [
+   1668,
+   1695
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "accepted copy of an identical pair; no edition number stated"
+ },
+ {
+  "book_id": "BAILEY-2023",
+  "pdf_file": "P. Ronan O’Connell, Andrew W. McCaskie, Robert D. Sayers - Bailey and Love’s SHORT PRACTICE of SURGERY 1 (2023, CRC Press) [10.1201_9781003106852] - libgen.li-1.pdf",
+  "title": "Bailey and Love's Short Practice of Surgery",
+  "edition": "",
+  "year": 2023,
+  "page_count_images": 1696,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BAILEY-2023",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   6,
+   9
+  ],
+  "index_images": [
+   1668,
+   1695
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "rejected-duplicate",
+  "notes": "byte-identical duplicate of the accepted copy (sha256 proven); file kept on disk, never read",
+  "duplicate_of": "BAILEY-2023"
+ },
+ {
+  "book_id": "BENZON-2023",
+  "pdf_file": "Honorio T. Benzon, James P. Rathmell,Christopher L. Wu, Dennis C - Practical Management of Pain (2023, Elsevier) - libgen.li.pdf",
+  "title": "Practical Management of Pain",
+  "edition": "",
+  "year": 2023,
+  "page_count_images": 1503,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BENZON-2023",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   19,
+   21
+  ],
+  "index_images": [
+   1467,
+   1503
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "BOLOGNIA-2024",
+  "pdf_file": "Jean L. Bolognia MD, Julie V. Schaffer MD, Lorenzo Cerroni MD - Dermatology_ 2-Volume Set. Section 1-14 (2024, Elsevier) - libgen.li.pdf",
+  "title": "Dermatology",
+  "edition": "",
+  "year": 2024,
+  "page_count_images": 2042,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BOLOGNIA-2024",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   4,
+   10
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "Bolognia, 2-volume set, sections 1-14"
+ },
+ {
+  "book_id": "BRADDOM-6",
+  "pdf_file": "Braddom's Physical Medicine and Rehabilitation, Sixth -- David X_ Cifu MD -- 6th, 2021 -- Elsevier - Health Sciences Division -- isbn13 9780323625395 -- 9a38b308028cb4a1a4df42fe164c42ea -- Anna’s Archive.pdf",
+  "title": "Braddom's Physical Medicine and Rehabilitation",
+  "edition": "6",
+  "year": 2021,
+  "page_count_images": 1387,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BRADDOM-6",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   58,
+   61
+  ],
+  "index_images": [
+   1332,
+   1372
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "BRANT-5",
+  "pdf_file": "BRANT AND HELMS' FUNDAMENTALS OF DIAGNOSTIC RADIOLOGY FIFTH -- Jeffrey Klein MD FACR, Emily N_ Vinson MD, William E_ Brant -- 5, 2018 -- LWW -- isbn13 9781496367389 -- def4a878296b84f90196d0c516f46035 -- Anna’s Archive.pdf",
+  "title": "Brant and Helms' Fundamentals of Diagnostic Radiology",
+  "edition": "5",
+  "year": 2018,
+  "page_count_images": 4324,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BRANT-5",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": null,
+  "index_images": [
+   4170,
+   4323
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "BRAUNWALD-12",
+  "pdf_file": "Braunwalds Heart Disease A Textbook Of Cardiovascular -- Peter Libby MD PhD, Robert O_ Bonow MD MS, Douglas L_ Mann -- 1, 12, 2022 -- Elsevier - -- isbn13 9780323722193 -- f9e6f30e0e0fbe8f028dc24ecfd58463 -- Anna’s Archive-5.pdf",
+  "title": "Braunwald's Heart Disease: A Textbook of Cardiovascular Medicine",
+  "edition": "12",
+  "year": 2022,
+  "page_count_images": 1227,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BRAUNWALD-12",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   40,
+   49
+  ],
+  "index_images": [
+   1023,
+   1024
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "BRENNER-11",
+  "pdf_file": "Brenner and Rector's The Kidney, 2-Volume Set -- Alan S_ L_ Yu, Glenn M_ Chertow, Philip A_ Marsden, Valerie -- 2-volume set, 11, 2019 -- Elsevier - -- isbn13 9780323532655 -- f7b79dd7d165457ea0666766b0239aa1 -- Anna’s Archiv.pdf",
+  "title": "Brenner and Rector's The Kidney",
+  "edition": "11",
+  "year": 2019,
+  "page_count_images": 3529,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BRENNER-11",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   64,
+   79
+  ],
+  "index_images": [
+   3312,
+   3312
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "accepted copy of an identical pair"
+ },
+ {
+  "book_id": "BRENNER-11",
+  "pdf_file": "Brenner and Rector's The Kidney, 2-Volume Set -- Alan S_ L_ Yu, Glenn M_ Chertow, Philip A_ Marsden, Valerie -- 2-volume set, 11, 2019 -- Elsevier - -- isbn13 9780323532655 -- f7b79dd7d165457ea0666766b0239aa1 -- Anna’s Archiv-1.pdf",
+  "title": "Brenner and Rector's The Kidney",
+  "edition": "11",
+  "year": 2019,
+  "page_count_images": 3529,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/BRENNER-11",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   64,
+   79
+  ],
+  "index_images": [
+   3312,
+   3312
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "rejected-duplicate",
+  "notes": "byte-identical duplicate of the accepted copy (sha256 proven); file kept on disk, never read",
+  "duplicate_of": "BRENNER-11"
+ },
+ {
+  "book_id": "CAMPBELL-2020",
+  "pdf_file": "Frederick M. Azar_ S. Terry Canale_ James H. Beaty - Campbell's Operative Orthopaedics (2020, Elsevier) - libgen.li.pdf",
+  "title": "Campbell's Operative Orthopaedics",
+  "edition": "",
+  "year": 2020,
+  "page_count_images": 5036,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/CAMPBELL-2020",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   11,
+   20
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "DEVITA-12",
+  "pdf_file": "Vincent T. DeVita, Jr., Steven A. Rosenberg, Theodore S. Lawrenc - DeVita, Hellman and Rosenberg's Cancer_ Principles and Practice of Oncology, 12th Edition (HQ PDF) (2022, LWW Wolters Kluwer) - libgen.li.pdf",
+  "title": "DeVita, Hellman and Rosenberg's Cancer: Principles and Practice of Oncology",
+  "edition": "12",
+  "year": 2022,
+  "page_count_images": 2427,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/DEVITA-12",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   20,
+   31
+  ],
+  "index_images": [
+   2029,
+   2076
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "FIRESTEIN-12",
+  "pdf_file": "Firestein &amp_ Kelley’s Textbook of Rheumatology, 2-Volume Set, 12e (Oct 23, 2024)_(0323935400)_(Els...(2024, Elsevier){107324428} libgen.li.pdf",
+  "title": "Firestein & Kelley's Textbook of Rheumatology",
+  "edition": "12",
+  "year": 2024,
+  "page_count_images": 2875,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/FIRESTEIN-12",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   26,
+   30
+  ],
+  "index_images": [
+   2782,
+   2872
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "GOODMAN-14",
+  "pdf_file": "Laurence Brunton, Bjorn Knollmann - Goodman and Gilman's The Pharmacological Basis of Therapeutics (2023, McGraw Hill _ Medical) - libgen.li.pdf",
+  "title": "Goodman and Gilman's The Pharmacological Basis of Therapeutics",
+  "edition": "14",
+  "year": 2023,
+  "page_count_images": 1664,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/GOODMAN-14",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   8,
+   9
+  ],
+  "index_images": [
+   1614,
+   1664
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "edition from pdfinfo ('14th E'); accepted copy of an identical pair"
+ },
+ {
+  "book_id": "GOODMAN-14",
+  "pdf_file": "Laurence Brunton, Bjorn Knollmann - Goodman and Gilman's The Pharmacological Basis of Therapeutics (2023, McGraw Hill _ Medical) - libgen.li-1.pdf",
+  "title": "Goodman and Gilman's The Pharmacological Basis of Therapeutics",
+  "edition": "14",
+  "year": 2023,
+  "page_count_images": 1664,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/GOODMAN-14",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   8,
+   9
+  ],
+  "index_images": [
+   1614,
+   1664
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "rejected-duplicate",
+  "notes": "byte-identical duplicate of the accepted copy (sha256 proven); file kept on disk, never read",
+  "duplicate_of": "GOODMAN-14"
+ },
+ {
+  "book_id": "GRAY-2020",
+  "pdf_file": "Gray&_039_s Anatomy_ The Anatomical Basis of Clinical Practice{Susan Standring}(2020, Elsevier Health Sciences){111159494} libgen.li.pdf",
+  "title": "Gray's Anatomy: The Anatomical Basis of Clinical Practice",
+  "edition": "",
+  "year": 2020,
+  "page_count_images": 2602,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/GRAY-2020",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   9,
+   13
+  ],
+  "index_images": [
+   2476,
+   2599
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "GREEN-HAND-2021",
+  "pdf_file": "Scott W. Wolfe MD, William C. Pederson MD, Scott H. Kozin MD, Ma - Green's Operative Hand Surgery_ 2-Volume Set (2021, Elsevier) - libgen.li.pdf",
+  "title": "Green's Operative Hand Surgery",
+  "edition": "",
+  "year": 2021,
+  "page_count_images": 2535,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/GREEN-HAND-2021",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   24,
+   27
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "disambiguated from GRAY-2020's unrelated 'Green'"
+ },
+ {
+  "book_id": "GUYTON-2026",
+  "pdf_file": "Guyton and Hall Textbook of Medical Physiology{John E. Hall PhD_ Michael E. Hall MD MSc.}(2026, Elsevier){111063855} libgen.li.pdf",
+  "title": "Guyton and Hall Textbook of Medical Physiology",
+  "edition": "",
+  "year": 2026,
+  "page_count_images": 1070,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/GUYTON-2026",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   14,
+   14
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "HARRISON-22",
+  "pdf_file": "[Harrison’s Principles of Internal Medicine - Harrison’s Principles of Internal Medicine] Harrison’s Principles of Internal Medicine 22E{Dan L. Longo, Anthony S. Fauci, Dennis L. Kasper, Stephen L. Hauser, J. Larry Jameson, J.pdf",
+  "title": "Harrison's Principles of Internal Medicine",
+  "edition": "22",
+  "year": 2023,
+  "page_count_images": 4273,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/HARRISON-22",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   7,
+   17
+  ],
+  "index_images": [
+   4044,
+   4273
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "the hub book; exempt from duplicate detection"
+ },
+ {
+  "book_id": "HAZZARD-2022",
+  "pdf_file": "Kevin P. High, Jeffrey B. Halter, Stephanie Studenski, Joseph G. - Hazzard's Geriatric Medicine and Gerontology (2022, McGraw-Hill Education _ Medical) - libgen.li.pdf",
+  "title": "Hazzard's Geriatric Medicine and Gerontology",
+  "edition": "",
+  "year": 2022,
+  "page_count_images": 3952,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/HAZZARD-2022",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": null,
+  "index_images": [
+   3785,
+   3900
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "IRWIN-RIPPE-2023",
+  "pdf_file": "Richard S Irwin_ Craig M. Lilly MD - Irwin and Rippe's Intensive Care Medicine (2023, LWW) - libgen.li.pdf",
+  "title": "Irwin and Rippe's Intensive Care Medicine",
+  "edition": "",
+  "year": 2023,
+  "page_count_images": 7992,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/IRWIN-RIPPE-2023",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": null,
+  "index_images": [
+   7703,
+   7709
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "KAPLAN-11",
+  "pdf_file": "Robert Boland, Marcia Verduin - Kaplan and Sadock's Comprehensive Textbook of Psychiatry (2024, LWW) - libgen.li.pdf",
+  "title": "Kaplan and Sadock's Comprehensive Textbook of Psychiatry",
+  "edition": "11",
+  "year": 2024,
+  "page_count_images": 16525,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/KAPLAN-11",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": null,
+  "index_images": [
+   16395,
+   16465
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "edition taken from pdfinfo, which says 11th edition"
+ },
+ {
+  "book_id": "KRAUSE-16",
+  "pdf_file": "Krause and Mahan’s Food and the Nutrition Care Process, 16E{Janice L. Raymond, Kelly Morrow}(2022, Elsevier){105470595} libgen.li.pdf",
+  "title": "Krause and Mahan's Food and the Nutrition Care Process",
+  "edition": "16",
+  "year": 2022,
+  "page_count_images": 1214,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/KRAUSE-16",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   13,
+   17
+  ],
+  "index_images": [
+   830,
+   830
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "MANDELL-9",
+  "pdf_file": "John E. Bennett & Raphael Dolin & Martin J. Blaser - Mandell, Douglas, and Bennett's Principles and Practice of Infectious Diseases, 9th Edition (2019, Elsevier) - libgen.li.pdf",
+  "title": "Mandell, Douglas, and Bennett's Principles and Practice of Infectious Diseases",
+  "edition": "9",
+  "year": 2019,
+  "page_count_images": 4895,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/MANDELL-9",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   50,
+   54
+  ],
+  "index_images": [
+   4597,
+   4597
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "MARINO-2025",
+  "pdf_file": "Marino&_039_s The ICU Book{Paul L. Marino}(2025, Wolters Kluwer){107717832} libgen.li.pdf",
+  "title": "Marino's The ICU Book",
+  "edition": "",
+  "year": 2025,
+  "page_count_images": 947,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/MARINO-2025",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   10,
+   11
+  ],
+  "index_images": [
+   886,
+   947
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "MIDDLETON-2019",
+  "pdf_file": "Middleton's Allergy 2-Volume Set_ Principles and Practice -- A Wesley Burks MD, Stephen T Holgate MD DSc FMedSci, Robyn E -- 9, PS, 2019 -- Elsevier - -- isbn13 9780323085939 -- b4b565f1f2612af6f1ce7f9abbaa455d -- Anna’s Arch.pdf",
+  "title": "Middleton's Allergy: Principles and Practice",
+  "edition": "",
+  "year": 2019,
+  "page_count_images": 1886,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/MIDDLETON-2019",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   32,
+   36
+  ],
+  "index_images": [
+   1669,
+   1669
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "UNCERTAIN: the file name shows '9' which may be an edition or an ISBN fragment; year used until the human decides"
+ },
+ {
+  "book_id": "MILLER-10",
+  "pdf_file": "Miller&_039_s Anesthesia, 2-Volume Set, 10e (Sep 18, 2024)_(0323935923)_(Elsevier)(2024, Elsevier){105474848} libgen.li.pdf",
+  "title": "Miller's Anesthesia",
+  "edition": "10",
+  "year": 2024,
+  "page_count_images": 13485,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/MILLER-10",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": null,
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "MURRAY-7",
+  "pdf_file": "Murray & Nadel's Textbook of Respiratory Medicine, 2-Volume -- V_ Courtney Broaddus (Editor), Joel D Ernst (Editor), Jr -- 7, 2022 -- _ Elsevier -- isbn13 9780323655873 -- d9c4dc706de9468ef95fe51e6b96e626 -- Anna’s Archive-1.pdf",
+  "title": "Murray & Nadel's Textbook of Respiratory Medicine",
+  "edition": "7",
+  "year": 2022,
+  "page_count_images": 3317,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/MURRAY-7",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   33,
+   34
+  ],
+  "index_images": [
+   3247,
+   3247
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "NELSON-2024",
+  "pdf_file": "Robert M. Kliegman MD (editor), Joseph W. St. Geme III MD (edito - Nelson Textbook of Pediatrics, 2-Volume Set (2024, Elsevier) - libgen.li.pdf",
+  "title": "Nelson Textbook of Pediatrics",
+  "edition": "",
+  "year": 2024,
+  "page_count_images": 4534,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/NELSON-2024",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   5,
+   21
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "OXFORD-6",
+  "pdf_file": "Oxford Textbook of Palliative Medicine -- Nathan I_ Cherny, Marie T_ Fallon, Stein Kaasa, Russell K_ -- 6, 2021 -- IRL Press at Oxford University -- isbn13 9780191860775 -- 786a67e6493dbb97e4fba9c1feed8ebc -- Anna’s Archive.pdf",
+  "title": "Oxford Textbook of Palliative Medicine",
+  "edition": "6",
+  "year": 2021,
+  "page_count_images": 1409,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/OXFORD-6",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   8,
+   12
+  ],
+  "index_images": [
+   1375,
+   1403
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "ROBBINS-10",
+  "pdf_file": "Robbins & Cotran Pathologic Basis of Disease (Robbins -- Vinay Kumar; Abul K Abbas; Jon C Aster; Jerrold R Turner; -- Robbins Pathology, 10, 2020 -- isbn13 9780323353175 -- 353934ac707712a6e1616f0c0f8fc835 -- Anna’s Archive.pdf",
+  "title": "Robbins & Cotran Pathologic Basis of Disease",
+  "edition": "10",
+  "year": 2020,
+  "page_count_images": 1328,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/ROBBINS-10",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   12,
+   14
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "verified: no back-of-book index detected in the last 400 images"
+ },
+ {
+  "book_id": "ROCKWOOD-10",
+  "pdf_file": "Rockwood and Green's fractures in adults 10th ed 2025 -- Paul Tornetta III, William M_ Ricci, Robert F_ Ostrum, -- 10, 2025 -- Lippincott Williams & -- isbn13 9781975211608 -- eaf317892b2d5c53fd1df527be52a142 -- Anna’s Archiv-1.pdf",
+  "title": "Rockwood and Green's Fractures in Adults",
+  "edition": "10",
+  "year": 2025,
+  "page_count_images": 3628,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/ROCKWOOD-10",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   67,
+   71
+  ],
+  "index_images": [
+   3577,
+   3627
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "ROSEN-2022",
+  "pdf_file": "Ron Walls, Robert Hockberger, Marianne Gausche-Hill, Timothy Eri - Rosen's Emergency Medicine_ Concepts and Clinical Practice_ 2-Volume Set (2022, Elsevier) - libgen.li.pdf",
+  "title": "Rosen's Emergency Medicine: Concepts and Clinical Practice",
+  "edition": "",
+  "year": 2022,
+  "page_count_images": 3050,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/ROSEN-2022",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   30,
+   33
+  ],
+  "index_images": [
+   2886,
+   2886
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "SABISTON-22",
+  "pdf_file": "[Sabiston Textbook of Surgery 2025-sep 17 - Sabiston Textbook of Surgery] Sabiston Textbook of Surgery_ The Biological Basis of Modern Surgical Practice 22E{Douglas S. Tyler, Hayes-Dixon, Hines, Kelz, Kibbe, Lau, Patel.}(2025.pdf",
+  "title": "Sabiston Textbook of Surgery: The Biological Basis of Modern Surgical Practice",
+  "edition": "22",
+  "year": 2025,
+  "page_count_images": 2843,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/SABISTON-22",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   35,
+   40
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "SLEISENGER-11",
+  "pdf_file": "Sleisenger and Fordtran's Gastrointestinal and Liver -- Mark Feldman; Lawrence Samuel Friedman; Lawrence J_ Brandt -- 11, 2020 -- Elsevier - Health -- isbn13 9780323609623 -- 55d007b753b52c65917b5d00f7178439 -- Anna’s Archive-1.pdf",
+  "title": "Sleisenger and Fordtran's Gastrointestinal and Liver Disease",
+  "edition": "11",
+  "year": 2020,
+  "page_count_images": 2725,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/SLEISENGER-11",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   54,
+   54
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "STAHL-2024",
+  "pdf_file": "Prescriber&_039_s Guide – Children and Adolescents_ Stahl&_039_s Essential Psychopharmacology{Stephen M. Stahl}(2024, Cambridge University Press){105475803} libgen.li.pdf",
+  "title": "The Prescriber's Guide: Children and Adolescents (Stahl's Essential Psychopharmacology)",
+  "edition": "",
+  "year": 2024,
+  "page_count_images": 605,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/STAHL-2024",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   66,
+   67
+  ],
+  "index_images": [
+   598,
+   603
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "THOMPSON-2023",
+  "pdf_file": "Thompson &amp_ Thompson Genetics and Genomics in Medicine E-Book{Ronald Cohn, Stephen Scherer, Ada Hamosh}(2023, Elsevier){106111497} libgen.li.pdf",
+  "title": "Thompson & Thompson Genetics and Genomics in Medicine",
+  "edition": "",
+  "year": 2023,
+  "page_count_images": 612,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/THOMPSON-2023",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   15,
+   19
+  ],
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "verified: 612-page book, no back-of-book index"
+ },
+ {
+  "book_id": "WILLIAMS-ENDO-2024",
+  "pdf_file": "Williams Textbook of Endocrinology{Shlomo Melmed, Richard J. Auchus, Allison B. Goldfine, Clifford J. Rosen, Peter A. Kopp}(2024, Elsevier){105357228} libgen.li.pdf",
+  "title": "Williams Textbook of Endocrinology",
+  "edition": "",
+  "year": 2024,
+  "page_count_images": 2319,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/WILLIAMS-ENDO-2024",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   56,
+   59
+  ],
+  "index_images": [
+   1954,
+   1954
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "WILLIAMS-HEMATOLOGY-2021",
+  "pdf_file": "Williams Hematology,{Marshall A. Lichtman, Kenneth Kaushansky, Josef T. Prchal, Marcel M. Levi, Linda J. Burns}(Mar 12, 2021, McGraw-Hill){113648180} libgen.li.pdf",
+  "title": "Williams Hematology",
+  "edition": "",
+  "year": 2021,
+  "page_count_images": 5052,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/WILLIAMS-HEMATOLOGY-2021",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": null,
+  "index_images": null,
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ },
+ {
+  "book_id": "WILLIAMS-OBSTETRICS-26",
+  "pdf_file": "F. Gary Cunningham, Kenneth J. Leveno, Jodi S. Dashe, Barbara L. - Williams Obstetrics 26e (2022, McGraw Hill _ Medical) - libgen.li.pdf",
+  "title": "Williams Obstetrics",
+  "edition": "26",
+  "year": 2022,
+  "page_count_images": 3475,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/WILLIAMS-OBSTETRICS-26",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   45,
+   48
+  ],
+  "index_images": [
+   3216,
+   3474
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "disambiguated from the other two Williams books"
+ },
+ {
+  "book_id": "YOUMANS-4",
+  "pdf_file": "H. Richard Winn - Youmans & Winn Neurological Surgery. 4 volume set (2023, Elsevier) - libgen.li.pdf",
+  "title": "Youmans & Winn Neurological Surgery",
+  "edition": "4",
+  "year": 2023,
+  "page_count_images": 6482,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/YOUMANS-4",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [
+   9,
+   9
+  ],
+  "index_images": [
+   6164,
+   6164
+  ],
+  "page_offset": null,
+  "field_name": "",
+  "cluster": "",
+  "status": "candidate",
+  "notes": ""
+ }
+]

@@ -1,10 +1,12 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 2 (Environment and Data Model) -- COMPLETE. All ten checkpoint lines of BIBLE part 2 section 10 are satisfied and evidenced below. Waiting for BIBLE part 3 (Phase A -- Building the Skeleton).
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Tier deviation recorded: BIBLE part 3 asks for [SWITCH TO SMART] on the writing steps, but the human has nobody to switch models with, so Space Bunny (the manager) executes every step itself, including the SMART ones.
+
+DONE in part 3 so far: Step A0 (book intake, all 42 PDFs), Step A1 (duplicate detection -- 3 byte-identical pairs proven by sha256, human decision pending), and the locator for Step A2 (TOC and Index page ranges for 39 books).
 
 ## NEXT STEP
-HUMAN to confirm the placeholder on a phone, then start BIBLE part 3 (Phase A: geography from the 42 Tables of Contents, entity registry from the Indexes, the duplicate-book rule, page_offset detection, the Freeze).
+Extract the Table of Contents text of each accepted book into kitchen/logs/<BOOK_ID>-toc.txt, then run the free local READER (qwen3.8:27b via Ollama) with prompt P-A2 to convert each TOC into provinces+chapters JSON, validate it with kitchen/toc_validate.py, and detect page_offset (section 4.6). The 6 books with no located TOC and the 2 with image-only front matter (BRAUNWALD-12 images 21-29, YOUMANS-4 images 17-52) need the vision fallback of section 4.1 first.
 
 ## QUESTIONS FOR HUMAN
 
@@ -161,6 +163,72 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-10 -- Step A1: the three duplicate books proven, and the human's decision is REQUIRED
+
+Full SHA-256 of the three suspicious pairs (files of identical size):
+
+```
+--- 2 files, 301593085 bytes   -> 1 distinct sha256 = EXACT DUPLICATES
+    941104c95e2c1ac9...  Brenner and Rector's The Kidney ... Anna's Archiv-1.pdf
+    941104c95e2c1ac9...  Brenner and Rector's The Kidney ... Anna's Archiv.pdf
+--- 2 files, 165077460 bytes  -> 1 distinct sha256 = EXACT DUPLICATES
+    116c92f513b269a3...  Goodman and Gilman ... libgen.li-1.pdf
+    116c92f513b269a3...  Goodman and Gilman ... libgen.li.pdf
+--- 2 files, 370089102 bytes  -> 1 distinct sha256 = EXACT DUPLICATES
+    ccd621560f181a93...  Bailey and Love's Short Practice of Surgery ... -1.pdf
+    ccd621560f181a93...  Bailey and Love's Short Practice of Surgery (plain)
+```
+
+So the library is **39 unique books, not 42**. NOTHING was deleted from disk:
+the losing copy of each pair stays in kitchen/books/ and carries
+status "rejected-duplicate" in books.json so it is never read again.
+
+**DECISION NEEDED (BIBLE 3.3: the human decides):** the pairs are
+byte-identical, so keeping either copy loses nothing. Recommendation: accept
+the first copy and reject the "-1" copy, as already marked in books.json.
+Also note two POSSIBLE same-field pairs that are NOT byte-identical and need a
+real decision under Law 6 (one book per field):
+  - SABISTON-22 (general surgery) vs BAILEY-2023 (short practice of surgery)
+  - IRWIN-RIPPE-2023 (intensive care) vs MARINO-2025 (the ICU Book)
+  - YOUMANS-4 (neurosurgery) vs ADAMS-12 (neurology) -- borderline
+### 2026-10-10 -- Step A0: book intake of all 42 PDFs
+
+kitchen/intake.py (pdfinfo + pdffonts + a probe page at 40% depth), run over
+every PDF, six at a time:
+
+```
+$ python kitchen/intake.py
+scanning 42 PDFs ...
+wrote kitchen/logs/intake.json
+readable probe page: 37/42
+```
+
+- ALL 42 have a real text layer (pdffonts found fonts on pages 1-5).
+- 5 probes returned under 500 characters: BRANT-5 (401), HAZZARD-2022 (64),
+  GOODMAN-14 (87, both copies), ROCKWOOD-10 (152). These are image-heavy
+  pages such as full-page radiographs, NOT missing text.
+- Total pages across the 39 unique books: **133,100**.
+- No file was converted, renamed, split, compressed or modified.
+
+kitchen/books.json now holds one record per book with book_id, pdf_file,
+title, edition, year, page_count_images, text_layer, image_dir,
+image_name_pattern, toc_images, index_images, page_offset, field_name,
+cluster, status and notes.
+
+Two coding lessons recorded so they are not repeated (Law 11):
+1. Calling `pdftotext` once PER PAGE re-parses the whole PDF each time and
+   took hours on the 1.7 GB books. ONE call per range plus splitting the
+   output on the form-feed character does the same job in 1.0 second for 301
+   pages. kitchen/find_toc.py now does this.
+2. A Table of Contents line must NEVER be matched by "ends with a page
+   number". TOC pages are printed in multiple columns, so a physical line
+   interleaves entries and the number sits in the middle. The first pattern
+   scored ZERO on every real TOC page. The working pattern counts
+   title-ish-string-followed-by-number anywhere in the line; with it, TOC
+   detection went from 18/39 to 33/39.
+
+### 2026-10-10 -- Part 2 closed; Part 3 opened
 
 ### 2026-10-10 -- First commit pushed, and the site is LIVE (Part 2 sections 8 and 9)
 
