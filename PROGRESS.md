@@ -23,7 +23,15 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 
 ## NEXT STEP
-Extract the Table of Contents text of each accepted book into kitchen/logs/<BOOK_ID>-toc.txt, then run the free local READER (qwen3.8:27b via Ollama) with prompt P-A2 to convert each TOC into provinces+chapters JSON, validate it with kitchen/toc_validate.py, and detect page_offset (section 4.6). The 6 books with no located TOC and the 2 with image-only front matter (BRAUNWALD-12 images 21-29, YOUMANS-4 images 17-52) need the vision fallback of section 4.1 first.
+14 of the 37 books still have no usable Table of Contents because their
+contents are hard to LOCATE, not hard to read. The next attempt is the
+VISION fallback of BIBLE part 3 section 4.1: render the candidate front
+matter pages as PNG images and let qwen3.8:27b (capabilities include
+'vision') look at them and say which pages are the contents. See DONE below
+for what was tried and why it failed.
+
+Then, for the 37 books: extract the Table of Contents text of each accepted
+book into kitchen/logs/<BOOK_ID>-toc.txt, then run the free local READER (qwen3.8:27b via Ollama) with prompt P-A2 to convert each TOC into provinces+chapters JSON, validate it with kitchen/toc_validate.py, and detect page_offset (section 4.6). The 6 books with no located TOC and the 2 with image-only front matter (BRAUNWALD-12 images 21-29, YOUMANS-4 images 17-52) need the vision fallback of section 4.1 first.
 
 ## QUESTIONS FOR HUMAN
 
@@ -190,6 +198,63 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-10 -- Step A2 reader run: 17 of 31 books converted, 14 still open
+
+```
+$ python kitchen/toc_to_json.py     (run detached, polled from the log)
+31 TOCs attempted
+OK: 17 books, 1,898 chapters extracted
+NEEDS WORK: 14 books
+```
+
+Highlights: HARRISON-22 79 provinces / 494 chapters; CAMPBELL-2020 415
+chapters; BOLOGNIA-2024 161; FIRESTEIN-12 119; OXFORD-6 120; SABISTON-22 93.
+
+**The 14 failures are a LOCATION problem, not a reading problem.** The first
+TOC locator scored pages by "a title-like string followed by a number", which
+also matches NUMBERED REFERENCE LISTS. Proof, the first lines of the pages it
+chose:
+
+```
+BRENNER-11   [64,79]  "143. Moore MW, Klein RD, Far..."      <- references
+NELSON-2024  [5,21]   "Contributors Mark J. Abzug, MD..."    <- contributors
+ROCKWOOD-10  [67,71]  "Reference 2007;43:95-103..."           <- references
+WILLIAMS-ENDO-2024 [56,59] "References 24. Vassart G..."      <- references
+STAHL-2024   [66,67]  "ARIPIPRAZOLE (Continued) ..."          <- a drug monograph
+BRAUNWALD-12 [40,49]  "11 The Future"                         <- body text
+YOUMANS-4    [9,9]    "DEDICATION The 8th edition..."         <- dedication
+```
+
+Three further attempts were made and their exact outcomes recorded, because
+they cost hours and must not be repeated:
+
+1. kitchen/toc_parse.py (pure regex, no AI): found 406 chapters in
+   HARRISON-22 but **zero** in SABISTON-22, GUYTON-2026 and NELSON-2024.
+   Real TOCs wrap titles over two lines, interleave two columns, print author
+   names under each chapter, and in GUYTON print the page number on its OWN
+   line with U+00B7 and \x08 markers. Regex cannot do this. The script is kept
+   as a cross-check for the clean dot-leader books only.
+2. kitchen/relocate_toc.py (regex, excluding reference/contributor pages):
+   still landed on body pages and reference lists (MANDELL-9 [132,132] body,
+   ROCKWOOD-10 [103,109] references, WILLIAMS-ENDO [114,118] references).
+3. kitchen/locate_with_reader.py (the READER judges page snippets): reliable
+   format, but the model answered FIRST=0 LAST=0 CONF=low for NELSON-2024,
+   i.e. it could not find a contents page among the first 200 images either.
+
+**Reader lesson, DEVIATION 2 to the BIBLE's verbatim kitchen/reader.py:** this
+model always spends hidden-reasoning tokens before answering. Ollama's
+`"think": false` is IGNORED on /v1/chat/completions, so a small max_tokens is
+consumed entirely by reasoning and the answer comes back as an EMPTY string
+with finish_reason="length". Measured: max_tokens=400 gave
+reasoning=1546 chars and content="". The working switch is
+`reasoning_effort="none"` (reasoning=0, answer returned) -- but reasoning
+improves quality, so the default is now to allow reasoning and budget enough
+max_tokens for reasoning PLUS the answer. reader.py also sets
+`options.num_ctx` because Ollama otherwise truncates to 4,096 tokens, which
+would have silently thrown away most of a Table of Contents.
+
+### 2026-10-10 -- Step A2: 31 Tables of Contents extracted as text
 
 ### 2026-10-10 -- 5 PDFs deleted, library is now 37 books / 130,457 pages
 

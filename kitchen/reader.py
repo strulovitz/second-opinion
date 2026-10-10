@@ -41,6 +41,16 @@ def ask(system, user, images=None, max_tokens=6000, temperature=0.0,
     num_ctx = env("READER_NUM_CTX")
     if num_ctx:
         body["options"] = {"num_ctx": int(num_ctx)}
+    # DEVIATION 2 (measured 2026-10-10 on NELSON-2024): this model ALWAYS
+    # spends tokens on hidden reasoning first. Ollama's "think": false is
+    # IGNORED on /v1/chat/completions, so a small max_tokens is entirely
+    # consumed by reasoning and the answer comes back as an empty string
+    # with finish_reason="length". The correct switch is
+    # reasoning_effort="none" -- but reasoning genuinely helps quality on
+    # hard pages, so the default is to ALLOW reasoning and always budget
+    # enough max_tokens for reasoning PLUS the answer.
+    if env("READER_NO_REASONING", "") == "1":
+        body["reasoning_effort"] = "none"
     last_error = None
     for attempt in range(retries):
         try:
