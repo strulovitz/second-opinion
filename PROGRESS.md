@@ -35,6 +35,34 @@ book into kitchen/logs/<BOOK_ID>-toc.txt, then run the free local READER (qwen3.
 
 ## QUESTIONS FOR HUMAN
 
+### TO BE ASKED ONE AT A TIME, IN PLAIN WORDS, ON 2026-10-11
+
+Nir's instruction: explain each one simply, one by one, and let HIM decide.
+Do not offer a menu of unexplained options, and do not drop any book on our
+own initiative -- every book here was hard to get.
+
+1. **STAHL-2024** (The Prescriber's Guide, Children and Adolescents). Our
+   tool expected a list of chapters on pages 66-67 and those pages were
+   actually the drug entry for *aripiprazole*. We simply did not FIND a
+   contents page; that is not proof that none exists. The book is organised
+   one monograph per drug, so its structure is different from a normal
+   textbook. NIR will open the book. QUESTION: is there a contents page, and
+   roughly which page?
+2. **ROSEN-2022** (Rosen's Emergency Medicine). The vision model said
+   "image 3 is the contents"; image 3 is the COPYRIGHT page (publisher,
+   ISBN, VOLUME 1). The model was wrong, and the reader then correctly
+   refused to invent chapters from it. QUESTION: which page really shows the
+   list of contents?
+3. The other thirteen open books (BRADDOM-6, BRANT-5, GREEN-HAND-2021,
+   HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MILLER-10,
+   WILLIAMS-HEMATOLOGY-2021, BRAUNWALD-12, MANDELL-9, MURRAY-7,
+   NELSON-2024, YOUMANS-4): where is the contents page?
+4. If a book genuinely has no contents page, the choice is between using its
+   structure differently (drug classes for Stahl, for example) or setting it
+   aside. **Nir decides. Nothing is set aside without him.**
+
+### Resolved earlier
+
 ### Q1 (2026-10-10) -- ANSWERED: the human said YES. The symlink below was created; see DONE 2026-10-10 (site mounted and live).
 
 
