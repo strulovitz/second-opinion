@@ -214,7 +214,7 @@ def parse(answer, doc, province, image=None):
 
 
 # -------------------------------------------------------------------- stages
-def locate(bid, pdf, start, windows, visdir):
+def locate(bid, pdf, start, windows, visdir, stop_early=False):
     """Stage 1: the model names the contents pages, window after window."""
     found, notes, cursor, empty_run = [], [], start, 0
     for w in range(windows):
@@ -239,10 +239,13 @@ def locate(bid, pdf, start, windows, visdir):
         print(f"    window {cursor:4d}-{cursor + len(files) - 1:4d} -> "
               f"{got or 'NONE'}", flush=True)
         cursor = last + 1
-        # a second contents block can sit after a gap (a second volume),
-        # so keep looking for two empty windows in a row before stopping
+        # MEASURED 2026-10-11 on SLEISENGER-11: stopping after two empty
+        # windows declared "no contents page found" for a book whose
+        # contents starts at image 21. Front matter can run to 40 pages, and
+        # one locate call costs about 2 seconds, so the windows are simply
+        # all scanned. --stop-early brings the old behaviour back.
         empty_run = 0 if new else empty_run + 1
-        if empty_run >= 2:
+        if stop_early and empty_run >= 2:
             break
     return sorted(set(found)), notes
 
@@ -332,13 +335,14 @@ def main():
         return int(m.group(1)) if m else default
 
     start = flag("start", 1)
-    windows = flag("windows", 3)
+    windows = flag("windows", 20)
     pdf = BOOKS / rec["pdf_file"]
     visdir = PAGES / bid / "vis"
 
     print(f"{bid}: model-locating the contents from image {start}, "
           f"{windows} window(s) of {PER_SHEET} pages ...", flush=True)
-    pages, notes = locate(bid, pdf, start, windows, visdir)
+    pages, notes = locate(bid, pdf, start, windows, visdir,
+                         stop_early='--stop-early' in argv)
     print(f"  the model named {len(pages)} contents page(s): {pages}", flush=True)
     if not pages:
         print("  no contents page found -- recorded, not invented.", flush=True)

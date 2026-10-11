@@ -237,6 +237,75 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-11 (f) -- BOOK 4 OF 37: SLEISENGER-11, WHICH HAS NO CONTENTS AT ALL
+
+**THE FINDING.** SLEISENGER-11 (*Sleisenger and Fordtran's
+Gastrointestinal and Liver Disease*, 11th ed, 2,725 images) has **no table
+of contents**. I looked at its front matter myself, page by page:
+images 1-2 title, 3-4 copyright, 5-14 **Contributors**, 15 Foreword,
+16 The Editors, 17 Preface, 18 Acknowledgments, 19-20 Abbreviation List,
+and image 21 opens the book with "PART I Biology of the Gastrointestinal
+Tract / 1 Cellular Growth and Neoplasia". 24 contact sheets covering
+images 1-144 were shown to the model and it reported no contents page
+anywhere in them. Last night's text-layer locator had "found" images 21-33
+and produced 22 chapters ending at printed page 22 of a 2,224-page book,
+which is why it looked plausible and was wrong.
+
+**THE ANSWER, USING THE MODEL AS MUCH AS POSSIBLE.** Every chapter opens
+on its own page printing a LARGE chapter number, the chapter title, the
+author and a "Chapter Outline" box, and the printed page. So
+kitchen/toc_openers.py shows the model the WHOLE BOOK as 6-page contact
+sheets (455 sheets) and asks which pages open a chapter; the model decides,
+and no regex votes. It named 146 opening pages. Each is then read on its
+own at 150 dpi. **Total cost about 75 minutes of free model time.**
+
+```
+  scanned up to image 2124 (354 sheets) -> 117 chapter openers so far
+  DONE SLEISENGER-11: parts=9 chapters=146
+$ python kitchen/toc_openers_build.py SLEISENGER-11
+    still missing 3 chapter(s): [5, 50, 80]
+    chapter 5 found at image 72: Nutritional Principles and Assessment of the
+    chapter 50 found at image 846: Gastric Neuromuscular Function and Neuromusc
+    chapter 80 found at image 1501: Hepatitis C
+  SLEISENGER-11: parts=13 chapters=146 numbers 1-132 missing=0
+$ python kitchen/toc_dedupe.py SLEISENGER-11 --vis && python kitchen/toc_group_parts.py SLEISENGER-11
+$ python kitchen/toc_validate.py SLEISENGER-11 --vis
+  SLEISENGER-11   ok  prov=  9 chap= 132 pages 1-2221      1/1 clean
+```
+**132 chapters, numbered 1 to 132 with no gap, printed pages 1 to 2221, in
+9 Parts, validator clean.** Compare with last night's 22 chapters.
+
+**WHAT WENT WRONG AND WAS FIXED, IN ORDER:**
+  * *37 of the 146 opening pages returned nothing at 150 dpi.* Reading
+    them again at 240 dpi recovered chapters 60, 65, 75, 79, 82, 88, 95,
+    105, 106, 109, 115 and others.
+  * *31 chapter numbers were still missing.* A chapter's opening page is
+    always between the opening pages of the chapters around it, so for
+    each missing number the model was asked page by page "does this page
+    open chapter N?" That found chapters 5, 50 and 80.
+  * *The model was reading running headers as chapter numbers.* An
+    ordinary page carries a thin header like "6PART I Biology of the
+    Gastrointestinal Tract", which it first reported as "chapter 6". Both
+    prompts now say in so many words that a thin running header is not a
+    chapter number. I checked one of these pages with my own eyes: image
+    846 is chapter 50's ordinary opening page and carries no part banner
+    at all -- the model was right to say so.
+  * *Asking again for a banner that is not printed made things worse.* A
+    pass that re-asked 123 pages produced 20 provinces named "PART" or
+    "-". The part banner is printed only on a part's FIRST chapter, so
+    "no banner" is the correct answer for the rest and those chapters
+    inherit the part above. That pass was reverted.
+  * *The banner arrives split across tab fields* -- "PART<TAB>VI<TAB>Stomach
+    and Duodenum", "PART VIII<TAB>Biliary Tract", "PART=<TAB>IX<TAB>Liver",
+    "PART PART III<TAB>Symptoms..." -- so the whole rest of the line is
+    taken and the keyword is normalised. That is what recovered PART VI,
+    PART VIII and PART IX.
+  * *PART II and PART VII do not exist in this edition.* Chapter 10 has
+    no banner and chapter 11 opens PART III; chapter 61 has none and
+    chapter 62 opens PART VIII. The part numbers simply skip, and the
+    nine parts recorded are the nine the book prints.
+
+### 2026-10-11 (e) -- BOOK 3 OF 37: HARRISON-22, and the pipeline that got it right
 ### 2026-10-11 (e) -- BOOK 3 OF 37: HARRISON-22, and the pipeline that got it right
 
 ```
