@@ -1,0 +1,297 @@
+"""kitchen/toc_vision.py -- read a book's Table of Contents WITH THE MODEL'S EYES.
+
+THE HUMAN'S INSTRUCTION (2026-10-11): in this critical stage the AI model
+must be used as MUCH as possible, not as little as possible. The text-layer
+tricks (expand_toc.py) are kept only as a cheap cross-check; the contents
+are LOCATED and READ by qwen3.8:27b looking at rendered page images.
+
+Two model-driven stages, both offline and free:
+
+  STAGE 1  LOCATE. Pages are rendered at 55 dpi, 20 of them pasted onto one
+           labelled contact sheet, and the multimodal model is asked which
+           page numbers hold the Table of Contents. It is asked again for
+           the NEXT window of pages, so a second volume's contents block
+           (CAMPBELL-2020, GRAY-2020) is found too. The model decides;
+           nothing is taken from a regex.
+
+  STAGE 2  READ. Every page the model named is rendered at 150 dpi and sent
+           to the model ONCE, alone, as an image, with reasoning switched
+           off. Output is tab separated so a truncated answer can never
+           become invalid syntax:
+
+               P<TAB>province name<TAB>the heading above it
+               C<TAB>chapter number or a dash<TAB>title verbatim<TAB>printed page
+
+Usage (ONE BOOK AT A TIME, as the human asked):
+    python kitchen/toc_vision.py GUYTON-2026
+    python kitchen/toc_vision.py GUYTON-2026 --windows 4
+
+Writes kitchen/logs/<BOOK_ID>-vis-toc.txt (the raw transcription),
+kitchen/logs/<BOOK_ID>-vis-toc.json (provinces -> chapters), and leaves
+the rendered pages in kitchen/pages/<BOOK_ID>/vis/ (gitignored) so the
+result can be checked by eye afterwards.
+"""
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from reader import ask  # noqa: E402
+
+KITCHEN = Path(__file__).resolve().parent
+BOOKS = KITCHEN / "books"
+LOGS = KITCHEN / "logs"
+PAGES = KITCHEN / "pages"
+
+# MEASURED 2026-10-11: at 55 dpi the thumbnails were too small to read and
+# the model answered NONE on GUYTON-2026 image 14, which IS a contents page.
+# At 100 dpi in 3 columns it reads them correctly, and one such call costs
+# only about 2 seconds -- the answer is two short lines, so the cost is the
+# image tokens, not the generation.
+PER_SHEET = 6
+COLS = 3
+LOCATE_DPI = 100
+READ_DPI = 150
+
+LOCATE_SYSTEM = """You are looking at a contact sheet: 6 scanned pages from a medical textbook, each thumbnail labelled with its page number.
+
+Tell me which of those page numbers belong to the TABLE OF CONTENTS -- the pages that list chapter, unit, part or section titles together with the printed page number where each one starts.
+
+Do NOT count: contributor lists, dedications, prefaces, reference lists, indexes, or ordinary body text.
+If this window contains no contents page at all, answer PAGES=NONE.
+
+Answer with exactly two lines and nothing else:
+PAGES=<comma separated page numbers, in order, or NONE>
+NOTE=<one short sentence>"""
+
+READ_SYSTEM = """You are looking at ONE page of a medical textbook: its Table of Contents. Read what is printed on it, exactly as printed.
+
+WHAT COUNTS AS A CHAPTER -- read this rule twice, it decides most of the output:
+  A chapter is an entry that is marked "Chapter N" / "CHAPTER N", or that is
+  numbered the same way as those are.
+  It is NOT a chapter: the smaller sub-headings printed underneath a chapter
+  (for example "Red Blood Cells (Erythrocytes)", "Iron Metabolism",
+  "Anemia", "Determinants of GFR"). Those have no number. SKIP THEM.
+  A heading that has no chapter number under it is not a chapter. Skip it.
+
+For every heading that names a Part, Unit, Section or Book AND has chapters under it, output:
+P<TAB>heading name<TAB>the heading of the level above it (or the same name)
+
+For every CHAPTER entry -- its title together with the printed page number where the chapter starts -- output:
+C<TAB>chapter number as printed, or a single dash if there is none<TAB>the complete chapter title exactly as printed<TAB>the printed page number
+
+Rules:
+- Copy titles word for word, including punctuation. If a title wraps to a second line, join it into one.
+- A TAB separates the fields.
+- The page number MUST be the one printed on the page. NEVER invent, guess or reuse a chapter number as a page number. If you cannot see a page number for an entry, leave that entry out.
+- Skip: author and editor names, contributor lists, front matter with roman numerals, and lines with no page number.
+- If this page holds no Table of Contents entries at all, output nothing at all.
+- No commentary, no markdown, no JSON, no explanation."""
+
+FRONT_WORDS = re.compile(r"\b(preface|contributors?|acknowledg\w*|dedication|"
+                         r"about the authors?|front matter|index|glossary|"
+                         r"advertisement|erratum|copyright|foreword)\b", re.I)
+PAGE_FIELD = re.compile(r"(\d{1,5})\s*$")
+
+
+# ---------------------------------------------------------------- rendering
+def render(pdf: Path, outdir: Path, first: int, last: int, dpi: int):
+    outdir.mkdir(parents=True, exist_ok=True)
+    for f in outdir.glob("*.png"):
+        f.unlink()
+    subprocess.run(["pdftoppm", "-f", str(first), "-l", str(last), "-r", str(dpi),
+                    "-png", "-gray", str(pdf), str(outdir / "p")],
+                   capture_output=True, timeout=3600)
+    got = {}
+    for f in outdir.glob("p-*.png"):
+        got[int(re.sub(r"\D", "", f.stem) or 0)] = f
+    return [got[k] for k in sorted(got)]
+
+
+def sheet(files, first_page, outpath, cols=COLS):
+    from PIL import Image, ImageDraw, ImageFont
+    ims = []
+    try:
+        font = ImageFont.load_default(size=40)
+    except TypeError:
+        font = ImageFont.load_default()
+    tw = 520
+    for f in files:
+        im = Image.open(f).convert("L")
+        ims.append((f, im.resize((tw, int(im.height * tw / im.width)))))
+    if not ims:
+        return None
+    cell_h = max(i.height for _, i in ims) + 50
+    canvas = Image.new("L", (cols * tw, ((len(ims) + cols - 1) // cols) * cell_h), 255)
+    d = ImageDraw.Draw(canvas)
+    for k, (f, im) in enumerate(ims):
+        x, y = (k % cols) * tw, (k // cols) * cell_h
+        d.rectangle([x, y, x + tw, y + 46], fill=0)
+        d.text((x + 10, y + 8), f"PAGE {first_page + k}", fill=255, font=font)
+        canvas.paste(im, (x, y + 50))
+    canvas.save(outpath)
+    return outpath
+
+
+# ------------------------------------------------------------------ parsing
+def parse(answer, doc, province):
+    """Fold one page's P/C lines into the document. Returns lines accepted."""
+    cur, got = None, 0
+    for raw in answer.splitlines():
+        if not raw.strip():
+            continue
+        f = raw.split("\t")
+        if len(f) < 2:
+            f = re.split(r"\s{2,}", raw.strip())
+        f = [x.strip() for x in f]
+        if f[0] == "P" and len(f) >= 2 and f[1]:
+            # the model often prints a bare "P<TAB>UNIT III" with no third
+            # field; dropping those silently moved a whole unit's chapters
+            # into the unit before it (measured on GUYTON-2026: 15 units
+            # instead of 11). The same heading also reappears on the next
+            # page, so one province per heading, not one per line.
+            above = f[2] if len(f) >= 3 and f[2] else f[1]
+            # the same heading often reappears on the next page; one
+            # province per heading, not one per line (measured on
+            # GUYTON-2026: 15 "units" for a book that has 11)
+            if doc["provinces"] and doc["provinces"][-1]["name"] == f[1]:
+                cur = doc["provinces"][-1]
+            else:
+                cur = {"name": f[1], "part_name": above, "chapters": []}
+                doc["provinces"].append(cur)
+            got += 1
+        elif f[0] == "C" and len(f) >= 4:
+            num, title, tail = f[1], f[2], f[3]
+            m = PAGE_FIELD.search(tail)
+            if not title or not m or FRONT_WORDS.search(title):
+                continue
+            if cur is None:
+                # a contents page often STARTS in the middle of a unit,
+                # before its banner is printed. Those chapters belong to
+                # the unit above; creating a second province with the same
+                # name duplicated whole units (measured on GUYTON-2026:
+                # "UNIT V" appeared twice).
+                if doc["provinces"]:
+                    cur = doc["provinces"][-1]
+                else:
+                    cur = {"name": province, "part_name": province,
+                           "chapters": []}
+                    doc["provinces"].append(cur)
+            cur["chapters"].append({
+                "number": None if num in ("-", "", "—") else num,
+                "title": title,
+                "page_start": int(m.group(1)),
+            })
+            got += 1
+    return got
+
+
+# -------------------------------------------------------------------- stages
+def locate(bid, pdf, start, windows, visdir):
+    """Stage 1: the model names the contents pages, window after window."""
+    found, notes, cursor, empty_run = [], [], start, 0
+    for w in range(windows):
+        last = cursor + PER_SHEET - 1
+        files = render(pdf, visdir / f"w{w+1}", cursor, last, LOCATE_DPI)
+        if not files:
+            break
+        sp = sheet(files, cursor, visdir / f"w{w+1}" / f"sheet.png")
+        ans = ask(LOCATE_SYSTEM,
+                  f"This sheet shows pages {cursor} to {cursor + len(files) - 1}.",
+                  images=[sp], max_tokens=3000, expect_json=False, retries=2)
+        m = re.search(r"PAGES\s*=\s*([^\n]*)", ans)
+        note = re.search(r"NOTE\s*=\s*(.+)", ans)
+        got = []
+        if m and "NONE" not in m.group(1).upper():
+            got = sorted({int(x) for x in re.findall(r"\d+", m.group(1))})
+        new = [p for p in got if p not in found]
+        found += new
+        notes.append(f"window {cursor}-{cursor + len(files) - 1}: "
+                     f"{got or 'NONE'}"
+                     + (f" -- {note.group(1).strip()[:90]}" if note else ""))
+        print(f"    window {cursor:4d}-{cursor + len(files) - 1:4d} -> "
+              f"{got or 'NONE'}", flush=True)
+        cursor = last + 1
+        # a second contents block can sit after a gap (a second volume),
+        # so keep looking for two empty windows in a row before stopping
+        empty_run = 0 if new else empty_run + 1
+        if empty_run >= 2:
+            break
+    return sorted(set(found)), notes
+
+
+def read_pages(bid, pdf, pages, visdir):
+    """Stage 2: every named page rendered at 150 dpi and read ALONE."""
+    doc = {"provinces": []}
+    raw, province, empty = [], "ALL", []
+    for n, p in enumerate(pages, 1):
+        d = visdir / f"read-{p}"
+        files = render(pdf, d, p, p, READ_DPI)
+        t = time.time()
+        try:
+            ans = ask(READ_SYSTEM, f"Image number {p}. Transcribe its contents.",
+                      images=files, max_tokens=6000, expect_json=False,
+                      retries=2, no_reasoning=True)
+        except Exception as exc:  # noqa: BLE001 - recorded, never hidden
+            print(f"    page {p} FAILED: {exc}", flush=True)
+            continue
+        raw.append(f"\n===== image {p} =====\n{ans}")
+        if not ans.strip():
+            empty.append(p)
+        got = parse(ans, doc, province)
+        if got:
+            province = doc["provinces"][-1]["name"]
+        print(f"    [{n}/{len(pages)}] image {p:4d} {int(time.time()-t):3d}s "
+              f"+{got} lines", flush=True)
+    (LOGS / f"{bid}-vis-toc.txt").write_text("\n".join(raw))
+    (LOGS / f"{bid}-vis-toc.json").write_text(
+        json.dumps(doc, indent=1, ensure_ascii=False))
+    return doc, empty
+
+
+def main():
+    argv = " ".join(sys.argv[1:]) + " "
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    flags = [argv]
+    books = {b["book_id"]: b for b in json.loads((KITCHEN / "books.json").read_text())}
+    if not args:
+        print("usage: python kitchen/toc_vision.py <BOOK_ID> [--start N] "
+              "[--windows K]", flush=True)
+        return 1
+    bid = args[0]
+    rec = books[bid]
+    def flag(name, default):
+        m = re.search(rf"--{name}\s+(\d+)", " ".join(flags) + " ")
+        return int(m.group(1)) if m else default
+
+    start = flag("start", 1)
+    windows = flag("windows", 3)
+    pdf = BOOKS / rec["pdf_file"]
+    visdir = PAGES / bid / "vis"
+
+    print(f"{bid}: model-locating the contents from image {start}, "
+          f"{windows} window(s) of {PER_SHEET} pages ...", flush=True)
+    pages, notes = locate(bid, pdf, start, windows, visdir)
+    print(f"  the model named {len(pages)} contents page(s): {pages}", flush=True)
+    if not pages:
+        print("  no contents page found -- recorded, not invented.", flush=True)
+        return 0
+    print(f"  reading each one at {READ_DPI} dpi, one page per call ...",
+          flush=True)
+    doc, empty = read_pages(bid, pdf, pages, visdir)
+    n = sum(len(p["chapters"]) for p in doc["provinces"])
+    print(f"  DONE {bid}: provinces={len(doc['provinces'])} chapters={n} "
+          f"{len(empty)} pages empty", flush=True)
+    (LOGS / "vis_read_latest.json").write_text(json.dumps(
+        {"book_id": bid, "pages": pages, "notes": notes,
+         "provinces": len(doc["provinces"]), "chapters": n,
+         "empty_pages": empty}, indent=1, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

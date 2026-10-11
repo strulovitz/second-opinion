@@ -35,11 +35,11 @@ def norm(text):
     return re.sub(r"\s+", " ", INVISIBLE.sub(" ", text))
 
 
-def verify_pages(bid, chapters, sample=12):
+def verify_pages(bid, chapters, sample=12, suffix="-toc"):
     """Does each chapter's page_start really appear after its own title in
     the raw TOC text? This is the only honest way to catch an INVENTED page
     number, which is forbidden by Laws 1 and 2."""
-    src = LOGS / f"{bid}-toc.txt"
+    src = LOGS / f"{bid}{suffix}.txt"
     if not src.exists():
         return None
     text = norm(src.read_text())
@@ -62,8 +62,8 @@ def walk(doc):
             yield prov, chap
 
 
-def validate(bid):
-    src = LOGS / f"{bid}-toc.json"
+def validate(bid, suffix="-toc"):
+    src = LOGS / f"{bid}{suffix}.json"
     doc = json.loads(src.read_text())
     warns = []
 
@@ -86,7 +86,7 @@ def validate(bid):
 
     # 2. every page_start must really be printed next to its own title in
     #    the raw TOC text -- otherwise the reader invented it.
-    ver = verify_pages(bid, chapters)
+    ver = verify_pages(bid, chapters, suffix=suffix)
     count_note = None
     if ver is None:
         warns.append("no raw TOC text to verify the page numbers against")
@@ -132,10 +132,12 @@ def validate(bid):
 
 
 def main():
-    wanted = sys.argv[1:] or None
+    argv = sys.argv[1:]
+    suffix = "-vis-toc" if "--vis" in argv else "-toc"
+    wanted = [a for a in argv if not a.startswith("--")] or None
     books = json.loads((KITCHEN / "books.json").read_text())
     ids = [b["book_id"] for b in books
-           if (LOGS / f"{b['book_id']}-toc.json").exists()]
+           if (LOGS / f"{b['book_id']}{suffix}.json").exists()]
     if wanted:
         ids = [i for i in ids if i in wanted]
     print(f"validating {len(ids)} books", flush=True)
@@ -143,7 +145,7 @@ def main():
     clean = 0
     for bid in ids:
         try:
-            res, cnt = validate(bid)
+            res, cnt = validate(bid, suffix)
         except Exception as exc:  # noqa: BLE001
             print(f"  {bid:26s} ERROR {exc}", flush=True)
             continue

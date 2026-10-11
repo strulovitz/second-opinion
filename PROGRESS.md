@@ -237,6 +237,81 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-11 (b) -- THE HUMAN'S ORDER: READ THE CONTENTS WITH THE MODEL'S EYES, ONE BOOK AT A TIME
+
+The human's instruction, recorded verbatim in substance: do NOT minimise the
+model's part in this critical stage -- use the vision model AS MUCH AS
+possible, not as little; go book by book; do not launch the 28-book job;
+then repeat the whole thing with a second model (he will install Gemma 4
+31B) and compare the two brains.
+
+So expand_toc.py's text-layer rule is demoted to a cheap cross-check, and
+kitchen/toc_vision.py now does the real work with qwen3.8:27b:
+
+  STAGE 1 LOCATE -- 6 rendered pages per labelled contact sheet, the model is
+    asked which page numbers are the contents; it is walked forward window
+    by window and keeps looking for two empty windows in a row, so a second
+    volume's contents block is found too. The model decides; no regex votes.
+  STAGE 2 READ -- each page it named is rendered at 150 dpi and sent to the
+    model ALONE, as an image, reasoning off, one page per call.
+
+**MEASURED (the old 55 dpi thumbnails were the reason the model had said
+NONE):** at 55 dpi with 20 pages per sheet the model answered NONE on
+GUYTON-2026 image 14, which IS a contents page -- the thumbnails were too
+small to read. At 100 dpi with 6 pages per sheet it reads them correctly and
+one such call costs only about 2 seconds, because the answer is two short
+lines: the cost is the image tokens, not the generation.
+
+**BOOK 1 OF 37 -- GUYTON-2026 -- DONE AND VERIFIED.**
+
+```
+$ python kitchen/toc_vision.py GUYTON-2026 --start 1 --windows 10
+    window    1-  6 -> NONE
+    window    7- 12 -> [10, 11, 12]
+    window   13- 18 -> [13, 14, 15, 16, 17, 18]
+    window   19- 24 -> NONE
+    window   25- 30 -> NONE
+  the model named 9 contents page(s): [10, 11, 12, 13, 14, 15, 16, 17, 18]
+  DONE GUYTON-2026: provinces=15 chapters=85 0 pages empty
+
+$ python kitchen/toc_validate.py GUYTON-2026 --vis
+  GUYTON-2026   ok  prov= 15 chap=  85 pages 3-1113
+  1/1 clean, 85 chapters total
+```
+
+And checked directly, because "clean" is not a certificate:
+```
+chapters 85 numbered 85
+numbering 1..85 complete & unique: True
+page_start decreases: []
+first 1 page 3   last 85 page 1101
+```
+85 chapters numbered 1 to 85 with no gap and no duplicate, printed pages
+strictly increasing from 3 to 1101, in 15 units. **Before today this book
+had 11 chapters starting at page 447** -- units I to V were simply missing.
+The model found them; the text-layer rule never would have.
+
+**THREE PARSER FAULTS THE VALIDATOR AND THE REPARSE CAUGHT** (all in the
+model's own saved words, kitchen/logs/GUYTON-2026-vis-toc.txt -- the JSON is
+never typed by hand, it is always regenerated from the recorded text by
+kitchen/toc_reparse.py, which costs no model call at all):
+  1. The model first answered 203 entries because it listed the small
+     sub-headings under each chapter ("Iron Metabolism", "Determinants of
+     GFR"). The prompt now says in bold what counts as a chapter; 203 -> 85,
+     which is the book's real chapter count.
+  2. A heading line printed as a bare "P<TAB>UNIT III" has only two fields
+     and was being dropped, which moved a whole unit's chapters into the
+     unit before it. 15 provinces -> 16 after the fix, correct.
+  3. A contents page that STARTS in the middle of a unit (before its banner)
+     created a second province with the same name, so "UNIT V" appeared
+     twice, 16 chapters apart. Fixed: such chapters now join the unit above.
+
+**COST PER BOOK, measured:** 9 contents pages took 5 locate calls of about 2
+seconds plus 9 read calls of 6 to 11 seconds = about 2 minutes per book for
+this one. Books with 20 to 30 contents pages will take proportionally longer.
+Nothing has been loaded into Neo4j.
+
+### 2026-10-11 (a) -- VALIDATION WRITTEN, AND IT FOUND REAL DAMAGE
 ### 2026-10-11 (a) -- VALIDATION WRITTEN, AND IT FOUND REAL DAMAGE
 
 kitchen/toc_validate.py (BIBLE part 3 section 4.4) now exists and runs.
