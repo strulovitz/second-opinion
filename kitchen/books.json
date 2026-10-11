@@ -11,7 +11,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    6,
-   7
+   17
   ],
   "index_images": [
    1530,
@@ -21,7 +21,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   6,
+   7
+  ],
+  "toc_blocks": [
+   [
+    6,
+    7
+   ],
+   [
+    15,
+    17
+   ]
+  ]
  },
  {
   "book_id": "AVERY-2021",
@@ -35,7 +49,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    20,
-   21
+   55
   ],
   "index_images": [
    981,
@@ -45,7 +59,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "pdfinfo calls it the South Asian Edition; no edition number stated"
+  "notes": "pdfinfo calls it the South Asian Edition; no edition number stated",
+  "toc_images_found": [
+   20,
+   21
+  ],
+  "toc_blocks": [
+   [
+    20,
+    50
+   ],
+   [
+    55,
+    55
+   ]
+  ]
  },
  {
   "book_id": "BENZON-2023",
@@ -59,7 +87,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    19,
-   21
+   39
   ],
   "index_images": [
    1467,
@@ -69,7 +97,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   19,
+   21
+  ],
+  "toc_blocks": [
+   [
+    19,
+    22
+   ],
+   [
+    32,
+    39
+   ]
+  ]
  },
  {
   "book_id": "BOLOGNIA-2024",
@@ -83,14 +125,28 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    4,
-   10
+   31
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "Bolognia, 2-volume set, sections 1-14"
+  "notes": "Bolognia, 2-volume set, sections 1-14",
+  "toc_images_found": [
+   4,
+   10
+  ],
+  "toc_blocks": [
+   [
+    4,
+    10
+   ],
+   [
+    25,
+    31
+   ]
+  ]
  },
  {
   "book_id": "BRADDOM-6",
@@ -146,7 +202,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    5,
-   25
+   55
   ],
   "index_images": [
    1023,
@@ -156,7 +212,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 6 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 6 contents pages)",
+  "toc_images_found": [
+   5,
+   25
+  ],
+  "toc_blocks": [
+   [
+    5,
+    17
+   ],
+   [
+    30,
+    55
+   ]
+  ]
  },
  {
   "book_id": "BRENNER-11",
@@ -170,7 +240,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    135,
-   208
+   193
   ],
   "index_images": [
    3312,
@@ -180,7 +250,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "accepted copy of an identical pair; TOC range set by the vision pass on 2026-10-10 (found 3 contents pages)"
+  "notes": "accepted copy of an identical pair; TOC range set by the vision pass on 2026-10-10 (found 3 contents pages)",
+  "toc_images_found": [
+   135,
+   208
+  ],
+  "toc_blocks": [
+   [
+    135,
+    152
+   ],
+   [
+    168,
+    193
+   ]
+  ]
  },
  {
   "book_id": "CAMPBELL-2020",
@@ -194,14 +278,28 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    11,
-   20
+   52
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   11,
+   20
+  ],
+  "toc_blocks": [
+   [
+    11,
+    20
+   ],
+   [
+    27,
+    52
+   ]
+  ]
  },
  {
   "book_id": "DEVITA-12",
@@ -215,7 +313,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    20,
-   31
+   80
   ],
   "index_images": [
    2029,
@@ -225,7 +323,17 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   20,
+   31
+  ],
+  "toc_blocks": [
+   [
+    20,
+    80
+   ]
+  ]
  },
  {
   "book_id": "FIRESTEIN-12",
@@ -239,7 +347,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    26,
-   30
+   59
   ],
   "index_images": [
    2782,
@@ -249,7 +357,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   26,
+   30
+  ],
+  "toc_blocks": [
+   [
+    26,
+    39
+   ],
+   [
+    43,
+    59
+   ]
+  ]
  },
  {
   "book_id": "GOODMAN-14",
@@ -263,7 +385,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    8,
-   9
+   20
   ],
   "index_images": [
    1614,
@@ -273,7 +395,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "edition from pdfinfo ('14th E'); accepted copy of an identical pair"
+  "notes": "edition from pdfinfo ('14th E'); accepted copy of an identical pair",
+  "toc_images_found": [
+   8,
+   9
+  ],
+  "toc_blocks": [
+   [
+    8,
+    9
+   ],
+   [
+    20,
+    20
+   ]
+  ]
  },
  {
   "book_id": "GRAY-2020",
@@ -287,7 +423,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    9,
-   13
+   24
   ],
   "index_images": [
    2476,
@@ -297,7 +433,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   9,
+   13
+  ],
+  "toc_blocks": [
+   [
+    9,
+    13
+   ],
+   [
+    19,
+    24
+   ]
+  ]
  },
  {
   "book_id": "GREEN-HAND-2021",
@@ -329,14 +479,28 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    14,
-   14
+   50
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   14,
+   14
+  ],
+  "toc_blocks": [
+   [
+    14,
+    22
+   ],
+   [
+    25,
+    50
+   ]
+  ]
  },
  {
   "book_id": "HARRISON-22",
@@ -350,7 +514,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    7,
-   17
+   18
   ],
   "index_images": [
    4044,
@@ -360,7 +524,17 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "the hub book; exempt from duplicate detection"
+  "notes": "the hub book; exempt from duplicate detection",
+  "toc_images_found": [
+   7,
+   17
+  ],
+  "toc_blocks": [
+   [
+    7,
+    18
+   ]
+  ]
  },
  {
   "book_id": "HAZZARD-2022",
@@ -437,7 +611,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    13,
-   17
+   57
   ],
   "index_images": [
    830,
@@ -447,7 +621,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   13,
+   17
+  ],
+  "toc_blocks": [
+   [
+    13,
+    29
+   ],
+   [
+    32,
+    57
+   ]
+  ]
  },
  {
   "book_id": "MANDELL-9",
@@ -461,7 +649,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    41,
-   41
+   66
   ],
   "index_images": [
    4597,
@@ -471,7 +659,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)",
+  "toc_images_found": [
+   41,
+   41
+  ],
+  "toc_blocks": [
+   [
+    41,
+    46
+   ],
+   [
+    50,
+    66
+   ]
+  ]
  },
  {
   "book_id": "MIDDLETON-2019",
@@ -485,7 +687,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    49,
-   64
+   86
   ],
   "index_images": [
    1669,
@@ -495,7 +697,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "UNCERTAIN: the file name shows '9' which may be an edition or an ISBN fragment; year used until the human decides; TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)"
+  "notes": "UNCERTAIN: the file name shows '9' which may be an edition or an ISBN fragment; year used until the human decides; TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)",
+  "toc_images_found": [
+   49,
+   64
+  ],
+  "toc_blocks": [
+   [
+    49,
+    69
+   ],
+   [
+    78,
+    86
+   ]
+  ]
  },
  {
   "book_id": "MILLER-10",
@@ -527,7 +743,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    203,
-   203
+   263
   ],
   "index_images": [
    3247,
@@ -537,7 +753,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)",
+  "toc_images_found": [
+   203,
+   203
+  ],
+  "toc_blocks": [
+   [
+    203,
+    257
+   ],
+   [
+    260,
+    263
+   ]
+  ]
  },
  {
   "book_id": "NELSON-2024",
@@ -551,14 +781,28 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    117,
-   124
+   155
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 5 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 5 contents pages)",
+  "toc_images_found": [
+   117,
+   124
+  ],
+  "toc_blocks": [
+   [
+    117,
+    145
+   ],
+   [
+    150,
+    155
+   ]
+  ]
  },
  {
   "book_id": "OXFORD-6",
@@ -572,7 +816,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    8,
-   12
+   48
   ],
   "index_images": [
    1375,
@@ -582,7 +826,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   8,
+   12
+  ],
+  "toc_blocks": [
+   [
+    8,
+    13
+   ],
+   [
+    26,
+    48
+   ]
+  ]
  },
  {
   "book_id": "ROBBINS-10",
@@ -596,14 +854,28 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    12,
-   14
+   45
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "verified: no back-of-book index detected in the last 400 images"
+  "notes": "verified: no back-of-book index detected in the last 400 images",
+  "toc_images_found": [
+   12,
+   14
+  ],
+  "toc_blocks": [
+   [
+    12,
+    20
+   ],
+   [
+    43,
+    45
+   ]
+  ]
  },
  {
   "book_id": "ROCKWOOD-10",
@@ -617,7 +889,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    16,
-   18
+   30
   ],
   "index_images": [
    3577,
@@ -627,7 +899,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 3 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 3 contents pages)",
+  "toc_images_found": [
+   16,
+   18
+  ],
+  "toc_blocks": [
+   [
+    16,
+    18
+   ],
+   [
+    29,
+    30
+   ]
+  ]
  },
  {
   "book_id": "ROSEN-2022",
@@ -641,7 +927,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    3,
-   3
+   26
   ],
   "index_images": [
    2886,
@@ -651,7 +937,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)",
+  "toc_images_found": [
+   3,
+   3
+  ],
+  "toc_blocks": [
+   [
+    3,
+    3
+   ],
+   [
+    25,
+    26
+   ]
+  ]
  },
  {
   "book_id": "SABISTON-22",
@@ -665,14 +965,28 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    35,
-   40
+   56
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": ""
+  "notes": "",
+  "toc_images_found": [
+   35,
+   40
+  ],
+  "toc_blocks": [
+   [
+    35,
+    40
+   ],
+   [
+    43,
+    56
+   ]
+  ]
  },
  {
   "book_id": "SLEISENGER-11",
@@ -686,14 +1000,28 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    21,
-   33
+   46
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)",
+  "toc_images_found": [
+   21,
+   33
+  ],
+  "toc_blocks": [
+   [
+    21,
+    23
+   ],
+   [
+    45,
+    46
+   ]
+  ]
  },
  {
   "book_id": "STAHL-2024",
@@ -728,14 +1056,28 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    15,
-   19
+   58
   ],
   "index_images": null,
   "page_offset": null,
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "verified: 612-page book, no back-of-book index"
+  "notes": "verified: 612-page book, no back-of-book index",
+  "toc_images_found": [
+   15,
+   19
+  ],
+  "toc_blocks": [
+   [
+    15,
+    38
+   ],
+   [
+    41,
+    58
+   ]
+  ]
  },
  {
   "book_id": "WILLIAMS-ENDO-2024",
@@ -749,7 +1091,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    26,
-   60
+   37
   ],
   "index_images": [
    1954,
@@ -759,7 +1101,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)",
+  "toc_images_found": [
+   26,
+   60
+  ],
+  "toc_blocks": [
+   [
+    26,
+    33
+   ],
+   [
+    37,
+    37
+   ]
+  ]
  },
  {
   "book_id": "WILLIAMS-HEMATOLOGY-2021",
@@ -791,7 +1147,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    16,
-   20
+   48
   ],
   "index_images": [
    3216,
@@ -801,7 +1157,21 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "disambiguated from the other two Williams books; TOC range set by the vision pass on 2026-10-10 (found 5 contents pages)"
+  "notes": "disambiguated from the other two Williams books; TOC range set by the vision pass on 2026-10-10 (found 5 contents pages)",
+  "toc_images_found": [
+   16,
+   20
+  ],
+  "toc_blocks": [
+   [
+    16,
+    20
+   ],
+   [
+    30,
+    48
+   ]
+  ]
  },
  {
   "book_id": "YOUMANS-4",
@@ -815,7 +1185,7 @@
   "image_name_pattern": "page-{n:04d}.png",
   "toc_images": [
    21,
-   52
+   81
   ],
   "index_images": [
    6164,
@@ -825,6 +1195,16 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 32 contents pages)"
+  "notes": "TOC range set by the vision pass on 2026-10-10 (found 32 contents pages)",
+  "toc_images_found": [
+   21,
+   52
+  ],
+  "toc_blocks": [
+   [
+    21,
+    81
+   ]
+  ]
  }
 ]

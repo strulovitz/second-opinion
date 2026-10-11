@@ -23,15 +23,25 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 
 ## NEXT STEP
-15 of the 37 books still have no usable Table of Contents because their
-contents are hard to LOCATE, not hard to read. The next attempt is the
-VISION fallback of BIBLE part 3 section 4.1: render the candidate front
-matter pages as PNG images and let qwen3.8:27b (capabilities include
-'vision') look at them and say which pages are the contents. See DONE below
-for what was tried and why it failed.
+**CORRECTION (2026-10-11): the count "22 books, 2,859 chapters" from last
+night is NOT trustworthy, and this was found by writing the validation
+script the BIBLE asks for. See DONE 2026-10-11 (a) below before relying on
+any chapter number.** Of the 22 "finished" books, 8 had silently lost part
+or all of their contents, and 2 carried page numbers that are printed
+nowhere in the book.
 
-Then, for the 37 books: extract the Table of Contents text of each accepted
-book into kitchen/logs/<BOOK_ID>-toc.txt, then run the free local READER (qwen3.8:27b via Ollama) with prompt P-A2 to convert each TOC into provinces+chapters JSON, validate it with kitchen/toc_validate.py, and detect page_offset (section 4.6). The 6 books with no located TOC and the 2 with image-only front matter (BRAUNWALD-12 images 21-29, YOUMANS-4 images 17-52) need the vision fallback of section 4.1 first.
+The immediate next step is to re-read the Table of Contents of the books
+the validator flags, using the widened page ranges now stored in
+kitchen/books.json, and then to ask the human the 15 book questions one at
+a time. Nothing is loaded into Neo4j until the validator is happy.
+
+For reference, the 37 books: extract the Table of Contents text of each
+accepted book into kitchen/logs/<BOOK_ID>-toc.txt, then run the free local
+READER (qwen3.8:27b via Ollama) with prompt P-A2 to convert each TOC into
+provinces+chapters JSON, validate it with kitchen/toc_validate.py, and
+detect page_offset (section 4.6). The books with no located TOC and the 2
+with image-only front matter (BRAUNWALD-12, YOUMANS-4) need the vision
+fallback of section 4.1 first.
 
 ## QUESTIONS FOR HUMAN
 
@@ -226,6 +236,117 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-11 (a) -- VALIDATION WRITTEN, AND IT FOUND REAL DAMAGE
+
+kitchen/toc_validate.py (BIBLE part 3 section 4.4) now exists and runs.
+It fills in chapter page_end and province page_start/page_end, and it
+checks three things: page_start never decreases; every page_start is
+really printed next to its own title in the raw TOC text; the titles are
+found in the raw TOC text at all.
+
+```
+$ python kitchen/toc_validate.py
+validating 31 books
+  ADAMS-12  WARN ... BRAUNWALD-12 WARN ... HARRISON-22 ok prov=66 chap=435 pages 1-3922 ...
+15/31 clean, 2866 chapters total
+```
+
+The "clean" label is NOT a certificate of completeness, and the evidence
+below is why. **The 22 books / 2,859 chapters figure recorded on
+2026-10-10 is unsafe and must not be used as a baseline.**
+
+**Damage 1 -- the located page ranges were too small, so whole stretches of
+contents were never read.** GUYTON-2026 was given the range [14, 14]: ONE
+page. Its contents run images 14-22, so units I to V were never read and
+the book came out as 11 chapters beginning at printed page 447. The same
+happened elsewhere. Measured by comparing the first chapter's page with
+the highest page number printed anywhere in the raw TOC text:
+
+```
+book                       chaps  1stpage lastpage  max_pg_in_toc_text
+CAMPBELL-2020                862     2222     4526                4526
+GRAY-2020                     56      386     1430                2020
+MIDDLETON-2019                22        3       59                2971
+ROCKWOOD-10                   24       46       69                   69
+SLEISENGER-11                 22        1       22                2843
+THOMPSON-2023                116        1      576                 631
+WILLIAMS-ENDO-2024            19       13       43                8292
+```
+
+GUYTON-2020's loss was confirmed by eye, not by statistics: its JSON begins
+at UNIT VI, and the raw TOC text on image 14 shows UNIT VI and UNIT VII
+side by side in two columns.
+
+**Damage 2 -- two books have page numbers that are printed NOWHERE in the
+book.** The reader was asked for the printed page of each chapter, but
+ROCKWOOD-10 and WILLIAMS-OBSTETRICS-26 have contents pages whose page
+numbers are not in the text layer at all, so the model filled the column
+with the chapter number. The validator caught it because the extracted
+number does not appear next to the title in the raw text:
+
+```
+ROCKWOOD-10            24 chapters, page_start == chapter_number in 24 of 24 (100%)
+WILLIAMS-OBSTETRICS-26 25 chapters, page_start == chapter_number in 25 of 25 (100%)
+```
+and in the validator's own words:
+```
+ROCKWOOD-10  WARN  only 1/12 sampled page numbers are really printed next to their title
+WILLIAMS-OBSTETRICS-26 WARN only 0/12 sampled page numbers are really printed next to their title
+```
+An invented page number breaks Law 2 (provenance) and every citation that
+would hang on it. These two books must be read by VISION from the rendered
+page images, not from the text layer.
+
+**Damage 3 -- a wrong chapter count is not detectable from the count
+alone.** The BIBLE's check "chapter count must match the number of TOC
+lines ending in a number" is useless as written: on these multi-column
+pages the number sits mid-line, and a run over the raw text returned a
+near-constant -45% for every book, which is a property of the REGEX, not
+of the books. That check was replaced by the "is the number really printed
+next to that title" check above, which is honest and which caught a real
+fault.
+
+**FIX APPLIED -- kitchen/expand_toc.py.** A contents page can be told from
+an ordinary page by the TEXT LAYER alone: it holds many
+"words ... number" fragments, an ordinary page does not. So the range can
+be widened with no model calls at all. The script walks forward from the
+first page scoring >= 8 fragments, allows 2 weak pages, and also picks up a
+second contents block within 26 pages (that is how CAMPBELL-2020 and
+GRAY-2020 keep their SECOND VOLUME's contents, which the old range threw
+away). The old range is preserved under "toc_images_found" and the blocks
+under "toc_blocks" in books.json; nothing is lost.
+
+```
+$ python kitchen/expand_toc.py
+widening the TOC range of 28 books (window +60 pages, threshold 8) ...
+  ADAMS-12   [6, 7] -> [6, 17]  blocks=[[6, 7], [15, 17]] peak=63
+  AVERY-2021 [20, 21] -> [20, 55] blocks=[[20, 50], [55, 55]] peak=138
+  ...
+  HARRISON-22 [7, 17] -> [7, 18] blocks=[[7, 18]] peak=88
+  ...
+28 ranges widened, books.json written
+```
+HARRISON-22 landing on 7-18 is the cross-check that the rule is right: that
+is the known-correct range the vision locator reproduced earlier.
+
+**WHAT THIS COSTS TO RE-READ.** One reader call per contents page takes
+about 48 seconds on this laptop (measured: GUYTON-2026 image 14, 47.7 s,
+model on the RTX 5090, 20 GB of 24 GB in use). Counting only the pages
+that actually hold entries, the widened ranges hold **678 pages, about 9
+hours** of free background reading -- or about 2.5 hours if only the books
+the validator flags are re-read. The human decides whether his laptop may
+do that. Not started yet.
+
+**MEASURED, NOT GUESSED -- why detection is not done with cheaper tricks.**
+Three text-layer ideas were tried and rejected on measurement:
+  * "a contents line ends with a page number": 0 hits on GUYTON-2026's own
+    contents page, because two columns share every physical line.
+  * "a page number is preceded by a wide gap (3+ spaces)": 0-7 hits per
+    page, no separation from body pages.
+  * "lower the threshold and let the range run": THRESHOLD 4 / 3 weak pages
+    gave GUYTON-2026 [14, 73] and SABISTON-22 [35, 95] -- 60 pages of
+    ordinary body text. Rejected as Law 1 risk (invented entries).
 
 ### 2026-10-10 -- VISION locator + page-at-a-time extraction: 22 of 37 books now have a geography
 
