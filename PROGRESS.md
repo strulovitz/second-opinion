@@ -237,6 +237,51 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-11 (c) -- BOOK 2 OF 37: CAMPBELL-2020, read with the model's eyes
+
+```
+$ python kitchen/toc_vision.py CAMPBELL-2020 --start 1 --windows 12
+  the model named 20 contents page(s): [2,3,4,...,20, 27]
+  DONE CAMPBELL-2020: provinces=52 chapters=1686 0 pages empty
+  THIN PAGES (ask the human, do not guess): [(27, 1)]
+```
+
+**WHAT THIS BOOK ACTUALLY IS.** CAMPBELL-2020 is *Campbell's Operative
+Orthopaedics*, 14th ed. -- a four-volume surgical atlas, NOT a medicine
+textbook. Its front matter (images 2-20) is a **"List of Techniques"**:
+4 VOLUME banners, about 82 chapter blocks, and 1,686 individual surgical
+techniques, each with its printed page. Image 21 is the title page and
+image 27 is the opening of "CHAPTER 1 SURGICAL TECHNIQUES", so the front
+matter is exactly images 2-20.
+
+**THE PROMPT FIX THAT MATTERED.** The first run stopped early on dense
+pages: images 9 and 15 returned 5 and 1 lines and chapters 2, 14 and 20
+went missing. The read prompt now opens with "WORK THROUGH THE WHOLE PAGE.
+It is printed in columns. Read column by column, top to bottom, left
+column first, and do not stop early." Result: image 9 went from 5 lines to
+107, image 15 from 1 to 107, and the entry count rose 1,205 -> 1,686. A
+second automatic guard was added: a page that yields fewer than 5 lines is
+read again at 220 dpi, and the better answer wins.
+
+**WHAT THE MODEL GOT RIGHT, CHECKED WITH MY OWN EYES ON THE IMAGES**
+(rendered pages are kept in kitchen/pages/CAMPBELL-2020/vis/):
+  * image 4 prints "15.1 Syme Amputation, 713" and the model recorded 15.x.
+  * image 4 jumps from 13.14 straight to the bold heading "Amputations of
+    the Foot" 15.1. **The book's own list skips chapter 14.** The model
+    did not invent a chapter 14 -- it reported the gap honestly.
+  * image 6 is the "VOLUME II" banner, first entry 29.1, exactly as read.
+  * the List of Techniques skips the numbers 2, 14, 20, 25, 26, 27, 28 and
+    49 between 1 and 90. This is a property of the printed book; it is
+    recorded, not "repaired".
+
+**TWO WARNINGS, BOTH REAL, NEITHER HIDDEN:**
+  * p3970 -> p3968 at "Toe-Phalanx Transplantation": one page was read in
+    column order that differs from the printed reading order.
+  * p4526 -> p1 at "SURGICAL TECHNIQUES": the locator included image 27,
+    which is the body's Chapter 1 opener, not a contents page. It is kept
+    in the record and flagged rather than silently deleted.
+
+### 2026-10-11 (b) -- THE HUMAN'S ORDER
 ### 2026-10-11 (b) -- THE HUMAN'S ORDER: READ THE CONTENTS WITH THE MODEL'S EYES, ONE BOOK AT A TIME
 
 The human's instruction, recorded verbatim in substance: do NOT minimise the

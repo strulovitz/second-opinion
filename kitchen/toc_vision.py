@@ -56,6 +56,7 @@ PER_SHEET = 6
 COLS = 3
 LOCATE_DPI = 100
 READ_DPI = 150
+RETRY_DPI = 220     # a page that yields almost nothing is read again at this
 
 LOCATE_SYSTEM = """You are looking at a contact sheet: 6 scanned pages from a medical textbook, each thumbnail labelled with its page number.
 
@@ -70,6 +71,8 @@ NOTE=<one short sentence>"""
 
 READ_SYSTEM = """You are looking at ONE page of a medical textbook: its Table of Contents. Read what is printed on it, exactly as printed.
 
+WORK THROUGH THE WHOLE PAGE. It is printed in columns. Read column by column, top to bottom, left column first, then the next column, and do not stop early. Every chapter on the page must appear in your answer, however many there are.
+
 WHAT COUNTS AS A CHAPTER -- read this rule twice, it decides most of the output:
   A chapter is an entry that is marked "Chapter N" / "CHAPTER N", or that is
   numbered the same way as those are.
@@ -78,7 +81,7 @@ WHAT COUNTS AS A CHAPTER -- read this rule twice, it decides most of the output:
   "Anemia", "Determinants of GFR"). Those have no number. SKIP THEM.
   A heading that has no chapter number under it is not a chapter. Skip it.
 
-For every heading that names a Part, Unit, Section or Book AND has chapters under it, output:
+For every heading that names a Part, Unit, Section, Volume or Book AND has chapters under it, output:
 P<TAB>heading name<TAB>the heading of the level above it (or the same name)
 
 For every CHAPTER entry -- its title together with the printed page number where the chapter starts -- output:
@@ -224,33 +227,67 @@ def locate(bid, pdf, start, windows, visdir):
     return sorted(set(found)), notes
 
 
+def read_page(pdf, p, dpi, visdir):
+    """One page, one call, alone. Returns (answer, lines)."""
+    d = visdir / f"read-{p}"
+    files = render(pdf, d, p, p, dpi)
+    ans = ask(READ_SYSTEM, f"Image number {p}. Transcribe its contents.",
+              images=files, max_tokens=6000, expect_json=False,
+              retries=2, no_reasoning=True)
+    probe = {"provinces": []}
+    return ans, parse(ans, probe, "ALL")
+
+
 def read_pages(bid, pdf, pages, visdir):
-    """Stage 2: every named page rendered at 150 dpi and read ALONE."""
+    """Stage 2: every named page rendered at 150 dpi and read ALONE.
+
+    A page that yields almost nothing is read AGAIN at a higher resolution:
+    some books print their contents in three columns of small type and the
+    model gives up at 150 dpi (measured on CAMPBELL-2020, where images 9 and
+    15 returned 5 and 1 lines and chapters 2, 14 and 20 went missing).
+    """
     doc = {"provinces": []}
-    raw, province, empty = [], "ALL", []
+    raw, province, empty, weak = [], "ALL", [], []
     for n, p in enumerate(pages, 1):
-        d = visdir / f"read-{p}"
-        files = render(pdf, d, p, p, READ_DPI)
         t = time.time()
         try:
-            ans = ask(READ_SYSTEM, f"Image number {p}. Transcribe its contents.",
-                      images=files, max_tokens=6000, expect_json=False,
-                      retries=2, no_reasoning=True)
+            ans, _ = read_page(pdf, p, READ_DPI, visdir)
         except Exception as exc:  # noqa: BLE001 - recorded, never hidden
             print(f"    page {p} FAILED: {exc}", flush=True)
             continue
+        before = len(doc["provinces"]), sum(
+            len(x["chapters"]) for x in doc["provinces"])
+        mark = ""
+        if not ans.strip():
+            got = 0
+        else:
+            got = parse(ans, doc, province)
+        if got < 5:
+            try:
+                ans2, _ = read_page(pdf, p, RETRY_DPI, visdir)
+                doc["provinces"] = doc["provinces"][:before[0]]
+                got2 = parse(ans2, doc, province)
+                if got2 > got:
+                    ans, got = ans2, got2
+                    mark = f" retried at {RETRY_DPI}dpi -> {got2}"
+                else:
+                    doc["provinces"] = doc["provinces"][:before[0]]
+                    parse(ans, doc, province)
+            except Exception as exc:  # noqa: BLE001
+                mark = f" retry failed: {exc}"
         raw.append(f"\n===== image {p} =====\n{ans}")
         if not ans.strip():
             empty.append(p)
-        got = parse(ans, doc, province)
+        if got < 5:
+            weak.append((p, got))
         if got:
             province = doc["provinces"][-1]["name"]
         print(f"    [{n}/{len(pages)}] image {p:4d} {int(time.time()-t):3d}s "
-              f"+{got} lines", flush=True)
+              f"+{got} lines{mark}", flush=True)
     (LOGS / f"{bid}-vis-toc.txt").write_text("\n".join(raw))
     (LOGS / f"{bid}-vis-toc.json").write_text(
         json.dumps(doc, indent=1, ensure_ascii=False))
-    return doc, empty
+    return doc, empty, weak
 
 
 def main():
@@ -282,14 +319,17 @@ def main():
         return 0
     print(f"  reading each one at {READ_DPI} dpi, one page per call ...",
           flush=True)
-    doc, empty = read_pages(bid, pdf, pages, visdir)
+    doc, empty, weak = read_pages(bid, pdf, pages, visdir)
     n = sum(len(p["chapters"]) for p in doc["provinces"])
     print(f"  DONE {bid}: provinces={len(doc['provinces'])} chapters={n} "
           f"{len(empty)} pages empty", flush=True)
+    if weak:
+        print(f"  THIN PAGES (ask the human, do not guess): {weak}", flush=True)
     (LOGS / "vis_read_latest.json").write_text(json.dumps(
         {"book_id": bid, "pages": pages, "notes": notes,
          "provinces": len(doc["provinces"]), "chapters": n,
-         "empty_pages": empty}, indent=1, ensure_ascii=False))
+         "empty_pages": empty, "thin_pages": weak}, indent=1,
+        ensure_ascii=False))
     return 0
 
 
