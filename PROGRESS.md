@@ -237,6 +237,62 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-11 (e) -- BOOK 3 OF 37: HARRISON-22, and the pipeline that got it right
+
+```
+$ python kitchen/toc_vision.py HARRISON-22 --start 1 --windows 12
+  the model named 12 contents page(s): [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+  DONE HARRISON-22: provinces=78 chapters=522
+$ python kitchen/toc_reparse.py HARRISON-22 && python kitchen/toc_dedupe.py HARRISON-22 --vis
+$ python kitchen/toc_apply_headings.py HARRISON-22
+  heading kinds seen {'PART': 20, 'SECTION': 57} -> top level is PART
+  provinces=20 chapters=505 chapters not under any province=0
+$ python kitchen/toc_validate.py HARRISON-22 --vis
+  HARRISON-22   ok  prov= 20 chap= 505 pages 1-4002      1/1 clean
+```
+**Chapters 1 to 505, no gap, no duplicate, printed pages strictly
+increasing from 1 to 4002, in 20 Parts.** The model located the contents at
+images 7-18 by itself -- exactly the range the BIBLE records as
+known-correct, found independently. The old text-based reading of this same
+book gave 435 chapters.
+
+**FOUR FAULTS FOUND AND FIXED ON THE WAY, ALL CAUGHT BY CHECKING:**
+  1. *11 chapters captured twice* (495-505, identical in number, title and
+     page) where the contents ran over a page boundary. Removed by rule,
+     counted: kitchen/toc_dedupe.py.
+  2. *Chapters 142-146 missing* between image 9 and image 10. The automatic
+     high-resolution retry had not fired because image 10 returned 42
+     lines, which is not "thin". kitchen/toc_fill_gaps.py now asks the
+     model for a numbered gap directly. When asked about BOTH neighbouring
+     pages it answered image 9 confidently and WRONGLY ("142 Approach to
+     the Patient with an Infectious Disease, 957"); checked with my own
+     eyes on the rendered page, 142 is "Encephalitis, 1111" at the top of
+     image 10. The rule is now: a gap belongs to the page holding the first
+     chapter after it, because the contents runs forwards.
+  3. *Section banners misread.* While transcribing fifty chapter entries the
+     model got the grey banner beside them wrong -- the first province came
+     out "SECTION 5" where the page prints "SECTION 1". Asking for the
+     banners ALONE, one page per call, with nothing else on the page to
+     distract it, returned all 77 headings correctly
+     (kitchen/toc_headings.py, two passes: the exact text, then the first
+     chapter under each).
+  4. *The model had swapped the numbers of chapters 270 and 271* -- the
+     titles and their pages were right, but Amyloidosis (p2020) was
+     numbered 271 and Cardiac Transplantation (p2028) was numbered 270.
+     The validator's page-order check exposed it, a targeted re-read at 240
+     dpi confirmed the swap, and the corrected entries replaced the
+     originals with the change recorded in
+     kitchen/logs/HARRISON-22-vis-conflicts.json. Nothing was edited by
+     hand at any point.
+
+**A MISTAKE I MADE AND CORRECTED:** toc_dedupe.py was first run WITHOUT
+`--vis`, so it processed last night's text-based file instead of the new
+vision one. Its chapter set was verified identical to this morning's backup
+(435 chapters, same set) and the file was put back; the only difference is
+that nine empty provinces were dropped, which is what the script does by
+design. No content was lost, and the mistake is recorded rather than hidden.
+
+### 2026-10-11 (d) -- CAMPBELL-2020 FINISHED, at the level the human chose
 ### 2026-10-11 (d) -- CAMPBELL-2020 FINISHED, at the level the human chose
 
 **THE HUMAN'S DECISION (2026-10-11):** the geography must stay comparable

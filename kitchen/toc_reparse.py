@@ -29,17 +29,27 @@ def main():
         doc = {"provinces": []}
         province = "ALL"
         pages = 0
+        image_province = {}
         for block in src.read_text().split("===== image "):
             if not block.strip():
                 continue
-            n = int(block.split(" ")[0])
+            n = block.split(" ")[0].strip()
             pages += 1
             body = block.split("=====\n", 1)[-1]
+            before = len(doc["provinces"])
             if parse(body, doc, province, image=n):
                 province = doc["provinces"][-1]["name"]
+            # which province this IMAGE belongs to, decided the first time
+            # the page is read normally. A gap repair is appended at the end
+            # of the transcript and would otherwise be filed under the last
+            # province of the book.
+            image_province.setdefault(
+                n, len(doc["provinces"]) - 1 if doc["provinces"] else 0)
         n = sum(len(p["chapters"]) for p in doc["provinces"])
         (LOGS / f"{bid}-vis-toc.json").write_text(
             json.dumps(doc, indent=1, ensure_ascii=False))
+        (LOGS / f"{bid}-vis-imageprov.json").write_text(
+            json.dumps(image_province, indent=1))
         print(f"{bid}: {pages} pages -> provinces={len(doc['provinces'])} "
               f"chapters={n}", flush=True)
         for p in doc["provinces"]:
