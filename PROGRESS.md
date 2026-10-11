@@ -237,6 +237,21 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-11, 21:30 -- END OF SESSION. See HANDOFF-2026-10-11-evening.md
+
+Four books read with the model's eyes and passing the validator today:
+GUYTON-2026 (15 units / 85 chapters), CAMPBELL-2020 (4 volumes / 82
+districts, at the level the human chose), HARRISON-22 (20 Parts / 505
+chapters), SLEISENGER-11 (9 Parts / 132 chapters, a book that has NO table
+of contents and was read from its chapter-opening pages).
+
+**The figure "22 books, 2,859 chapters" recorded on 2026-10-10 is
+WITHDRAWN.** Writing the validation script the BIBLE asks for showed that
+whole stretches of contents had never been read, and that two books carried
+page numbers printed nowhere in the book. Nothing has been loaded into
+Neo4j, so no damage has reached the database. Details and evidence in
+section (a) below and in the handoff file.
+
 ### 2026-10-11 (f) -- BOOK 4 OF 37: SLEISENGER-11, WHICH HAS NO CONTENTS AT ALL
 
 **THE FINDING.** SLEISENGER-11 (*Sleisenger and Fordtran's
