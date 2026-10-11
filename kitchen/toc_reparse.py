@@ -32,9 +32,10 @@ def main():
         for block in src.read_text().split("===== image "):
             if not block.strip():
                 continue
+            n = int(block.split(" ")[0])
             pages += 1
             body = block.split("=====\n", 1)[-1]
-            if parse(body, doc, province):
+            if parse(body, doc, province, image=n):
                 province = doc["provinces"][-1]["name"]
         n = sum(len(p["chapters"]) for p in doc["provinces"])
         (LOGS / f"{bid}-vis-toc.json").write_text(

@@ -237,6 +237,45 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-11 (d) -- CAMPBELL-2020 FINISHED, at the level the human chose
+
+**THE HUMAN'S DECISION (2026-10-11):** the geography must stay comparable
+with every other book. Campbell's contents is three levels deep
+(VOLUME / chapter block / 1,686 individual techniques) and the extra fine
+resolution does not belong in the geography -- the techniques will live
+inside the chapters later, where they belong. **Chapter block = district.**
+
+Result: **4 volumes, 82 districts, printed pages 14 to 4545, validator
+clean**, and all 1,736 techniques kept in
+kitchen/logs/CAMPBELL-2020-vis-detail.json (82 lists, one per district)
+for the reading phase. Nothing was thrown away.
+
+**A SERIOUS PARSER BUG FOUND AND FIXED (this one nearly cost the book).**
+The model prints the page number as its own field on some books
+("C<TAB>33<TAB>Red Blood Cells...<TAB>447") and inside the title field on
+others. CAMPBELL-2020 used the second form, and the parser required four
+fields -- so **1,300 of the book's 1,686 entries were being thrown away
+silently.** Found by counting chapter numbers after a re-read and seeing a
+gap. Fixed in one place; the fix costs no model call because the raw
+transcription is kept on disk and kitchen/toc_reparse.py regenerates the
+JSON from the model's own words.
+
+**TWO MORE RULES, BOTH EARNED BY MEASUREMENT:**
+  * *A contents page thinner than 20 lines is read again at 220 dpi and the
+    answer with more lines wins.* A "fewer than 5 lines" test had let a
+    page through that returned 8 lines while its neighbours returned 111.
+  * *Pages outside the longest unbroken run of contents pages are not
+    contents.* The locator swept in images 27-28, which are the body's
+    "CHAPTER 1 SURGICAL TECHNIQUES" opener; without the rule they would
+    have become "chapters" on printed pages 1 to 7 inside a volume running
+    from page 3300. They are reported in
+    kitchen/logs/CAMPBELL-2020-vis-suspect.json, never silently dropped.
+  * Districts are sorted by printed page inside their volume, because the
+    model sometimes reads a two-column page right-column-first; the
+    validator had flagged 4 chapters as "going backwards" purely because of
+    that reading order.
+
+### 2026-10-11 (c) -- BOOK 2 OF 37: CAMPBELL-2020, read with the model's eyes
 ### 2026-10-11 (c) -- BOOK 2 OF 37: CAMPBELL-2020, read with the model's eyes
 
 ```

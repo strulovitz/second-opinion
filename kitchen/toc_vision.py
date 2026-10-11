@@ -57,6 +57,12 @@ COLS = 3
 LOCATE_DPI = 100
 READ_DPI = 150
 RETRY_DPI = 220     # a page that yields almost nothing is read again at this
+# MEASURED 2026-10-11 on CAMPBELL-2020: one page dropped to 8 lines while its
+# neighbours gave 111, and a "fewer than 5 lines" test did not notice. Any
+# contents page thinner than this is read again at RETRY_DPI and the answer
+# with MORE lines wins; more lines means a fuller transcription of the same
+# printed page, so the retry cannot make the result worse.
+THIN_LINES = 20
 
 LOCATE_SYSTEM = """You are looking at a contact sheet: 6 scanned pages from a medical textbook, each thumbnail labelled with its page number.
 
@@ -84,8 +90,12 @@ WHAT COUNTS AS A CHAPTER -- read this rule twice, it decides most of the output:
 For every heading that names a Part, Unit, Section, Volume or Book AND has chapters under it, output:
 P<TAB>heading name<TAB>the heading of the level above it (or the same name)
 
+ALSO output a P line for a BOLD chapter heading that has numbered entries under it, whenever no higher grouping (Volume/Part/Section) is printed above it on that page. Many surgical and specialty books print no higher grouping at all and open each block with a bold title such as "Amputations of the Foot". Every one of those bold headings must be a P line, and it must be printed BEFORE the entries that belong to it. A heading with nothing under it is not a P line.
+
 For every CHAPTER entry -- its title together with the printed page number where the chapter starts -- output:
 C<TAB>chapter number as printed, or a single dash if there is none<TAB>the complete chapter title exactly as printed<TAB>the printed page number
+
+WHAT THE "ENTRIES" OF A BLOCK ARE, for books like a surgical atlas: when a bold heading is followed by numbered items such as "15.1", "15.2", "15.3" that all share the same first number, those items are the CONTENT OF THAT ONE CHAPTER, not separate chapters. Output the bold heading as P, and output each numbered item as a C line keeping its full printed number (15.1, 15.2, ...).
 
 Rules:
 - Copy titles word for word, including punctuation. If a title wraps to a second line, join it into one.
@@ -141,7 +151,7 @@ def sheet(files, first_page, outpath, cols=COLS):
 
 
 # ------------------------------------------------------------------ parsing
-def parse(answer, doc, province):
+def parse(answer, doc, province, image=None):
     """Fold one page's P/C lines into the document. Returns lines accepted."""
     cur, got = None, 0
     for raw in answer.splitlines():
@@ -167,11 +177,18 @@ def parse(answer, doc, province):
                 cur = {"name": f[1], "part_name": above, "chapters": []}
                 doc["provinces"].append(cur)
             got += 1
-        elif f[0] == "C" and len(f) >= 4:
-            num, title, tail = f[1], f[2], f[3]
+        elif f[0] == "C" and len(f) >= 3:
+            num, title = f[1], f[2]
+            # the page number is sometimes its own field and sometimes sits
+            # at the end of the title field. CAMPBELL-2020 printed it inside
+            # the title, and rejecting those lines silently threw away 1,300
+            # of the book's 1,686 entries.
+            tail = f[3] if len(f) > 3 else f[2]
             m = PAGE_FIELD.search(tail)
             if not title or not m or FRONT_WORDS.search(title):
                 continue
+            if len(f) <= 3:
+                title = title[:m.start()].strip().rstrip(",;:").strip()
             if cur is None:
                 # a contents page often STARTS in the middle of a unit,
                 # before its banner is printed. Those chapters belong to
@@ -184,11 +201,14 @@ def parse(answer, doc, province):
                     cur = {"name": province, "part_name": province,
                            "chapters": []}
                     doc["provinces"].append(cur)
-            cur["chapters"].append({
+            entry = {
                 "number": None if num in ("-", "", "—") else num,
                 "title": title,
                 "page_start": int(m.group(1)),
-            })
+            }
+            if image is not None:
+                entry["_image"] = image
+            cur["chapters"].append(entry)
             got += 1
     return got
 
@@ -262,7 +282,7 @@ def read_pages(bid, pdf, pages, visdir):
             got = 0
         else:
             got = parse(ans, doc, province)
-        if got < 5:
+        if got < THIN_LINES:
             try:
                 ans2, _ = read_page(pdf, p, RETRY_DPI, visdir)
                 doc["provinces"] = doc["provinces"][:before[0]]
@@ -278,7 +298,7 @@ def read_pages(bid, pdf, pages, visdir):
         raw.append(f"\n===== image {p} =====\n{ans}")
         if not ans.strip():
             empty.append(p)
-        if got < 5:
+        if got < THIN_LINES:
             weak.append((p, got))
         if got:
             province = doc["provinces"][-1]["name"]
@@ -287,6 +307,12 @@ def read_pages(bid, pdf, pages, visdir):
     (LOGS / f"{bid}-vis-toc.txt").write_text("\n".join(raw))
     (LOGS / f"{bid}-vis-toc.json").write_text(
         json.dumps(doc, indent=1, ensure_ascii=False))
+    # which IMAGE each entry came from, so a normalizer can distrust the
+    # pages the reader found nearly empty (they are usually body text that
+    # the locator swept in, not a contents page)
+    (LOGS / f"{bid}-vis-pages.json").write_text(
+        json.dumps({"thin": [p for p, _ in weak], "empty": empty,
+                    "empty_pages_all": empty}, indent=1))
     return doc, empty, weak
 
 
