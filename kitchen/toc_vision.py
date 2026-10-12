@@ -69,13 +69,35 @@ LOCATE_SYSTEM = """You are looking at a contact sheet: 6 scanned pages from a me
 Tell me which of those page numbers belong to the TABLE OF CONTENTS -- the pages that list chapter, unit, part or section titles together with the printed page number where each one starts.
 
 Do NOT count: contributor lists, dedications, prefaces, reference lists, indexes, or ordinary body text.
+
+VERY IMPORTANT -- A contents page is not the only page that looks like one.
+Many textbooks print a SECOND contents page that lists something OTHER than
+chapters, and it has the same columns and the same chapter numbers:
+  * "VIDEO CONTENTS", "VIDEO ATLAS", "LIST OF VIDEOS", "SURGICAL VIDEOS"
+  * "PODCAST", "AUDIO", "EXPERT INSIGHTS", "INTERACTIVE", "CASE STUDIES"
+  * "ABBREVIATION LIST", "INDEX", "CONTRIBUTORS"
+If a page's heading says it lists videos, podcasts or anything other than
+the chapters themselves, it is NOT a contents page. Report it separately.
+
 If this window contains no contents page at all, answer PAGES=NONE.
 
-Answer with exactly two lines and nothing else:
+Answer with exactly these lines and nothing else:
 PAGES=<comma separated page numbers, in order, or NONE>
+OTHER=<comma separated page numbers of look-alike pages such as VIDEO CONTENTS or PODCAST, or NONE>
 NOTE=<one short sentence>"""
 
-READ_SYSTEM = """You are looking at ONE page of a medical textbook: its Table of Contents. Read what is printed on it, exactly as printed.
+READ_SYSTEM = """You are looking at ONE page of a medical textbook. Read what is printed on it, exactly as printed.
+
+FIRST, BEFORE YOU TRANSCRIBE ANYTHING, decide what KIND of page this is, and say so on the very first line:
+KIND=CHAPTERS   if it lists the book's chapters/parts/sections with the printed page where each one starts.
+KIND=OTHER      if it is a look-alike: "VIDEO CONTENTS", "VIDEO ATLAS", "LIST OF VIDEOS", "PODCAST", "AUDIO", "EXPERT INSIGHTS", "INTERACTIVE", "CASE INDEX", "ABBREVIATIONS", "INDEX", "CONTRIBUTORS", or any page that lists something other than the chapters themselves.
+KIND=OTHER      also if it is a part-divider page that lists chapter titles but prints NO page numbers at all.
+
+MEASURED 2026-10-12 on SABISTON-22: that book prints its real contents on 4 pages and then a "VIDEO CONTENTS" list in the SAME two-column layout with the SAME section numbers I to XI and the SAME chapter numbers. Reading the video list as if it were the contents produced fake chapters such as "Video 110.1 Pleural Effusion" and page numbers printed nowhere in the book. A video/podcast entry is NEVER a chapter.
+
+IF KIND=OTHER: output ONLY the KIND line and nothing else. Do not transcribe. Do not list any chapter. Do not invent page numbers.
+
+IF KIND=CHAPTERS, carry on exactly as follows:
 
 WORK THROUGH THE WHOLE PAGE. It is printed in columns. Read column by column, top to bottom, left column first, then the next column, and do not stop early. Every chapter on the page must appear in your answer, however many there are.
 
@@ -250,6 +272,12 @@ def locate(bid, pdf, start, windows, visdir, stop_early=False):
     return sorted(set(found)), notes
 
 
+def kind_of(answer):
+    """What KIND of page did the model say it was? CHAPTERS / OTHER / ?."""
+    m = re.search(r"KIND\s*=\s*(\w+)", answer or "")
+    return m.group(1).upper() if m else "?"
+
+
 def read_page(pdf, p, dpi, visdir):
     """One page, one call, alone. Returns (answer, lines)."""
     d = visdir / f"read-{p}"
@@ -257,6 +285,8 @@ def read_page(pdf, p, dpi, visdir):
     ans = ask(READ_SYSTEM, f"Image number {p}. Transcribe its contents.",
               images=files, max_tokens=6000, expect_json=False,
               retries=2, no_reasoning=True)
+    if kind_of(ans) == "OTHER":
+        return ans, 0
     probe = {"provinces": []}
     return ans, parse(ans, probe, "ALL")
 
@@ -270,13 +300,26 @@ def read_pages(bid, pdf, pages, visdir):
     15 returned 5 and 1 lines and chapters 2, 14 and 20 went missing).
     """
     doc = {"provinces": []}
-    raw, province, empty, weak = [], "ALL", [], []
+    raw, province, empty, weak, rejected = [], "ALL", [], [], []
     for n, p in enumerate(pages, 1):
         t = time.time()
         try:
             ans, _ = read_page(pdf, p, READ_DPI, visdir)
         except Exception as exc:  # noqa: BLE001 - recorded, never hidden
             print(f"    page {p} FAILED: {exc}", flush=True)
+            continue
+        # MEASURED 2026-10-12 on SABISTON-22 (found by the human, not by the
+        # model): a "VIDEO CONTENTS" page is printed in the same columns with
+        # the same section numbers as the real contents, so the locator named
+        # it and the reader turned "Video 110.1 Pleural Effusion" into a
+        # chapter. A page the model itself calls OTHER is now refused and
+        # listed, never silently dropped.
+        if kind_of(ans) == "OTHER":
+            rejected.append(p)
+            raw.append(f"\n===== image {p} =====\n{ans.strip()}")
+            print(f"    [{n}/{len(pages)}] image {p:4d} "
+                  f"{int(time.time()-t):3d}s REFUSED (look-alike page, "
+                  f"not the contents)", flush=True)
             continue
         before = len(doc["provinces"]), sum(
             len(x["chapters"]) for x in doc["provinces"])
@@ -288,6 +331,14 @@ def read_pages(bid, pdf, pages, visdir):
         if got < THIN_LINES:
             try:
                 ans2, _ = read_page(pdf, p, RETRY_DPI, visdir)
+                if kind_of(ans2) == "OTHER":
+                    doc["provinces"] = doc["provinces"][:before[0]]
+                    rejected.append(p)
+                    raw.append(f"\n===== image {p} =====\n{ans2.strip()}")
+                    print(f"    [{n}/{len(pages)}] image {p:4d} "
+                          f"{int(time.time()-t):3d}s REFUSED at {RETRY_DPI}dpi "
+                          f"(look-alike page)", flush=True)
+                    continue
                 doc["provinces"] = doc["provinces"][:before[0]]
                 got2 = parse(ans2, doc, province)
                 if got2 > got:
@@ -315,8 +366,8 @@ def read_pages(bid, pdf, pages, visdir):
     # the locator swept in, not a contents page)
     (LOGS / f"{bid}-vis-pages.json").write_text(
         json.dumps({"thin": [p for p, _ in weak], "empty": empty,
-                    "empty_pages_all": empty}, indent=1))
-    return doc, empty, weak
+                    "refused_lookalike": rejected}, indent=1))
+    return doc, empty, weak, rejected
 
 
 def main():
@@ -349,16 +400,20 @@ def main():
         return 0
     print(f"  reading each one at {READ_DPI} dpi, one page per call ...",
           flush=True)
-    doc, empty, weak = read_pages(bid, pdf, pages, visdir)
+    doc, empty, weak, rejected = read_pages(bid, pdf, pages, visdir)
     n = sum(len(p["chapters"]) for p in doc["provinces"])
     print(f"  DONE {bid}: provinces={len(doc['provinces'])} chapters={n} "
           f"{len(empty)} pages empty", flush=True)
+    if rejected:
+        print(f"  LOOK-ALIKE PAGES REFUSED (videos/podcasts/index, not the "
+              f"contents): {rejected}", flush=True)
     if weak:
         print(f"  THIN PAGES (ask the human, do not guess): {weak}", flush=True)
     (LOGS / "vis_read_latest.json").write_text(json.dumps(
         {"book_id": bid, "pages": pages, "notes": notes,
          "provinces": len(doc["provinces"]), "chapters": n,
-         "empty_pages": empty, "thin_pages": weak}, indent=1,
+         "empty_pages": empty, "thin_pages": weak,
+         "refused_lookalike_pages": rejected}, indent=1,
         ensure_ascii=False))
     return 0
 

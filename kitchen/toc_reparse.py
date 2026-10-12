@@ -29,13 +29,22 @@ def main():
         doc = {"provinces": []}
         province = "ALL"
         pages = 0
+        skipped = []
         image_province = {}
         for block in src.read_text().split("===== image "):
             if not block.strip():
                 continue
             n = block.split(" ")[0].strip()
-            pages += 1
             body = block.split("=====\n", 1)[-1]
+            # MEASURED 2026-10-12 on SABISTON-22: pages the reader refused as
+            # look-alikes (VIDEO CONTENTS, a podcast list, a divider page with
+            # no page numbers) are recorded in the same transcript as a bare
+            # "KIND=OTHER" line. Re-parsing must skip them exactly as the
+            # reader did, or the videos come back as chapters.
+            if re.search(r"^\s*KIND\s*=\s*OTHER", body):
+                skipped.append(n)
+                continue
+            pages += 1
             before = len(doc["provinces"])
             if parse(body, doc, province, image=n):
                 province = doc["provinces"][-1]["name"]
@@ -51,7 +60,9 @@ def main():
         (LOGS / f"{bid}-vis-imageprov.json").write_text(
             json.dumps(image_province, indent=1))
         print(f"{bid}: {pages} pages -> provinces={len(doc['provinces'])} "
-              f"chapters={n}", flush=True)
+              f"chapters={n}"
+              + (f"  look-alike pages skipped: {skipped}" if skipped else ""),
+              flush=True)
         for p in doc["provinces"]:
             print(f"    {p['name'][:46]:48s} {len(p['chapters']):3d}", flush=True)
 

@@ -33,8 +33,9 @@ TITLE_SYSTEM = """You are looking at ONE page of a medical textbook's Table of C
 
 Ignore the chapter list. I only want the HEADINGS printed on this page as grey banners or boxed labels: things like "PART 12", "SECTION 3", "VOLUME II", "UNIT IV", or a department name printed on its own line as a heading.
 
+MEASURED 2026-10-12 on ROBBINS-10: this book's contents prints NO banner at all -- the chapters are one flat numbered list under a plain "Contents" title. Answering honestly is correct there, but a book whose chapters are grouped only by the subject line above them ("Diseases of the Immune System", "Neoplasia") still has no banner. Do not invent a heading that is not printed.
 
-For each one, copy it EXACTLY as printed, character for character, including its number and its full title.
+If the page has no printed banner, answer NONE.
 
 Answer with one line per heading and nothing else:
 H<TAB>the exact heading text
@@ -62,6 +63,21 @@ def main():
     path = LOGS / f"{bid}-vis-toc.txt"
     pages = sorted({int(b.split(" ")[0]) for b in
                     path.read_text().split("===== image ")[1:] if b.strip()})
+    # MEASURED 2026-10-12 on SABISTON-22: the transcript also records the pages
+    # the reader REFUSED as look-alikes (VIDEO CONTENTS, a podcast list, a
+    # divider page), and every image there has an "===== image N =====" header.
+    # Asking for their headings put "SECTION X" and "SECTION I" into the file and
+    # rebuilt the book with 187 chapters instead of 92, the refused pages'
+    # chapters landing under a catch-all province. A refused page has no heading.
+    refused = set()
+    rf = LOGS / f"{bid}-vis-pages.json"
+    if rf.exists():
+        refused = {int(x) for x in json.loads(rf.read_text())
+                   .get("refused_lookalike") or []}
+    if refused:
+        pages = [p for p in pages if p not in refused]
+        print(f"{bid}: skipping {len(refused)} refused look-alike image(s): "
+              f"{sorted(refused)}", flush=True)
     namesfile = LOGS / f"{bid}-vis-headingnames.json"
     if namesfile.exists() and "--reuse" in argv:
         names = json.loads(namesfile.read_text())
