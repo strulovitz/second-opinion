@@ -198,6 +198,38 @@ Same place as Qwen: Ollama on 127.0.0.1:11434. Add a `--model` switch to
 `reader.py`, run the same books through it, and diff the two outputs chapter
 by chapter.
 
+## 7a-bis. THE JOB THAT WAS INTERRUPTED BY THE SHUTDOWN (Nir's note, 12 Oct)
+
+A second queue was running when the laptop was being closed:
+
+```bash
+python kitchen/build_queue.py BRANT-5 BRADDOM-6 BRENNER-11 DEVITA-12 \
+       FIRESTEIN-12 GRAY-2020
+```
+
+**FIRESTEIN-12 DID FINISH** before the shutdown, clean
+(`>>> FIRESTEIN-12 finished in 566s, clean=True`), so it must be re-checked
+with `python kitchen/toc_validate.py FIRESTEIN-12 --vis` and counted in, not
+rebuilt.
+
+**GRAY-2020 DID NOT FINISH.** It was stopped while still inside
+`toc_vision.py`, before any `-vis-toc.json` was written, so there is no
+half-written file to clean up -- `kitchen/logs/GRAY-2020-vis-toc.json` does
+not exist. Only the old text-layer `GRAY-2020-toc.txt/.json` from 11 Oct are
+on disk. **GRAY-2020 therefore has to be built again from the start next
+time**, with:
+
+```bash
+python kitchen/build_book.py GRAY-2020
+```
+
+The general lesson, now a standing rule: **a detached job killed by a
+shutdown leaves no verdict, so always check `kitchen/logs/build_queue_verdicts.json`
+and the `>>>` lines in the queue log before assuming a book is done.** A book
+with no verdict line was not finished; re-run it. The scripts are written so
+that re-running is always safe and never doubles anything
+(`toc_reparse.py` always rebuilds from the transcript first).
+
 ## 8. MEASURED COST PER BOOK (so the day can be planned)
 
 * locate: ~2 s per contact sheet of 6 pages, 20 windows = ~40 s

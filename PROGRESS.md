@@ -295,6 +295,19 @@ unattended, reporting a verdict per book. Measured cost: **4 to 15 minutes a
 book, 8 books in about 50 minutes.** The human still wants progress reports
 while it runs, and gets them.
 
+**ONE BOOK WAS INTERRUPTED BY THE LAPTOP BEING CLOSED (12 Oct, Nir's
+note).** A second queue was running: BRANT-5, BRADDOM-6, BRENNER-11,
+DEVITA-12, FIRESTEIN-12, GRAY-2020. **FIRESTEIN-12 finished before the
+shutdown and is clean** (566s) -- validate it and count it in, do not rebuild
+it. **GRAY-2020 did not finish**: it was stopped inside `toc_vision.py`
+before any JSON was written, so there is no half-written file to clean up
+and it must simply be built again with `python kitchen/build_book.py
+GRAY-2020`. STANDING RULE: a detached job killed by a shutdown leaves no
+verdict, so a book with no `>>>` line in the queue log and no entry in
+kitchen/logs/build_queue_verdicts.json was NOT finished -- re-run it.
+Re-running is always safe because toc_reparse.py rebuilds from the
+transcript before every apply.
+
 **VERIFIED CLEAN, NO ACTION NEEDED:** all six books finished before today
 were re-validated after the script changes and are unchanged; a scan of every
 recorded page of the four earlier books for "video / podcast / online only /
