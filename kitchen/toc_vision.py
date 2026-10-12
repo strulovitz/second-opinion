@@ -97,6 +97,8 @@ MEASURED 2026-10-12 on SABISTON-22: that book prints its real contents on 4 page
 
 IF KIND=OTHER: output ONLY the KIND line and nothing else. Do not transcribe. Do not list any chapter. Do not invent page numbers.
 
+IF KIND=CHAPTERS BUT THE PAGE PRINTS NO PAGE NUMBERS: that is still the real Table of Contents -- many books print a chapter list with the page number in a separate right-hand column or not at all. Transcribe the chapters and leave the page field EMPTY. Write the marker NOPAGES on its own line after the KIND line. Never fill the page column with the chapter number, and never refuse the page.
+
 IF KIND=CHAPTERS, carry on exactly as follows:
 
 WORK THROUGH THE WHOLE PAGE. It is printed in columns. Read column by column, top to bottom, left column first, then the next column, and do not stop early. Every chapter on the page must appear in your answer, however many there are.
@@ -314,6 +316,26 @@ def read_pages(bid, pdf, pages, visdir):
         # it and the reader turned "Video 110.1 Pleural Effusion" into a
         # chapter. A page the model itself calls OTHER is now refused and
         # listed, never silently dropped.
+        #
+        # MEASURED 2026-10-12 on BRANT-5 (checked with my own eyes): six of
+        # the eight contents pages were refused with the same KIND=OTHER,
+        # because that book prints NO page numbers in its contents at all.
+        # Refusing a real contents page loses the whole book, so a refusal
+        # is now re-asked once, showing the model the page again and asking
+        # it to name what the page really is. The second answer wins unless
+        # it refuses again -- and a page refused TWICE is reported, never
+        # silently dropped.
+        if kind_of(ans) == "OTHER":
+            ans = ask(READ_SYSTEM,
+                      f"Image number {p}. You answered KIND=OTHER. Look again. "
+                      f"Is this the book's own list of CHAPTERS (even if it "
+                      f"prints no page numbers), or is it a list of videos, "
+                      f"podcasts, contributors or an index? Answer KIND=CHAPTERS "
+                      f"if it is the chapter list.",
+                      images=render(pdf, visdir / f"recheck-{p}", p, p,
+                                    READ_DPI),
+                      max_tokens=6000, expect_json=False, retries=2,
+                      no_reasoning=True)
         if kind_of(ans) == "OTHER":
             rejected.append(p)
             raw.append(f"\n===== image {p} =====\n{ans.strip()}")

@@ -30,18 +30,21 @@ any chapter number.** Of the 22 "finished" books, 8 had silently lost part
 or all of their contents, and 2 carried page numbers that are printed
 nowhere in the book.
 
-The immediate next step is to re-read the Table of Contents of the books
-the validator flags, using the widened page ranges now stored in
-kitchen/books.json, and then to ask the human the 15 book questions one at
-a time. Nothing is loaded into Neo4j until the validator is happy.
+**SUPERSEDED 2026-10-12.** That figure is now irrelevant: those 22 books were
+read by the text layer and the vision re-read has replaced them one by one.
+**14 books are read with the model's eyes and pass the validator** (see the
+DONE entry for today). The immediate next step is the ordered list in
+section 7 of `HANDOFF-2026-10-12-evening.md`, beginning with BRANT-5, and
+the work is run as:
 
-For reference, the 37 books: extract the Table of Contents text of each
-accepted book into kitchen/logs/<BOOK_ID>-toc.txt, then run the free local
-READER (qwen3.8:27b via Ollama) with prompt P-A2 to convert each TOC into
-provinces+chapters JSON, validate it with kitchen/toc_validate.py, and
-detect page_offset (section 4.6). The books with no located TOC and the 2
-with image-only front matter (BRAUNWALD-12, YOUMANS-4) need the vision
-fallback of section 4.1 first.
+```bash
+cd ~/second-opinion && source .venv/bin/activate
+python kitchen/build_book.py <BOOK_ID>     # one whole book, unattended
+python kitchen/build_queue.py --limit 8    # a queue of books, unattended
+```
+
+Nothing is loaded into Neo4j until the validator is happy, which is
+deliberate.
 
 ## QUESTIONS FOR HUMAN
 
@@ -236,6 +239,87 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-12, 17:30 -- END OF SESSION. See HANDOFF-2026-10-12-evening.md
+
+Eight more books were read with the model's eyes and pass the validator, so
+the library now has **14 books read and verified** (HARRISON-22 505,
+BOLOGNIA-2024 161, DEVITA-12 107, SLEISENGER-11 132, BRAUNWALD-12 102,
+SABISTON-22 92, BENZON-2023 86, GUYTON-2026 85, CAMPBELL-2020 82,
+AVERY-2021 61, ADAMS-12 49, ROBBINS-10 29, plus the four re-verified).
+
+**BRAUNWALD-12 was on the hard list** -- its contents prints no text layer at
+all -- and the vision path read it with no difficulty: 11 sections, 102
+chapters, validator clean.
+
+**THE FAULT THE HUMAN FOUND (this is the important one).** SABISTON-22
+prints its real contents on images 35-38 and then a **VIDEO CONTENTS** list
+in the same two-column layout, with the same section numbers I to XI and the
+same chapter numbers. Nir opened the pages and saw it. The reader had turned
+"Video 110.1 Pleural Effusion" into a chapter with a page number printed
+nowhere in the book -- precisely the invented-page fault BIBLE part 3
+section 4.4 exists to catch. **The reader now declares `KIND=CHAPTERS` or
+`KIND=OTHER` before transcribing anything, and an OTHER page is refused and
+reported, never used.** The same guard was added to `toc_reparse.py` (which
+otherwise brought the video chapters back) and to `toc_headings.py` (which
+had rebuilt the book with 187 chapters instead of 92 by reading banners off
+the refused pages).
+
+**AND THE FAULT THAT GUARD CAUSED, found only by looking with my own eyes.**
+BRANT-5 prints a contents with **no page numbers anywhere**, and six of its
+eight contents pages were refused with `KIND=OTHER`. Refusing a real contents
+page loses the whole book. A refused page is now shown to the model a second
+time -- "is this the chapter list, even if it prints no page numbers?" -- and
+only a second refusal is honoured.
+
+**THREE MORE FAULTS, ALL FIXED:**
+  * The gap repair invented a page for an "(online only)" chapter, producing
+    chapter 50 with page_start 50 -- the chapter number copied into the page
+    column. `toc_strip_online_only.py` now removes such entries from the
+    geography and records them in `kitchen/logs/<BOOK_ID>-online-only.json`,
+    so they are never silently lost. They get their page in Part 4.
+  * A two-column contents read right-column-first filed chapters 68-72 of
+    SABISTON-22 (printed pages 819-906, belonging to SECTION V which starts
+    at page 721) under SECTION IX which starts at page 1579.
+    `toc_fix_misfiled.py` moves such a trailing run to the section whose own
+    printed banner page claims it.
+  * Re-running `toc_apply_headings.py` on an already-built JSON double-counts
+    (187 chapters for a 92-chapter book). `build_book.py` always runs the
+    full chain in order.
+
+**THE HUMAN'S ORDER, NOW BUILT INTO THE TOOLS:** "do not stop and ask in the
+middle of a book ... this burns our whole day on you waiting". So
+`kitchen/build_book.py` takes one book from PDF to a verified verdict in a
+single command, and `kitchen/build_queue.py` runs book after book
+unattended, reporting a verdict per book. Measured cost: **4 to 15 minutes a
+book, 8 books in about 50 minutes.** The human still wants progress reports
+while it runs, and gets them.
+
+**VERIFIED CLEAN, NO ACTION NEEDED:** all six books finished before today
+were re-validated after the script changes and are unchanged; a scan of every
+recorded page of the four earlier books for "video / podcast / online only /
+index / contributors" found no contamination (the three Campbell hits are
+real chapter titles, "Video-Assisted Thoracic Surgery"); the invented-page
+signature (page_start == chapter number) was checked on every book and the
+only hits are chapter 1 on page 1, which is true. GUYTON-2026's lost heading
+file was regenerated and it is back to 15 units / 85 chapters.
+
+**STILL OPEN, IN ORDER (section 7 of the handoff has the detail):**
+  1. **BRANT-5** -- the guard fix stopped the refusals, but the model now
+     returns only section banners and zero chapters. The read prompt still
+     says to leave out an entry whose page number cannot be seen, and this
+     book's contents prints none. Fix in this order: add a `NOPAGES` marker
+     to the prompt, then a prompt asking for `C<TAB>number<TAB>title` with no
+     page field at all, then `toc_openers.py`. Never invent a page.
+  2. **BRADDOM-6 and BRENNER-11** -- no contents located in the first 120
+     images. Try `--windows 40`, then `toc_openers.py`. Do not ask Nir to
+     open these by hand yet; the openers path is untried on both.
+  3. The books the validator flagged on 11 Oct, still unread with the model's
+     eyes, including the two with invented page numbers (ROCKWOOD-10,
+     WILLIAMS-OBSTETRICS-26), plus every book never attempted.
+  4. `page_offset` detection (BIBLE part 3 section 4.6) -- not started, and
+     every citation depends on it. Then seating, the raster, the registry,
+     load and verify, and the Freeze.
 
 ### 2026-10-11, 21:30 -- END OF SESSION. See HANDOFF-2026-10-11-evening.md
 
