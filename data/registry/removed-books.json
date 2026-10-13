@@ -37,11 +37,19 @@
    "bytes": 25329580,
    "sha256": "247dcf2edfc363c1...",
    "reason": "LAW 6 (one book per field): Marino's The ICU Book lost to IRWIN-RIPPE-2023, seven times larger. NOT a duplicate -- this content existed only in this file and would have to be downloaded again if ever wanted."
+  },
+  {
+   "book_id": "BRADDOM-6",
+   "pdf_file": "Braddom's Physical Medicine and Rehabilitation, Sixth -- David X_ Cifu MD -- 6th, 2021 -- Elsevier - Health Sciences Division -- isbn13 9780323625395 -- 9a38b308028cb4a1a4df42fe164c42ea -- Anna’s Archive.pdf",
+   "bytes": 107932181,
+   "sha256": "ca104d3f8f7ccbd913fac16c29015a7838fbe627302732c8d4958a93f02eb2c9",
+   "reason": "HUMAN'S DECISION 2026-10-13: the book prints NO table of contents at all (the human opened it and confirmed this himself), so no chapter can be read from it and it cannot be used. Its subject (Physical Medicine and Rehabilitation) is taken over by DELISA-6, DeLisa's Physical Medicine and Rehabilitation 6th edition 2019, which the human downloaded the same day and which does print a list of chapters. Deleted from kitchen/books/ so the library is never confused. NOT a duplicate and NOT a copy of DELISA-6: it was a separate, perfectly good book that simply could not be read."
   }
  ],
  "kept_in_those_fields": {
   "general surgery": "SABISTON-22 (kept over BAILEY-2023)",
   "intensive care": "IRWIN-RIPPE-2023 (kept over MARINO-2025)",
   "neurology / neurosurgery": "BOTH ADAMS-12 and YOUMANS-4 kept: neurology (medicine) and neurosurgery (surgery) are different fields"
- }
+ },
+ "library_note_2026_10_13": "38 books after DELISA-6 was added on 2026-10-13; BRADDOM-6 was removed the same day by the human's decision, so the library is 37 books again: 37 = the 37 of 2026-10-10, plus DeLisa, minus Braddom."
 }

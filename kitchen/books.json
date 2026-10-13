@@ -149,27 +149,6 @@
   ]
  },
  {
-  "book_id": "BRADDOM-6",
-  "pdf_file": "Braddom's Physical Medicine and Rehabilitation, Sixth -- David X_ Cifu MD -- 6th, 2021 -- Elsevier - Health Sciences Division -- isbn13 9780323625395 -- 9a38b308028cb4a1a4df42fe164c42ea -- Anna’s Archive.pdf",
-  "title": "Braddom's Physical Medicine and Rehabilitation",
-  "edition": "6",
-  "year": 2021,
-  "page_count_images": 1387,
-  "text_layer": true,
-  "image_dir": "kitchen/pages/BRADDOM-6",
-  "image_name_pattern": "page-{n:04d}.png",
-  "toc_images": null,
-  "index_images": [
-   1332,
-   1372
-  ],
-  "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
-  "notes": ""
- },
- {
   "book_id": "BRANT-5",
   "pdf_file": "BRANT AND HELMS' FUNDAMENTALS OF DIAGNOSTIC RADIOLOGY FIFTH -- Jeffrey Klein MD FACR, Emily N_ Vinson MD, William E_ Brant -- 5, 2018 -- LWW -- isbn13 9781496367389 -- def4a878296b84f90196d0c516f46035 -- Anna’s Archive.pdf",
   "title": "Brant and Helms' Fundamentals of Diagnostic Radiology",
@@ -1206,5 +1185,23 @@
     81
    ]
   ]
+ },
+ {
+  "book_id": "DELISA-6",
+  "pdf_file": "DELISA'S PHYSICAL MEDICINE AND REHABILITATION PRINCIPLES AND -- Prof_ Walter R_ Frontera MD PhD, Joel A_ DeLisa MD MS, -- 6, 2019-07-17 -- Wolters -- isbn13 9781496374967 -- 7d60e5ce60fc9dcd794dd4012acb733e -- Anna’s Archive.pdf",
+  "title": "DeLisa's Physical Medicine and Rehabilitation: Principles and Practice",
+  "edition": "6",
+  "year": 2019,
+  "page_count_images": 3742,
+  "text_layer": true,
+  "image_dir": "kitchen/pages/DELISA-6",
+  "image_name_pattern": "page-{n:04d}.png",
+  "toc_images": [],
+  "index_images": [],
+  "page_offset": null,
+  "field_name": "physical-medicine-and-rehabilitation",
+  "cluster": "",
+  "status": "candidate",
+  "notes": "downloaded by the human on 2026-10-13 to replace BRADDOM-6, which prints no table of contents at all"
  }
 ]
