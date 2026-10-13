@@ -59,11 +59,32 @@ def main():
         print(__doc__)
         return 1
     bid = argv[0]
-    extra = [a for a in argv[1:] if a.startswith("--")]
+    # MEASURED 2026-10-13: keeping only the "--word" arguments silently threw
+    # the VALUE away, so "--windows 40" reached toc_vision.py as "--windows"
+    # and the book was read with the default 20 windows. An option and its
+    # value are now passed through together.
+    extra = argv[1:]
     print(f"=== BUILDING {bid} ===", flush=True)
 
     # 1. locate + read with the model's eyes (the only stage that costs time)
-    run("toc_vision.py", [bid] + extra)
+    # --no-read rebuilds the book from the transcription ALREADY on disk, so a
+    # parser fix or a validator fix costs no model time at all.
+    if "--no-read" not in extra:
+        run("toc_vision.py", [bid] + [a for a in extra if a != "--no-read"])
+    else:
+        print("  (--no-read: rebuilding from the saved transcription, no "
+              "model call)", flush=True)
+
+    # MEASURED 2026-10-13 on BRADDOM-6 and BRENNER-11: when the reader names
+    # no contents page, toc_vision.py writes no JSON and the six bookkeeping
+    # steps behind it then fail one after another with FileNotFoundError,
+    # which looks like a crash rather than "this book has no contents page
+    # yet". Stop here and say so plainly.
+    if not (LOGS / f"{bid}-vis-toc.json").exists():
+        print("=== VERDICT ===", flush=True)
+        print("  NO CONTENTS PAGE WAS FOUND -- nothing was read, nothing was "
+              "invented. Next: a wider --windows, then toc_openers.py.", flush=True)
+        return 1
 
     pages = LOGS / f"{bid}-vis-pages.json"
     refused = json.loads(pages.read_text()).get("refused_lookalike") \
@@ -100,6 +121,13 @@ def main():
         run("toc_dedupe.py", [bid, "--vis"], must=False)
         run("toc_sort_pages.py", [bid], must=False)
         run("toc_fix_misfiled.py", [bid], must=False)
+
+    # 4b. the provinces are always rebuilt LAST.
+    # MEASURED 2026-10-13 on BRANT-5: the step before this one starts again
+    # from the transcript and therefore throws the provinces away, so with
+    # --no-gaps the book ended flat with 1 province and 83 chapters. The
+    # headings are the last thing that decides the geography.
+    if (LOGS / f"{bid}-vis-headings.json").exists():
         run("toc_apply_headings.py", [bid], must=False)
 
     # 5. the honest check
@@ -111,21 +139,48 @@ def main():
         print("  NO JSON PRODUCED", flush=True)
         return 1
     provs, ch = got
+    lettered = [c["number"] for c in ch
+                if c.get("number") and not str(c["number"]).isdigit()]
     nums = sorted(int(c["number"]) for c in ch if str(c.get("number")).isdigit())
     gaps = [n for n in range(1, (max(nums) if nums else 0) + 1)
             if n not in set(nums)]
     pages_seen = [c.get("page_start") for c in ch if c.get("page_start")]
+    nopage = len(ch) - len(pages_seen)
+    # MEASURED 2026-10-13: BRANT-5 was reported "validator: CLEAN" with 0
+    # chapters, because the verdict string was searched inside the validator's
+    # output instead of being read from the result. An empty book is never
+    # clean: 0 chapters is a FAILED build, and a book with no printed pages
+    # is reported as such rather than counted as read.
+    val_ok = f"RESULT {bid} ok" in out
+    clean = bool(val_ok and ch)
     print(f"  provinces={provs} chapters={len(ch)}", flush=True)
-    print(f"  numbered {min(nums) if nums else '-'}..{max(nums) if nums else '-'} "
-          f"unique={len(set(nums))} missing_in_range={len(gaps)}", flush=True)
-    if gaps:
+    if gaps and not lettered:
+        print(f"  numbered {min(nums)}..{max(nums)} unique={len(set(nums))} "
+              f"missing_in_range={len(gaps)}", flush=True)
         print(f"  first missing numbers: {gaps[:20]}", flush=True)
+    elif lettered:
+        # MEASURED 2026-10-13 on BRANT-5: the book itself prints "32A", "36B",
+        # "71A", so those numbers are simply not printed bare and a missing
+        # number is not a missing chapter.
+        print(f"  numbered {min(nums) if nums else '-'}.."
+              f"{max(nums) if nums else '-'} unique={len(set(nums))}; "
+              f"{len(lettered)} lettered chapter number(s) as the book prints "
+              f"them: {' '.join(str(x) for x in lettered[:8])}", flush=True)
+    else:
+        print(f"  numbered {min(nums) if nums else '-'}.."
+              f"{max(nums) if nums else '-'} unique={len(set(nums))} "
+              f"missing_in_range=0", flush=True)
     print(f"  printed pages {min(pages_seen) if pages_seen else '-'}.."
-          f"{max(pages_seen) if pages_seen else '-'}", flush=True)
-    print(f"  validator: {'CLEAN' if ' clean' in out else 'WARNED'}", flush=True)
+          f"{max(pages_seen) if pages_seen else '-'}"
+          + (f" ({nopage} chapter(s) print no page at all)" if nopage else ""),
+          flush=True)
+    if not ch:
+        print("  validator: FAILED -- 0 chapters, this book is EMPTY", flush=True)
+    else:
+        print(f"  validator: {'CLEAN' if val_ok else 'WARNED'}", flush=True)
     if refused:
         print(f"  REFUSED look-alike pages: {refused}", flush=True)
-    return 0
+    return 0 if clean else 1
 
 
 if __name__ == "__main__":

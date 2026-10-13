@@ -68,19 +68,75 @@ def main():
             doc["provinces"] = [p for p in doc["provinces"] if p["chapters"]]
             jf.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
 
+        # 3. entries the reader transcribed with an EMPTY page field.
+        # MEASURED 2026-10-13 on FIRESTEIN-12: a book whose contents prints
+        # pages everywhere, but where the gap repair answered "6 Biomechanics"
+        # with no page at all. Such an entry cannot be placed on the map and
+        # cannot be cited (Law 2 wants a printed page), so it is recorded here
+        # and kept out of the geography, exactly like an "(online only)" one.
+        # A book that prints NO page anywhere (BRANT-5, checked by eye) is a
+        # different case: there every chapter has no page, none of them is an
+        # anomaly, and the validator reports the book as printing no pages.
+        jf = LOGS / f"{bid}-vis-toc.json"
+        nopage = []
+        if jf.exists():
+            doc = json.loads(jf.read_text())
+            flat = [c for p in doc["provinces"] for c in p["chapters"]]
+            withpage = [c for c in flat if c.get("page_start") is not None]
+            if withpage and len(withpage) < len(flat):
+                for prov in doc["provinces"]:
+                    keep = []
+                    for c in prov["chapters"]:
+                        if c.get("page_start") is None:
+                            nopage.append({"province": prov["name"], **c})
+                        else:
+                            keep.append(c)
+                    prov["chapters"] = keep
+                doc["provinces"] = [p for p in doc["provinces"]
+                                    if p["chapters"]]
+                jf.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
+                # the same lines are removed from the saved transcription, so
+                # the text on disk and the JSON always tell the same story
+                gone = {c["title"] for c in nopage}
+                if src.exists():
+                    blocks, out_lines = [], []
+                    for block in src.read_text().split("===== image "):
+                        if not block.strip():
+                            continue
+                        img = block.split(" ")[0].strip()
+                        head, _, body = block.partition("=====\n")
+                        keep = []
+                        for line in body.splitlines():
+                            f = line.split("\t")
+                            if (f and f[0] == "C" and len(f) >= 3
+                                    and f[2].strip() in gone
+                                    and not re.search(r"\d",
+                                                       "\t".join(f[3:]))):
+                                out_lines.append({"image": img, "line": line})
+                                continue
+                            keep.append(line)
+                        blocks.append(f"\n===== image {img} =====\n"
+                                      + "\n".join(keep))
+                    src.write_text("\n".join(blocks))
+                    stripped += out_lines
+
         out = LOGS / f"{bid}-online-only.json"
+        prev = json.loads(out.read_text()) if out.exists() else {}
         out.write_text(json.dumps(
             {"note": "chapters the contents prints without a printed page; "
                      "they carry no page until Part 4 opens the eBook",
-             "count": len(removed),
+             "count": len(removed) + len(nopage),
              "chapters": removed,
-             "transcript_lines_stripped": stripped},
+             "transcript_lines_stripped": stripped,
+             "printed_without_any_page": nopage,
+             "online_only_count": prev.get("online_only_count", len(removed))},
             indent=1, ensure_ascii=False))
         n = sum(len(p["chapters"]) for p in
                 json.loads(jf.read_text())["provinces"]) if jf.exists() else 0
-        print(f"{bid}: removed {len(removed)} online-only chapter(s) from the "
-              f"geography, {len(stripped)} transcript line(s) stripped; "
-              f"{n} chapters remain -- recorded in {out.name}", flush=True)
+        print(f"{bid}: removed {len(removed)} online-only and {len(nopage)} "
+              f"page-less chapter(s) from the geography, {len(stripped)} "
+              f"transcript line(s) stripped; {n} chapters remain -- recorded "
+              f"in {out.name}", flush=True)
 
 
 if __name__ == "__main__":

@@ -240,6 +240,85 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-13, 12:00 -- BRANT-5 RECOVERED (83 chapters), TWO FALSE "CLEAN" VERDICTS KILLED, QUEUE OF 23 BOOKS LAUNCHED
+
+**1. BRANT-5 was never a broken book -- our parser threw it away.**
+Yesterday's handoff left BRANT-5 as "17 provinces and 0 chapters". The
+transcript on disk held **84 chapter lines, all correct**. I opened the
+rendered page myself (`kitchen/pages/BRANT-5/vis/read-36/p-0036.png`) and
+confirmed what the reader had said: BRANT-5 prints a real contents with
+**NO page numbers anywhere** ("9 Spine Imaging", "SECTION III / CHEST",
+"10 Methods of Examination..."). Two faults followed from that:
+
+  * `toc_vision.parse()` demanded a page number and threw away every entry
+    without one. It now keeps the entry with `page_start = null`. A page that
+    is not printed is never invented (Law 2); an entry that IS printed is
+    never dropped either. The read prompt no longer contradicts itself (it
+    said "leave that entry out" while the NOPAGES rule said keep it).
+  * **The build still said `validator: CLEAN` with 0 chapters.** The verdict
+    searched the word " clean" inside the validator's own output and found it
+    in the summary line `0/1 clean`. `toc_validate.py` now prints one
+    machine-readable `RESULT <BOOK_ID> ok|warn ...` line per book,
+    `build_book.py` reads that line, and **0 chapters is a FAILED build**.
+    `build_queue.py` also records the chapter count in the ledger, because
+    "clean=True" alone cannot tell an empty book from a full one.
+
+  BRANT-5 is now **12 sections / 83 chapters**, and the section sizes match the
+  book's own banner layout exactly (I:1, II:8, III:8, IV:6, V:7, VI:12, VII:7,
+  VIII:3, IX:5, X:10, XI:6, XII:10 = 83). Its 83 chapters print **no page**,
+  which the validator reports as a warning and not as an invented number. The
+  pages will come from the book itself in Part 4. The book's own chapter
+  numbers include letters (32A, 36B, 71A, 72D), which is why "missing numbers"
+  32/36/37/71/72 are not missing chapters.
+
+**2. Two more faults found while rebuilding it, both general:**
+  * `toc_apply_headings.py` died with `int("32A")`. Chapter numbers with a
+    letter suffix are now read as their digits.
+  * SECTION XII prints no chapter under its banner (its chapters are on the
+    next contents page), so the model answered NONE. Deriving the number from
+    the remaining chapter list gave **66 and swallowed six paediatric
+    chapters**. The reader's own transcript says the banner is followed by
+    **71A**, so the transcript is now authoritative for that question and the
+    guess is not used.
+  * The provinces were being thrown away at the end of a `--no-gaps` build
+    (the last reparse starts again from the transcript, which is flat), so
+    the headings step now always runs LAST.
+
+**3. FIRESTEIN-12's one warning was a hallucination, and it is now caught by a
+general rule.** The validator reported `p574 -> p452 at 'Cytokines and
+Chemokines'`. The gap repair had answered "**28** Occupational Therapy,
+Physical Therapy, and Rehabilitation **574**" -- the exact title and page the
+contents already prints for **chapter 38**. Two chapters cannot start on the
+same printed page with the same title, so `toc_reparse.py` now refuses any
+entry that repeats another entry's (title, page) under a different number and
+writes it to `<BOOK_ID>-vis-copytitles.json`. Related: an entry the reader
+gives with an **empty** page field is now recorded in
+`<BOOK_ID>-online-only.json` and kept out of the geography when the book
+prints pages elsewhere (it was quietly entering the map as an unplaceable
+chapter). Result: **FIRESTEIN-12 = 2 volumes / 125 chapters / pages 1-2229 /
+validator ok**, with 5 chapters (2, 6, 28, 78, 79) **reported as still
+missing, not invented**.
+
+**4. `build_book.py` threw option values away.** It kept only the `--word`
+arguments, so `--windows 40` reached `toc_vision.py` as `--windows` and the
+book was read with the default 20 windows -- the documented next step for
+BRADDOM-6 and BRENNER-11 could not actually be taken. Values are passed
+through now, in `build_book.py` and in `build_queue.py` (which also takes
+`--windows` and `--start`). `build_book.py --no-read` rebuilds a book from
+the transcription already on disk for **zero model calls**, which is how
+BRANT-5 was recovered. A book with no contents page found now stops with one
+clear line instead of six FileNotFoundErrors.
+
+**5. A queue of the remaining 23 books is running unattended**
+(`kitchen/logs/queue3.log`, ledger `kitchen/logs/build_queue_verdicts.json`):
+the six books the validator flagged on 11 Oct (ROCKWOOD-10,
+WILLIAMS-OBSTETRICS-26, WILLIAMS-ENDO-2024, MIDDLETON-2019, KRAUSE-16,
+THOMPSON-2023), GRAY-2020 (interrupted by the shutdown), the 14 books never
+attempted, and last the two hard ones BRADDOM-6 and BRENNER-11.
+
+STATE: **15 books read with the model's eyes** (13 fully clean, BRANT-5 clean
+but with no printed pages), 1701+ chapters.
+
 ### 2026-10-12, 17:30 -- END OF SESSION. See HANDOFF-2026-10-12-evening.md
 
 Eight more books were read with the model's eyes and pass the validator, so

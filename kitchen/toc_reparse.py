@@ -20,6 +20,10 @@ KITCHEN = Path(__file__).resolve().parent
 LOGS = KITCHEN / "logs"
 
 
+def norm(t):
+    return re.sub(r"[^a-z0-9]+", " ", str(t).lower()).strip()
+
+
 def main():
     for bid in sys.argv[1:]:
         src = LOGS / f"{bid}-vis-toc.txt"
@@ -55,13 +59,63 @@ def main():
             image_province.setdefault(
                 n, len(doc["provinces"]) - 1 if doc["provinces"] else 0)
         n = sum(len(p["chapters"]) for p in doc["provinces"])
+        # MEASURED 2026-10-13 on FIRESTEIN-12, caught by the honest validator:
+        # the gap repair was asked for the chapters missing from the range and
+        # answered "28 Occupational Therapy, Physical Therapy, and
+        # Rehabilitation 574" -- the exact title and page the contents already
+        # prints for chapter 38. Two different chapters cannot start on the
+        # same printed page with the same title, so an entry that repeats a
+        # (title, page) pair already in the book under a different number is a
+        # mis-numbered copy of another entry, not a reading. It is refused
+        # here and written to <BOOK_ID>-vis-copytitles.json, so the number it
+        # claimed is reported as still missing instead of being invented.
+        pairs, copies = {}, []
+        for prov in doc["provinces"]:
+            keep = []
+            for c in prov["chapters"]:
+                key = (norm(c["title"]), c.get("page_start"))
+                if c.get("page_start") is not None and key in pairs \
+                        and str(pairs[key]) != str(c.get("number")):
+                    copies.append({"number": c.get("number"),
+                                   "title": c["title"],
+                                   "page_start": c.get("page_start"),
+                                   "same_title_and_page_as_chapter":
+                                       pairs[key]})
+                    continue
+                pairs.setdefault(key, c.get("number"))
+                keep.append(c)
+            prov["chapters"] = keep
+        if copies:
+            doc["provinces"] = [p for p in doc["provinces"] if p["chapters"]]
+            (LOGS / f"{bid}-vis-copytitles.json").write_text(
+                json.dumps({"refused_mis_numbered_copies": copies},
+                           indent=1, ensure_ascii=False))
         (LOGS / f"{bid}-vis-toc.json").write_text(
             json.dumps(doc, indent=1, ensure_ascii=False))
         (LOGS / f"{bid}-vis-imageprov.json").write_text(
             json.dumps(image_province, indent=1))
+        # MEASURED 2026-10-13 on BRANT-5: the book's own banner lines are the
+        # only place that says which printed chapter each section really
+        # starts on. The reader printed "SECTION XII NUCLEAR RADIOLOGY" as the
+        # LAST banner of the contents and its chapters on the next page, so
+        # asking the page for the first chapter under the banner answered
+        # NONE; deriving the number from the remaining chapter list instead
+        # gave 66 and swallowed six paediatric chapters. What is written here
+        # is the banner order and the first chapter printed under each banner,
+        # both read straight off the transcript.
+        (LOGS / f"{bid}-vis-rawprov.json").write_text(json.dumps(
+            [{"name": p["name"],
+              "first_number": (p["chapters"][0].get("number")
+                               if p["chapters"] else None),
+              "chapters": len(p["chapters"])} for p in doc["provinces"]],
+            indent=1, ensure_ascii=False))
         print(f"{bid}: {pages} pages -> provinces={len(doc['provinces'])} "
               f"chapters={n}"
-              + (f"  look-alike pages skipped: {skipped}" if skipped else ""),
+              + (f"  look-alike pages skipped: {skipped}" if skipped else "")
+              + (f"  REFUSED {len(copies)} mis-numbered copy/copies of "
+                 f"another chapter: "
+                 + ", ".join(f"{c['number']}={c['title'][:30]}"
+                             for c in copies[:5]) if copies else ""),
               flush=True)
         for p in doc["provinces"]:
             print(f"    {p['name'][:46]:48s} {len(p['chapters']):3d}", flush=True)

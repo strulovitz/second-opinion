@@ -38,11 +38,13 @@ def norm(text):
 def verify_pages(bid, chapters, sample=12, suffix="-toc"):
     """Does each chapter's page_start really appear after its own title in
     the raw TOC text? This is the only honest way to catch an INVENTED page
-    number, which is forbidden by Laws 1 and 2."""
+    number, which is forbidden by Laws 1 and 2. A chapter whose contents page
+    prints no page at all (page_start is None) has nothing to verify."""
     src = LOGS / f"{bid}{suffix}.txt"
     if not src.exists():
         return None
     text = norm(src.read_text())
+    chapters = [c for c in chapters if c.get("page_start") is not None]
     step = max(1, len(chapters) // sample)
     checked = found = 0
     for c in chapters[::step][:sample]:
@@ -73,11 +75,22 @@ def validate(bid, suffix="-toc"):
                 len(doc.get("provinces", [])), "ok": False,
                 "first_page": 0, "last_page": 0,
                 "median_chapter_length": 0,
-                "warnings": ["no chapters at all"]}, None
+                "warnings": ["no chapters at all -- a book with 0 chapters is "
+                             "NOT clean, it is empty, and must never be "
+                             "counted as read"]}, None
+
+    # MEASURED 2026-10-12 on BRANT-5: some books print a real contents with
+    # NO page numbers at all (checked by eye). Those chapters are kept with
+    # page_start = null -- a page is never invented (Law 2) -- and every page
+    # check below skips them, so a book without printed pages is reported as
+    # such instead of being silently accepted or silently emptied.
+    nopage = [c for c in chapters if c.get("page_start") is None]
 
     # 1. page_start never decreasing
     drops = []
     for a, b in zip(chapters, chapters[1:]):
+        if b["page_start"] is None or a["page_start"] is None:
+            continue
         if b["page_start"] < a["page_start"]:
             drops.append(f"p{a['page_start']} -> p{b['page_start']} "
                          f"at '{b['title'][:45]}'")
@@ -96,32 +109,48 @@ def validate(bid, suffix="-toc"):
             warns.append(f"only {found}/{checked} sampled page numbers are "
                          f"really printed next to their title -- the reader "
                          f"may have invented them")
-        if checked < 3 and len(chapters) >= 3:
+        if checked < 3 and len(chapters) >= 3 and not nopage:
             warns.append(f"only {checked} of {len(chapters)} titles were "
                          f"even found in the raw TOC text")
+    if nopage:
+        warns.append(f"{len(nopage)} of {len(chapters)} chapters print NO page "
+                     f"in the contents, so their page_start is null and their "
+                     f"page has to come from the book itself (Part 4); no "
+                     f"page was invented")
 
     # 3. page_end: next chapter's start minus one; last one = median length
     lengths = [b["page_start"] - a["page_start"]
                for a, b in zip(chapters, chapters[1:])
-               if b["page_start"] - a["page_start"] > 0]
+               if a["page_start"] is not None and b["page_start"] is not None
+               and b["page_start"] - a["page_start"] > 0]
     median_len = int(statistics.median(lengths)) if lengths else 10
     for cur, nxt in zip(chapters, chapters[1:]):
+        if cur["page_start"] is None or nxt["page_start"] is None:
+            cur["page_end"] = None
+            continue
         cur["page_end"] = max(cur["page_start"], nxt["page_start"] - 1)
-    chapters[-1]["page_end"] = chapters[-1]["page_start"] + median_len
+    chapters[-1]["page_end"] = (chapters[-1]["page_start"] + median_len
+                                if chapters[-1]["page_start"] is not None
+                                else None)
 
     # 4. province page_start / page_end = min / max of its chapters
     for prov in doc.get("provinces", []):
         chaps = prov.get("chapters", [])
+        chaps = [c for c in chaps if c.get("page_start") is not None]
         if not chaps:
+            prov["page_start"] = prov["page_end"] = None
             continue
         prov["page_start"] = min(c["page_start"] for c in chaps)
-        prov["page_end"] = max(c["page_end"] for c in chaps)
+        prov["page_end"] = max(c["page_end"] or c["page_start"] for c in chaps)
 
+    paged = [c for c in chapters if c["page_start"] is not None]
     res = {"book_id": bid,
            "provinces": len([p for p in doc.get("provinces", []) if p["chapters"]]),
            "chapters": len(chapters),
-           "first_page": chapters[0]["page_start"],
-           "last_page": chapters[-1]["page_end"],
+           "chapters_without_page": len(nopage),
+           "first_page": paged[0]["page_start"] if paged else None,
+           "last_page": (paged[-1]["page_end"] or paged[-1]["page_start"])
+                        if paged else None,
            "median_chapter_length": median_len,
            "ok": not warns,
            "warnings": warns}
@@ -152,11 +181,19 @@ def main():
         tot += res["chapters"]
         clean += res["ok"]
         mark = "ok " if res["ok"] else "WARN"
+        fp, lp = res["first_page"], res["last_page"]
+        rng = f"pages {fp}-{lp}" if fp is not None else "pages not printed"
         print(f"  {bid:26s} {mark} prov={res['provinces']:3d} "
-              f"chap={res['chapters']:4d} pages {res['first_page']}-"
-              f"{res['last_page']}", flush=True)
+              f"chap={res['chapters']:4d} {rng}", flush=True)
         for w in res["warnings"]:
             print(f"       - {w}", flush=True)
+        # MEASURED 2026-10-13: build_book.py searched the word " clean" in this
+        # script's output and found it in the summary line "0/1 clean", so a
+        # book with 0 chapters was recorded as CLEAN. A machine-readable line
+        # per book is printed now, and the summary is left for human eyes.
+        print(f"RESULT {bid} {'ok' if res['ok'] else 'warn'} "
+              f"chapters={res['chapters']} provinces={res['provinces']} "
+              f"without_page={res.get('chapters_without_page', 0)}", flush=True)
     print(f"\n{clean}/{len(ids)} clean, {tot} chapters total", flush=True)
 
 

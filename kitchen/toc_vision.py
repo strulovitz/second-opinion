@@ -90,8 +90,8 @@ READ_SYSTEM = """You are looking at ONE page of a medical textbook. Read what is
 
 FIRST, BEFORE YOU TRANSCRIBE ANYTHING, decide what KIND of page this is, and say so on the very first line:
 KIND=CHAPTERS   if it lists the book's chapters/parts/sections with the printed page where each one starts.
+KIND=CHAPTERS   ALSO if it is the book's own chapter list and it prints NO page numbers at all. MEASURED 2026-10-12 on BRANT-5, checked by eye: that book prints a real contents in this style ("9 Spine Imaging" with no page anywhere) and it is a real contents, so refusing it loses the whole book.
 KIND=OTHER      if it is a look-alike: "VIDEO CONTENTS", "VIDEO ATLAS", "LIST OF VIDEOS", "PODCAST", "AUDIO", "EXPERT INSIGHTS", "INTERACTIVE", "CASE INDEX", "ABBREVIATIONS", "INDEX", "CONTRIBUTORS", or any page that lists something other than the chapters themselves.
-KIND=OTHER      also if it is a part-divider page that lists chapter titles but prints NO page numbers at all.
 
 MEASURED 2026-10-12 on SABISTON-22: that book prints its real contents on 4 pages and then a "VIDEO CONTENTS" list in the SAME two-column layout with the SAME section numbers I to XI and the SAME chapter numbers. Reading the video list as if it were the contents produced fake chapters such as "Video 110.1 Pleural Effusion" and page numbers printed nowhere in the book. A video/podcast entry is NEVER a chapter.
 
@@ -124,8 +124,8 @@ WHAT THE "ENTRIES" OF A BLOCK ARE, for books like a surgical atlas: when a bold 
 Rules:
 - Copy titles word for word, including punctuation. If a title wraps to a second line, join it into one.
 - A TAB separates the fields.
-- The page number MUST be the one printed on the page. NEVER invent, guess or reuse a chapter number as a page number. If you cannot see a page number for an entry, leave that entry out.
-- Skip: author and editor names, contributor lists, front matter with roman numerals, and lines with no page number.
+- The page number MUST be the one printed on the page. NEVER invent, guess or reuse a chapter number as a page number. If the page printed the NOPAGES marker, leave the page field EMPTY for every entry -- never leave the entry out.
+- Skip: author and editor names, contributor lists, front matter with roman numerals, and lines that are not contents entries.
 - If this page holds no Table of Contents entries at all, output nothing at all.
 - No commentary, no markdown, no JSON, no explanation."""
 
@@ -209,10 +209,21 @@ def parse(answer, doc, province, image=None):
             # of the book's 1,686 entries.
             tail = f[3] if len(f) > 3 else f[2]
             m = PAGE_FIELD.search(tail)
-            if not title or not m or FRONT_WORDS.search(title):
+            if not title or FRONT_WORDS.search(title):
                 continue
-            if len(f) <= 3:
+            if m and len(f) <= 3:
                 title = title[:m.start()].strip().rstrip(",;:").strip()
+            # MEASURED 2026-10-12 on BRANT-5 (checked with my own eyes on the
+            # rendered page 36): that book prints a real contents with NO page
+            # numbers anywhere, and the reader correctly transcribed it with
+            # an EMPTY page field. The parser used to demand a page and threw
+            # all 84 chapters away, so the book came out with 17 provinces and
+            # 0 chapters -- and the validator then said CLEAN. A printed page
+            # that is not there must never be invented (Law 2), and an entry
+            # that is really printed must never be dropped either: it is kept
+            # with page_start = null and REPORTED as a chapter whose page is
+            # still unknown.
+            page = int(m.group(1)) if m else None
             if cur is None:
                 # a contents page often STARTS in the middle of a unit,
                 # before its banner is printed. Those chapters belong to
@@ -228,7 +239,7 @@ def parse(answer, doc, province, image=None):
             entry = {
                 "number": None if num in ("-", "", "—") else num,
                 "title": title,
-                "page_start": int(m.group(1)),
+                "page_start": page,
             }
             if image is not None:
                 entry["_image"] = image

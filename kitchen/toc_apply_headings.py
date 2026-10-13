@@ -39,6 +39,45 @@ def load(bid):
     return names, firsts
 
 
+def num(chapter):
+    """The chapter's own number as an integer.
+
+    MEASURED 2026-10-13 on BRANT-5: some books print chapter numbers with a
+    letter suffix ("32A", an appendix chapter), and int("32A") raised and
+    killed the whole build. The number is used only to decide which chapters
+    belong under which heading, so the digits are read and the rest ignored;
+    a number with no digits at all returns None and is never forced into a
+    range.
+    """
+    m = re.match(r"\s*(\d+)", str(chapter.get("number")))
+    return int(m.group(1)) if m else None
+
+
+def raw_first(bid, title):
+    """The first chapter number printed under this banner, read from the
+    reader's own transcript of the contents page.
+
+    MEASURED 2026-10-13 on BRANT-5: SECTION XII's banner is the last thing on
+    its contents page and its chapters are on the page after, so asking the
+    model "what is the first chapter under this banner?" answered NONE. The
+    transcript already says: the banner is followed by 71A. Guessing instead
+    gave 66 and swallowed six paediatric chapters, so the transcript is
+    authoritative and a guess is never used.
+    """
+    f = LOGS / f"{bid}-vis-rawprov.json"
+    if not f.exists():
+        return None
+    raw = json.loads(f.read_text())
+    pat = re.compile(r"^\s*" + re.escape(title.strip()) + r"\b", re.I)
+    for i, rp in enumerate(raw):
+        if pat.match(rp["name"]):
+            for rp2 in raw[i:]:
+                if rp2["first_number"] is not None:
+                    m = re.match(r"\s*(\d+)", str(rp2["first_number"]))
+                    return int(m.group(1)) if m else None
+    return None
+
+
 def main():
     bid = sys.argv[1]
     names, firsts = load(bid)
@@ -84,22 +123,56 @@ def main():
 
     doc = json.loads((LOGS / f"{bid}-vis-toc.json").read_text())
     chapters = [c for p in doc["provinces"] for c in p["chapters"]]
-    chapters.sort(key=lambda c: int(c["number"]) if str(c["number"]).isdigit()
-                  else 0)
+    chapters.sort(key=lambda c: num(c) or 0)
+    # MEASURED 2026-10-13 on BRANT-5: SECTION XII prints no chapter number
+    # below its banner on the page (the chapters are on the next page), and
+    # the arithmetic below then died on None. The sections of a book run in
+    # printed order over one numbered chapter list, so a section with no
+    # first chapter of its own takes the lowest chapter number not yet
+    # claimed by the section above it. That is the book's own numbering, not
+    # an invented page, and every such value is marked and printed so it can
+    # be checked by eye.
+    for i, t in enumerate(tops):
+        if t["first"] is not None or i == 0:
+            continue
+        floor = tops[i - 1]["first"]
+        rf = raw_first(bid, t["title"])
+        if rf is not None:
+            t["first"] = rf
+            t["first_from_transcript"] = True
+            print(f"    {t['title'][:50]}: no chapter printed under the banner "
+                  f"on that page; the transcript itself puts its first chapter "
+                  f"at {rf}", flush=True)
+            continue
+        rest = [num(c) for c in chapters if num(c) is not None
+                and (floor is None or num(c) > floor)]
+        if rest:
+            t["first"] = min(rest)
+            t["first_derived"] = True
+            print(f"    {t['title'][:50]}: no chapter printed under the "
+                  f"banner; first chapter taken as the next unclaimed one = "
+                  f"{t['first']} (derived from the book's own order)", flush=True)
+
     provinces = []
     for i, t in enumerate(tops):
-        end = (tops[i + 1]["first"] - 1) if i + 1 < len(tops) else None
+        nxt = next((o["first"] for o in tops[i + 1:]
+                    if o["first"] is not None), None)
+        end = (nxt - 1) if nxt is not None else None
         mine = [c for c in chapters
                 if t["first"] is not None
-                and int(c["number"]) >= t["first"]
-                and (end is None or int(c["number"]) <= end)]
+                and num(c) is not None
+                and num(c) >= t["first"]
+                and (end is None or num(c) <= end)]
         if not mine:
             continue
-        provinces.append({"name": t["title"], "part_name": t["title"],
-                          "chapters": mine})
+        prov = {"name": t["title"], "part_name": t["title"],
+                "chapters": mine}
+        if t.get("first_derived"):
+            prov["first_chapter_derived"] = True
+        provinces.append(prov)
     n = sum(len(p["chapters"]) for p in provinces)
-    covered = {int(c["number"]) for p in provinces for c in p["chapters"]}
-    left = [int(c["number"]) for c in chapters if int(c["number"]) not in covered]
+    covered = {num(c) for p in provinces for c in p["chapters"]}
+    left = [c["number"] for c in chapters if num(c) not in covered]
     (LOGS / f"{bid}-vis-toc.json").write_text(
         json.dumps({"provinces": provinces}, indent=1, ensure_ascii=False))
     print(f"{bid}: provinces={len(provinces)} chapters={n} "
