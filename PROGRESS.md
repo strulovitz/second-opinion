@@ -1192,3 +1192,59 @@ See the INSTALLS 2026-10-10 block above: `RETURN 1 AS ok` returned 1, and the da
 ### 2026-10-10 -- Environment inventory (Part 2 section 1) and the blocker
 
 The 42 textbooks were NOT on this laptop. The human copied them from the Windows PC and they now sit in kitchen/books/ (gitignored).
+
+## DONE 2026-10-14 (a) -- DELISA-6 read, and the "no printed pages" problem SOLVED
+
+**The human's idea (14 Oct):** the contents pages that print no page number
+still carry HIDDEN PDF LINKS, one per chapter line, and clicking one jumps to
+the chapter. He was right. This is now a tool.
+
+```
+$ python kitchen/toc_links.py DELISA-6
+DELISA-6: 74 links on images [9, 10, 11, 12, 13]
+  matched to chapters: 62
+  unmatched (front matter, part pages, index): 12
+$ python kitchen/toc_validate.py DELISA-6 --vis
+  DELISA-6                   ok  prov=  9 chap=  62 pages 51-3565
+RESULT DELISA-6 ok chapters=62 provinces=9 without_page=0
+```
+
+**HOW A PAGE IS PROVED (Law 2).** For every link, the TARGET PAGE IS OPENED and
+the chapter number is read from the page itself ("CHAPTER 1", or Rockwood's bare
+"1" over the title). A page is never taken from the link's position on the
+contents page, and never invented. Each chapter stores `_page_source =
+"pdf-link"` plus `_link_head`, the page's own first lines.
+
+**GUARDS, both learned the hard way:**
+* An INDEX page also prints "7" then "68" then a title. It is refused unless the
+  chapter's own title words appear on that page (`title_agrees`). This caught
+  ROCKWOOD-10 image 3452 pretending to be a chapter opener.
+* Two links claiming one chapter keep the EARLIER page and the disagreement is
+  written to `conflicts` in `<BOOK_ID>-vis-links.json`. (BRANT-5 lists every
+  chapter twice; both links point to the same page.)
+
+**WHAT THE PAGE NUMBER IS.** These four scans print NO folio on the page
+(checked by eye on DELISA-6 images 51 and 52: nothing in header or footer, and
+no folio in the text layer). So the page number recorded is the PDF IMAGE
+NUMBER -- which is the number Nir sees in his PDF reader, and it is the page
+the chapter actually begins on. `page_offset` for these books is therefore 0 by
+construction, NOT measured; BIBLE part 3 section 4.6 is still NOT started for
+the other 33 books.
+
+**THE FOUR BOOKS THAT PRINTED NO PAGES -- ALL FOUR NOW CLEAN:**
+
+| book | provinces | chapters | pages | validator |
+|---|---|---|---|---|
+| DELISA-6 | 9 | 62 | 51-3565 | ok |
+| BRANT-5 | 12 | 83 | 45-4100 | ok (was "warn, no pages") |
+| ROCKWOOD-10 | 2 | 69 | 22-3613 | ok (was "invented pages") |
+| WILLIAMS-OBSTETRICS-26 | 12 | 68 | 28-3184 | ok (was "invented pages") |
+
+`toc_validate.py` no longer judges a link-sourced page against the contents
+TEXT (it is not printed there) and says so on every run.
+
+`toc_folio.py` was written to MEASURE the printed folio with the reader; it
+answered NONE on all 7 samples, which is correct -- these scans print no folio.
+It is kept, unused, for books that do print one.
+
+INSTALL: `pypdf 6.20.1` added to the venv (Law 13; small, no sudo).

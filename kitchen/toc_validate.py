@@ -44,7 +44,13 @@ def verify_pages(bid, chapters, sample=12, suffix="-toc"):
     if not src.exists():
         return None
     text = norm(src.read_text())
-    chapters = [c for c in chapters if c.get("page_start") is not None]
+    # A page that came from the PDF's OWN chapter link is not printed in the
+    # contents text and must not be judged against it. Such a page is proved
+    # differently: toc_links.py opens the target page and reads the chapter
+    # number printed there (recorded in <BOOK_ID>-vis-links.json).
+    chapters = [c for c in chapters
+                if c.get("page_start") is not None
+                and c.get("_page_source") != "pdf-link"]
     step = max(1, len(chapters) // sample)
     checked = found = 0
     for c in chapters[::step][:sample]:
@@ -85,6 +91,7 @@ def validate(bid, suffix="-toc"):
     # check below skips them, so a book without printed pages is reported as
     # such instead of being silently accepted or silently emptied.
     nopage = [c for c in chapters if c.get("page_start") is None]
+    linked = [c for c in chapters if c.get("_page_source") == "pdf-link"]
 
     # 1. page_start never decreasing
     drops = []
@@ -109,9 +116,14 @@ def validate(bid, suffix="-toc"):
             warns.append(f"only {found}/{checked} sampled page numbers are "
                          f"really printed next to their title -- the reader "
                          f"may have invented them")
-        if checked < 3 and len(chapters) >= 3 and not nopage:
+        if checked < 3 and len(chapters) >= 3 and not nopage and not linked:
             warns.append(f"only {checked} of {len(chapters)} titles were "
                          f"even found in the raw TOC text")
+    if linked:
+        print(f"       - {len(linked)} of {len(chapters)} chapters get their "
+              f"page from the book's OWN PDF chapter link (the contents "
+              f"prints none); each target page was opened and its chapter "
+              f"number read there", flush=True)
     if nopage:
         warns.append(f"{len(nopage)} of {len(chapters)} chapters print NO page "
                      f"in the contents, so their page_start is null and their "
