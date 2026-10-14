@@ -21,30 +21,26 @@ Why 37, item by item, with the human's agreement:
   (Bailey & Love lost to Sabiston; Marino's ICU Book lost to Irwin & Rippe).
   The five deleted files, their sizes and their SHA-256 hashes are recorded
   forever in data/registry/removed-books.json. Nothing was silently dropped.
-
 ## NEXT STEP
-**CORRECTION (2026-10-11): the count "22 books, 2,859 chapters" from last
-night is NOT trustworthy, and this was found by writing the validation
-script the BIBLE asks for. See DONE 2026-10-11 (a) below before relying on
-any chapter number.** Of the 22 "finished" books, 8 had silently lost part
-or all of their contents, and 2 carried page numbers that are printed
-nowhere in the book.
 
-**SUPERSEDED 2026-10-12.** That figure is now irrelevant: those 22 books were
-read by the text layer and the vision re-read has replaced them one by one.
-**14 books are read with the model's eyes and pass the validator** (see the
-DONE entry for today). The immediate next step is the ordered list in
-section 7 of `HANDOFF-2026-10-12-evening.md`, beginning with BRANT-5, and
-the work is run as:
+**SUPERSEDED 2026-10-14 evening.** The current state:
+**22 of 23 read books are clean, 2,239 chapters. 15 books not yet read.**
+
+The immediate next step is to read the remaining 15 books ONE AT A TIME
+(Nir's standing order: never launch a batch queue unless he asks):
+
+GREEN-HAND-2021, HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
+MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
+STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
 python kitchen/build_book.py <BOOK_ID>     # one whole book, unattended
-python kitchen/build_queue.py --limit 8    # a queue of books, unattended
 ```
 
 Nothing is loaded into Neo4j until the validator is happy, which is
-deliberate.
+deliberate. `page_offset` (BIBLE part 3 section 4.6) is still NOT started
+and every citation depends on it.
 
 ## QUESTIONS FOR HUMAN
 
@@ -239,6 +235,74 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-14 (b) -- KRAUSE-16 FIXED, GRAY-2020 CLEANED, ALL 22 BOOKS VERIFIED
+
+**Nir found the bug by looking at the actual PDF himself.** He opened
+GRAY-2020 and saw a perfect contents on pages 8-11. He asked why we had
+reported "154 chapters, pages went backwards" when the book clearly prints
+a clean list. He was right to be angry: the model HAD read pages 8-11
+correctly (all 81 chapters in the transcript), but the pipeline that ran
+afterward mangled it.
+
+**What was actually wrong, found by reading the logs not guessing:**
+
+1. **GRAY-2020** -- the build log showed 154 chapters with pages going
+   backwards. The cause was in `toc_apply_headings.py`: the book prints
+   "SECTION 1" on image 27 AND "SECTION 1 CELLS, TISSUES AND SYSTEMS" on
+   images 28 and 29 (the same section repeated across pages), and the
+   heading-application step created duplicate provinces. The final
+   `vis-toc.json` on disk (rebuilt later on 14 Oct) was already correct --
+   81 chapters, pages in order. The 154-chapter mess was a stale build
+   artifact.
+
+2. **GRAY-2020 supplementary chapters removed.** Chapters 80 and 81
+   ("The anatomy of the peripheral nervous system" and "The anatomy of the
+   vascular and lymphatic systems") print NO page number in the contents --
+   checked by eye on the rendered image (`kitchen/pages/GRAY-2020/vis/read-11/p-0011.png`).
+   Nir looked at the book himself, saw the small "S" icon next to them,
+   concluded they are supplementary, and ordered them removed. Done.
+   GRAY-2020 is now **17 provinces / 79 chapters, all with pages, validator ok**.
+
+3. **KRAUSE-16 was still broken and is now fixed.** The model had read it
+   perfectly (5 pages, 93 entries in the transcript), but two things went
+   wrong in post-processing:
+   * The APPENDICES restart their own numbering at 1, colliding with
+     chapters 1-45. The dedup step saw "chapter 1 appears twice" and
+     deleted the appendices. Fixed by renumbering appendices A1-A48.
+   * **A bug in `toc_vision.py`'s FRONT_WORDS regex**: `\bindex\b` matched
+     the word "Index" inside "Body Mass Index Table" and "Glycemic Index
+     and Glycemic Load of Selected Foods" and threw both away. The regex
+     now only treats "Index" as front matter when it is the WHOLE title or
+     starts it ("Index", "Index of Terms"). KRAUSE-16 is now
+     **7 provinces / 93 chapters (45 chapters + 48 appendices), validator ok**.
+
+4. **All 22 read books re-verified with an automated scan.** Every
+   `vis-toc.json` was checked for: duplicate chapter numbers, pages going
+   backwards, missing page numbers, duplicate province names. Only
+   KRAUSE-16 failed (fixed above). Result: **22 of 23 books clean,
+   2,239 chapters total.** The 23rd (MIDDLETON-2019) has 0 chapters --
+   never read.
+
+**EVIDENCE:**
+
+```
+$ python kitchen/toc_validate.py --vis
+  KRAUSE-16                  ok  prov=  7 chap=  93 pages 2-1211
+  GRAY-2020                  ok  prov= 17 chap=  79 pages 4-1447
+  ...
+  22/23 clean, 2239 chapters total
+```
+
+**THE 15 BOOKS NOT YET READ:**
+GREEN-HAND-2021, HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
+MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
+STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
+
+**Nir's standing orders (14 Oct):**
+* One book at a time. Never launch a batch queue again unless he asks.
+* When a book is finished, say so clearly with evidence.
+* When something is wrong, look at the ACTUAL logs and images, not guesses.
 
 ### 2026-10-13, 12:00 -- BRANT-5 RECOVERED (83 chapters), TWO FALSE "CLEAN" VERDICTS KILLED, QUEUE OF 23 BOOKS LAUNCHED
 

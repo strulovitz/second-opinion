@@ -129,9 +129,20 @@ Rules:
 - If this page holds no Table of Contents entries at all, output nothing at all.
 - No commentary, no markdown, no JSON, no explanation."""
 
-FRONT_WORDS = re.compile(r"\b(preface|contributors?|acknowledg\w*|dedication|"
-                         r"about the authors?|front matter|index|glossary|"
-                         r"advertisement|erratum|copyright|foreword)\b", re.I)
+# MEASURED 2026-10-14 on KRAUSE-16: "Body Mass Index Table" and "Glycemic
+# Index and Glycemic Load of Selected Foods" are REAL appendix entries, but
+# the old regex \bindex\b matched the word "Index" inside them and threw
+# both away. "Index" only counts as front matter when it is the WHOLE title
+# or starts it as a bare section heading ("Index", "Index of Terms").
+FRONT_WORDS = re.compile(
+    r"^(preface|contributors?|acknowledg\w*|dedication|"
+    r"about the authors?|front matter|index|glossary|"
+    r"advertisement|erratum|copyright|foreword)\b"
+    r"|"
+    r"\b(preface|contributors?|acknowledg\w*|dedication|"
+    r"about the authors?|front matter|glossary|"
+    r"advertisement|erratum|copyright|foreword)\b",
+    re.I)
 PAGE_FIELD = re.compile(r"(\d{1,5})\s*$")
 
 
