@@ -30,11 +30,29 @@ def main():
         if not src.exists():
             print(f"{bid}: no saved transcription", flush=True)
             continue
+        text = src.read_text()
+        # GUARD: this parser only understands the reader's "P" and "C"
+        # lines. Some books were read in a different format (BRENNER-11's
+        # transcript is a field list of PART/NUM/TITLE/PAGE), and running
+        # this over such a transcript wrote an EMPTY document and wiped
+        # 71 chapters that the backup happened to hold. Refuse to replace
+        # a document that has chapters with one that has none.
+        has_pc = bool(re.search(r"^(P|C)\t", text, re.M))
+        out_path = LOGS / f"{bid}-vis-toc.json"
+        if not has_pc:
+            keep = 0
+            if out_path.exists():
+                keep = sum(len(p.get("chapters", [])) for p in
+                            json.loads(out_path.read_text())["provinces"])
+            print(f"{bid}: transcript has no P/C lines to re-parse "
+                  f"(different reader format); the existing "
+                  f"{keep} chapter(s) are left untouched", flush=True)
+            continue
         doc = {"provinces": []}
         province = "ALL"
         pages = 0
         skipped = []
-        for block in src.read_text().split("===== image "):
+        for block in text.split("===== image "):
             if not block.strip():
                 continue
             n = block.split(" ")[0].strip()
