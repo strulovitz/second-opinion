@@ -23,31 +23,42 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**SUPERSEDED 2026-10-15 (evening).** Read `HANDOFF-meaningful-names.md` FIRST.
+**SUPERSEDED 2026-10-15 (late evening).** Read `HANDOFF-meaningful-names.md`
+FIRST, then the 2026-10-15 (late evening) DONE entry below.
 
-Nir stopped the one-book-at-a-time reading on 15 Oct: the province
-(middle) level of many books stores only a number ("PART I",
-"SECTION 3", "UNIT VII") with no meaning. He first decided MEANING
-only, then (same evening) changed his final rule: keep BOTH the
-number AND the meaning together ("Section V - Cardiac Radiology"),
-never meaning alone, because in the future we must be able to find
-"the book numbered X" fast. The database structure stays unchanged —
-one name field holds the combined string.
+The naming work is **well under way, not finished**. On 15 Oct six books
+were given real parts (FIRESTEIN 18, BOLOGNIA 22, ROCKWOOD 4, ROBBINS 6,
+THOMPSON 4, BRENNER 18 -- the last three WRITTEN by us on Nir's order),
+and five pipeline bugs were fixed. **Two books still need the same
+treatment and are the first thing to do on restart:**
 
-BEFORE reading any of the remaining 15 books, the names of the already
-read books must be fixed and the TOC prompts must be changed to keep
-BOTH the numbering and the title. Steps are in
-HANDOFF-meaningful-names.md. One book at a time.
+1. **GRAY-2020** -- 17 provinces, of which 8 are numbered Sections
+   already in the target form ("Section 1 - CELLS, TISSUES AND SYSTEMS")
+   and 9 are loose unnumbered sub-headings ("Head and neck", "Upper
+   aerodigestive tract"). The sub-headings must be FOLDED into their
+   parent numbered Section, keeping their names (store the folded ones,
+   e.g. in `kitchen/logs/GRAY-2020-subsections.json`, for Part 4).
+2. **GOODMAN-14** -- 10 provinces, mixed: some carry the section number
+   ("Section IV Inflammation, Immunomodulation, and Hematopoiesis") and
+   some do not ("General Principles", "Neuropharmacology"). The missing
+   numbers must be recovered from the printed contents, and the truncated
+   title of Section IV finished from the book.
 
-After that, the remaining 15 books (ONE AT A TIME, never a batch):
+Then: the TOC prompts must be changed to keep BOTH the numbering and the
+title, so the remaining 15 books are read correctly the first time.
+Then the remaining 15 books (ONE AT A TIME, never a batch):
 GREEN-HAND-2021, HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
 MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
 STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
-python kitchen/build_book.py <BOOK_ID>     # one whole book, unattended
+python kitchen/toc_validate.py --vis          # must stay 22/23, 2239
+python kitchen/toc_fix_names.py <BOOK_ID>     # dry run first
+python kitchen/toc_fix_names.py <BOOK_ID> --apply
 ```
+Before ANY rebuild of a book, copy its `vis-toc.json` to a safe place:
+`toc_reparse.py` has been proven capable of emptying a book.
 
 Nothing is loaded into Neo4j until the validator is happy, which is
 deliberate. `page_offset` (BIBLE part 3 section 4.6) is still NOT started
@@ -246,8 +257,91 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
 - 2026-10-15: **MEANINGFUL TERRITORY NAMES (amendment to the province rule).** Nir's words: "i am interested in the meaning i am not interested in the number." Every heading level (Part/Section/Unit/Volume/chapter) keeps ONLY its meaningful title, never the numbering ("SECTION V CARDIAC RADIOLOGY" -> "Cardiac Radiology"). When a book prints "PART 3" with no title: first look on the part's opening page; if nothing, the manager WRITES a short descriptive name from the chapters inside, marked "name_source": "written". Full plan in HANDOFF-meaningful-names.md. This supersedes the immediate "read the next 15 books" step until the 22 already-read books are fixed and the TOC prompts are changed. **Same day, evening: SUPERSEDED by the entry below.**
 - 2026-10-15 (evening): **TERRITORY NAMES = NUMBER + MEANING TOGETHER (Nir's final rule, supersedes the entry above).** Nir's words: "i want to do BOTH the entity (entity is 'part' or 'chapter' etc) and the entity's number, AND the entity's meaning (if it does not have a written meaning in the book (title) then you write a short and descriptive meaning/title by yourself)... it is NOT elegant, the elegant solution would have been to design the database better and to make 2 separate fields... but i do not want to change the structure of the database which is in the BIBLE." So: "SECTION V CARDIAC RADIOLOGY" -> name = "Section V - Cardiac Radiology" (number kept, meaning added). Books that print "PART 3" with no title: look on the part's opening page; if nothing, WRITE a short descriptive name, marked "name_source": "written". ONE name field in the existing schema holds the combined string — the database structure is NOT changed. The GOOD books already reading "PART 2 Cardinal Manifestations..." are in the target form: do not strip their numbers. The TOC prompts must ask for BOTH the numbering and the title. Full plan in HANDOFF-meaningful-names.md.
+- 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-15 (late evening) -- SIX MORE BOOKS GIVEN REAL PARTS; PIPELINE BUGS FIXED
+
+Six of the 22 read books had a province level that was useless, and five
+pipeline bugs were found by running the honest validator. **Nothing was
+guessed; every number below comes from a script run.**
+
+**THE SIX BOOKS:**
+
+| Book | before | after |
+|---|---|---|
+| FIRESTEIN-12 | 2 provinces ("Volume 1/2", no meaning) | **18 parts**, each "Part n - Title" |
+| BOLOGNIA-2024 | 1 province ("Volume 1", 161 chapters in one blob) | **22 sections**, "Section 5 - Vesiculobullous Diseases" |
+| ROCKWOOD-10 | 2 provinces | **4 sections**, word-numbers kept as printed ("Section TWO - UPPER EXTREMITY") |
+| ROBBINS-10 | 1 province ("ALL") | **6 written parts** |
+| THOMPSON-2023 | 1 province ("ALL") | **4 written parts** |
+| BRENNER-11 | 1 province ("ALL") | **18 written parts** |
+
+For ROBBINS-10, THOMPSON-2023 and BRENNER-11 the author printed no Part
+banner at all, so the parts were WRITTEN by us per the human's order of
+15 Oct (late evening). They are stored in `kitchen/parts/<BOOK>.json`,
+applied by `kitchen/toc_group_flat.py`, and every province carries
+`name_source: "written"`.
+
+**THE FIVE BUGS, each measured, each fixed:**
+
+1. `toc_apply_headings.py` picked VOLUME whenever any volume banner
+   existed, even though "VOLUME I" is bare and the titled "SECTION n"
+   banners below it are the real geography (BOLOGNIA, ROCKWOOD, FIRESTEIN).
+   It now falls to the next kind that carries titles, and keeps the
+   transcript's own numbered, titled provinces when the banner read was
+   incomplete. Also `first` was tested with `if f`, so a chapter numbered
+   0 read as None.
+2. `toc_dedupe.py` flattened EVERY book into one province called "ALL",
+   destroying the 18 Part provinces reparse had just built from the
+   reader's own words. It now keeps the provinces.
+3. `toc_reparse.py` recorded image->province by INDEX while parsing and
+   empty provinces were dropped afterwards, so the indices went stale and
+   reassign filed chapters into the wrong Part (99 of FIRESTEIN's 125
+   chapters). The map is now derived from the data itself.
+4. `toc_dedupe.py`'s reassign then over-corrected: one contents page
+   carries several Parts, so "page -> one province" is false. The stray
+   test now uses the last province's longest consecutive run of chapter
+   numbers and files by nearest chapter number, then nearest page.
+   A stray already sitting where its page belongs is left alone --
+   appending to the list being iterated never ended and BOLOGNIA's
+   dedupe spun forever (fixed after it hung for 600 s).
+5. **`toc_reparse.py` could DELETE a whole book.** BRENNER-11's saved
+   transcript is a field list of PART/NUM/TITLE/PAGE, not the reader's
+   P/C lines, so re-parsing wrote an EMPTY document and wiped all 71
+   chapters. Only the 15 Oct backup happened to hold them. The parser now
+   checks for P/C lines first and leaves the existing document untouched
+   when there are none. **This is why every rebuild must be run against
+   the backup directory.**
+6. `toc_fix_names.py` did not recognise word-numerals; "SECTION ONE:
+   GENERAL PRINCIPLES" was reported NOT NUMBERED. ONE..TWENTY and the
+   tens are now accepted, and the word is kept exactly as printed.
+
+**EVIDENCE** (all run 2026-10-15, `cd ~/second-opinion && source
+.venv/bin/activate`):
+
+```
+$ python kitchen/toc_validate.py --vis
+22/23 clean, 2239 chapters total
+
+$ python kitchen/toc_validate.py FIRESTEIN-12 BOLOGNIA-2024 ROCKWOOD-10 \
+      ROBBINS-10 THOMPSON-2023 BRENNER-11 --vis
+RESULT FIRESTEIN-12    ok chapters=125 provinces=18
+RESULT BOLOGNIA-2024   ok chapters=161 provinces=22
+RESULT ROCKWOOD-10     ok chapters= 69 provinces= 4
+RESULT ROBBINS-10      ok chapters= 29 provinces= 6
+RESULT THOMPSON-2023   ok chapters= 20 provinces= 4
+RESULT BRENNER-11      ok chapters= 71 provinces=18
+
+230 provinces across the 22 read books
+```
+
+Chapter totals are unchanged from 14 Oct (2,239), so no chapter was lost
+or invented by any of this. The 23rd book (MIDDLETON-2019) still has 0
+chapters -- never read.
+
+Commits: `6dc4a47`, `89dbb1a`, (guard), `8aa8999` -- all pushed.
 
 ### DONE 2026-10-14 (b) -- KRAUSE-16 FIXED, GRAY-2020 CLEANED, ALL 22 BOOKS VERIFIED
 

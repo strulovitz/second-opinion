@@ -4,6 +4,57 @@ READ THIS FIRST after restart, before touching any book.
 This SUPERSEDES the earlier "meaning only, drop the numbering" rule
 from the same morning. Nir changed his mind after thinking about it.
 
+## STATUS after 15 Oct (late evening) -- READ THIS SECTION FIRST
+
+**Nir added a second order the same evening: a book with NO parts at all
+must not be left as one big group.** His words: *"in books that have NO
+parts at all, please try to create such 'parts' for them, like, please
+group the chapters ... and give them a proper title that will contain all
+of them ... please do the work that the author should have done ... try to
+imitate the style of other books (where the author DID do a proper job) ...
+it's a lot better than 1 big group."*
+
+So a flat book is grouped into written parts, each carrying
+`name_source: "written"`.
+
+**DONE on 15 Oct -- six books, all validator-clean, chapter totals
+unchanged:**
+
+| Book | before | after | where the names came from |
+|---|---|---|---|
+| FIRESTEIN-12 | 2 ("Volume 1/2") | 18 parts | the book's own Part banners |
+| BOLOGNIA-2024 | 1 ("Volume 1", 161 ch) | 22 sections | the book's own SECTION banners |
+| ROCKWOOD-10 | 2 | 4 sections | the book's own banners (word-numbers kept: "Section TWO") |
+| ROBBINS-10 | 1 ("ALL") | 6 parts | **WRITTEN by us** |
+| THOMPSON-2023 | 1 ("ALL") | 4 parts | **WRITTEN by us** |
+| BRENNER-11 | 1 ("ALL") | 18 parts | **WRITTEN by us** |
+
+The written groupings are human decisions stored in
+`kitchen/parts/<BOOK>.json` and applied by `kitchen/toc_group_flat.py`.
+Full ledger with evidence: `PROGRESS.md`, entry "DONE 2026-10-15 (late
+evening)".
+
+**FIVE pipeline bugs were found and fixed in the process** -- read the
+ledger entry before touching the pipeline again. The dangerous one:
+`toc_reparse.py` EMPTIED BRENNER-11 (its transcript is in a different
+format), and only the backup held the 71 chapters. **Always copy a
+book's `vis-toc.json` aside before any rebuild.**
+
+**TWO BOOKS STILL TO DO -- do these first on restart:**
+
+1. **GRAY-2020** -- 17 provinces: 8 numbered Sections already correct,
+   plus 9 loose unnumbered sub-headings ("Head and neck", "Upper
+   aerodigestive tract") that must be FOLDED into their parent Section,
+   keeping their names (park them in `GRAY-2020-subsections.json` for
+   Part 4 -- do not throw them away).
+2. **GOODMAN-14** -- 10 provinces, mixed: "Section IV Inflammation,
+   Immunomodulation, and Hematopoiesis" has a number, but "General
+   Principles" and "Neuropharmacology" do not. Recover the missing
+   numbers from the printed contents and finish the truncated title.
+
+Then change the TOC prompts so the remaining 15 books keep BOTH the
+numbering and the title when they are read.
+
 ## The rule (Nir's words, 15 Oct 2026 evening)
 
 1. **Every territory name = entity type + number + meaning, TOGETHER.**
