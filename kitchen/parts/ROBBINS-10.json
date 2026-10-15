@@ -1,0 +1,14 @@
+[
+  {"name": "Part 1 - General Pathology",
+   "chapters": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]},
+  {"name": "Part 2 - Cardiovascular and Hematopoietic Systems",
+   "chapters": ["11", "12", "13", "14"]},
+  {"name": "Part 3 - Respiratory and Alimentary Systems",
+   "chapters": ["15", "16", "17", "18", "19"]},
+  {"name": "Part 4 - Urinary and Reproductive Systems",
+   "chapters": ["20", "21", "22", "23"]},
+  {"name": "Part 5 - Endocrine, Integumentary, and Musculoskeletal Systems",
+   "chapters": ["24", "25", "26"]},
+  {"name": "Part 6 - Nervous System and Special Senses",
+   "chapters": ["27", "28", "29"]}
+]
