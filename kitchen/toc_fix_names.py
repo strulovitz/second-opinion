@@ -36,7 +36,10 @@ BOOKS = KITCHEN / "books"
 
 TOP = re.compile(
     r"^(PART|VOLUME|VOL|UNIT|BOOK|SECTION|MODULE)\b[\s:.\-\u2014]*"
-    r"(\d+|[IVXLCDM]+)?", re.I)
+    r"(\d+|[IVXLCDM]+|"
+    r"ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN|ELEVEN|TWELVE|"
+    r"THIRTEEN|FOURTEEN|FIFTEEN|SIXTEEN|SEVENTEEN|EIGHTEEN|NINETEEN|"
+    r"TWENTY|THIRTY|FORTY|FIFTY|SIXTY|SEVENTY|EIGHTY|NINETY)", re.I)
 # a heading-shaped line that is NOT a numbered one ("CARDIAC RADIOLOGY")
 PLAIN_TITLE = re.compile(r"^[A-Z][A-Za-z0-9 ,'\-\(\)/&:\.]{2,70}$")
 # The contents prints a heading and, right after it on the same line, the
