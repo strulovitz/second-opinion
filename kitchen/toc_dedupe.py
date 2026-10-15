@@ -35,12 +35,51 @@ def reassign(doc, bid):
     # appears more than once in Harrison), so a name map would collapse them
     by_index = {i: p for i, p in enumerate(doc["provinces"])}
     moved = 0
+    # ONLY a chapter stuck in the LAST province can be a gap repair
+    # appended at the end of the transcript. MEASURED 2026-10-15 on
+    # FIRESTEIN-12: its 18 Parts are printed across only 5 contents pages,
+    # so "page -> one province" is false there and reassign pulled 99 of
+    # 125 chapters out of the Part they were read under and into the first
+    # Part sharing that page. Chapters are now left where they were read
+    # unless they are in the last province and their page belongs to an
+    # earlier one.
+    last = len(doc["provinces"]) - 1
+    # A gap repair is appended at the END of the transcript, so it sits in
+    # the LAST province while carrying numbers EARLIER than that province's
+    # own first chapter. The FIRST chapter in transcript order is the
+    # marker -- taking the minimum would let the strays themselves drag it
+    # down (FIRESTEIN-12: Part 18's real chapters are 121-130 and the
+    # strays 11, 52, 67, 105 are appended after them). The page test alone
+    # is not enough: FIRESTEIN prints Parts 17 and 18 on one contents page.
+    last_start = None
+    head = doc["provinces"][last]["chapters"][:1]
+    if head and str(head[0].get("number")).isdigit():
+        last_start = int(head[0]["number"])
     for idx, prov in enumerate(doc["provinces"]):
         stay = []
         for c in prov["chapters"]:
             home = provmap.get(str(c.get("_image")))
-            if home is not None and home in by_index and home != idx:
-                by_index[home]["chapters"].append(c)
+            num = c.get("number")
+            earlier = (last_start is not None and str(num).isdigit()
+                       and int(num) < last_start)
+            if (idx == last and home is not None and home in by_index
+                    and home < last and earlier):
+                # WHERE it goes: by printed page, not by page-of-contents.
+                # FIRESTEIN-12 reads "11 Neutrophils 175" in the Part 18
+                # block; page 175 belongs to Part 2, but the contents page
+                # it sits on carries Part 1, so the image map would have
+                # filed it one Part too early. A province whose chapters
+                # span the stray's own printed page is its true home.
+                page = c.get("page_start")
+                best = home
+                if page is not None:
+                    for j, other in by_index.items():
+                        pages = [x.get("page_start") for x in other["chapters"]
+                                 if x.get("page_start") is not None]
+                        if pages and min(pages) <= page <= max(pages):
+                            best = j
+                            break
+                by_index[best]["chapters"].append(c)
                 moved += 1
             else:
                 stay.append(c)
@@ -96,7 +135,19 @@ def dedupe(bid, suffix="-vis-toc"):
     flat = [c for c in flat if str(c.get("number")) not in ("None", "")
             and by_number[str(c["number"])] is c]
     flat.sort(key=lambda c: int(c["number"]) if str(c["number"]).isdigit() else 0)
-    doc["provinces"] = [{"name": "ALL", "part_name": "ALL", "chapters": flat}]
+    # KEEP the provinces. MEASURED 2026-10-15 on FIRESTEIN-12: reparse
+    # built 18 correct "Part n: Title" provinces from the reader's own
+    # words, and this step threw them all into one province called "ALL",
+    # so the later banner step could only rebuild from the ten banners the
+    # banner read happened to catch. The winning object per chapter number
+    # is kept and every other chapter is dropped; nothing is re-filed.
+    winners = {id(c) for c in flat}
+    for prov in doc["provinces"]:
+        kept = [c for c in prov.get("chapters", []) if id(c) in winners]
+        kept.sort(key=lambda c: int(c["number"])
+                  if str(c.get("number")).isdigit() else 0)
+        prov["chapters"] = kept
+    doc["provinces"] = [p for p in doc["provinces"] if p.get("chapters")]
     (LOGS / f"{bid}-vis-conflicts.json").write_text(
         json.dumps({"superseded_by_targeted_reread": replaced}, indent=1,
                    ensure_ascii=False))

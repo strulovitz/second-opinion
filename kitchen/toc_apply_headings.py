@@ -78,6 +78,40 @@ def raw_first(bid, title):
     return None
 
 
+def titled_count(order, kind):
+    """How many headings of this kind carry a TITLE after the number.
+
+    MEASURED 2026-10-15 on BOLOGNIA-2024, FIRESTEIN-12 and ROCKWOOD-10:
+    those books print "VOLUME I" with nothing after it -- the volume is the
+    physical book, and the real geography is the titled level below it
+    ("SECTION 3: Papulosquamous and Eczematous Dermatoses", "Part 9:
+    Rheumatoid Arthritis..."). Counting heading WORDS alone chose VOLUME
+    and threw the whole book into one province."""
+    n = 0
+    for o in order:
+        if o["kind"] != kind:
+            continue
+        m = re.match(r"^(?:[A-Za-z]+)\b[\s:.\-\u2014]*(?:\d+|[IVXLCDM]+)?"
+                     r"\s*[:.\-\u2014]?\s*(.*)$", o["title"])
+        if m and m.group(1).strip(" :-\u2014.,;"):
+            n += 1
+    return n
+
+
+def numbered_titled(provinces):
+    """Do these provinces already look like a real geography: numbered AND
+    carrying a title, the form Nir asked for ("Part 9 - Rheumatoid
+    Arthritis...")?"""
+    n = 0
+    for p in provinces:
+        m = re.match(r"^(PART|SECTION|UNIT|VOLUME|BOOK|MODULE)\b"
+                     r"[\s:.\-\u2014]*(\d+|[IVXLCDM]+)\s*[:.\-\u2014]+\s*(.+)$",
+                     p.get("name", ""), re.I)
+        if m and m.group(3).strip():
+            n += 1
+    return n
+
+
 def main():
     bid = sys.argv[1]
     names, firsts = load(bid)
@@ -90,7 +124,8 @@ def main():
             kind = m.group(1).upper()
             f = firsts.get(img, {}).get(h)
             order.append({"kind": kind, "title": h,
-                          "first": int(f) if f else None, "image": int(img)})
+                          "first": int(f) if f is not None else None,
+                          "image": int(img)})
     if not order:
         print(f"{bid}: no headings found", flush=True)
         return 1
@@ -101,6 +136,33 @@ def main():
     # provinces out of the wrong level.
     priority = ["VOLUME", "VOL", "PART", "UNIT", "MODULE", "BOOK", "SECTION"]
     top = next((k for k in priority if kinds.get(k)), None)
+    # --- the two rules that stop a physical VOLUME from swallowing a book
+    doc = json.loads((LOGS / f"{bid}-vis-toc.json").read_text())
+    existing = doc.get("provinces", [])
+    if top and titled_count(order, top) == 0:
+        # (1) the transcript already grouped the book into numbered, titled
+        # provinces (FIRESTEIN-12 prints all 18 "Part n: Title" banners and
+        # the reader caught them; the banner read only caught the two
+        # untitled volumes). Keep that geography instead of destroying it.
+        if len(existing) >= 3 and numbered_titled(existing) >= len(existing) - 1:
+            print(f"{bid}: {top} carries no title anywhere, but the "
+                  f"transcript already has {len(existing)} numbered, titled "
+                  f"provinces -> keeping them", flush=True)
+            n = sum(len(p.get("chapters", [])) for p in existing)
+            print(f"{bid}: provinces={len(existing)} chapters={n}", flush=True)
+            return 0
+        # (2) otherwise fall down to the next kind that DOES carry titles
+        # (BOLOGNIA-2024 and ROCKWOOD-10: "VOLUME I" is bare, the
+        # "SECTION n: Title" banners below it are the real geography).
+        for k in priority:
+            if k == top or not kinds.get(k):
+                continue
+            if titled_count(order, k):
+                print(f"    {top} carries no title anywhere; {k} is titled "
+                      f"({titled_count(order, k)} headings) -> using {k}",
+                      flush=True)
+                top = k
+                break
     print(f"{bid}: heading kinds seen {dict(kinds)} -> top level is {top}",
           flush=True)
 

@@ -34,7 +34,6 @@ def main():
         province = "ALL"
         pages = 0
         skipped = []
-        image_province = {}
         for block in src.read_text().split("===== image "):
             if not block.strip():
                 continue
@@ -52,12 +51,6 @@ def main():
             before = len(doc["provinces"])
             if parse(body, doc, province, image=n):
                 province = doc["provinces"][-1]["name"]
-            # which province this IMAGE belongs to, decided the first time
-            # the page is read normally. A gap repair is appended at the end
-            # of the transcript and would otherwise be filed under the last
-            # province of the book.
-            image_province.setdefault(
-                n, len(doc["provinces"]) - 1 if doc["provinces"] else 0)
         n = sum(len(p["chapters"]) for p in doc["provinces"])
         # MEASURED 2026-10-13 on FIRESTEIN-12, caught by the honest validator:
         # the gap repair was asked for the chapters missing from the range and
@@ -90,6 +83,21 @@ def main():
             (LOGS / f"{bid}-vis-copytitles.json").write_text(
                 json.dumps({"refused_mis_numbered_copies": copies},
                            indent=1, ensure_ascii=False))
+        # WHICH PROVINCE OWNS WHICH IMAGE -- derived from the data itself.
+        # MEASURED 2026-10-15 on FIRESTEIN-12: the old way recorded the
+        # province INDEX while parsing ("len(provinces)-1") and empty
+        # provinces were dropped afterwards, so every index shifted and
+        # toc_dedupe's reassign filed 81 of 125 chapters into the wrong
+        # Part. Every chapter already stores the image it was read from,
+        # so the province that holds a chapter from image N is that
+        # image's province. setdefault keeps the FIRST (the original
+        # reading; a gap repair is appended later and must not re-home
+        # the page).
+        image_province = {}
+        for i, p in enumerate(doc["provinces"]):
+            for c in p.get("chapters", []):
+                if c.get("_image") is not None:
+                    image_province.setdefault(str(c["_image"]), i)
         (LOGS / f"{bid}-vis-toc.json").write_text(
             json.dumps(doc, indent=1, ensure_ascii=False))
         (LOGS / f"{bid}-vis-imageprov.json").write_text(
