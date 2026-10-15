@@ -1,26 +1,44 @@
-# HANDOFF -- Meaningful territory names (Nir's decision, 15 Oct 2026)
+# HANDOFF -- Territory names: NUMBER + MEANING together (Nir's FINAL rule, 15 Oct 2026, evening)
 
 READ THIS FIRST after restart, before touching any book.
+This SUPERSEDES the earlier "meaning only, drop the numbering" rule
+from the same morning. Nir changed his mind after thinking about it.
 
-## The decision (Nir's words, 15 Oct 2026)
+## The rule (Nir's words, 15 Oct 2026 evening)
 
-1. **Meaning over numbers, at EVERY level.** If a heading prints
-   "chapter 1 bla bla bla", keep "bla bla bla". If it prints
-   "SECTION V CARDIAC RADIOLOGY", keep "Cardiac Radiology" and DROP the
-   "SECTION V" part. Same rule for Parts, Units, Sections, Volumes,
-   chapters, and any other heading level. The NUMBER is not the name.
+1. **Every territory name = entity type + number + meaning, TOGETHER.**
+   - "SECTION V CARDIAC RADIOLOGY" -> name = "Section V - Cardiac Radiology"
+   - "UNIT VI Blood Cells, Immunity, and Blood" -> name =
+     "Unit VI - Blood Cells, Immunity, and Blood"
+   - "PART 4: MAJOR CATEGORIES OF NEUROLOGIC DISEASE, 615" -> name =
+     "Part 4 - Major Categories of Neurologic Disease" (the trailing
+     615 is a TOC page number; it goes in toc_number, not in the name).
+   Never strip the number. Never keep only the meaning. Nir's worry:
+   in the future, when we put something into or take something out of
+   "the book numbered X", we must be able to FIND it fast -- and a
+   bare meaning with no number makes that hard.
+
 2. **When a book prints only "PART 3" with no title:** first LOOK on
    that part's opening page inside the PDF (the page where the part
-   starts). Nir suspects usually nothing useful will be there, but try
-   anyway. If no title found: **WRITE a short descriptive name yourself**
-   from the chapters inside that part — a few words that hold the
-   meaning of all its chapters, as if the author had named it.
+   starts). If a title is printed there, use it: "Part 3 - <title>".
+   If nothing useful is printed: **WRITE a short descriptive name
+   yourself** from the chapters inside that part -- a few words that
+   hold the meaning of all its chapters, as if the author had named
+   it. Then the name becomes "Part 3 - <the name you wrote>".
    Descriptive and short.
+
 3. **Honesty flag:** every name we wrote ourselves (not printed by the
    book) must be marked as such in the JSON, e.g.
-   `"name_source": "toc"` for verbatim-from-TOC names vs
-   `"name_source": "written"` for names we composed. Never pretend a
-   book printed something it did not.
+   `"name_source": "toc"` for names taken from the printed TOC or the
+   part's opening page, vs `"name_source": "written"` for names we
+   composed. Never pretend a book printed something it did not.
+
+4. **Do NOT change the database structure.** The BIBLE's schema stays
+   as it is -- ONE name field, not two. The combined
+   "Type N - Meaning" string goes into that one field. The elegant
+   design would have been two separate fields (one for the graphical
+   map, one for the book's own name), but changing the schema now
+   would only confuse future sessions. (Nir said this himself.)
 
 ## Why this is safe right now
 
@@ -32,8 +50,9 @@ READ THIS FIRST after restart, before touching any book.
 
 Checked 15 Oct 2026 against kitchen/logs/*-vis-toc.json:
 
-BAD -- province is only a number, no meaning:
-  GUYTON-2026      "UNIT I" .. "UNIT XV"          (15 provinces, no meaning)
+BAD -- province is only a number, no meaning (needs meaning ADDED,
+keeping the number):
+  GUYTON-2026      "UNIT I" .. "UNIT XV"          (15 provinces)
   BRANT-5          "SECTION I" .. "SECTION XII"
   DELISA-6         "PART I" .. "PART IX"
   DEVITA-12        "PART I" .. "PART IV"
@@ -41,19 +60,23 @@ BAD -- province is only a number, no meaning:
   BRAUNWALD-12     "PART I","PART II","PART III","PART IX","PART X",
                    "PART XI" have no title (others are fine)
 
-BAD -- middle level is a physical volume, not a meaning:
+BAD -- middle level is a physical volume, not a meaning (add a meaning
+after the volume label, or split into real parts if the TOC shows
+them):
   CAMPBELL-2020    "VOLUME I" .. "VOLUME IV"
   FIRESTEIN-12     "VOLUME I", "VOLUME II"
   ROCKWOOD-10      "Volume 1", "Volume 2"
 
-BAD -- no middle level at all:
+BAD -- no middle level at all (create one from the chapters; each new
+middle level should be "Part/Section <n> - <meaning>" if a number
+exists, or just a short descriptive name if there is none):
   BOLOGNIA-2024, BRENNER-11, ROBBINS-10, THOMPSON-2023  ("ALL")
 
-MESSY -- meaning present but dirty:
+MESSY -- meaning present but dirty (de-glue, keep the number):
   ADAMS-12         trailing page number glued on:
                    "PART 4: MAJOR CATEGORIES OF NEUROLOGIC DISEASE, 615"
-                   -> keep "Major Categories of Neurologic Disease",
-                      put 615 in toc_number, not in the name
+                   -> name = "Part 4 - Major Categories of Neurologic
+                      Disease", 615 -> toc_number
   SABISTON-22      same trailing-page-number problem
   GOODMAN-14       title cut off mid-sentence:
                    "Modulation of Pulmonary, Renal, and Cardiovascular"
@@ -62,10 +85,11 @@ MESSY -- meaning present but dirty:
                    "Head and neck" as sibling provinces) -- re-check
                    the real structure
 
-GOOD already (meaning is there; just strip the "PART n" prefix if Nir
-wants only the meaning -- see open question below):
+GOOD already -- number + meaning together, exactly the target form:
   HARRISON-22, SLEISENGER-11, KRAUSE-16, BENZON-2023, AVERY-2021,
-  GRAY-2020 (mostly), ADAMS-12 / SABISTON-22 (after de-gluing)
+  GRAY-2020 (mostly), ADAMS-12 / SABISTON-22 (after de-gluing),
+  and in general any book whose name already reads
+  "PART n <Title>" or "SECTION n: <Title>".
 
 The raw TOC text already contains the missing titles for at least:
   GUYTON-2026  kitchen/logs/GUYTON-2026-toc.txt
@@ -77,7 +101,8 @@ model calls (toc_reparse.py rebuilds from the saved transcript).
 
 ## How to fix (after restart, one step at a time)
 
-1. For each BAD/MESSY book: fix the province names.
+1. For each BAD/MESSY book: fix the province names to the form
+   "Type N - Meaning".
    - If the title exists in the saved TOC text: re-parse
      (toc_reparse.py rebuilds JSON from the transcript, zero model
      calls), or fix the prompt that lost it so future reads keep it.
@@ -85,13 +110,14 @@ model calls (toc_reparse.py rebuilds from the saved transcript).
      page (pdftotext or the page image) and take it.
    - If nowhere: WRITE the short descriptive name from the chapters,
      set "name_source": "written".
-2. Strip number prefixes from names everywhere ("PART 2 Cardinal
-   Manifestations..." -> name = "Cardinal Manifestations..."; the
-   number itself, if useful, belongs in a toc_number field, not in the
-   name).
+2. Normalize the connector: use " - " between the "Type N" part and
+   the meaning ("Section V - Cardiac Radiology"). The exact character
+   does not matter much, but pick ONE form and use it everywhere.
 3. Apply the SAME rule going forward for the 15 unread books -- the
-   toc_vision / toc_headings prompts must ask for MEANING only, not
-   the numbering. Check those prompts before the next book.
+   toc_vision / toc_headings prompts must ask for BOTH the numbering
+   AND the title on every heading line. Check those prompts before the
+   next book. The reader must never drop a printed title, and never
+   drop a printed number.
 4. Prove each fix with the JSON before/after (Law 11).
 5. One book at a time. No batches. Ask Nir if unsure.
 
@@ -103,11 +129,9 @@ model calls (toc_reparse.py rebuilds from the saved transcript).
 - The BIBLE itself is NEVER edited (standing rule). This decision is
   an AMENDMENT recorded in PROGRESS.md under DECISIONS BY HUMAN.
 
-## Open question for Nir (ask BEFORE renaming the GOOD books)
+## The earlier same-morning rule is WITHDRAWN
 
-The GOOD books currently store "PART 2 Cardinal Manifestations and
-Presentation of Diseases". Should the name become only
-"Cardinal Manifestations and Presentation of Diseases" (meaning only),
-or is the current form acceptable when the book itself printed the
-title? Nir said "meaning, not the number" -- likely meaning-only, but
-CONFIRM before mass-renaming.
+The version of this file written earlier on 15 Oct said "meaning only,
+drop SECTION V / PART n". Nir retracted that. Do not follow it. If you
+find any note or memory that still says "strip the numbering", it is
+out of date -- this file is the truth.

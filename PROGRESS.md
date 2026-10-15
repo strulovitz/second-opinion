@@ -23,20 +23,21 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**SUPERSEDED 2026-10-15.** Read `HANDOFF-meaningful-names.md` FIRST.
+**SUPERSEDED 2026-10-15 (evening).** Read `HANDOFF-meaningful-names.md` FIRST.
 
 Nir stopped the one-book-at-a-time reading on 15 Oct: the province
 (middle) level of many books stores only a number ("PART I",
-"SECTION 3", "UNIT VII") with no meaning. His decision: MEANING only,
-at every level; when a book prints no title, look on the part's opening
-page, else WRITE a short descriptive name from the chapters and mark it
-"name_source": "written".
+"SECTION 3", "UNIT VII") with no meaning. He first decided MEANING
+only, then (same evening) changed his final rule: keep BOTH the
+number AND the meaning together ("Section V - Cardiac Radiology"),
+never meaning alone, because in the future we must be able to find
+"the book numbered X" fast. The database structure stays unchanged —
+one name field holds the combined string.
 
 BEFORE reading any of the remaining 15 books, the names of the already
 read books must be fixed and the TOC prompts must be changed to keep
-meaning only. Steps are in HANDOFF-meaningful-names.md. One book at a
-time; ask Nir before mass-renaming the GOOD books (open question at the
-end of that handoff).
+BOTH the numbering and the title. Steps are in
+HANDOFF-meaningful-names.md. One book at a time.
 
 After that, the remaining 15 books (ONE AT A TIME, never a batch):
 GREEN-HAND-2021, HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
@@ -243,7 +244,8 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-10: The 42 PDFs were MOVED from ~/Downloads/books to ~/second-opinion/kitchen/books/ (no copies; the folder was emptied).
 - 2026-10-10: Tier decision in force until end of October 2026: free models only for repetitive work; the MANAGER tier stays with Space Bunny.
 - 2026-10-10: Three file pairs are byte-identical in size and are almost certainly duplicate books (Goodman & Gilman, Brenner & Rector, Bailey & Love). NOTHING was deleted. Part 3 applies the duplicate-book rule and the human makes the final choice.
-- 2026-10-15: **MEANINGFUL TERRITORY NAMES (amendment to the province rule).** Nir's words: "i am interested in the meaning i am not interested in the number." Every heading level (Part/Section/Unit/Volume/chapter) keeps ONLY its meaningful title, never the numbering ("SECTION V CARDIAC RADIOLOGY" -> "Cardiac Radiology"). When a book prints "PART 3" with no title: first look on the part's opening page; if nothing, the manager WRITES a short descriptive name from the chapters inside, marked "name_source": "written". Full plan in HANDOFF-meaningful-names.md. This supersedes the immediate "read the next 15 books" step until the 22 already-read books are fixed and the TOC prompts are changed.
+- 2026-10-15: **MEANINGFUL TERRITORY NAMES (amendment to the province rule).** Nir's words: "i am interested in the meaning i am not interested in the number." Every heading level (Part/Section/Unit/Volume/chapter) keeps ONLY its meaningful title, never the numbering ("SECTION V CARDIAC RADIOLOGY" -> "Cardiac Radiology"). When a book prints "PART 3" with no title: first look on the part's opening page; if nothing, the manager WRITES a short descriptive name from the chapters inside, marked "name_source": "written". Full plan in HANDOFF-meaningful-names.md. This supersedes the immediate "read the next 15 books" step until the 22 already-read books are fixed and the TOC prompts are changed. **Same day, evening: SUPERSEDED by the entry below.**
+- 2026-10-15 (evening): **TERRITORY NAMES = NUMBER + MEANING TOGETHER (Nir's final rule, supersedes the entry above).** Nir's words: "i want to do BOTH the entity (entity is 'part' or 'chapter' etc) and the entity's number, AND the entity's meaning (if it does not have a written meaning in the book (title) then you write a short and descriptive meaning/title by yourself)... it is NOT elegant, the elegant solution would have been to design the database better and to make 2 separate fields... but i do not want to change the structure of the database which is in the BIBLE." So: "SECTION V CARDIAC RADIOLOGY" -> name = "Section V - Cardiac Radiology" (number kept, meaning added). Books that print "PART 3" with no title: look on the part's opening page; if nothing, WRITE a short descriptive name, marked "name_source": "written". ONE name field in the existing schema holds the combined string — the database structure is NOT changed. The GOOD books already reading "PART 2 Cardinal Manifestations..." are in the target form: do not strip their numbers. The TOC prompts must ask for BOTH the numbering and the title. Full plan in HANDOFF-meaningful-names.md.
 
 ## DONE (newest first, each with evidence)
 
