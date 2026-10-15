@@ -44,45 +44,81 @@ def reassign(doc, bid):
     # unless they are in the last province and their page belongs to an
     # earlier one.
     last = len(doc["provinces"]) - 1
-    # A gap repair is appended at the END of the transcript, so it sits in
-    # the LAST province while carrying numbers EARLIER than that province's
-    # own first chapter. The FIRST chapter in transcript order is the
-    # marker -- taking the minimum would let the strays themselves drag it
-    # down (FIRESTEIN-12: Part 18's real chapters are 121-130 and the
-    # strays 11, 52, 67, 105 are appended after them). The page test alone
-    # is not enough: FIRESTEIN prints Parts 17 and 18 on one contents page.
-    last_start = None
-    head = doc["provinces"][last]["chapters"][:1]
-    if head and str(head[0].get("number")).isdigit():
-        last_start = int(head[0]["number"])
+    # A gap repair is appended to the LAST province, so it sits there while
+    # carrying numbers far from that province's own run. The province's
+    # LONGEST CONSECUTIVE run of chapter numbers is its real body, and
+    # anything outside that run is a stray. A single "first chapter" or
+    # "minimum" marker fails: FIRESTEIN-12 appends its strays after the
+    # real chapters, BOLOGNIA-2024 puts them before. The page test alone
+    # is not enough either: FIRESTEIN prints Parts 17 and 18 on one
+    # contents page.
+    core = None
+    nums = [int(c["number"]) for c in doc["provinces"][last]["chapters"]
+            if str(c.get("number")).isdigit()]
+    if nums:
+        best_run, run = [], []
+        for a, b in zip(sorted(nums), sorted(nums)[1:] + [None]):
+            run.append(a)
+            if b is None or b != a + 1:
+                if len(run) > len(best_run):
+                    best_run = run
+                run = []
+        core = (min(best_run), max(best_run)) if best_run else None
+
+    def is_stray(c):
+        if core is None or not str(c.get("number")).isdigit():
+            return False
+        return not (core[0] <= int(c["number"]) <= core[1])
     for idx, prov in enumerate(doc["provinces"]):
         stay = []
         for c in prov["chapters"]:
-            home = provmap.get(str(c.get("_image")))
-            num = c.get("number")
-            earlier = (last_start is not None and str(num).isdigit()
-                       and int(num) < last_start)
-            if (idx == last and home is not None and home in by_index
-                    and home < last and earlier):
-                # WHERE it goes: by printed page, not by page-of-contents.
-                # FIRESTEIN-12 reads "11 Neutrophils 175" in the Part 18
-                # block; page 175 belongs to Part 2, but the contents page
-                # it sits on carries Part 1, so the image map would have
-                # filed it one Part too early. A province whose chapters
-                # span the stray's own printed page is its true home.
-                page = c.get("page_start")
-                best = home
-                if page is not None:
-                    for j, other in by_index.items():
-                        pages = [x.get("page_start") for x in other["chapters"]
-                                 if x.get("page_start") is not None]
-                        if pages and min(pages) <= page <= max(pages):
-                            best = j
-                            break
-                by_index[best]["chapters"].append(c)
-                moved += 1
-            else:
+            stray = is_stray(c)
+            if not (idx == last and stray):
                 stay.append(c)
+                continue
+            # WHERE it goes: by chapter NUMBER first. A province whose own
+            # numbers sit nearest the stray is its true home. Page alone is
+            # not enough because a mis-filed stray inflates the wrong
+            # province's page range until it looks like a match:
+            # BOLOGNIA-2024 filed "30 Pemphigoid Group, 31 Dermatitis
+            # Herpetiformis, 32 Epidermolysis Bullosa" (all blistering
+            # diseases) under SECTION 7 instead of SECTION 5, whose last
+            # chapter is 29.
+            page = c.get("page_start")
+            num = int(c["number"]) if str(c.get("number")).isdigit() else None
+            best, best_gap, best_pages = None, None, None
+            for j, other in by_index.items():
+                if j == idx:
+                    continue
+                ons = [int(x["number"]) for x in other["chapters"]
+                       if str(x.get("number")).isdigit()]
+                if not ons or num is None:
+                    continue
+                gap = 0 if min(ons) <= num <= max(ons) else min(
+                    abs(num - min(ons)), abs(num - max(ons)))
+                pgs = [x.get("page_start") for x in other["chapters"]
+                       if x.get("page_start") is not None]
+                pdist = 0
+                if page is not None and pgs:
+                    pdist = (0 if min(pgs) <= page <= max(pgs)
+                             else min(abs(page - min(pgs)),
+                                      abs(page - max(pgs))))
+                key = (gap, pdist)
+                if best_gap is None or key < best_gap:
+                    best, best_gap, best_pages = j, key, pgs
+            if best is None:
+                home = provmap.get(str(c.get("_image")))
+                if home in by_index and home != idx:
+                    best = home
+            # Already in the province its page belongs to: leave it.
+            # Appending to the list being iterated never ends
+            # (MEASURED 2026-10-15: BOLOGNIA-2024's dedupe spun forever
+            # because a stray's page fell inside the last SECTION's range).
+            if best is None or best == idx:
+                stay.append(c)
+                continue
+            by_index[best]["chapters"].append(c)
+            moved += 1
         prov["chapters"] = stay
     return moved
 
