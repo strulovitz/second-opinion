@@ -28,9 +28,9 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**GREEN-HAND-2021 is now read and CLEAN (see DONE 2026-10-16 (c)).
-Validator: 23/24 clean, 2,299 chapters.** 14 books remain, ONE AT A TIME,
-never a batch: HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
+**GREEN-HAND-2021 and HAZZARD-2022 are now read and CLEAN (DONE 2026-10-16
+(c) and (d)). Validator: 24/25 clean, 2,407 chapters.** 13 books remain,
+ONE AT A TIME, never a batch: IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
 MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
 STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
@@ -248,6 +248,63 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 (d) -- HAZZARD-2022 read: 108 chapters, 23 provinces, validator CLEAN; two pipeline bugs caught and fixed
+
+Hazzard's Geriatric Medicine and Gerontology, 8th ed. The contents pages
+(images 6-12, 69) print chapter numbers, titles and authors but NO page
+numbers anywhere -- checked by eye on the page image, not only by the
+model. The reader honestly answered NOPAGES on 4 of the 8 pages, but on
+the other 4 it copied the CHAPTER number into the page column (chapter 88
+-> "page 88"). Those 19 invented pages then triggered two bugs:
+
+1. `toc_strip_online_only.py` treated the book as "has pages" and
+   DELETED the 109 honest page-less chapters from the transcript, and its
+   second run overwrote the evidence file with count=0. FIXED (general):
+   a page carried on a NOPAGES page, or equal to its own chapter number,
+   is cleared (recorded in <BOOK_ID>-online-only.json under
+   "cleared_invented_pages"), never trusted; page-less chapters are
+   stripped only when they are a small minority (<= 1/3); a page with
+   `_page_source = pdf-link` is evidence and is never cleared.
+2. Pages for this book cannot come from the contents at all. They came
+   from the PDF ITSELF, two general zero-cost tools:
+   - `toc_links.py` (already existed): 92 clickable hyperlinks, 64
+     chapters matched;
+   - NEW `kitchen/toc_outline.py`: the PDF's bookmark outline holds 140
+     entries -- every Part, Section and CHAPTER with its true first
+     page. 64 more chapters filled (`_page_source = pdf-outline`), and
+     with `--regroup` the 24 outline banners rebuild the provinces in
+     the book's own order (the contents reading had duplicated Section
+     names across Parts). `toc_validate.py` learned that an outline page
+     is book evidence, same as a link page.
+3. Chapters 31-32 were skipped by the reader; `toc_fill_gaps.py` asked
+     for that gap by name and the model returned both.
+
+MEASURED result -- numbers 1-108 complete, every page from the book
+itself, validator ok:
+
+    Part I   Principles of Gerontology                    6 ch   1-6
+    Part II  Principles of Geriatrics                     1 ch   7-7
+    SECTION A-G (under Part II)                         31 ch   8-38
+    Part III Geriatric Conditions                        3 ch  39-41
+    SECTION A-C (under Part III)                        25 ch  42-66
+    Part IV  Principles of Palliative Medicine and Ethics 6 ch  67-72
+    SECTION A-I (under Part IV)                         36 ch  73-108
+
+**EVIDENCE** (2026-10-16, `cd ~/second-opinion && source .venv/bin/activate`):
+
+```
+$ python kitchen/toc_validate.py HAZZARD-2022 --vis
+       - 64 of 108 chapters get their page from the book's OWN PDF chapter link
+       - 44 of 108 chapters get their page from the PDF's OWN bookmark outline
+RESULT HAZZARD-2022 ok chapters=108 provinces=23 without_page=0
+
+$ python kitchen/toc_validate.py --vis
+24/25 clean, 2407 chapters total
+```
+
+Chapter totals rose 2,299 -> 2,407 exactly by HAZZARD's 108 chapters.
+The 25th book (MIDDLETON-2019) still has 0 chapters -- never read.
 
 ### DONE 2026-10-16 (c) -- GREEN-HAND-2021 read end to end: 60 chapters, 8 Parts, validator CLEAN
 

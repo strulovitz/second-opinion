@@ -48,9 +48,13 @@ def verify_pages(bid, chapters, sample=12, suffix="-toc"):
     # contents text and must not be judged against it. Such a page is proved
     # differently: toc_links.py opens the target page and reads the chapter
     # number printed there (recorded in <BOOK_ID>-vis-links.json).
+    # MEASURED 2026-10-16 on HAZZARD-2022: a page that came from the PDF's
+    # bookmark outline (toc_outline.py) is the same kind of book evidence
+    # and is excluded by the same rule.
     chapters = [c for c in chapters
                 if c.get("page_start") is not None
-                and c.get("_page_source") != "pdf-link"]
+                and c.get("_page_source") not in ("pdf-link",
+                                                  "pdf-outline")]
     step = max(1, len(chapters) // sample)
     checked = found = 0
     for c in chapters[::step][:sample]:
@@ -92,6 +96,7 @@ def validate(bid, suffix="-toc"):
     # such instead of being silently accepted or silently emptied.
     nopage = [c for c in chapters if c.get("page_start") is None]
     linked = [c for c in chapters if c.get("_page_source") == "pdf-link"]
+    outlined = [c for c in chapters if c.get("_page_source") == "pdf-outline"]
 
     # 1. page_start never decreasing
     drops = []
@@ -116,7 +121,8 @@ def validate(bid, suffix="-toc"):
             warns.append(f"only {found}/{checked} sampled page numbers are "
                          f"really printed next to their title -- the reader "
                          f"may have invented them")
-        if checked < 3 and len(chapters) >= 3 and not nopage and not linked:
+        if (checked < 3 and len(chapters) >= 3 and not nopage
+                and not linked and not outlined):
             warns.append(f"only {checked} of {len(chapters)} titles were "
                          f"even found in the raw TOC text")
     if linked:
@@ -124,6 +130,10 @@ def validate(bid, suffix="-toc"):
               f"page from the book's OWN PDF chapter link (the contents "
               f"prints none); each target page was opened and its chapter "
               f"number read there", flush=True)
+    if outlined:
+        print(f"       - {len(outlined)} of {len(chapters)} chapters get "
+              f"their page from the PDF's OWN bookmark outline (the "
+              f"contents prints none and carries no link for them)", flush=True)
     if nopage:
         warns.append(f"{len(nopage)} of {len(chapters)} chapters print NO page "
                      f"in the contents, so their page_start is null and their "

@@ -77,13 +77,59 @@ def main():
         # A book that prints NO page anywhere (BRANT-5, checked by eye) is a
         # different case: there every chapter has no page, none of them is an
         # anomaly, and the validator reports the book as printing no pages.
+        # MEASURED 2026-10-16 on HAZZARD-2022: that book's contents prints no
+        # page numbers either, but on half its contents pages the model still
+        # copied the CHAPTER number into the page column (chapter 88 -> page
+        # 88). Those few invented pages made the old test below see a
+        # "majority with pages" and strip the 109 honest page-less chapters
+        # from the transcript. Two repairs, both general:
+        #   a. a page carried on a NOPAGES page is INVENTED -- the marker
+        #      says the book printed no number there; clear it, keep the
+        #      chapter, and record the clearing;
+        #   b. page-less chapters are stripped only when they are a small
+        #      minority (fewer than one third of all chapters).
         jf = LOGS / f"{bid}-vis-toc.json"
-        nopage = []
+        nopage, cleared = [], []
+        nopages_images = set()
+        if src.exists():
+            for block in src.read_text().split("===== image ")[1:]:
+                img = block.split(" ")[0].strip()
+                if "NOPAGES" in block.split("=====\n", 1)[-1]:
+                    nopages_images.add(img)
         if jf.exists():
             doc = json.loads(jf.read_text())
+            for prov in doc["provinces"]:
+                for c in prov["chapters"]:
+                    # a page the PDF's own hyperlink gave us is EVIDENCE
+                    # (toc_links.py), never an invention; it is never cleared
+                    if c.get("_page_source") == "pdf-link":
+                        continue
+                    invented = False
+                    if (str(c.get("_image", "")) in nopages_images
+                            and c.get("page_start") is not None):
+                        invented = True
+                    # MEASURED again 2026-10-16 on HAZZARD-2022: on the
+                    # contents pages that did NOT carry NOPAGES the model
+                    # still copied the chapter number into the page column
+                    # (chapter 88 -> page 88, chapter 1 -> page 1). That
+                    # number-in-the-page-column copy is the invention the
+                    # BIBLE forbids since SABISTON-22; a page equal to its
+                    # own chapter number is cleared, kept, and recorded.
+                    if (not invented and c.get("page_start") is not None
+                            and str(c.get("page_start")) ==
+                            str(c.get("number")).strip()):
+                        invented = True
+                    if invented and c.get("page_start") is not None:
+                        cleared.append({"province": prov["name"],
+                                        "number": c.get("number"),
+                                        "title": c.get("title"),
+                                        "page_was": c["page_start"],
+                                        "image": c.get("_image")})
+                        c["page_start"] = None
             flat = [c for p in doc["provinces"] for c in p["chapters"]]
             withpage = [c for c in flat if c.get("page_start") is not None]
-            if withpage and len(withpage) < len(flat):
+            pageless = len(flat) - len(withpage)
+            if withpage and pageless * 3 <= len(flat):
                 for prov in doc["provinces"]:
                     keep = []
                     for c in prov["chapters"]:
@@ -119,6 +165,8 @@ def main():
                                       + "\n".join(keep))
                     src.write_text("\n".join(blocks))
                     stripped += out_lines
+            elif cleared:
+                jf.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
 
         out = LOGS / f"{bid}-online-only.json"
         prev = json.loads(out.read_text()) if out.exists() else {}
@@ -129,13 +177,15 @@ def main():
              "chapters": removed,
              "transcript_lines_stripped": stripped,
              "printed_without_any_page": nopage,
+             "cleared_invented_pages": cleared,
              "online_only_count": prev.get("online_only_count", len(removed))},
             indent=1, ensure_ascii=False))
         n = sum(len(p["chapters"]) for p in
                 json.loads(jf.read_text())["provinces"]) if jf.exists() else 0
         print(f"{bid}: removed {len(removed)} online-only and {len(nopage)} "
               f"page-less chapter(s) from the geography, {len(stripped)} "
-              f"transcript line(s) stripped; {n} chapters remain -- recorded "
+              f"transcript line(s) stripped, {len(cleared)} invented page(s) "
+              f"cleared; {n} chapters remain -- recorded "
               f"in {out.name}", flush=True)
 
 
