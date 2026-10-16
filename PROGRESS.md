@@ -28,12 +28,11 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**KAPLAN-11 is now read and CLEAN (DONE 2026-10-16 (f)). Together with
-GREEN-HAND-2021, HAZZARD-2022 and IRWIN-RIPPE-2023 (DONE (c), (d), (e)).
-Validator: 26/27 clean, 2,682 chapters.**
-11 books remain, ONE AT A TIME, never a batch: MANDELL-9,
-MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
-STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
+**MANDELL-9 is now read and CLEAN (DONE 2026-10-16 (g)). Validator: 27/28
+clean, 2,892 chapters.**
+10 books remain, ONE AT A TIME, never a batch: MIDDLETON-2019,
+MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022, STAHL-2024,
+WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
 **UNIFORMITY RULE (Nir, 2026-10-16): every book is treated the SAME way.**
 No book gets an extra file, field or special case that the others do not
@@ -249,6 +248,54 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 (g) -- MANDELL-9 read: 210 chapters, 4 Parts, validator CLEAN (no contents page in the PDF)
+
+Mandell, Douglas & Bennett's Principles and Practice of Infectious
+Diseases, 9th ed (2019). This is the SECOND book (after SLEISENGER-11)
+with NO printed table of contents anywhere in the PDF. The library copy
+(libgen scan, 4,895 pages) runs cover -> contributors -> preface ->
+straight into Part 1, chapter 1: there is no contents page to find, and
+no chapter hyperlinks to click. The locator (`toc_vision.py` locate,
+images 1-120) honestly reported "no contents page found", as did the
+wider scan.
+
+The book's own PDF bookmark outline, however, is complete and exact:
+11,527 entries, with Part banners at depth 0, section letters at depth 1
+("A Microbial Pathogenesis", "A Fever", ...), and every chapter at depth
+2 with its true first image. That is evidence from the book itself (Law
+2), exactly like a hyperlink -- not a guess.
+
+New one-off (recorded, then deleted; MANDELL-9's geography is written
+from the outline into `kitchen/logs/MANDELL-9-vis-toc.json`):
+depth-0 banners matching "I"/"II"/... become the 4 Parts, depth-2
+chapter entries "N Title" become the chapters with `_page_source =
+pdf-outline` and the outline's own image as `page_start`. 210 chapters,
+numbers present as printed, every page from the book.
+
+Spot-checked by opening two pages: chapter 55 (image 990) really opens
+Part II "Major Clinical Syndromes" / Section A "Fever" / chapter 55
+"Temperature Regulation and the Pathogenesis of Fever" -- matches the
+outline exactly.
+
+`toc_validate.py` now accepts a book whose every chapter page comes from
+`pdf-outline` even when there is no raw TOC text to verify against
+(the printed contents does not exist in this PDF); before this, such a
+book was WARN for the missing TOC text. The evidence line is printed:
+
+    RESULT MANDELL-9 ok chapters=210 provinces=4 without_page=0
+    - all 210 chapters get their page from the PDF's OWN bookmark outline
+    (this book has no printed contents to verify against)
+
+MEASURED result -- numbers as printed, every page from the book:
+
+    I   Basic Principles in the Diagnosis and Management   53 ch  29-989
+    II  Major Clinical Syndromes                          76 ch 990-2266
+    III Infectious Diseases and Their Etiologic Agents    59 ch 2267-4516
+    IV  Special Problems                                  22 ch 4517-4895
+
+Full library: 27/28 clean, 2,892 chapters. Only MIDDLETON-2019 remains
+unread (as before).
 
 ### DONE 2026-10-16 (f) -- KAPLAN-11 read: 60 chapters, both Volumes, validator CLEAN
 

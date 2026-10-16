@@ -114,7 +114,18 @@ def validate(bid, suffix="-toc"):
     ver = verify_pages(bid, chapters, suffix=suffix)
     count_note = None
     if ver is None:
-        warns.append("no raw TOC text to verify the page numbers against")
+        # MEASURED 2026-10-16 on MANDELL-9: some PDFs (libgen scans) contain
+        # NO printed table of contents at all, so there is no raw TOC text
+        # to verify against. If every chapter's page comes from the book's
+        # own PDF bookmark outline (`pdf-outline`) -- evidence from the
+        # book itself, not a guess -- that is enough, and the book is not
+        # penalised for the missing TOC.
+        if outlined and len(outlined) == len(chapters):
+            count_note = (f"all {len(chapters)} chapters get their page from "
+                          f"the PDF's OWN bookmark outline (this book has no "
+                          f"printed contents to verify against)")
+        else:
+            warns.append("no raw TOC text to verify the page numbers against")
     else:
         checked, found = ver
         if checked and found < checked * 0.7:
@@ -209,6 +220,8 @@ def main():
               f"chap={res['chapters']:4d} {rng}", flush=True)
         for w in res["warnings"]:
             print(f"       - {w}", flush=True)
+        if cnt:
+            print(f"       - {cnt}", flush=True)
         # MEASURED 2026-10-13: build_book.py searched the word " clean" in this
         # script's output and found it in the summary line "0/1 clean", so a
         # book with 0 chapters was recorded as CLEAN. A machine-readable line
