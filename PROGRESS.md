@@ -28,9 +28,9 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**GREEN-HAND-2021 and HAZZARD-2022 are now read and CLEAN (DONE 2026-10-16
-(c) and (d)). Validator: 24/25 clean, 2,407 chapters.** 13 books remain,
-ONE AT A TIME, never a batch: IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
+**GREEN-HAND-2021, HAZZARD-2022 and IRWIN-RIPPE-2023 are now read and CLEAN
+(DONE 2026-10-16 (c), (d), (e)). Validator: 25/26 clean, 2,622 chapters.**
+12 books remain, ONE AT A TIME, never a batch: KAPLAN-11, MANDELL-9,
 MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
 STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
@@ -248,6 +248,67 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 (e) -- IRWIN-RIPPE-2023 read: 215 chapters, 20 Sections, validator CLEAN
+
+Irwin & Rippe's Intensive Care Medicine, 13th ed -- the biggest book yet
+(7,992 pages). The contents was found and read (images 75-98, 24 pages,
+KIND=CHAPTERS, NOPAGES: this book prints NO page numbers in the contents),
+but the automated heading pass afterwards produced a broken geography: 250
+chapters for 189 unique numbers, chapters 1-26 missing entirely, and
+"Section 3" holding 94 chapters that belonged to Sections 7-10.
+
+Rebuilt from the saved transcript and the PDF itself, zero model calls:
+
+1. `toc_reparse.py` -- the transcript holds chapters 1-215 complete,
+   nothing was ever lost from it (the transcript is safe; the JSON was
+   the broken part).
+2. `toc_links.py` -- the contents pages carry clickable hyperlinks:
+   237 matched, 215 chapters got their true first page from the book
+   itself (`_page_source = pdf-link`), zero conflicts.
+3. NEW `toc_outline.py --regroup` -- the PDF outline's 23 banner entries
+   rebuilt the provinces IN THE BOOK'S OWN ORDER, and this book prints
+   the Section titles in the outline, so every province now carries its
+   full title (the rebuilt JSON previously said bare "Section 2" etc.).
+
+MEASURED result -- numbers 1-215 complete, every page from the book,
+validator ok:
+
+    Section 1  Procedures, Techniques and Ultrasonography   26 ch  1-26
+    Section 2  Minimally Invasive Monitoring                 5 ch 27-31
+    Section 3  Palliative Care and Ethical Issues            4 ch 32-35
+    Section 4  Shock, Trauma and Sepsis Management          10 ch 36-45
+    Section 5  Surgical Problems in the ICU                  9 ch 46-54
+    Section 6  Transplantation                              10 ch 55-64
+    Section 7  Rheumatologic, Immunologic, Dermatologic      5 ch 65-69
+    Section 8  Infectious Disease Problems                  17 ch 70-86
+    Section 9  Hematologic and Oncologic Problems            9 ch 87-95
+    Section 10 Pharmacology, Overdoses and Poisonings       30 ch 96-125
+    Section 11 Critical Care Consequences of Weapons         4 ch 126-129
+    Section 12 ICU Design, Organization, Operation           6 ch 130-135
+    Section 13 Endocrine Problems                            8 ch 136-143
+    Section 14 Neurologic Problems                          13 ch 144-156
+    Section 15 Psychiatric Issues                            6 ch 157-162
+    Section 16 Pulmonary Problems                           23 ch 163-185
+    Section 17 Cardiovascular Problems and Coronary Care    12 ch 186-197
+    Section 18 Renal Problems                                6 ch 198-203
+    Section 19 Gastrointestinal Disease Problems             9 ch 204-212
+    Section 20 Metabolism and Nutrition                      3 ch 213-215
+
+**EVIDENCE** (2026-10-16, `cd ~/second-opinion && source .venv/bin/activate`):
+
+```
+$ python kitchen/toc_validate.py IRWIN-RIPPE-2023 --vis
+       - 215 of 215 chapters get their page from the book's OWN PDF chapter link
+RESULT IRWIN-RIPPE-2023 ok chapters=215 provinces=20 without_page=0
+
+$ python kitchen/toc_validate.py --vis
+25/26 clean, 2622 chapters total
+```
+
+Chapter totals rose 2,407 -> 2,622 exactly by IRWIN's 215 chapters.
+The 26th book (MIDDLETON-2019) still has 0 chapters -- never read.
+Backup of the broken JSON kept as IRWIN-RIPPE-2023-vis-toc.before-rebuild.json.
 
 ### DONE 2026-10-16 (d) -- HAZZARD-2022 read: 108 chapters, 23 provinces, validator CLEAN; two pipeline bugs caught and fixed
 
