@@ -15,6 +15,16 @@ it, and the source is recorded:
     toc      printed in the contents, the heading read, or the PDF text
     written  we composed it from the chapters (only when no book prints it)
 
+A province whose name has no number at all is normally a structure problem
+and is only REPORTED. There is one exception, MEASURED on GOODMAN-14
+(16 Oct 2026): the contents prints the banner on its own line
+("Section I" / next line "General Principles 1") and the reader kept the
+title but lost the number. When a province's title is EXACTLY a title the
+book printed beside a numbered banner, the number is recovered from that
+printed banner -- still the book's own words, never a guess. A province
+whose title the book never puts beside a number ("Appendices") stays
+REPORTED, never numbered (KRAUSE-16's APPENDICES is treated the same way).
+
 Nothing here touches chapters, pages or structure, so the validator's
 verdict for the book must not change. Provinces that are not numbered at
 all ("ALL", "Appendices", a bare volume) are REPORTED, never guessed at --
@@ -131,6 +141,78 @@ def raw_texts(bid):
     # of a word are not separated by single-character boundaries.
     glue = lambda t: re.sub(r"(?<=\b[A-Z]) (?=[A-Z]\b)", "", t, flags=re.M)
     return glue(front), "\n".join(glue(x) for x in local)
+
+
+def raw_front(bid):
+    """The book's own first pages in RAW reading order (pdftotext -raw).
+
+    The default layout extraction keeps the two contents columns side by
+    side, so a banner line reads "Section I    Cameron S. Metcalf, ..." and
+    the author looks like the title. In raw order each column is a clean
+    sequence and the banner sits on its own line (MEASURED on
+    GOODMAN-14's page 8)."""
+    cache = LOGS / f"{bid}-rawfront.txt"
+    if not cache.exists():
+        try:
+            recs = {b["book_id"]: b for b in
+                    json.loads((KITCHEN / "books.json").read_text())}
+            pdf = BOOKS / recs[bid]["pdf_file"]
+            subprocess.run(["pdftotext", "-f", "1", "-l", "40", "-raw",
+                            str(pdf), str(cache)],
+                           capture_output=True, timeout=300)
+        except Exception:
+            pass
+    return cache.read_text(errors="replace") if cache.exists() else ""
+
+
+# a heading banner printed on its own line; a page or folio may lead it
+# ("viii Section IV") but nothing may follow it
+BANNER = re.compile(r"\b(PART|SECTION|UNIT|VOLUME|BOOK|MODULE)\s+"
+                    r"([IVXLCDM]+|\d+)\s*$", re.I)
+TRAILING_NUM = re.compile(r"[\s.,;:]+\d{1,4}$")
+CHAPTER_LINE = re.compile(r"^(?:\d+\s*[\.\)]\s|Chapter\s+\d|CHAPTER\s+\d)", re.I)
+
+
+def banner_titles(bid):
+    """{squash(title): (kind, num, title, page)} for every banner the printed
+    contents puts on its own line with its title underneath.
+
+    "Section I" / "General Principles 1" -> ('Section', 'I',
+    'General Principles', 1). The trailing number is the page the book
+    prints beside the heading; it goes in toc_page, never in the name."""
+    out = {}
+    lines = raw_front(bid).splitlines()
+    i = 0
+    while i < len(lines):
+        m = BANNER.search(lines[i].strip())
+        if not m:
+            i += 1
+            continue
+        kind = m.group(1).title()
+        num = m.group(2)
+        block = []
+        for j in range(i + 1, min(i + 5, len(lines))):
+            s = re.sub(r"[\u200b\u200c\u200d\ufeff\xa0\t]+", " ",
+                       lines[j]).strip()
+            if not s or BANNER.search(s) or CHAPTER_LINE.match(s):
+                break
+            block.append(s)
+            if TRAILING_NUM.search(s):
+                break
+        if not block:
+            i += 1
+            continue
+        whole = norm(" ".join(block))
+        page = None
+        mnum = TRAILING_NUM.search(whole)
+        if mnum:
+            page = int(mnum.group(0).strip(" .,;:"))
+            whole = TRAILING_NUM.sub("", whole).strip(" :-\u2014.,;")
+        if whole and not split_heading(whole):
+            out.setdefault(squash(whole), (kind, num, whole, page))
+        i += 1
+    return out
+
 
 
 def clean_title(t):
@@ -310,15 +392,27 @@ def fix_book(bid, apply=False):
     print(f"\n===== {bid} ({len(doc['provinces'])} provinces)")
     changed = 0
     structural = []
+    banners = banner_titles(bid)
+    page_added = 0
     for p in doc["provinces"]:
         old = p.get("name", "")
         sp = split_heading(old)
         if not sp:
-            structural.append(old)
-            print(f"  == NOT NUMBERED: {old!r}  (structure problem, not "
-                  f"touched here)")
-            continue
-        kind, num, title = sp
+            # The contents may print the number on a banner line of its own
+            # and the title underneath (MEASURED on GOODMAN-14: "Section I"
+            # / "General Principles 1"). The province's title is then an
+            # exact match of a printed banner title, so the number is the
+            # book's own -- recovered, never invented.
+            hit = banners.get(squash(old))
+            if not hit:
+                structural.append(old)
+                print(f"  == NOT NUMBERED: {old!r}  (no banner with this "
+                      f"title printed in the contents -- structure problem, "
+                      f"not touched)")
+                continue
+            kind, num, title = hit[0], hit[1], hit[2]
+        else:
+            kind, num, title = sp
         title = clean_title(title)
         src = "toc"
         if title:
@@ -351,13 +445,25 @@ def fix_book(bid, apply=False):
         p["name"] = new
         p["part_name"] = new
         p["name_source"] = src
+        # the page the book prints beside the heading, when it prints one
+        # (never in the name; MEASURED: only GOODMAN-14 gains such a page
+        # for provinces that did not already carry one)
+        if p.get("toc_page") is None:
+            hit = banners.get(squash(title))
+            if hit and hit[3] is not None:
+                p["toc_page"] = hit[3]
+                page_added += 1
         mark = "  " if new == old else "->"
-        print(f"  {mark} [{src:7s}] {new}")
-    if apply and changed:
+        page = p.get("toc_page")
+        print(f"  {mark} [{src:7s}] {new}" +
+              (f"   (contents page {page})" if page is not None else ""))
+    if apply and (changed or page_added):
         path.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
-        print(f"  WRITTEN: {changed} name(s) changed")
-    elif changed:
-        print(f"  (dry run -- {changed} name(s) would change; --apply to write)")
+        print(f"  WRITTEN: {changed} name(s) changed, "
+              f"{page_added} contents page(s) recorded")
+    elif changed or page_added:
+        print(f"  (dry run -- {changed} name(s) would change and "
+              f"{page_added} contents page(s) recorded; --apply to write)")
     return {"book": bid, "changed": changed, "structural": structural}
 
 

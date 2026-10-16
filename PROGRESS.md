@@ -23,24 +23,17 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**SUPERSEDED 2026-10-16.** Read `HANDOFF-meaningful-names.md`
-FIRST, then the 2026-10-16 DONE entry below.
+**SUPERSEDED 2026-10-16 (evening).** Read `HANDOFF-meaningful-names.md`
+FIRST, then the two 2026-10-16 DONE entries below.
 
-The naming work is **well under way, not finished**. On 15 Oct six books
-were given real parts (FIRESTEIN 18, BOLOGNIA 22, ROCKWOOD 4, ROBBINS 6,
-THOMPSON 4, BRENNER 18 -- the last three WRITTEN by us on Nir's order),
-and five pipeline bugs were fixed. On 16 Oct GRAY-2020 was folded to 9
-clean Sections (see DONE 2026-10-16). **One book still needs fixing:**
+**BOTH queued books are now fixed: GRAY-2020 (9 Sections, 79 chapters) and
+GOODMAN-14 (9 numbered Sections + Appendices, 78 chapters). Validator still
+22/23 clean, 2,239 chapters.**
 
-1. **GOODMAN-14** -- 10 provinces, mixed: some carry the section number
-   ("Section IV Inflammation, Immunomodulation, and Hematopoiesis") and
-   some do not ("General Principles", "Neuropharmacology"). The missing
-   numbers must be recovered from the printed contents, and the truncated
-   title of Section IV finished from the book.
-
-Then: the TOC prompts must be changed to keep BOTH the numbering and the
-title, so the remaining 15 books are read correctly the first time.
-Then the remaining 15 books (ONE AT A TIME, never a batch):
+NEXT: change the TOC read prompts so the remaining 15 books keep BOTH the
+numbering and the title when they are read the first time (the reader must
+never drop a printed title, and never drop a printed number). Then read the
+remaining 15 books (ONE AT A TIME, never a batch):
 GREEN-HAND-2021, HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
 MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
 STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
@@ -260,7 +253,73 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
-### DONE 2026-10-16 -- GRAY-2020 folded to 9 clean Sections; no side files, one rule for all books
+### DONE 2026-10-16 (b) -- GOODMAN-14 named from the printed contents; both queued books now done
+
+GOODMAN-14 came out of the reader with three provinces carrying no number
+("General Principles", "Neuropharmacology", "Modulation of Pulmonary,
+Renal, and Cardiovascular") and six carrying a number without the
+" - " connector. The book was verified page by page before any change:
+
+- PDF page 8 of the contents (seen as an IMAGE by the manager, not only
+  as text) prints the banners on their own line: "Section I" /
+  "General Principles" 1, "Section II" / "Neuropharmacology" 171,
+  "Section III" / "Modulation of Pulmonary, Renal, and Cardiovascular" 555.
+- The Section III title looks cut off, but it is NOT: the book prints the
+  exact same words on the contents AND on Section III's own opening page
+  (printed page 555, raw text line 72508: "Modulation of Pulmonary,
+  Renal, / and Cardiovascular / III / Section"). Nothing was invented; the
+  title is kept verbatim as printed (Law 3).
+- Section IV's title was also checked in the contents (page viii):
+  "Inflammation, Immunomodulation, and Hematopoiesis" -- complete as we
+  had it; only the connector was missing.
+
+`kitchen/toc_fix_names.py` gained ONE general rule (no book-specific
+code): when a province's title is EXACTLY a title the printed contents
+puts beside a numbered banner on its own line, the number is recovered
+from that banner and recorded as `toc_page` if the book prints a page
+beside the heading. A province whose title is never printed beside a
+number ("Appendices") stays reported and unnumbered -- KRAUSE-16's
+"APPENDICES" is treated by the same rule (Nir's uniformity order).
+
+Target form reached for all 10 provinces:
+
+```
+Section I   - General Principles                    (9 ch,  contents page 1)
+Section II  - Neuropharmacology                    (19 ch,  contents page 171)
+Section III - Modulation of Pulmonary, Renal, and Cardiovascular (9 ch, contents page 555)
+Section IV  - Inflammation, Immunomodulation, and Hematopoiesis  (8 ch, contents page 747)
+Section V   - Endocrine Pharmacology                (7 ch,  contents page 921)
+Section VI  - Gastrointestinal Pharmacology         (3 ch,  contents page 1071)
+Section VII - Chemotherapy of Infectious Diseases  (13 ch,  contents page 1125)
+Section VIII- Pharmacotherapy of Neoplastic Disease (5 ch,  contents page 1335)
+Section IX  - Special Systems Pharmacology          (3 ch,  contents page 1451)
+Appendices                                        (2 ch,  no number printed)
+```
+
+**EVIDENCE** (2026-10-16, `cd ~/second-opinion && source .venv/bin/activate`):
+
+```
+$ python kitchen/toc_fix_names.py --all          # dry run over ALL books
+  (dry run -- 0 name(s) would change and 6 contents page(s) recorded)
+--- total provinces renamed: 0
+--- structure still to fix -> GOODMAN-14: ['Appendices']
+--- structure still to fix -> KRAUSE-16: ['APPENDICES']
+
+$ python kitchen/toc_fix_names.py GOODMAN-14 --apply
+  WRITTEN: 0 name(s) changed, 6 contents page(s) recorded
+  (the 9 names were written by the earlier run of the same session)
+
+$ python kitchen/toc_validate.py --vis
+RESULT GOODMAN-14 ok chapters=78 provinces=10 without_page=0
+22/23 clean, 2239 chapters total
+```
+
+Chapters unchanged (78 before and after). Only Goodman and KRAUSE have an
+unnumbered province at all, and both are Appendices, which the books
+number never -- reported, not guessed.
+
+
+### DONE 2026-10-16 (a) -- GRAY-2020 folded to 9 clean Sections; no side files, one rule for all books
 
 GRAY-2020 printed SECTION banners ("SECTION 4: HEAD AND NECK") with smaller
 unnumbered headings ("Head and neck", "Upper aerodigestive tract", "Special

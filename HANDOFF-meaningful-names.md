@@ -40,19 +40,26 @@ ledger entry before touching the pipeline again. The dangerous one:
 format), and only the backup held the 71 chapters. **Always copy a
 book's `vis-toc.json` aside before any rebuild.**
 
-**GRAY-2020 IS DONE (16 Oct 2026).** The 8 loose sub-headings were folded
-into their printed Sections (Section 4 = ch 33-45, Section 7 = 52-58,
-Section 8 = 59-75); the book now has 9 Sections and 79 chapters, validator
-22/23 and 2,239 chapters unchanged. NO side file was kept for the folded
-headings -- Nir's UNIFORMITY order of 16 Oct: every book is treated the
-SAME way, no book gets an extra file the others do not have.
+**BOTH BOOKS ARE NOW DONE (16 Oct 2026).** Validator: 22/23 clean,
+2,239 chapters, unchanged.
 
-**ONE BOOK STILL TO DO:**
+1. **GRAY-2020** -- the 8 loose sub-headings were folded into their
+   printed Sections (Section 4 = ch 33-45, Section 7 = 52-58, Section 8 =
+   59-75); the book now has 9 Sections and 79 chapters. NO side file was
+   kept for the folded headings -- Nir's UNIFORMITY order of 16 Oct: every
+   book is treated the SAME way, no book gets an extra file the others do
+   not have.
+2. **GOODMAN-14** -- the three unnumbered provinces got their numbers back
+   from the printed contents ("Section I / General Principles 1", etc.) and
+   all nine Sections now read "Section N - Title". "Appendices" stays
+   unnumbered because the book prints no number for it (KRAUSE-16's
+   APPENDICES is treated the same way). Section III's long title was
+   verified TWICE in the book (contents + its opening page) -- it really
+   ends at "Cardiovascular"; nothing was invented.
 
-2. **GOODMAN-14** -- 10 provinces, mixed: "Section IV Inflammation,
-   Immunomodulation, and Hematopoiesis" has a number, but "General
-   Principles" and "Neuropharmacology" do not. Recover the missing
-   numbers from the printed contents and finish the truncated title.
+**NEXT: change the toc_vision / toc_headings prompts** so the remaining 15
+books keep BOTH the numbering AND the title when they are read. Then the
+15 unread books, ONE AT A TIME.
 
 Then change the TOC prompts so the remaining 15 books keep BOTH the
 numbering and the title when they are read.
