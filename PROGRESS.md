@@ -28,10 +28,10 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**MIDDLETON-2019 is now read and CLEAN (DONE 2026-10-16 (h)). Validator:
-28/28 clean, 2,991 chapters -- every attempted book is clean.**
-9 books remain, ONE AT A TIME, never a batch: MILLER-10, MURRAY-7,
-NELSON-2024, OXFORD-6, ROSEN-2022, STAHL-2024, WILLIAMS-ENDO-2024,
+**MILLER-10 is now read and CLEAN (DONE 2026-10-16 (i)). Validator: 29/29
+clean, 3,078 chapters -- every attempted book is clean.**
+8 books remain, ONE AT A TIME, never a batch: MURRAY-7, NELSON-2024,
+OXFORD-6, ROSEN-2022, STAHL-2024, WILLIAMS-ENDO-2024,
 WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
 **UNIFORMITY RULE (Nir, 2026-10-16): every book is treated the SAME way.**
@@ -248,6 +248,47 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 (i) -- MILLER-10 read: 87 chapters, 8 Sections, validator CLEAN
+
+Miller's Anesthesia, 10th ed (2-volume set in one PDF, 13,485 pages --
+the biggest book in the library). The printed Table of Contents exists
+(images 6-65) but carries NO page numbers -- it is a hyperlinked
+navigation list of Section / chapter / subsection titles. The PDF
+bookmark outline (932 entries) is clean and hierarchical:
+
+    depth 0   front matter, Volume 1, Volume 2, Index
+    depth 1   8 Sections (I-VIII)
+    depth 2   87 chapters ("N. Title")
+    depth 3   824 subsections (kept out of the geography)
+
+A one-off builder took the 8 Sections as provinces and the 87 chapters
+as districts with `_page_source = pdf-outline`. Chapter numbers 1-87
+complete, none missing.
+
+Spot-checked by opening two pages with my own eyes:
+- image 681 prints "8: Consciousness, Memory, and Anesthesia" -- the
+  first chapter of Section II -- matches the outline exactly
+- image 12301 prints "83: Burn Management" -- the first chapter of
+  Section VIII -- matches the outline exactly
+
+MEASURED result -- chapters 1-87 complete, every page from the book:
+
+    Section I.   INTRODUCTION                          7 ch   122-598
+    Section II.  Anesthetic Physiology                19 ch   681-3651
+    Section III. Anesthesia Management                20 ch  3697-6706
+    Section IV.  Adult Subspecialty Management        25 ch  6823-10379
+    Section V.   Pediatric Anesthesia                  4 ch 10540-11217
+    Section VI.  Postoperative Care                    3 ch 11553-11809
+    Section VII. Critical Care Medicine                4 ch 11870-12181
+    Section VIII Ancillary Responsibilities/Problems   5 ch 12301-12659
+
+Evidence:
+
+    RESULT MILLER-10 ok chapters=87 provinces=8 without_page=0
+    - all 87 chapters get their page from the PDF's OWN bookmark outline
+    Full library: 29/29 clean, 3,078 chapters total
+    -- EVERY attempted book is now clean; 8 books remain unread.
 
 ### DONE 2026-10-16 (h) -- MIDDLETON-2019 read: 99 chapters, 8 Sections, validator CLEAN (library now 28/28 clean)
 

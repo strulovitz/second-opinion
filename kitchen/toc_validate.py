@@ -122,8 +122,8 @@ def validate(bid, suffix="-toc"):
         # penalised for the missing TOC.
         if outlined and len(outlined) == len(chapters):
             count_note = (f"all {len(chapters)} chapters get their page from "
-                          f"the PDF's OWN bookmark outline (this book has no "
-                          f"printed contents to verify against)")
+                          f"the PDF's OWN bookmark outline (no page numbers "
+                          f"printed in the contents to verify against)")
         else:
             warns.append("no raw TOC text to verify the page numbers against")
     else:
