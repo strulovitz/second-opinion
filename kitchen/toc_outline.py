@@ -91,7 +91,7 @@ def main():
     for c in chapters:
         by_num.setdefault(str(c["number"]), c)
 
-    filled, filled_numbers, skipped = [], [], []
+    filled, filled_numbers, skipped, corrections = [], [], [], []
     for prov in doc.get("provinces", []):
         for c in prov.get("chapters", []):
             num = str(c.get("number", "")).strip()
@@ -101,11 +101,17 @@ def main():
                     skipped.append({"number": num, "why": "no outline match"})
                 continue
             if not title_agrees(oc["title"], c.get("title", "")):
-                skipped.append({"number": num,
-                                "why": "outline title disagrees",
-                                "outline_title": oc["title"],
-                                "toc_title": c.get("title")})
-                continue
+                # MEASURED 2026-10-16 on KAPLAN-11: chapter 11's reader
+                # title was really the title of sub-entry 11.11 (the
+                # fill-gap call answered with a subsection). The PDF's own
+                # bookmark outline AND the contents heading both say
+                # "11 Substance-Related Disorders", so the book itself
+                # decides: take the outline's title, record the change,
+                # never keep a title that contradicts the book.
+                corrections.append({"number": num,
+                                    "old_toc_title": c.get("title"),
+                                    "outline_title": oc["title"]})
+                c["title"] = oc["title"]
             c["page_start"] = oc["image"]
             c["_page_source"] = "pdf-outline"
             c["_outline_image"] = oc["image"]
@@ -116,12 +122,15 @@ def main():
     toc_path.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
     res = {"book_id": bid, "entries": len(entries),
            "outline_chapters": len(chapters), "matched": len(filled),
-           "filled": filled, "skipped": skipped, "structure": structure}
+           "filled": filled, "skipped": skipped,
+           "title_corrections": corrections, "structure": structure}
     (LOGS / f"{bid}-vis-outline.json").write_text(
         json.dumps(res, indent=1, ensure_ascii=False))
     print(f"{bid}: outline entries={len(entries)} "
           f"outline chapters={len(chapters)}")
     print(f"  chapters filled from the outline: {len(filled)}")
+    print(f"  title corrections taken from the outline: "
+          f"{json.dumps(corrections)[:300]}")
     print(f"  skipped: {json.dumps(skipped)[:400]}")
     print(f"  structure banners kept in vis-outline.json: {len(structure)}")
 

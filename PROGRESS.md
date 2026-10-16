@@ -28,9 +28,10 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**GREEN-HAND-2021, HAZZARD-2022 and IRWIN-RIPPE-2023 are now read and CLEAN
-(DONE 2026-10-16 (c), (d), (e)). Validator: 25/26 clean, 2,622 chapters.**
-12 books remain, ONE AT A TIME, never a batch: KAPLAN-11, MANDELL-9,
+**KAPLAN-11 is now read and CLEAN (DONE 2026-10-16 (f)). Together with
+GREEN-HAND-2021, HAZZARD-2022 and IRWIN-RIPPE-2023 (DONE (c), (d), (e)).
+Validator: 26/27 clean, 2,682 chapters.**
+11 books remain, ONE AT A TIME, never a batch: MANDELL-9,
 MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
 STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
@@ -248,6 +249,51 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 (f) -- KAPLAN-11 read: 60 chapters, both Volumes, validator CLEAN
+
+Kaplan & Sadock's Comprehensive Textbook of Psychiatry, 11th ed (16,525
+pages). This book's contents prints NO page numbers and is a three-level
+list: VOLUME -> integer chapter -> dotted sub-entries (1.1, 33.13a ...).
+The reader transcribed all three levels as chapters (414 entries, only 50
+plain integers 1-60 present) and printed 10 of the chapters themselves as
+heading lines instead of chapter lines, because their sub-entries follow
+them. Repaired with ZERO model calls beyond the original read and one
+`toc_fill_gaps.py` call:
+
+1. NEW `toc_split_subsections.py` -- moves the 376 dotted sub-entries to
+   `kitchen/logs/KAPLAN-11-vis-subsections.json` (recorded with their
+   parent chapter, never dropped), and re-reads the 10 heading lines the
+   reader printed as "P  3  Contributions of the Psychological Sciences"
+   as the chapters they are -- number AND title are the model's own
+   recorded words, nothing invented. Result: 60 chapters, numbers 1-60
+   complete.
+2. `toc_links.py` -- 49 chapters got their true first page from the
+   contents pages' own clickable hyperlinks (`_page_source = pdf-link`).
+3. `toc_outline.py` -- the PDF bookmark outline filled the remaining 11
+   pages (`_page_source = pdf-outline`), and corrected ONE title where the
+   reader had answered with a sub-entry's title: chapter 11 is
+   "Substance-Related Disorders" (PDF outline AND the contents heading
+   both say so), not "Anabolic-Androgenic Steroid-Related Disorders"
+   (= sub-entry 11.11). The change is recorded in
+   `KAPLAN-11-vis-outline.json` under `title_corrections`.
+4. `toc_outline.py --regroup` -- rebuilt the provinces from the outline's
+   two printed banners, IN THE BOOK'S OWN ORDER. The book prints nothing
+   between VOLUME and chapter, so the geography keeps exactly the 2
+   printed volumes -- the same depth decision made for CAMPBELL-2020.
+
+MEASURED result -- numbers 1-60 complete, every page from the book:
+
+    VOLUME I    26 chapters   1-26
+    VOLUME II   34 chapters   27-60
+
+Evidence:
+
+    RESULT KAPLAN-11 ok chapters=60 provinces=2 without_page=0
+    - 49 of 60 chapters get their page from the book's OWN PDF chapter link
+    - 11 of 60 chapters get their page from the PDF's OWN bookmark outline
+    Full library: 26/27 clean, 2682 chapters total
+    (only MIDDLETON-2019 still unread, as before)
 
 ### DONE 2026-10-16 (e) -- IRWIN-RIPPE-2023 read: 215 chapters, 20 Sections, validator CLEAN
 
