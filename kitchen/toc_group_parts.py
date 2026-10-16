@@ -26,35 +26,83 @@ LOGS = KITCHEN / "logs"
 
 PART_SYSTEM = """You are looking at ONE page of a medical textbook. I only want the PART banner printed at the top of the page, for example "PART VI   Gastrointestinal Infections".
 
-Answer with exactly one line and nothing else:
-PART<TAB>the banner exactly as printed
+Many books print NO banner on the chapter-opening page itself. Instead the very top of an ORDINARY page carries a thin running header such as "1654 PART VII Bone and Soft Tissue Reconstructions" -- a page number, then the part name. If there is no banner but such a header names a Part, report that part WITHOUT the leading page number: "PART VII Bone and Soft Tissue Reconstructions".
 
-If the page carries no part banner, answer PART=-."""
+Answer with exactly one line and nothing else:
+PART<TAB>the banner exactly as printed, or the part taken from the running header
+
+If the page carries no part banner and no running header naming a part, answer PART=-."""
+
+# MEASURED 2026-10-16 on GREEN-HAND-2021: a chapter-OPENING page of this
+# Elsevier book prints only the big chapter number and the title -- no
+# banner, and not even a running header. The part name lives in the thin
+# header of the ORDINARY pages inside the chapter (e.g. image 1903:
+# "1664 PART VII Bone and Soft Tissue Reconstructions"). So when an
+# opening page has no banner, the NEXT image is asked for its header.
+HEADER_SYSTEM = """You are looking at ONE ordinary page of a medical textbook.
+
+At the very top of the page there may be a thin running header: a small page number followed by the name of the Part or Section, for example "1664 PART VII Bone and Soft Tissue Reconstructions".
+
+Answer with exactly one line and nothing else:
+H<TAB>the running header text exactly as printed
+
+If the page has no running header, or the header names no Part or Section, answer H=-."""
 
 
 def fill_missing_parts(bid, part_of, dpi=220):
     """Ask the model again for the Part banner on every opening page where
     it came back empty. MEASURED: 40 of Sleisenger's 132 opening pages
     returned no part, which left 49 chapters stacked under one unnamed
-    province."""
+    province. If the opening page itself carries nothing, the running
+    header of the NEXT (ordinary) page is asked for instead."""
+    import subprocess
     rec = {b["book_id"]: b for b in
            json.loads((KITCHEN / "books.json").read_text())}[bid]
     pdf = BOOKS / rec["pdf_file"]
+    pages_total = int(re.search(
+        r"Pages:\s+(\d+)",
+        subprocess.run(["pdfinfo", str(pdf)], capture_output=True,
+                       text=True).stdout).group(1))
     doc = json.loads((LOGS / f"{bid}-vis-toc.json").read_text())
     need = sorted({c["_image"] for p in doc["provinces"]
                    for c in p["chapters"]} - set(part_of))
     print(f"    {len(need)} opening page(s) have no Part banner; asking again",
           flush=True)
     got = 0
+    part_words = re.compile(
+        r"^(PART|VOLUME|VOL\.?|UNIT|SECTION|BOOK|MODULE|DIVISION)\b",
+        re.I)
     for img in need:
         files = render(pdf, PAGES / "part-retry" / f"i{img}", img, img, dpi)
         ans = ask(PART_SYSTEM, f"Image number {img}.", images=files,
                   max_tokens=400, expect_json=False, retries=2,
                   no_reasoning=True)
+        val = None
         m = re.search(r"PART\s*\t?\s*(.+)", ans)
-        if m and m.group(1).strip() not in ("-", ""):
-            part_of[img] = m.group(1).strip()
+        if m:
+            v = m.group(1).strip()
+            if v.startswith("="):  # the model often answers "PART=-"
+                v = v[1:].strip()
+            if v not in ("-", ""):
+                val = v
+        if val is None and img + 1 <= pages_total:
+            # the opening page itself carries no header; ask the NEXT
+            # (ordinary) page for its running header
+            files = render(pdf, PAGES / "part-retry" / f"h{img}",
+                           img + 1, img + 1, dpi)
+            ans = ask(HEADER_SYSTEM, f"Image number {img + 1}.",
+                      images=files, max_tokens=400, expect_json=False,
+                      retries=2, no_reasoning=True)
+            m = re.search(r"H\s*\t?\s*(.+)", ans)
+            if m:
+                v = re.sub(r"^\s*\d+\s*", "", m.group(1)).strip()
+                v = re.sub(r"\s+", " ", v)
+                if part_words.match(v):
+                    val = v
+        if val:
+            part_of[img] = val
             got += 1
+            print(f"    image {img}: part -> {val}", flush=True)
     print(f"    recovered {got} of {len(need)}", flush=True)
     return part_of
 

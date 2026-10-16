@@ -23,18 +23,14 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**SUPERSEDED 2026-10-16 (evening).** Read `HANDOFF-meaningful-names.md`
-FIRST, then the two 2026-10-16 DONE entries below.
+**SUPERSEDED 2026-10-16 (late).** The TOC prompts now tell the reader to
+copy each heading EXACTLY as the book prints it (number kept if printed,
+title kept if printed, nothing invented) -- done 2026-10-16 in
+`kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**BOTH queued books are now fixed: GRAY-2020 (9 Sections, 79 chapters) and
-GOODMAN-14 (9 numbered Sections + Appendices, 78 chapters). Validator still
-22/23 clean, 2,239 chapters.**
-
-NEXT: change the TOC read prompts so the remaining 15 books keep BOTH the
-numbering and the title when they are read the first time (the reader must
-never drop a printed title, and never drop a printed number). Then read the
-remaining 15 books (ONE AT A TIME, never a batch):
-GREEN-HAND-2021, HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
+**GREEN-HAND-2021 is now read and CLEAN (see DONE 2026-10-16 (c)).
+Validator: 23/24 clean, 2,299 chapters.** 14 books remain, ONE AT A TIME,
+never a batch: HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
 MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
 STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
@@ -252,6 +248,63 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 (c) -- GREEN-HAND-2021 read end to end: 60 chapters, 8 Parts, validator CLEAN
+
+Green's Operative Hand Surgery (2 volumes, 2,535 images). The contents
+finder scanned the first 120 images in 6-page sheets and honestly
+reported no contents page, so the book was read by the OPENER method
+(toc_openers.py): the whole book shown to the model as contact sheets,
+every page that opens a chapter named by the model, then each such page
+read alone at 150 dpi. 64 openers found, 60 chapters kept.
+
+MEASURED result -- numbers 1-60, complete, missing=[], every page printed
+by the book (validator: without_page=0):
+
+    PART I    Basic Principles                        1 ch   1-1
+    PART II   Hand                                   10 ch   2-11
+    PART III  Wrist                                   6 ch  12-17
+    PART IV   Elbow and Forearm                      10 ch  18-27
+    PART V    Nerves                                  7 ch  28-34
+    PART VI   Pediatric Hand                          7 ch  35-41
+    PART VII  Bone and Soft Tissue Reconstructions    7 ch  42-48
+    PART VIII Other Disorders of the Upper Extremity 12 ch  49-60
+
+Three general tool improvements came out of this book (no book-specific
+code anywhere):
+
+1. `toc_vision.py` and `toc_headings.py` prompts now say: copy every
+   heading EXACTLY as the book prints it -- number kept if printed, title
+   kept if printed, never invent a number, never drop a printed one.
+2. `toc_openers_build.py` found the 5 chapters the sheet scan had walked
+   past (24, 42, 48, 56, 57) by asking the model page by page inside each
+   gap ("does this page open chapter N?"), and recovered a 60th chapter
+   ("Vascular Disorders of the Hand") that the first scan had refused.
+3. `toc_group_parts.py` learned to read the RUNNING HEADER of the
+   ordinary page AFTER an opening page: this book prints no part banner
+   and not even a header on its chapter-opening pages -- I looked at the
+   page image myself and confirmed it -- so the part name was only
+   obtainable from the header of the pages inside the chapter (e.g.
+   "1664 PART VII Bone and Soft Tissue Reconstructions"). 28 of 54
+   bannerless openers recovered this way. Also fixed: an answer of
+   "PART=-" was being stored as a part named "=-".
+
+Nir was watching live throughout (watchdog heartbeat every 60s in
+kitchen/logs/GREEN-HAND-2021-watchdog.log).
+
+**EVIDENCE** (2026-10-16, `cd ~/second-opinion && source .venv/bin/activate`):
+
+```
+$ python kitchen/toc_validate.py GREEN-HAND-2021 --vis
+RESULT GREEN-HAND-2021 ok chapters=60 provinces=8 without_page=0
+
+$ python kitchen/toc_validate.py --vis
+23/24 clean, 2299 chapters total
+```
+
+Backups: kitchen/logs/backup-16oct-green/. The 24th book (MIDDLETON-2019)
+still has 0 chapters -- never read. Chapter totals rose 2,239 -> 2,299
+exactly by GREEN-HAND's 60 chapters; nothing else changed.
 
 ### DONE 2026-10-16 (b) -- GOODMAN-14 named from the printed contents; both queued books now done
 

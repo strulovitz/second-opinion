@@ -114,6 +114,8 @@ WHAT COUNTS AS A CHAPTER -- read this rule twice, it decides most of the output:
 For every heading that names a Part, Unit, Section, Volume or Book AND has chapters under it, output:
 P<TAB>heading name<TAB>the heading of the level above it (or the same name)
 
+Write each heading EXACTLY as the book prints it. If the book prints a number with the title ("SECTION V CARDIAC RADIOLOGY", "PART 4: Major Categories..."), keep the number AND the title. If the book prints only a title with no number, write only the title. NEVER invent a number the book does not print, and NEVER drop a printed number or a printed word of the title.
+
 ALSO output a P line for a BOLD chapter heading that has numbered entries under it, whenever no higher grouping (Volume/Part/Section) is printed above it on that page. Many surgical and specialty books print no higher grouping at all and open each block with a bold title such as "Amputations of the Foot". Every one of those bold headings must be a P line, and it must be printed BEFORE the entries that belong to it. A heading with nothing under it is not a P line.
 
 For every CHAPTER entry -- its title together with the printed page number where the chapter starts -- output:

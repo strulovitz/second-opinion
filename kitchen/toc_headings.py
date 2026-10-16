@@ -40,6 +40,8 @@ If the page has no printed banner, answer NONE.
 Answer with one line per heading and nothing else:
 H<TAB>the exact heading text
 
+Copy the heading exactly as the book prints it. If the book prints a number with it ("SECTION V CARDIAC RADIOLOGY", "PART 3"), keep the number and the title together. If the book prints only a title and no number, write only the title. NEVER invent a number, NEVER drop a printed one, NEVER drop printed words.
+
 If the page carries no such heading, answer NONE. Do not summarise, do not correct, do not guess a number you cannot see."""
 
 FIRST_SYSTEM = """You are looking at ONE page of a medical textbook's Table of Contents.
