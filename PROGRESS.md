@@ -28,11 +28,11 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**MANDELL-9 is now read and CLEAN (DONE 2026-10-16 (g)). Validator: 27/28
-clean, 2,892 chapters.**
-10 books remain, ONE AT A TIME, never a batch: MIDDLETON-2019,
-MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022, STAHL-2024,
-WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
+**MIDDLETON-2019 is now read and CLEAN (DONE 2026-10-16 (h)). Validator:
+28/28 clean, 2,991 chapters -- every attempted book is clean.**
+9 books remain, ONE AT A TIME, never a batch: MILLER-10, MURRAY-7,
+NELSON-2024, OXFORD-6, ROSEN-2022, STAHL-2024, WILLIAMS-ENDO-2024,
+WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
 
 **UNIFORMITY RULE (Nir, 2026-10-16): every book is treated the SAME way.**
 No book gets an extra file, field or special case that the others do not
@@ -248,6 +248,46 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 (h) -- MIDDLETON-2019 read: 99 chapters, 8 Sections, validator CLEAN (library now 28/28 clean)
+
+Middleton's Allergy: Principles and Practice, 9th ed (2-volume set in
+one PDF, 1,886 pages). THIRD book with NO printed table of contents --
+the PDF runs cover -> copyright -> foreword -> preface -> contributors ->
+straight into chapter 1 (image 18). The old October attempt had left 7
+pages of "KIND=OTHER" in the transcript and a WARN with 0 chapters.
+
+The PDF bookmark outline is complete (4,286 entries) and was used as the
+book's own structure, exactly like MANDELL-9. Its hierarchy is messy
+(chapters sit at depth 0 AND depth 1, front matter mixed in), so a
+one-off builder took every outline entry at depth 0-1 matching "N Title"
+(chapter) or "A-H Title" (section), deduplicated chapter numbers keeping
+the first occurrence, and wrote `kitchen/logs/MIDDLETON-2019-vis-toc.json`
+with `_page_source = pdf-outline` for all 99 chapters.
+
+Spot-checked by opening two pages with my own eyes:
+- image 678 prints SECTION E "Respiratory Tract", chapter 39 "The Nose
+  and Control of Nasal Airflow" -- matches the outline exactly
+- image 1487 prints SECTION H "Therapeutics", chapter 84 "Allergen
+  Control for Prevention and Management of Allergic Diseases" -- matches
+
+MEASURED result -- chapters 1-99 complete, every page from the book:
+
+    A Basic Sciences Underlying Allergy and Immunology   25 ch  18-416
+    B Aerobiology and Allergens                           6 ch  428-546
+    C The Skin                                            6 ch  556-643
+    D The Eye                                             1 ch  658-658
+    E Respiratory Tract                                  25 ch  678-1127
+    F Gastrointestinal Tract                              2 ch 1142-1153
+    G Systemic Disease                                   18 ch 1165-1466
+    H Therapeutics                                       16 ch 1487-1723
+
+Evidence:
+
+    RESULT MIDDLETON-2019 ok chapters=99 provinces=8 without_page=0
+    - 99 of 99 chapters get their page from the PDF's OWN bookmark outline
+    Full library: 28/28 clean, 2,991 chapters total
+    -- EVERY attempted book is now clean; 9 books remain unread.
 
 ### DONE 2026-10-16 (g) -- MANDELL-9 read: 210 chapters, 4 Parts, validator CLEAN (no contents page in the PDF)
 
