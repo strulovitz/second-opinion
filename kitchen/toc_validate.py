@@ -54,7 +54,8 @@ def verify_pages(bid, chapters, sample=12, suffix="-toc"):
     chapters = [c for c in chapters
                 if c.get("page_start") is not None
                 and c.get("_page_source") not in ("pdf-link",
-                                                  "pdf-outline")]
+                                                  "pdf-outline",
+                                                  "text-top")]
     step = max(1, len(chapters) // sample)
     checked = found = 0
     for c in chapters[::step][:sample]:
@@ -97,6 +98,7 @@ def validate(bid, suffix="-toc"):
     nopage = [c for c in chapters if c.get("page_start") is None]
     linked = [c for c in chapters if c.get("_page_source") == "pdf-link"]
     outlined = [c for c in chapters if c.get("_page_source") == "pdf-outline"]
+    texttop = [c for c in chapters if c.get("_page_source") == "text-top"]
 
     # 1. page_start never decreasing
     drops = []
@@ -116,14 +118,17 @@ def validate(bid, suffix="-toc"):
     if ver is None:
         # MEASURED 2026-10-16 on MANDELL-9: some PDFs (libgen scans) contain
         # NO printed table of contents at all, so there is no raw TOC text
-        # to verify against. If every chapter's page comes from the book's
-        # own PDF bookmark outline (`pdf-outline`) -- evidence from the
-        # book itself, not a guess -- that is enough, and the book is not
-        # penalised for the missing TOC.
-        if outlined and len(outlined) == len(chapters):
+        # to verify against. If every chapter's page comes from the book
+        # itself -- the PDF bookmark outline (`pdf-outline`) or the title
+        # printed at the top of the chapter's own first page in the text
+        # layer (`text-top`) -- that is book evidence, not a guess, and the
+        # book is not penalised for the missing TOC.
+        book_ev = linked + outlined + texttop
+        if book_ev and len(book_ev) == len(chapters):
             count_note = (f"all {len(chapters)} chapters get their page from "
-                          f"the PDF's OWN bookmark outline (no page numbers "
-                          f"printed in the contents to verify against)")
+                          f"the book itself (PDF bookmark outline and/or the "
+                          f"title printed at the top of each chapter's first "
+                          f"page); no printed contents to verify against")
         else:
             warns.append("no raw TOC text to verify the page numbers against")
     else:
@@ -133,7 +138,7 @@ def validate(bid, suffix="-toc"):
                          f"really printed next to their title -- the reader "
                          f"may have invented them")
         if (checked < 3 and len(chapters) >= 3 and not nopage
-                and not linked and not outlined):
+                and not linked and not outlined and not texttop):
             warns.append(f"only {checked} of {len(chapters)} titles were "
                          f"even found in the raw TOC text")
     if linked:
@@ -145,6 +150,11 @@ def validate(bid, suffix="-toc"):
         print(f"       - {len(outlined)} of {len(chapters)} chapters get "
               f"their page from the PDF's OWN bookmark outline (the "
               f"contents prints none and carries no link for them)", flush=True)
+    if texttop:
+        print(f"       - {len(texttop)} of {len(chapters)} chapters get "
+              f"their page from the title printed at the TOP of the "
+              f"chapter's own first page (pdftotext layer; the bookmark "
+              f"target was broken and no contents prints a page)", flush=True)
     if nopage:
         warns.append(f"{len(nopage)} of {len(chapters)} chapters print NO page "
                      f"in the contents, so their page_start is null and their "

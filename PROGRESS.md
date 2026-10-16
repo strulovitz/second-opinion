@@ -28,11 +28,11 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**MILLER-10 is now read and CLEAN (DONE 2026-10-16 (i)). Validator: 29/29
-clean, 3,078 chapters -- every attempted book is clean.**
-8 books remain, ONE AT A TIME, never a batch: MURRAY-7, NELSON-2024,
-OXFORD-6, ROSEN-2022, STAHL-2024, WILLIAMS-ENDO-2024,
-WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
+**MURRAY-7 is now read and CLEAN (DONE 2026-10-16 (j)). Validator: 30/30
+clean, 3,220 chapters -- every attempted book is clean.**
+7 books remain, ONE AT A TIME, never a batch: NELSON-2024, OXFORD-6,
+ROSEN-2022, STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021,
+YOUMANS-4.
 
 **UNIFORMITY RULE (Nir, 2026-10-16): every book is treated the SAME way.**
 No book gets an extra file, field or special case that the others do not
@@ -248,6 +248,50 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 (j) -- MURRAY-7 read: 142 chapters, 3 Parts, validator CLEAN
+
+Murray & Nadel's Textbook of Respiratory Medicine, 7th ed (2-volume set
+in one PDF, 3,317 pages). FOURTH book with no printed table of contents
+(cover -> dedication -> contributors -> preface -> chapter 1). Worse:
+its PDF bookmark outline is only PARTIALLY usable -- 97 chapters have
+valid bookmark targets, but 45 have BROKEN targets (`image: None`), and
+their subsection bookmarks are broken too.
+
+Recovered the 45 with ZERO model calls, from the book's own printed
+pages, via the pdftotext layer:
+
+1. The chapter opener prints the number and an ALL-CAPS TITLE at the top
+   of its first page (verified by eye on chapter 3, image 75). Body
+   running headers print only "PART N - <part name>", never chapter
+   titles, so a title found near the top of a page IS the opener.
+2. A first version ("title equals a whole line") found only 16/45; a
+   second ("title inside the first 8 lines") found 45/45 but grabbed
+   cross-references (e.g. "Influenza" inside chapter 46's text). The
+   final rule walks the outline's OWN chapter order with a cursor: each
+   missing chapter's start = first page after the previous chapter's
+   start whose top mentions its title. Five KNOWN chapters were used as
+   sanity anchors (3->75, 11->252, 46->980, 60->1374, 100->2324 -- all
+   matched), and three recovered pages were opened by eye:
+   - image  63 prints "2 LUNG GROWTH AND DEVELOPMENT" (chapter 2)
+   - image 1082 prints "46a COVID-19"
+   - image 1104 prints "47 INFLUENZA"
+     (the book really prints COVID before influenza; outline order kept)
+3. The 3 Parts come from each chapter's OWN running header (every one
+   of the 142 chapters matched exactly one): Part 1 Scientific
+   Principles (17 ch), Part 2 Diagnosis and Evaluation (18 ch),
+   Part 3 Clinical Respiratory Medicine (107 ch).
+
+`toc_validate.py` now also accepts the new honest page source
+`text-top` (title printed at the top of the chapter's own first page),
+and prints its count. MEASURED result:
+
+    RESULT MURRAY-7 ok chapters=142 provinces=3 without_page=0
+    - 97 of 142 chapters get their page from the PDF's OWN bookmark outline
+    - 45 of 142 chapters get their page from the title printed at the TOP
+      of the chapter's own first page
+    Full library: 30/30 clean, 3,220 chapters total
+    -- EVERY attempted book is now clean; 7 books remain unread.
 
 ### DONE 2026-10-16 (i) -- MILLER-10 read: 87 chapters, 8 Sections, validator CLEAN
 
