@@ -40,13 +40,15 @@ ledger entry before touching the pipeline again. The dangerous one:
 format), and only the backup held the 71 chapters. **Always copy a
 book's `vis-toc.json` aside before any rebuild.**
 
-**TWO BOOKS STILL TO DO -- do these first on restart:**
+**GRAY-2020 IS DONE (16 Oct 2026).** The 8 loose sub-headings were folded
+into their printed Sections (Section 4 = ch 33-45, Section 7 = 52-58,
+Section 8 = 59-75); the book now has 9 Sections and 79 chapters, validator
+22/23 and 2,239 chapters unchanged. NO side file was kept for the folded
+headings -- Nir's UNIFORMITY order of 16 Oct: every book is treated the
+SAME way, no book gets an extra file the others do not have.
 
-1. **GRAY-2020** -- 17 provinces: 8 numbered Sections already correct,
-   plus 9 loose unnumbered sub-headings ("Head and neck", "Upper
-   aerodigestive tract") that must be FOLDED into their parent Section,
-   keeping their names (park them in `GRAY-2020-subsections.json` for
-   Part 4 -- do not throw them away).
+**ONE BOOK STILL TO DO:**
+
 2. **GOODMAN-14** -- 10 provinces, mixed: "Section IV Inflammation,
    Immunomodulation, and Hematopoiesis" has a number, but "General
    Principles" and "Neuropharmacology" do not. Recover the missing

@@ -23,22 +23,16 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**SUPERSEDED 2026-10-15 (late evening).** Read `HANDOFF-meaningful-names.md`
-FIRST, then the 2026-10-15 (late evening) DONE entry below.
+**SUPERSEDED 2026-10-16.** Read `HANDOFF-meaningful-names.md`
+FIRST, then the 2026-10-16 DONE entry below.
 
 The naming work is **well under way, not finished**. On 15 Oct six books
 were given real parts (FIRESTEIN 18, BOLOGNIA 22, ROCKWOOD 4, ROBBINS 6,
 THOMPSON 4, BRENNER 18 -- the last three WRITTEN by us on Nir's order),
-and five pipeline bugs were fixed. **Two books still need the same
-treatment and are the first thing to do on restart:**
+and five pipeline bugs were fixed. On 16 Oct GRAY-2020 was folded to 9
+clean Sections (see DONE 2026-10-16). **One book still needs fixing:**
 
-1. **GRAY-2020** -- 17 provinces, of which 8 are numbered Sections
-   already in the target form ("Section 1 - CELLS, TISSUES AND SYSTEMS")
-   and 9 are loose unnumbered sub-headings ("Head and neck", "Upper
-   aerodigestive tract"). The sub-headings must be FOLDED into their
-   parent numbered Section, keeping their names (store the folded ones,
-   e.g. in `kitchen/logs/GRAY-2020-subsections.json`, for Part 4).
-2. **GOODMAN-14** -- 10 provinces, mixed: some carry the section number
+1. **GOODMAN-14** -- 10 provinces, mixed: some carry the section number
    ("Section IV Inflammation, Immunomodulation, and Hematopoiesis") and
    some do not ("General Principles", "Neuropharmacology"). The missing
    numbers must be recovered from the printed contents, and the truncated
@@ -50,6 +44,11 @@ Then the remaining 15 books (ONE AT A TIME, never a batch):
 GREEN-HAND-2021, HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11, MANDELL-9,
 MIDDLETON-2019, MILLER-10, MURRAY-7, NELSON-2024, OXFORD-6, ROSEN-2022,
 STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
+
+**UNIFORMITY RULE (Nir, 2026-10-16): every book is treated the SAME way.**
+No book gets an extra file, field or special case that the others do not
+have. This is why GRAY-2020 got NO side file for its folded headings --
+they stay only in the backup and in the book's own printed contents.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
@@ -260,6 +259,66 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-16 -- GRAY-2020 folded to 9 clean Sections; no side files, one rule for all books
+
+GRAY-2020 printed SECTION banners ("SECTION 4: HEAD AND NECK") with smaller
+unnumbered headings ("Head and neck", "Upper aerodigestive tract", "Special
+senses") inside them. The reader had kept both as sibling provinces, so the
+book came out as 17 provinces, 8 of them fragments of a Section that already
+existed.
+
+The fold rule is the book's own layout, never a guess: an unnumbered
+province joins the numbered province printed ABOVE it, in chapter-number
+order. MEASURED result -- every group is contiguous, which is the proof the
+fold is right:
+
+| folded heading | into | chapters |
+|---|---|---|
+| Head and neck, Upper aerodigestive tract, Special senses | Section 4 - HEAD AND NECK | 33-45 |
+| Lungs and respiratory diaphragm, Heart and mediastinum | Section 7 - THORAX | 52-58 |
+| Gastrointestinal tract, Abdominal viscera, Urogenital system | Section 8 - ABDOMEN AND PELVIS | 59-75 |
+
+**Nir's UNIFORMITY order (2026-10-16): every book is treated the SAME way,
+as similar as possible -- no book gets an extra file the others do not
+have.** A side file for Gray's folded headings was therefore NOT kept; it
+was deleted, and the tool that would have written it was changed so no book
+ever gets one. The folded names remain in the 16 Oct backup and in the
+book's own printed contents, both of which we hold.
+
+Also measured for Nir: GRAY-2020's 79 chapters are typical (median across
+the 22 read books = 83; range 20 THOMPSON to 505 HARRISON).
+
+Tool: `kitchen/toc_fold_subsections.py` (dry run by default, --apply to
+write, refuses to write if the chapter count would change, reports
+"nothing to do" when re-run).
+
+**EVIDENCE** (2026-10-16, `cd ~/second-opinion && source .venv/bin/activate`):
+
+```
+$ python kitchen/toc_fold_subsections.py GRAY-2020 --apply
+  fold  'Head and neck' (3 ch)               -> 'Section 4 - HEAD AND NECK'
+  fold  'Upper aerodigestive tract' (5 ch)   -> 'Section 4 - HEAD AND NECK'
+  fold  'Special senses' (4 ch)              -> 'Section 4 - HEAD AND NECK'
+  fold  'Lungs and respiratory diaphragm' (2 ch) -> 'Section 7 - THORAX'
+  fold  'Heart and mediastinum' (3 ch)       -> 'Section 7 - THORAX'
+  fold  'Gastrointestinal tract' (3 ch)      -> 'Section 8 - ABDOMEN AND PELVIS'
+  fold  'Abdominal viscera' (5 ch)           -> 'Section 8 - ABDOMEN AND PELVIS'
+  fold  'Urogenital system' (5 ch)           -> 'Section 8 - ABDOMEN AND PELVIS'
+  chapters 79 -> 79 (unchanged), provinces 17 -> 9
+
+$ python kitchen/toc_fold_subsections.py GRAY-2020     # re-run: safe
+GRAY-2020: no loose sub-headings -- nothing to do
+
+$ python kitchen/toc_validate.py --vis
+RESULT GRAY-2020 ok chapters=79 provinces=9 without_page=0
+22/23 clean, 2239 chapters total
+```
+
+Chapter total unchanged from 14-15 Oct (2,239); no chapter lost or
+invented. Backup taken BEFORE the change:
+`kitchen/logs/backup-16oct-before-fold/GRAY-2020-vis-toc.json`.
+The 23rd book (MIDDLETON-2019) still has 0 chapters -- never read.
 
 ### DONE 2026-10-15 (late evening) -- SIX MORE BOOKS GIVEN REAL PARTS; PIPELINE BUGS FIXED
 
