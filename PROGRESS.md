@@ -31,11 +31,11 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**MURRAY-7 is now read and CLEAN (DONE 2026-10-16 (j)). Validator: 30/30
-clean, 3,220 chapters -- every attempted book is clean.**
-7 books remain, ONE AT A TIME, never a batch: NELSON-2024, OXFORD-6,
-ROSEN-2022, STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021,
-YOUMANS-4.
+**NELSON-2024 is now read and CLEAN (DONE 2026-10-18 (a)). Validator:
+31/31 clean, 3,739 chapters -- every attempted book is clean.**
+6 books remain, ONE AT A TIME, never a batch: OXFORD-6, ROSEN-2022,
+STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
+NEXT BOOK: OXFORD-6.
 
 **UNIFORMITY RULE (Nir, 2026-10-16): every book is treated the SAME way.**
 No book gets an extra file, field or special case that the others do not
@@ -44,7 +44,7 @@ they stay only in the backup and in the book's own printed contents.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
-python kitchen/toc_validate.py --vis          # must stay 22/23, 2239
+python kitchen/toc_validate.py --vis          # must stay 31/31, 3739
 python kitchen/toc_fix_names.py <BOOK_ID>     # dry run first
 python kitchen/toc_fix_names.py <BOOK_ID> --apply
 ```
@@ -251,6 +251,89 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-18 (a) -- NELSON-2024 read: 519 chapters, 33 Parts, validator CLEAN
+
+Nelson Textbook of Pediatrics, 22nd ed (2-volume set in one PDF, 4,534
+pages). FIFTH book with no printed table of contents -- verified by eye:
+cover -> In Memory -> contributors (pp. 5-42) -> Preface (p. 43) ->
+Chapter 1 starts on p. 44. The old October attempt had left 4 stray
+chapters in `NELSON-2024-toc.json` (backed up to
+`kitchen/logs/backup-2026-10-18/`); its locator range 117-155 was also
+wrong (those pages are chapter text, checked by eye).
+
+The PDF bookmark outline is complete and clean: 1,122 entries, ZERO
+broken targets -- the easiest contents-less book so far. Hierarchy:
+
+    depth 0   front matter (In Memory, Front Matter, Dedication,
+              Contributors, Preface) + Volume-2-Cover + 33 Parts
+    depth 1   519 chapters ("Chapter N -- Title")
+    depth 2+  519 subsection/duplicate banners (kept out)
+
+A one-off builder (recorded in `NELSON-2024-vis-outline.json`) took the
+33 Parts as provinces and the 519 chapters as districts with
+`_page_source = pdf-outline`. Part names were whitespace-normalized
+("Part I -The Field" -> "Part I - The Field"); the "_compressed" suffix
+on Part XXIX was removed -- a PDF-production artifact, verified by eye:
+image 4065 prints "The Skin / PART XXIX".
+
+Chapter numbers are NOT contiguous (1-770 with 251 gaps -- the 22nd
+edition moved many chapters online). Verified by eye, not assumed:
+
+- image 135 prints "Chapter 14 Injury Control" (outline: 9 -> 14 -> 16)
+- image 158 prints "Chapter 17 Abused and Neglected Children"
+
+Three more random spot-checks, all exact matches:
+
+- image 1505 prints "Chapter 199 Systemic Lupus Erythematosus" (Part XIV)
+- image 2232 prints "PART XVI The Digestive System / Chapter 351 Normal
+  Digestive Tract Phenomena" (first chapter of Volume 2)
+- image 4453 prints "PART XXXII Environmental Health / Chapter 757
+  Overview of Environmental Health and Children"
+
+MEASURED result -- chapters 1-770 (519 present, gaps are the book's
+own numbering), every page from the book:
+
+    Part I    - The Field of Pediatrics                      12 ch    44-158
+    Part II   - Growth, Development, and Behavior             8 ch   180-228
+    Part III  - Behavioral and Psychiatric Disorders          8 ch   261-331
+    Part IV   - Learning and Developmental Disorders          5 ch   346-393
+    Part V    - Nutrition                                     8 ch   435-530
+    Part VI   - Fluid and Electrolyte Disorders               2 ch   532-580
+    Part VII  - Emergency Medicine, Critical Care, Anesthesia 12 ch  581-723
+    Part VIII - Human Genetics                                6 ch   772-842
+    Part IX   - Metabolic Disorders                           8 ch   849-1026
+    Part X    - The Fetus and the Neonatal Infant            24 ch  1038-1165
+    Part XI   - Adolescent Medicine                          12 ch  1171-1253
+    Part XII  - Immunology                                   17 ch  1265-1378
+    Part XIII - Allergic Disorders                            7 ch  1380-1457
+    Part XIV  - Rheumatic Diseases of Childhood              12 ch  1476-1577
+    Part XV   - Infectious Diseases                          87 ch  1586-2228
+    Part XVI  - The Digestive System                         53 ch  2232-2527
+    Part XVII - The Respiratory System                       35 ch  2530-2736
+    Part XVIII- The Cardiovascular System                    21 ch  2751-2933
+    Part XIX  - Diseases of the Blood                        37 ch  2944-3101
+    Part XX   - Cancer and Benign Tumors                     12 ch  3105-3188
+    Part XXI  - Nephrology                                   11 ch  3215-3275
+    Part XXII - Urologic Disorders in Infants and Children    6 ch  3295-3337
+    Part XXIII- Gynecologic Problems of Childhood             4 ch  3352-3392
+    Part XXIV - The Endocrine System                         24 ch  3394-3553
+    Part XXV  - The Nervous System                           12 ch  3588-3820
+    Part XXVI - Neuromuscular Disorders                       8 ch  3829-3946
+    Part XXVII- Disorders of the Eye                         11 ch  3947-4016
+    Part XXVIII- The Ear                                      6 ch  4021-4061
+    Part XXIX - The Skin                                     17 ch  4065-4212
+    Part XXX  - Bone and Joint Disorders                     19 ch  4235-4425
+    Part XXXI - Rehabilitation Medicine                       6 ch  4428-4446
+    Part XXXII- Environmental Health                          7 ch  4453-4505
+    Part XXXIII- Laboratory Medicine (digital format only)     2 ch  4517-4522
+
+Evidence:
+
+    RESULT NELSON-2024 ok chapters=519 provinces=33 without_page=0
+    - all 519 chapters get their page from the PDF's OWN bookmark outline
+    Full library: 31/31 clean, 3,739 chapters total
+    -- EVERY attempted book is clean; 6 books remain unread.
 
 ### DONE 2026-10-16 (j) -- MURRAY-7 read: 142 chapters, 3 Parts, validator CLEAN
 
