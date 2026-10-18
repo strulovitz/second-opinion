@@ -31,11 +31,11 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**STAHL-2024 is now read and CLEAN (DONE 2026-10-18 (d)). Validator:
-34/34 clean, 4,135 chapters -- every attempted book is clean.**
-3 books remain, ONE AT A TIME, never a batch: WILLIAMS-ENDO-2024,
+**WILLIAMS-ENDO-2024 is now read and CLEAN (DONE 2026-10-18 (e)).
+Validator: 35/35 clean, 4,183 chapters -- every attempted book is clean.**
+2 books remain, ONE AT A TIME, never a batch:
 WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
-NEXT BOOK: WILLIAMS-ENDO-2024 (ask Nir first, per the one-book rule).
+NEXT BOOK: WILLIAMS-HEMATOLOGY-2021 (ask Nir first, per the one-book rule).
 
 **TWO PIPELINE FIXES landed with OXFORD-6 (2026-10-18), in
 `kitchen/toc_vision.py` -- both protect every future book:**
@@ -57,7 +57,7 @@ they stay only in the backup and in the book's own printed contents.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
-python kitchen/toc_validate.py --vis          # must stay 34/34, 4135
+python kitchen/toc_validate.py --vis          # must stay 35/35, 4183
 python kitchen/toc_fix_names.py <BOOK_ID>     # dry run first
 python kitchen/toc_fix_names.py <BOOK_ID> --apply
 ```
@@ -264,6 +264,70 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-18 (e) -- WILLIAMS-ENDO-2024 read: 48 chapters, 11 provinces, validator CLEAN
+
+Williams Textbook of Endocrinology, 14th ed (2024, Elsevier, 2,319
+pages). SEVENTH contents-less book: pdftotext found NO Contents heading
+and no dotted-leader pages anywhere in the front matter or first 60
+pages. The 10 Oct locator's toc_images [26,37] was wrong -- pdf 26 is
+chapter 2's opener, not a contents page (found today by looking at the
+text and the page itself, the standard lesson).
+
+Built from the PDF bookmark outline: 2,944 entries, 0 broken
+(`/tmp/opencode/wendo-outline.json`), ZERO model calls. Structure:
+9 printed Sections, chapters numbered 1-48 continuously. Chapters
+19-26 sit one bookmark level deeper because Section VI prints three
+sub-banners; the banners were eye-verified:
+    pdf 982  = "SECTION VI Endocrinology and the Lifespan" TOGETHER
+                with "SECTION VI A Maternal-Fetal" (chapter 19)
+    pdf 1063 = "SECTION VI B Childhood" (chapter 21)
+    pdf 1442 = "SECTION VI C Adulthood" (chapter 25)
+So Section VI is split into VI A / VI B / VI C provinces exactly as
+the book prints them -> 11 provinces, not 9.
+
+Every one of the 48 chapter openers was verified by pdftotext (the
+outline target page carries the chapter number + title at the top).
+Eye spot-checks across the whole book (9 pages):
+    pdf 13  = SECTION I banner + chapter 1 Principles of Endocrinology
+    pdf 120 = SECTION II banner + chapter 5 Neuroendocrinology
+    pdf 413 = SECTION III banner + chapter 9 Thyroid Pathophysiology
+    pdf 597 = SECTION IV banner + chapter 13 The Adrenal Cortex
+    pdf 982 = SECTION VI + VI A banners + chapter 19 Endocrine Changes
+              in Pregnancy
+    pdf 1063/1442 = VI B / VI C banners + chapters 21/25
+    pdf 1493 = SECTION VII banner + chapter 27 Mineral Metabolism
+    pdf 1777 = chapter 35 Type 1 Diabetes Mellitus
+    pdf 2153 = SECTION IX banner + chapter 42 Endocrine Neoplasia
+    pdf 2310 = chapter 48 Endocrine Disorders of Critical Illness
+
+MEASURED result -- 48 chapters (1..48 complete, no gaps/dupes),
+11 provinces:
+
+    Section I   - Hormones and Hormone Action          4 ch   13-85
+    Section II  - Hypothalamus and Pituitary           4 ch  120-376
+    Section III - Thyroid                              4 ch  413-542
+    Section IV  - Adrenal Cortex and Endocrine Htn     2 ch  597-673
+    Section V   - Sexual Development and Function      4 ch  712-936
+    Section VI A - Maternal-Fetal                      2 ch  982-1005
+    Section VI B - Childhood                           4 ch 1063-1425
+    Section VI C - Adulthood                           2 ch 1442-1461
+    Section VII - Mineral Metabolism                   5 ch 1493-1658
+    Section VIII - Disorders of Carb. and Fat Metab.  10 ch 1681-2093
+    Section IX  - Polyendocrine and Neoplastic Dis.    7 ch 2153-2310
+
+NOTE (page_offset, still NOT started): page_start stores PDF pages.
+The printed folio drifts badly in this book because every chapter's
+references carry e-pages ("12.e1" style): printed 1 = pdf 13, but
+chapter 2 already prints folio 13 at pdf 26, and by chapter 46 the
+gap is ~500 pages. That is exactly what BIBLE 3 section 4.6
+(page_offset) will fix later; nothing depends on it yet.
+
+Evidence:
+
+    RESULT WILLIAMS-ENDO-2024 ok chapters=48 provinces=11 without_page=0
+    - 48 of 48 chapters get their page from the PDF's OWN bookmark
+      outline (the contents prints none and carries no link for them)
 
 ### DONE 2026-10-18 (d) -- STAHL-2024 read: 61 chapters, 61 provinces, validator CLEAN
 
