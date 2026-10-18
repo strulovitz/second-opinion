@@ -31,11 +31,11 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**OXFORD-6 is now read and CLEAN (DONE 2026-10-18 (b)). Validator:
-32/32 clean, 3,866 chapters -- every attempted book is clean.**
-5 books remain, ONE AT A TIME, never a batch: ROSEN-2022, STAHL-2024,
+**ROSEN-2022 is now read and CLEAN (DONE 2026-10-18 (c)). Validator:
+33/33 clean, 4,074 chapters -- every attempted book is clean.**
+4 books remain, ONE AT A TIME, never a batch: STAHL-2024,
 WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
-NEXT BOOK: ROSEN-2022.
+NEXT BOOK: STAHL-2024 (ask Nir first, per the one-book rule).
 
 **TWO PIPELINE FIXES landed with OXFORD-6 (2026-10-18), in
 `kitchen/toc_vision.py` -- both protect every future book:**
@@ -57,7 +57,7 @@ they stay only in the backup and in the book's own printed contents.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
-python kitchen/toc_validate.py --vis          # must stay 32/32, 3866
+python kitchen/toc_validate.py --vis          # must stay 33/33, 4074
 python kitchen/toc_fix_names.py <BOOK_ID>     # dry run first
 python kitchen/toc_fix_names.py <BOOK_ID> --apply
 ```
@@ -264,6 +264,92 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-18 (c) -- ROSEN-2022 read: 208 chapters, 25 provinces, validator CLEAN
+
+Rosen's Emergency Medicine, 10th ed (2022, 2-volume set in one PDF,
+3,050 pages). SIXTH contents-less book: no printed CONTENTS page
+anywhere (pdftotext scan of the front matter, the volume boundary and
+the back matter found none). Geography built with ZERO model calls from
+three recorded sources:
+
+1. The PDF's own bookmark outline: 192 numbered chapters (1-192, no
+   gaps) + 16 e-chapters (e1-e16), 0 broken targets
+   (`/tmp/opencode/rosen-banners.json`, chapter list).
+2. The 24 SECTION banners, found by a pdftotext scan of every chapter
+   opener ("KEY CONCEPTS" + banner text) -- each banner prints only on
+   the FIRST chapter of its section, and section numbering restarts
+   within each Part.
+3. The 5 PART names, read from the running headers via a full-book
+   pdftotext scan (PART I Fundamental Clinical Concepts, II Trauma,
+   III Emergency Medicine by System, IV Environment and Toxicology,
+   V Special Populations) plus the unnumbered part header "The
+   Practice of Emergency Medicine" over e1-e16.
+
+Two eye-verified corrections to the outline targets:
+
+1. 57 numbered-chapter targets pointed ONE PAGE LATE (the outline
+   links to the first content page, not the opener). The opener was
+   recovered by the "KEY CONCEPTS" signature (present only on true
+   openers); all 57 fixes are target-1 except none the other way.
+2. E-chapter openers are the outline targets THEMSELVES (their
+   openers carry an OUTLINE box, and KEY CONCEPTS starts on the next
+   page) except e5, whose opener is 2912 (eye-verified with e3, e4,
+   e10).
+
+One book-design quirk, recorded not corrected: the banner
+"SECTION FIVE Gastrointestinal System" physically prints on chapter
+77's opener (pdf 1264), but chapters 75-76 (Esophagus/Stomach/
+Duodenum, Liver) are GI content whose openers carry no banner. The
+province therefore starts at chapter 75 (pdf 1216); the banner's real
+page is recorded in `ROSEN-2022-vis-outline.json`.
+
+MEASURED result -- 208 chapters (192 numbered + 16 e), 25 provinces,
+every numbered chapter present exactly once:
+
+    PART I   SECTION ONE   Resuscitation and Analgesia          7 ch    21-110
+    PART I   SECTION TWO   Signs, Symptoms, and Presentations  24 ch   122-337
+    PART II  SECTION ONE   General Concepts and System Injuries 9 ch   350-521
+    PART II  SECTION TWO   Orthopedic Injuries                 9 ch   532-732
+    PART II  SECTION THREE Soft Tissue Injuries                6 ch   763-842
+    PART III SECTION ONE   Head and Neck                       3 ch   857-912
+    PART III SECTION TWO   Pulmonary System                    5 ch   927-982
+    PART III SECTION THREE Cardiac System                      6 ch   993-1128
+    PART III SECTION FOUR  Vascular System                     5 ch  1139-1193
+    PART III SECTION FIVE  Gastrointestinal System             8 ch  1216-1342
+    PART III SECTION SIX   Genitourinary and Gynecologic Sys   4 ch  1355-1414
+    PART III SECTION SEVEN Neurology                           9 ch  1424-1539
+    PART III SECTION EIGHT Behavioral Disorders                6 ch  1552-1585
+    PART III SECTION NINE  Immunologic and Inflammatory        6 ch  1597-1669
+    PART III SECTION TEN   Hematology and Oncology             5 ch  1696-1752
+    PART III SECTION ELEVEN Metabolism and Endocrinology       5 ch  1773-1832
+    PART III SECTION TWELVE Infectious Diseases               10 ch  1854-2024
+    PART IV  SECTION ONE   Environment                         7 ch  2034-2117
+    PART IV  SECTION TWO   Toxicology                         20 ch  2127-2327
+    PART V   SECTION ONE   The Pediatric Patient              18 ch  2337-2602
+    PART V   SECTION TWO   The Pregnant Patient                5 ch  2619-2696
+    PART V   SECTION THREE The Geriatric Patient               4 ch  2707-2733
+    PART V   SECTION FOUR  Special Clinical Circumstances      4 ch  2743-2781
+    PART V   SECTION FIVE  Underserved Populations             7 ch  2795-2858
+    (unnumbered) The Practice of Emergency Medicine           16 ch  2869-3043
+
+Spot-checked by eye (8 openers across the whole book): pdf 21 = 1
+Airway + SECTION ONE banner; pdf 763 = 50 Wound Management Principles
++ SECTION THREE; pdf 1216 = 75 Esophagus, Stomach, and Duodenum (no
+banner, as decided); pdf 1597 = 102 Arthritis + SECTION NINE
+"Immunologic and Inflammatory" (kept exactly as the banner prints --
+the first draft had wrongly added the word "Disorders"); pdf 2337 =
+155 Care of the Pediatric Patient; pdf 2795 = 186 Multiculturalism,
+Diversity, and Care Delivery; pdf 2869 = e1 Global Emergency
+Medicine; pdf 3043 = e16 Tactical Emergency Medical Support and
+Urban Search and Rescue. Builder: `kitchen/logs/ROSEN-2022-build.py`
+(recorded, re-runnable).
+
+Evidence:
+
+    RESULT ROSEN-2022 ok chapters=208 provinces=25 without_page=0
+    Full library: 33/33 clean, 4,074 chapters total
+    -- EVERY attempted book is clean; 4 books remain unread.
 
 ### DONE 2026-10-18 (b) -- OXFORD-6 read: 127 chapters, 22 Sections, validator CLEAN
 
