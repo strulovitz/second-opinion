@@ -23,8 +23,9 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**READ FIRST: `HANDOFF-2026-10-16-evening.md`** (written at end of
-session 16 Oct -- current state + the method for contents-less PDFs).
+**READ FIRST: `HANDOFF-2026-10-18-evening.md`** (written at end of
+session 18 Oct -- full state; the last book is YOUMANS-4).
+Older: `HANDOFF-2026-10-16-evening.md`.
 
 **SUPERSEDED 2026-10-16 (late).** The TOC prompts now tell the reader to
 copy each heading EXACTLY as the book prints it (number kept if printed,
