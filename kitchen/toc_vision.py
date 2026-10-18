@@ -205,13 +205,24 @@ def parse(answer, doc, province, image=None):
             # instead of 11). The same heading also reappears on the next
             # page, so one province per heading, not one per line.
             above = f[2] if len(f) >= 3 and f[2] else f[1]
+            name = f[1]
+            # MEASURED 2026-10-18 on OXFORD-6 (found with my own eyes): the
+            # model sometimes writes the bare number in field 1 and the
+            # TITLE in field 2 ("P<TAB>SECTION 8<TAB>Gastrointestinal
+            # symptoms and disorders"). Nir's rule is number + meaning
+            # together, so a bare "SECTION 8" plus a different title is
+            # joined; when field 2 repeats field 1 nothing changes.
+            if (above != name and re.fullmatch(
+                    r"(SECTION|PART|UNIT|VOLUME|BOOK|CHAPTER)\s+[0-9IVXLC]+",
+                    name, re.I)):
+                name = f"{name} - {above}"
             # the same heading often reappears on the next page; one
             # province per heading, not one per line (measured on
             # GUYTON-2026: 15 "units" for a book that has 11)
-            if doc["provinces"] and doc["provinces"][-1]["name"] == f[1]:
+            if doc["provinces"] and doc["provinces"][-1]["name"] == name:
                 cur = doc["provinces"][-1]
             else:
-                cur = {"name": f[1], "part_name": above, "chapters": []}
+                cur = {"name": name, "part_name": above, "chapters": []}
                 doc["provinces"].append(cur)
             got += 1
         elif f[0] == "C" and len(f) >= 3:
@@ -317,6 +328,25 @@ def read_page(pdf, p, dpi, visdir):
     return ans, parse(ans, probe, "ALL")
 
 
+def _rollback(doc, before):
+    """Undo everything one page's parse added -- including chapters that
+    were appended to a province created on an EARLIER page.
+
+    MEASURED 2026-10-18 on OXFORD-6: page 13 is thin (7 chapters), so it was
+    re-read at 220 dpi; the old rollback only truncated the province LIST,
+    but page 13 added its chapters to the SECTION 22 province opened on
+    page 12 -- so the truncate changed nothing and the same 7 chapters were
+    appended twice more (22.3-22.9 appeared 3 times)."""
+    nprov, nchap = before
+    del doc["provinces"][nprov:]
+    for p in doc["provinces"]:
+        if nchap >= len(p["chapters"]):
+            nchap -= len(p["chapters"])
+        else:
+            del p["chapters"][nchap:]
+            nchap = 0
+
+
 def read_pages(bid, pdf, pages, visdir):
     """Stage 2: every named page rendered at 150 dpi and read ALONE.
 
@@ -378,20 +408,20 @@ def read_pages(bid, pdf, pages, visdir):
             try:
                 ans2, _ = read_page(pdf, p, RETRY_DPI, visdir)
                 if kind_of(ans2) == "OTHER":
-                    doc["provinces"] = doc["provinces"][:before[0]]
+                    _rollback(doc, before)
                     rejected.append(p)
                     raw.append(f"\n===== image {p} =====\n{ans2.strip()}")
                     print(f"    [{n}/{len(pages)}] image {p:4d} "
                           f"{int(time.time()-t):3d}s REFUSED at {RETRY_DPI}dpi "
                           f"(look-alike page)", flush=True)
                     continue
-                doc["provinces"] = doc["provinces"][:before[0]]
+                _rollback(doc, before)
                 got2 = parse(ans2, doc, province)
                 if got2 > got:
                     ans, got = ans2, got2
                     mark = f" retried at {RETRY_DPI}dpi -> {got2}"
                 else:
-                    doc["provinces"] = doc["provinces"][:before[0]]
+                    _rollback(doc, before)
                     parse(ans, doc, province)
             except Exception as exc:  # noqa: BLE001
                 mark = f" retry failed: {exc}"

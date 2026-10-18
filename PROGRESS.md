@@ -31,11 +31,24 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**NELSON-2024 is now read and CLEAN (DONE 2026-10-18 (a)). Validator:
-31/31 clean, 3,739 chapters -- every attempted book is clean.**
-6 books remain, ONE AT A TIME, never a batch: OXFORD-6, ROSEN-2022,
-STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
-NEXT BOOK: OXFORD-6.
+**OXFORD-6 is now read and CLEAN (DONE 2026-10-18 (b)). Validator:
+32/32 clean, 3,866 chapters -- every attempted book is clean.**
+5 books remain, ONE AT A TIME, never a batch: ROSEN-2022, STAHL-2024,
+WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
+NEXT BOOK: ROSEN-2022.
+
+**TWO PIPELINE FIXES landed with OXFORD-6 (2026-10-18), in
+`kitchen/toc_vision.py` -- both protect every future book:**
+1. `_rollback()` in `read_pages`: a thin page re-read at 220 dpi now
+   also trims chapters that were appended to a province opened on an
+   EARLIER page (before, only the province list was truncated, so the
+   same chapters could be appended 2-3 times).
+2. `parse()`: a bare "SECTION 8" plus a separate title field is joined
+   into one name (Nir's number+meaning rule).
+Also: when the model keeps printing a section banner BEFORE the trailing
+chapters of the previous section (measured twice on OXFORD-6 page 9),
+a recorded one-off regroups by the book's own rule "chapter N.M belongs
+to SECTION N" -- see `kitchen/logs/OXFORD-6-regroup.py`.
 
 **UNIFORMITY RULE (Nir, 2026-10-16): every book is treated the SAME way.**
 No book gets an extra file, field or special case that the others do not
@@ -44,7 +57,7 @@ they stay only in the backup and in the book's own printed contents.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
-python kitchen/toc_validate.py --vis          # must stay 31/31, 3739
+python kitchen/toc_validate.py --vis          # must stay 32/32, 3866
 python kitchen/toc_fix_names.py <BOOK_ID>     # dry run first
 python kitchen/toc_fix_names.py <BOOK_ID> --apply
 ```
@@ -251,6 +264,89 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-18 (b) -- OXFORD-6 read: 127 chapters, 22 Sections, validator CLEAN
+
+Oxford Textbook of Palliative Medicine, 6th ed (2021, 1,409 pages). This
+book DOES print its contents (images 8-13), read with the model's eyes
+in one pass (`toc_vision.py OXFORD-6 --start 1 --windows 3`). Chapters
+are numbered N.M (section.chapter) and every section title sits on its
+own line below a bare "SECTION N" banner.
+
+Three defects were found by eye-checking the transcript against the
+printed pages, and all three were fixed:
+
+1. TRIPLICATED CHAPTERS (pipeline bug, fixed for every book). Page 13
+   is thin (7 chapters), so it was re-read at 220 dpi; the rollback in
+   `read_pages` truncated the province LIST but page 13 had appended its
+   chapters to the SECTION 22 province opened on page 12 -- so the same
+   7 chapters were appended 3 times (22.3-22.9 x3 in the first JSON).
+   `toc_vision.py` now has `_rollback()`, which also trims chapters
+   added to pre-existing provinces. Reparse from the saved transcript
+   (zero model calls) removed the duplicates.
+
+2. CHAPTERS UNDER THE WRONG BANNER. On printed pages 9 and 10 the model
+   printed the SECTION 5 / SECTION 8 banner BEFORE the trailing 4.5-4.13
+   and 7.15-7.18 chapters that the page puts ABOVE the banner. Re-reading
+   both pages at 220 dpi fixed page 10 (7.15-7.18 now precede the
+   SECTION 8 banner, and "Cardiorespiratory" is spelled correctly -- the
+   150 dpi read had dropped an 'o'); page 9 kept the same order at both
+   resolutions, so a recorded one-off (`kitchen/logs/OXFORD-6-regroup.py`)
+   moved the 9 chapters by the BOOK'S OWN rule: chapter N.M belongs to
+   SECTION N. Every move is in `OXFORD-6-vis-regroup.json`.
+
+3. MISSING 16.2 AND 16.3. The 150 dpi read of page 12 skipped the top of
+   the page entirely; the 220 dpi re-read recovered "16.2 Care of
+   children with advanced illness 1035" and "16.3 Palliative medicine
+   and care of the elderly 1046". The newer answers for pages 9, 10 and
+   12 replaced their blocks in the transcript; `toc_reparse.py` then
+   rebuilt the JSON from the corrected words on disk.
+
+Also fixed in `toc_vision.py` `parse()`: a bare "SECTION 8" plus a
+separate title field is now joined ("SECTION 8 - Gastrointestinal
+symptoms and disorders" would have been the old form; the 220 dpi reads
+then supplied the full names inline, which the parser keeps as-is).
+
+MEASURED result -- 127 chapters, every section's numbers complete 1..N,
+every page from the printed contents, pages ascending within each
+section:
+
+    SECTION 1  The worldwide status of palliative care       4 ch      3-26
+    SECTION 2  The challenge of palliative medicine          6 ch     35-93
+    SECTION 3  Service delivery issues in palliative care    5 ch    103-143
+    SECTION 4  Healthcare professionals in palliative care  13 ch    159-255
+    SECTION 5  Communication and palliative medicine         3 ch    267-286
+    SECTION 6  Family and caregiver issues                   2 ch    295-303
+    SECTION 7  Pain                                         18 ch    313-506
+    SECTION 8  Gastrointestinal symptoms and disorders       6 ch    525-579
+    SECTION 9  Cardiorespiratory symptoms and disorders      2 ch    589-604
+    SECTION 10 Skin and oral symptoms and disorders          4 ch    613-656
+    SECTION 11 Genitourinary symptoms and disorders          2 ch    673-677
+    SECTION 12 Constitutional symptoms and related disorders 5 ch    685-727
+    SECTION 13 Psychiatric and psychological symptoms...     5 ch    739-773
+    SECTION 14 Palliative care in cancer                    13 ch    787-937
+    SECTION 15 Issues in populations with non-cancer ill...  8 ch    949-1020
+    SECTION 16 Issues of the very young and the very old     3 ch  1029-1046
+    SECTION 17 Spiritual issues in palliative medicine        2 ch  1063-1072
+    SECTION 18 The terminal phase                            3 ch  1083-1104
+    SECTION 19 Ethical issues                                8 ch  1121-1180
+    SECTION 20 Assessment tools and informatics              3 ch  1191-1216
+    SECTION 21 Teaching and training in palliative medicine   3 ch  1233-1252
+    SECTION 22 Research in palliative medicine                9 ch  1261-1335
+
+Spot-checked by eye (PDF page = printed folio + 23; page_start stores
+the PRINTED folio, Law 2): printed 3 = 1.1 International progress;
+printed 13 = 1.2 Essential medicines; printed 198 = 4.5 The role of the
+chaplain; printed 1035 = 16.2 (the page's own footnote says "Chapter
+16.2"); printed 1335 = 22.9 Clinical audit, quality improvement, and
+safety. The book's body starts on printed page 3 -- low numbers are
+real, not locator noise.
+
+Evidence:
+
+    RESULT OXFORD-6 ok chapters=127 provinces=22 without_page=0
+    Full library: 32/32 clean, 3,866 chapters total
+    -- EVERY attempted book is clean; 5 books remain unread.
 
 ### DONE 2026-10-18 (a) -- NELSON-2024 read: 519 chapters, 33 Parts, validator CLEAN
 
