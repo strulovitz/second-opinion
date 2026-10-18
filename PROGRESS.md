@@ -31,11 +31,10 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**WILLIAMS-ENDO-2024 is now read and CLEAN (DONE 2026-10-18 (e)).
-Validator: 35/35 clean, 4,183 chapters -- every attempted book is clean.**
-2 books remain, ONE AT A TIME, never a batch:
-WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
-NEXT BOOK: WILLIAMS-HEMATOLOGY-2021 (ask Nir first, per the one-book rule).
+**WILLIAMS-HEMATOLOGY-2021 is now read and CLEAN (DONE 2026-10-18 (f)).
+Validator: 36/36 clean, 4,323 chapters -- every attempted book is clean.**
+1 book remains: YOUMANS-4 (the last one). Ask Nir first, per the
+one-book rule.
 
 **TWO PIPELINE FIXES landed with OXFORD-6 (2026-10-18), in
 `kitchen/toc_vision.py` -- both protect every future book:**
@@ -57,7 +56,7 @@ they stay only in the backup and in the book's own printed contents.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
-python kitchen/toc_validate.py --vis          # must stay 35/35, 4183
+python kitchen/toc_validate.py --vis          # must stay 36/36, 4323
 python kitchen/toc_fix_names.py <BOOK_ID>     # dry run first
 python kitchen/toc_fix_names.py <BOOK_ID> --apply
 ```
@@ -264,6 +263,69 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-18 (f) -- WILLIAMS-HEMATOLOGY-2021 read: 140 chapters, 13 provinces, validator CLEAN
+
+Williams Hematology, 10th ed (2021, McGraw-Hill, 5,052 pages). EIGHTH
+contents-less book: the 10 Oct locator's toc_images was null, and no
+printed Contents exists in this libgen PDF (pdf 39-81 = Abbreviations).
+The book's own Contents turns out to be a scraped AccessMedicine web TOC
+printed on pdf 82-83: it gives all 13 Parts and all 140 chapter titles
+but NO page numbers.
+
+Chapter PAGES from the PDF bookmark outline: 149 flat bookmarks --
+front matter, then Chapter 1@84, Chapter 2@97, then libgen's misnamed
+"ownload (N).pdf" targets for the rest (target pages still correct);
+140/140 chapter targets present, 0 broken
+(`/tmp/opencode/wchem-targets.json`). Titles merged from the web TOC
+and the opener text (`wchem-parts.json`, `wchem-final-titles.json`).
+ZERO model calls. Recorded builder:
+`kitchen/logs/WILLIAMS-HEMATOLOGY-2021-build.py`.
+
+Verification:
+- All 140 opener pages verified by pdftotext: the last four significant
+  words of each chapter's title are present on its outline-target page
+  (0 mismatches).
+- 14 titles eye-verified from 110-dpi renders where pdftotext glued the
+  author onto the title or cut a wrapped line: ch 27, 50, 61, 69, 75,
+  77, 80, 82, 94, 102, 112, 115, 123, 125 (ch125's opener prints
+  letter-spaced "V O N Willebrand Disease" with the author glued on;
+  ch129's author "X. Long Zheng" was glued to the title and stripped).
+- ch139 "Preservation and Clinical use of Platelets" (lowercase "use")
+  is what the book's own Contents prints -- kept verbatim.
+
+Part banners do NOT print on the chapter openers (these are
+AccessMedicine chapter pages), so Part boundaries come from the book's
+own Contents listing. Province name = "Part N - Title" (number + meaning
+together, Nir's 15 Oct rule).
+
+MEASURED result -- 140 chapters (1..140 complete, pages ascending,
+no gaps/dupes), 13 provinces:
+
+    Part I   - Clinical Evaluation of the Patient        3 ch   84-132
+    Part II  - The Organization of the Lymphohematopoie  2 ch  153-223
+    Part III - Epochal Hematology                        3 ch  243-302
+    Part IV  - Molecular and Cellular Hematology        13 ch  331-681
+    Part V   - Therapeutic Principles                   11 ch  691-978
+    Part VI  - The Erythrocyte                          28 ch 1015-1969
+    Part VII - Neutrophils, Eosinophils, Basophils...    6 ch 1987-2173
+    Part VIII - Monocytes and Macrophages                6 ch 2209-2344
+    Part IX  - Lymphocytes and Plasma Cells              9 ch 2371-2614
+    Part X   - Malignant Myeloid Diseases                7 ch 2633-3021
+    Part XI  - Malignant Lymphoid Diseases              21 ch 3145-3775
+    Part XII - Hemostasis and Thrombosis                26 ch 3795-4818
+    Part XIII - Transfusion Medicine                     5 ch 4875-4999
+
+NOTE (page_offset, still NOT started): page_start stores PDF pages;
+that is what BIBLE 3 section 4.6 will fix later. Nothing depends on it
+yet.
+
+Evidence:
+
+    RESULT WILLIAMS-HEMATOLOGY-2021 ok chapters=140 provinces=13 without_page=0
+    - 140 of 140 chapters get their page from the PDF's OWN bookmark
+      outline (the contents prints none and carries no link for them)
+    Full library: 36/36 clean, 4,323 chapters total.
 
 ### DONE 2026-10-18 (e) -- WILLIAMS-ENDO-2024 read: 48 chapters, 11 provinces, validator CLEAN
 
