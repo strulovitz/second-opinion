@@ -31,11 +31,11 @@ copy each heading EXACTLY as the book prints it (number kept if printed,
 title kept if printed, nothing invented) -- done 2026-10-16 in
 `kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
 
-**ROSEN-2022 is now read and CLEAN (DONE 2026-10-18 (c)). Validator:
-33/33 clean, 4,074 chapters -- every attempted book is clean.**
-4 books remain, ONE AT A TIME, never a batch: STAHL-2024,
-WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
-NEXT BOOK: STAHL-2024 (ask Nir first, per the one-book rule).
+**STAHL-2024 is now read and CLEAN (DONE 2026-10-18 (d)). Validator:
+34/34 clean, 4,135 chapters -- every attempted book is clean.**
+3 books remain, ONE AT A TIME, never a batch: WILLIAMS-ENDO-2024,
+WILLIAMS-HEMATOLOGY-2021, YOUMANS-4.
+NEXT BOOK: WILLIAMS-ENDO-2024 (ask Nir first, per the one-book rule).
 
 **TWO PIPELINE FIXES landed with OXFORD-6 (2026-10-18), in
 `kitchen/toc_vision.py` -- both protect every future book:**
@@ -57,7 +57,7 @@ they stay only in the backup and in the book's own printed contents.
 
 ```bash
 cd ~/second-opinion && source .venv/bin/activate
-python kitchen/toc_validate.py --vis          # must stay 33/33, 4074
+python kitchen/toc_validate.py --vis          # must stay 34/34, 4135
 python kitchen/toc_fix_names.py <BOOK_ID>     # dry run first
 python kitchen/toc_fix_names.py <BOOK_ID> --apply
 ```
@@ -264,6 +264,57 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-18 (d) -- STAHL-2024 read: 61 chapters, 61 provinces, validator CLEAN
+
+The Prescriber's Guide: Children and Adolescents (Stahl's Essential
+Psychopharmacology), 2nd ed (2024, Cambridge University Press, 605
+pages). Earlier attempts "could not find a contents page" -- MEASURED
+today: the book DOES print its Contents (pdf pages 6-7); the text layer
+carries it cleanly, so the whole book was parsed with ZERO model calls
+and ZERO image renders for the build itself.
+
+What the Contents prints: Introduction (vii), List of Icons (xix), 59
+numbered drug monographs in alphabetical order (printed pages 1-560),
+Appendix (561), three indexes (573/577/581), Abbreviations (583).
+Included as chapters: Introduction + the 59 drugs + Appendix = 61.
+Skipped (not chapters): List of Icons (icon legend), the three indexes
+(already recorded in books.json as index_images 598-603), Abbreviations
+(back-matter list).
+
+Offsets verified by eye: body pdf = printed + 21 (printed 1 = pdf 22,
+folio "1" at the page foot); roman front matter pdf = roman + 1 (xix =
+pdf 20). Every one of the 59 drug openers was matched to its Contents
+entry via pdftotext heads (59/59), and 5 openers were then rendered and
+checked by eye: pdf 8 = Introduction; pdf 22 = ALPRAZOLAM; pdf 294 =
+GABAPENTIN; pdf 576 = ZOLPIDEM; pdf 582 = Appendix.
+
+PROVINCE DECISION (recorded, reversible -- nothing is in Neo4j yet):
+one province per monograph ("DRUG 1 - alprazolam" ... "DRUG 59 -
+zolpidem") plus Introduction and Appendix = 61 provinces. Reasons:
+(1) the book IS "one monograph per drug" -- its own structure;
+(2) its Index by Drug Class puts nearly every drug in TWO OR MORE
+classes (diazepam = anticonvulsant + anxiolytic; clomipramine =
+antidepressant + anxiolytic + neuropathic pain; aripiprazole =
+antipsychotic + mood stabilizer), so class-based provinces cannot be
+contiguous in the alphabetical book order the validator requires;
+(3) Nir's 15 Oct rule forbids leaving the 59 chapters as one big
+group, and an invented alphabetical block ("A-C drugs") would carry
+no meaning. Each monograph is a self-contained unit with its own
+printed page range -- the closest honest imitation of what the authors
+printed.
+
+Pipeline change (benefits every future text-layer book):
+`toc_validate.py` now accepts _page_source "text-contents" (printed
+contents read from the PDF text layer) with the same book-evidence
+standing as pdf-outline / text-top / pdf-link. Printed folios are kept
+per chapter in _printed_folio (Law 2), including "vii" and 561.
+
+Evidence:
+
+    RESULT STAHL-2024 ok chapters=61 provinces=61 without_page=0
+    - 61 of 61 chapters get their page from the printed contents read
+      in the PDF's TEXT LAYER
 
 ### DONE 2026-10-18 (c) -- ROSEN-2022 read: 208 chapters, 25 provinces, validator CLEAN
 
