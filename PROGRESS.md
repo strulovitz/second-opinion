@@ -265,6 +265,50 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-19 (g) -- YOUMANS-4 read: 432 chapters, 49 provinces, validator CLEAN. THE LIBRARY IS 37/37.
+
+YOUMANS-4 = Youmans Neurological Surgery, a MULTI-VOLUME set, and the only
+image-only book in the library (pdftotext returns 0 characters), so it was read
+with the vision path: `toc_vision.py` 778 s + `toc_headings.py` 787 s, model
+`qwen3.8:27b` via Ollama (READER_VISION_MODEL in kitchen/.env).
+
+    python kitchen/build_book.py YOUMANS-4
+    RESULT YOUMANS-4 ok chapters=432 provinces=49 without_page=0
+    python kitchen/toc_validate.py --vis
+    37/37 clean, 4755 chapters total
+
+The human ordered the book done FROM SCRATCH: the 11:22 output of an earlier
+run was rejected and DELETED (not backed up), together with its rendered page
+images. The library count is unchanged by that (kitchen/logs/ is gitignored).
+
+**TWO NEW BUGS FOUND AND FIXED -- both only visible in a multi-volume book.**
+
+1. THE SAME PART READ TWICE. A volume prints its own "PART 1, PART 2 ..." so
+   the same name+page arrives from two different contents pages. The 19 Oct
+   read produced 52 provinces and 444 chapters, of which 8 chapter rows were
+   the same chapter written twice. `toc_dedupe.py` removed none of them
+   because they sat in different provinces.
+2. A PART THAT IS ONLY A SLICE OF THE PART BEFORE IT. The truncated read
+   invented a second "PART 3" at page 2325 whose four chapters (298-301) all
+   already belonged to PART 2, while the real PART 3 stood at page 2465. This
+   is what the validator was warning about ("1 page_start decreases, first:
+   p2361 -> p2249"); the page numbers were never wrong.
+
+FIX: new `kitchen/toc_merge_dup_provinces.py`, wired into `build_book.py` as
+step 4c -- it MUST run after `toc_apply_headings.py`, because that step
+rebuilds the provinces and would throw the merge away. It merges provinces
+sharing name+page_start, and drops a province whose every chapter is already
+held (same number, same page) by a larger part when another province already
+uses its name. Result 52 -> 49 provinces, 444 -> 432 chapters, validator clean.
+PROVENANCE LAW 11 KEPT: no JSON was typed by hand, the script reads and writes
+the reader's own recorded words; 432 chapters = 428 numbered + the 4 the book
+itself prints with letters (94A 94B 157A 157B), numbered 35..464, pages
+275..3804.
+
+**THE WHOLE LIBRARY IS NOW READ: 37/37 books clean, 4,755 chapters.** The next
+BIBLE phase is page_offset (BIBLE part 3 section 4.6), still NOT STARTED, and
+every citation depends on it.
+
 ### DONE 2026-10-18 (f) -- WILLIAMS-HEMATOLOGY-2021 read: 140 chapters, 13 provinces, validator CLEAN
 
 Williams Hematology, 10th ed (2021, McGraw-Hill, 5,052 pages). EIGHTH

@@ -130,6 +130,13 @@ def main():
     if (LOGS / f"{bid}-vis-headings.json").exists():
         run("toc_apply_headings.py", [bid], must=False)
 
+    # 4c. a multi-volume book prints "PART 1" again for every volume, so the
+    # same part can arrive twice and a truncated read can invent a part that is
+    # only a slice of the part before it (MEASURED 2026-10-19 on YOUMANS-4:
+    # 12 chapters counted twice, one false "PART 3"). It must run after the
+    # provinces are rebuilt, because that rebuild throws them away.
+    run("toc_merge_dup_provinces.py", [bid], must=False)
+
     # 5. the honest check
     ok, out = run("toc_validate.py", [bid, "--vis"], must=False)
 
