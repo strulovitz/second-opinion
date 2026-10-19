@@ -265,6 +265,46 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-19 (h) -- page_offset: 10 of 37 books measured, BIBLE's one-offset-per-book PROVED FALSE
+
+**READ `HANDOFF-2026-10-19-page-offset.md` FIRST. It is the full account of
+this step and this handoff entry only points at it.**
+
+Step A3 (page_offset, BIBLE part 3 section 4.6) was attempted on all 37 books
+with the new `kitchen/page_folio.py`. Zero model calls.
+
+THE FINDING THAT MATTERS: **one page_offset per book does not exist.** Rendered
+page images and read them: SABISTON-22 prints 876 on pdf 1429 and 1367 on pdf
+1982 (the gap drifts by 62 unnumbered pages in between), and it restarts its
+numbering inside each Section (pdf 300 prints 13, pdf 500 prints 178). A
+single offset would put hundreds of chapters on a page they are not printed
+on, which is a false citation (Law 2). The method therefore decides each
+chapter's folio LOCALLY, over a forward window, with the pages voting.
+
+RESULTS: 10 books at 100 percent and TRUSTED (1,485 chapters):
+YOUMANS-4 432/432, MANDELL-9 210/210, ROSEN-2022 208/208, MURRAY-7 142/142,
+MIDDLETON-2019 99/99, KRAUSE-16 93/93, SABISTON-22 92/92, CAMPBELL-2020 82/82,
+GOODMAN-14 78/78, ADAMS-12 49/49. Written to kitchen/logs/<BOOK>-folio.json.
+
+The other 27 books are PARTIAL and their printed pages are NOT trusted and
+MUST NOT be used. DELISA-6's failure is understood and proved: that book
+prints no page numbers at all, on chapter openers or on ordinary pages
+(pdf 51, 52, 60 and 203 checked in the text layer and in the rendered image).
+
+TWO BUGS FOUND BY LOOKING AT REAL PAGES, both already fixed in the code, do
+not relearn: (1) Elsevier's "721.e89" folio -- e89 is a marker, not a page,
+and because it advances while the page stays put it produces a perfectly
+constant WRONG offset (measured 1160 across six pages) that beats a naive
+vote; (2) section numbers that look exactly like folios.
+
+THE INDEPENDENT CHECK IS STILL MISSING. Only 4 pages were verified by eye,
+across 2 books. That proves the method and caught two bugs; it does not prove
+the 1,485 answers.
+
+EVIDENCE: `python kitchen/toc_validate.py --vis` -> 37/37 clean, 4755 chapters
+(unchanged; this step wrote nothing into the geography). The handoff file has
+the per-book table, the causes, and the ordered next steps.
+
 ### DONE 2026-10-19 (g) -- YOUMANS-4 read: 432 chapters, 49 provinces, validator CLEAN. THE LIBRARY IS 37/37.
 
 YOUMANS-4 = Youmans Neurological Surgery, a MULTI-VOLUME set, and the only
