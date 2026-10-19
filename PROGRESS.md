@@ -23,8 +23,10 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**READ FIRST: `HANDOFF-2026-10-18-evening.md`** (written at end of
-session 18 Oct -- full state; the last book is YOUMANS-4).
+**READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
+19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
+describes the rewritten tool). Then `HANDOFF-2026-10-19-page-offset.md`
+(morning), then `HANDOFF-2026-10-18-evening.md`.
 Older: `HANDOFF-2026-10-16-evening.md`.
 
 **SUPERSEDED 2026-10-16 (late).** The TOC prompts now tell the reader to
@@ -36,6 +38,10 @@ title kept if printed, nothing invented) -- done 2026-10-16 in
 Validator: 36/36 clean, 4,323 chapters -- every attempted book is clean.**
 1 book remains: YOUMANS-4 (the last one). Ask Nir first, per the
 one-book rule.
+*** SUPERSEDED 2026-10-19: YOUMANS-4 was read that morning (432 chapters, 49
+provinces, validator clean) and the library is 37/37 clean, 4,755 chapters.
+The reading of the books is FINISHED. The unfinished step is now
+`page_offset` / printed folio -- see `HANDOFF-2026-10-19-evening.md`. ***
 
 **TWO PIPELINE FIXES landed with OXFORD-6 (2026-10-18), in
 `kitchen/toc_vision.py` -- both protect every future book:**
@@ -264,6 +270,54 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-19 (i) -- THE BUG BEHIND (h) FOUND AND FIXED; HARRISON-22 FINISHED AND CHECKED
+
+**READ `HANDOFF-2026-10-19-evening.md` FIRST. This entry only points at it.**
+
+What (h) got wrong, and what replaced it:
+
+1. **`page_start` holds two different numbers.** `toc_vision`/`toc_openers`
+   stored the number the CONTENTS PRINTS (22 books -> it IS the printed page);
+   `toc_outline` stored the PDF bookmark destination (15 books -> it IS the
+   PDF page). `page_folio.py` read every entry as a PDF page, so for the
+   contents-read books the answer was off by the whole front matter.
+   Proof by rendered images: Harrison-22 pdf 2044 is the opener of ch. 266,
+   contents say 2001, corner prints 2001, `page_start` 2001, PDF page 2044.
+   Mandell-9 pdf 1835 is the opener of ch. 107, `page_start` 1835, corner
+   prints 1452. Nelson-2024 pdf 2430, corner prints 2415.
+   **The "10 books / 1,485 chapters verified" claim of (h) is WITHDRAWN.**
+2. **Off-by-one:** `folio_at()` returned the NEXT page's folio when the
+   chapter's own page printed nothing (Mandell 107 -> 1453; the page prints
+   1452). Fixed: a later page with gap g means `folio = start - g`.
+3. **The two tools are rewritten** -- `kitchen/page_folio.py` (decides the
+   meaning of `page_start` per entry from its own evidence, returns BOTH the
+   PDF page and the printed page, refuses to answer when it cannot prove one)
+   and `kitchen/folio_sample.py` (renders a random sample to PNG and lets the
+   free local READER confirm: is this the chapter's first page, what does the
+   corner print -- Law 14).
+
+EVIDENCE for the book that is finished:
+
+    python kitchen/page_folio.py HARRISON-22
+    -> HARRISON-22  OK  both=505/505 kind=printed offset=43 conflicts=0
+    offset is CONSTANT: 2,542 pages vote for 43, and 43 wins in every
+    500-page block of the book (offset_mode_share = 1.0).
+    python kitchen/folio_sample.py HARRISON-22 --n 12
+    -> 12/12 sampled chapters agree with Qwen on BOTH questions (opener +
+       corner folio); 0 disagree.  kitchen/logs/HARRISON-22-folio-sample.json
+    manager's own eye check: pdf 357 -> corner prints 314, page is the opener
+    of chapter 50 "Unintentional Weight Loss" (matches).
+    One book oddity is real, not a bug: the book's own contents puts chapters
+    45 and 46 both on printed page 291 (recorded as check = "shared-page").
+
+INVARIANTS (nothing else touched): `toc_validate.py --vis` 37/37 clean,
+4,755 chapters; `kitchen/books.json` unchanged (`page_offset` still null for
+all 37 books); no geography file written; nothing loaded into Neo4j; BIBLE/ not
+edited.
+
+NEXT: `page_folio.py --all` (free), then `folio_sample.py <BOOK> --n 12` ONE
+BOOK AT A TIME with a report after each, exactly as Nir asked.
 
 ### DONE 2026-10-19 (h) -- page_offset: 10 of 37 books measured, BIBLE's one-offset-per-book PROVED FALSE
 
