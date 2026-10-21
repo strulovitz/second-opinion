@@ -271,6 +271,18 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-21 (k) -- ROBBINS-10 read by the eyes: 29/29, 0 unresolved
+
+    python kitchen/eyes_folio.py ROBBINS-10 --all
+    29/29 chapters read by the eyes, 0 unresolved. Every folio was read off
+    the page picture itself ("printed-on-the-page", not derived from a
+    neighbour). Every one of the 29 folios EQUALS the folio the book's own
+    contents prints -- two independent sources, no disagreement.
+    The manager's own eyes on PDF page 82: the corner prints 71 and the page
+    is the opener of chapter 3 "Inflammation and Repair" -- matches.
+    detail: kitchen/logs/ROBBINS-10-eyes.json
+    pictures: kitchen/logs/eyes-render/ROBBINS-10/
+
 ### DONE 2026-10-21 (j) -- THE EYES METHOD: a new tool, the first book finished (THOMPSON-2023)
 
 **The human's decision on 2026-10-21:** the 10 books reported OK on 2026-10-19
