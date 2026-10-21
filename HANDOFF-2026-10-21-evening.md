@@ -20,15 +20,6 @@
 # A missing chapter is not a lost chapter: the pages are simply not in our
 # file, so we cannot read them and cannot cite them (Law 2).
 #
-# Three more books are FLAGGED by the checklist and need the human's eye:
-# GRAY-2020 (28 chapters past the last numbered page), GUYTON-2026 (79),
-# KRAUSE-16 (15). For these the "last numbered page" could not be measured
-# reliably (some books print their folio in a place the text layer does
-# not show), so the human must look at the last pages of the PDF and say
-# whether the book ends there. Every other book is "ok" or differs by 1-4
-# chapters at the very end, which is normal (the last chapter often starts
-# on a page after the last numbered page).
-#
 # The human's decision: get the other volume, or another copy of the whole
 # book, or accept the book as "volume 1 only" and build only what we have.
 # He says he will check every book himself, because a bad scan is a real
