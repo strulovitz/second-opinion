@@ -271,6 +271,54 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-21 (m) -- THE TOC CHECKED AGAINST THE REAL PAGES, BY THE EYES
+
+**READ `HANDOFF-2026-10-21-evening.md` FIRST. This entry only points at it.**
+
+What the human decided today (and what overrules older notes):
+* the 10 books he had already accepted stay as they are and are not tested
+  again: YOUMANS-4, MANDELL-9, ROSEN-2022, MURRAY-7, MIDDLETON-2019,
+  KRAUSE-16, SABISTON-22, CAMPBELL-2020, GOODMAN-14, ADAMS-12;
+* Mimo v2.6's rewrite of `kitchen/page_folio.py` is ARCHIVED and not used
+  (`kitchen/logs/mimo-2026-10-21/`); the file in git is the 19 Oct morning
+  version written by `space-bunny-free`;
+* the manager's lane is the Table of Contents. The globe, the entity
+  registry, the viewer and the reading pipeline are for PAID models;
+* nothing runs unattended -- one book at a time, the human watching;
+* when the book's contents and the page disagree, the SMALLER number is
+  kept (the floor rule) and the difference is recorded as a finding.
+
+What was built: `kitchen/eyes_folio.py` (one script). For every chapter it
+finds the page where the chapter BEGINS and the page number the book PRINTS
+for that page, by showing the page to the free local reader (Qwen 3.8 27B)
+as a PICTURE and keeping that picture on disk. The text layer only points
+at which page to show. It also writes the BIBLE's own file
+`kitchen/logs/<BOOK>-toc.json` (part 3 section 4.4): provinces with page
+ranges, chapters with page_start and page_end.
+
+The rules that settle a disagreement (all measured today, all in the
+handoff file):
+  * a page that prints EXACTLY the folio the contents gives IS that
+    chapter's first page, whatever the reader calls the heading;
+  * the corner number can be the chapter number, not a folio;
+  * the reader can misread a digit, so the neighbouring pages are the check;
+  * a page that prints no number is PROVED by the pages before and after
+    (L and L+2 -> this page prints L+1; L and L+1 -> this page is an
+    unnumbered plate and carries no number). In HARRISON-22: 813 pages of
+    the first kind, 1 of the second;
+  * a Table-of-Contents line that is only a number is NOT a folio;
+  * accents and a trailing "s" are stripped when matching a title.
+
+Results: THOMPSON-2023 20/20, ROBBINS-10 29/29 (every folio equal to the
+book's own contents), HARRISON-22 finished and re-checked.
+
+Two findings for the human: HARRISON-22 chapter 46 has NO page in our PDF
+(the book jumps from printed 292 to 293), and BOLOGNIA-2024 / BRAUNWALD-12
+may be volume 1 of a 2-volume set (not verified).
+
+Invariants untouched: books.json (page_offset still null for all 37), every
+geography file, the 4,755 chapters, Neo4j (still empty), the BIBLE.
+
 ### DONE 2026-10-21 (l) -- THE TOOL FIXED: the reader REPORTS, the script DECIDES
 
 The first version of `kitchen/eyes_folio.py` asked the reader "is this the

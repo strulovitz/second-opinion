@@ -51,6 +51,7 @@ import random
 import re
 import statistics
 import subprocess
+import unicodedata
 import sys
 from pathlib import Path
 
@@ -175,9 +176,20 @@ def folio_of(pages, i):
     return None
 
 
+def plain(s):
+    """Lower case, without accents, without punctuation between letters.
+
+    The books print "Sjogren's Disease" in the contents and "Sjögren's
+    Disease" on the page; without this the two never match.
+    """
+    s = unicodedata.normalize("NFD", s or "")
+    s = "".join(ch for ch in s if not unicodedata.combining(ch))
+    return re.sub(r"[^a-z0-9 ]+", " ", s.lower())
+
+
 def title_words(title):
     words = re.findall(r"[A-Za-z][A-Za-z'-]{3,}", title or "")
-    return [w.lower() for w in words if w.lower() not in STOP]
+    return [plain(w) for w in words if plain(w) not in STOP]
 
 
 def title_head_pages(pages, title, lo, hi):
@@ -331,6 +343,122 @@ def pointers_for(ch, kind, pages, fidx, after):
 
 # ------------------------------------------------------------------- the work
 
+def looks_like_chapter_number(ch, printed, toc_folio):
+    """Is the number we read the CHAPTER number rather than the page number?
+
+    Harrison's running header prints the chapter number in the outer corner
+    on some pages; the reader then reports it as the folio. The test: the
+    number equals the chapter number AND it is far from the folio the
+    book's own contents gives.
+    """
+    num = str(ch.get("number") or "")
+    if not num.isdigit() or printed is None:
+        return False
+    if printed != int(num):
+        return False
+    return toc_folio is None or abs(printed - toc_folio) > 3
+
+
+def refine_opener(pdf, bid, ch, page, folio, toc_folio, max_back=4):
+    """Find the FIRST page of the chapter and the number it carries.
+
+    Two cases are repaired here:
+      * the reader read the chapter number instead of the folio;
+      * the page we found prints a number that is a little off the book's
+        own contents, because the chapter's heading starts a page or two
+        earlier (Harrison starts some chapters at the bottom of the
+        previous chapter's last page).
+    In both cases we walk BACK one page at a time, asking the reader, and
+    keep the earliest page that still carries this chapter's heading.
+    """
+    rec = {"back_walk": [], "reason": ""}
+    if looks_like_chapter_number(ch, folio, toc_folio):
+        rec["reason"] = ("the corner number equals the chapter number, so "
+                          "it is not a page number")
+        folio = None
+    if toc_folio is not None and folio is not None and folio != toc_folio \
+            and abs(folio - toc_folio) <= 6:
+        rec["reason"] = (f"the page shows {folio} but the book's contents "
+                         f"says {toc_folio}: the chapter starts a page or "
+                         f"two earlier")
+    if not rec["reason"]:
+        return page, folio, rec
+    best_page, best_folio = page, folio
+    p = page - 1
+    while p >= max(1, page - max_back):
+        kind, heading, f2, raw, png = ask_page(pdf, bid, p)
+        rec["back_walk"].append({"pdf_page": p, "kind": kind,
+                                 "heading": heading, "folio": f2})
+        if not is_opener(ch, kind, heading):
+            break
+        best_page, best_folio = p, f2
+        p -= 1
+    if best_folio is None and best_page:
+        # the opener prints no number: the next page prints folio+1
+        kind2, h2, f3, raw3, png3 = ask_page(pdf, bid, best_page + 1)
+        rec["back_walk"].append({"pdf_page": best_page + 1, "kind": kind2,
+                                 "heading": h2, "folio": f3})
+        if f3 is not None and f3 >= 2:
+            best_folio = f3 - 1
+    return best_page, best_folio, rec
+
+
+def reconcile(page, eyes_folio, fidx):
+    """Check the number the reader read against the pages around it.
+
+    The reader's eyes occasionally misread a digit (2259 read as 2359 on
+    HARRISON-22, 2026-10-21). The pages around the page are the check:
+    a real folio continues the sequence. So the number we keep is the one
+    that fits its neighbours; if only one candidate exists, that is the
+    number.
+    """
+    prev = None
+    for p in (page - 1, page - 2):
+        for f in (fidx.get(page) or []):
+            break
+    # the neighbours' folios, read from the text layer
+    def neighbour(pg):
+        for f, pages in fidx.items():
+            if pg in pages:
+                return f
+        return None
+    prev_f = neighbour(page - 1)
+    next_f = neighbour(page + 1)
+    cands = []
+    for c in (eyes_folio, prev_f + 1 if prev_f else None,
+              next_f - 1 if next_f else None):
+        if c and c not in cands:
+            cands.append(c)
+    if not cands:
+        return eyes_folio, "nothing to compare with"
+    if prev_f and next_f:
+        if next_f == prev_f + 2:
+            good = prev_f + 1
+            return good, (f"forced by the neighbours: {prev_f} and "
+                          f"{next_f} -> {good}")
+        if next_f == prev_f + 1:
+            return eyes_folio, (f"the neighbours print {prev_f} and "
+                                f"{next_f}: this page carries no number of "
+                                f"its own")
+    if len(cands) == 1:
+        return cands[0], "only one possible number"
+    return eyes_folio, ("the reader's number kept; neighbours suggest "
+                        + str(cands))
+
+
+def word_in(word, text):
+    """Is the title's word in the heading? A trailing s is dropped:
+    "sjogrens" is found in "sjogren s disease"."""
+    w = plain(word).strip()
+    if not w:
+        return False
+    if w in text:
+        return True
+    if len(w) > 4 and w.endswith("s") and w[:-1] in text:
+        return True
+    return False
+
+
 def is_opener(ch, kind, heading):
     """Does the heading the reader reported belong to this chapter?
 
@@ -342,11 +470,11 @@ def is_opener(ch, kind, heading):
     """
     if not heading:
         return False
-    h = heading.lower().replace("|", " ")
+    h = plain(heading).replace("|", " ")
     num = str(ch.get("number") or "")
     has_num = bool(num) and bool(re.search(r"\b" + re.escape(num.lower()) + r"\b", h))
     words = title_words(ch.get("title") or "")
-    hits = sum(1 for w in words if w in h)
+    hits = sum(1 for w in words if word_in(w, h))
     if kind != "OPENING":
         if not (has_num and hits >= 1):
             return False
@@ -443,6 +571,18 @@ def main():
             rec.setdefault("tries", []).append(
                 {"pdf_page": page, "kind": kind_seen, "heading": heading,
                  "folio": folio, "image_file": png, "raw": raw})
+            # the strongest proof there is: the page prints EXACTLY the
+            # folio the book's own contents gives for this chapter, so this
+            # IS the chapter's first page -- whatever the reader calls the
+            # heading (Harrison puts the chapter box in the middle of the
+            # page, so the reader often calls such a page BODY)
+            toc_ps0 = rec["toc_page_start"]
+            if (folio is not None and isinstance(toc_ps0, int)
+                    and toc_ps0 > 0 and folio == toc_ps0):
+                found = (page, folio, raw, png,
+                         "the page prints the folio the contents gives",
+                         heading)
+                break
             if not is_opener(ch, kind_seen, heading):
                 continue
             if folio is not None:
@@ -484,6 +624,16 @@ def main():
             start = after
             if start == 0 and cands:
                 start = min(cands) - 1
+            if start == 0:
+                # no pointer at all: start where the chapter's printed page
+                # lives (the pages whose folio is near it)
+                toc_ps = rec["toc_page_start"]
+                near = []
+                for f, pgs in fidx.items():
+                    if isinstance(toc_ps, int) and abs(f - toc_ps) <= 3:
+                        near.extend(pgs)
+                if near:
+                    start = min(near) - 2
             for page in range(start + 1, start + 1 + args.scan):
                 if page in cands[:args.max_tries]:
                     continue
@@ -508,6 +658,46 @@ def main():
                     break
         if found:
             page, printed, raw, png, how, heading = found
+            new_page, new_printed, refine = refine_opener(
+                pdf, bid, ch, page, printed, rec["toc_page_start"])
+            if new_printed is not None:
+                fixed, why = reconcile(new_page, new_printed, fidx)
+                if fixed != new_printed:
+                    rec["reconciled"] = {"was": new_printed, "now": fixed,
+                                         "why": why}
+                    new_printed = fixed
+                elif why.startswith("forced"):
+                    rec["reconciled"] = {"was": new_printed, "now": fixed,
+                                         "why": why}
+            if refine["reason"]:
+                rec["refine"] = refine
+            # THE FLOOR RULE (the human's rule, 2026-10-21): when the
+            # book's own contents and the page disagree, the SMALLER number
+            # is kept -- the chapter starts earlier than the page we found.
+            # The difference is recorded, because it is a finding about the
+            # Table of Contents, not an error to hide.
+            toc_ps = rec["toc_page_start"]
+            if (isinstance(toc_ps, int) and toc_ps > 0
+                    and new_printed is not None and new_printed != toc_ps
+                    and not looks_like_chapter_number(ch, new_printed,
+                                                       toc_ps)):
+                rec["floor_applied"] = {
+                    "the_page_shows": new_printed, "kept": toc_ps,
+                    "why": ("the page carries a number that belongs to a "
+                            "later page of the chapter; the book's own "
+                            "contents says the chapter starts at "
+                            f"{toc_ps}")}
+                new_printed = toc_ps
+            page, printed = new_page, new_printed
+            if refine["reason"]:
+                if printed is None:
+                    rec["status"] = "opener-not-found"
+                    unresolved.append(rec)
+                    records.append(rec)
+                    print(f"XX  ch{ch['number']:>6s} "
+                          f"{str(ch['title'])[:40]:42s} refined but no "
+                          f"number ({refine['reason']})", flush=True)
+                    continue
             rec.update(status="ok", pdf_page=page, printed=printed,
                        image_file=png, opener_confirmed=True,
                        printed_from=how, heading=heading, reader_raw=raw)
