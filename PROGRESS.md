@@ -271,6 +271,53 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-21 (j) -- THE EYES METHOD: a new tool, the first book finished (THOMPSON-2023)
+
+**The human's decision on 2026-10-21:** the 10 books reported OK on 2026-10-19
+morning stay as they are (not tested again, not touched). For the other 27
+books the human asked for a NEW method, his way, not the continuation of the
+rewrite that `mimo-v2.6-flash-free` made on 2026-10-19 evening and 2026-10-21
+morning. Evidence for who wrote what is in the OpenCode session database:
+`page_folio.py` was created 19 Oct 14:24 by `space-bunny-free`; Mimo v2.6
+rewrote it 19 Oct 15:38-16:19 (commit 1efc2a9), wrote `folio_sample.py`
+19 Oct 16:20, and added +188 uncommitted lines on 2026-10-21 11:43-13:09.
+
+**What was done:**
+1. `kitchen/page_folio.py` restored to the 19 Oct MORNING version (written by
+   `space-bunny-free`, the one that measured the human's 10 books). Mimo's
+   rewrite is archived, not used: `kitchen/logs/mimo-2026-10-21/`
+   (page_folio.py.mimo, folio_sample.py.mimo and his 12 result files).
+   Commit ffba5be.
+2. New tool `kitchen/eyes_folio.py`. The printed page of a chapter is read by
+   the FREE local reader (Qwen 3.8 27B, TIER FREE) from a PICTURE of the
+   page: two questions, "does this page begin the chapter?" and "what number
+   is printed in the corner?". The PDF text layer is used ONLY to point at
+   which page to show; the stored value always comes from the picture, and
+   the picture is kept on disk under `kitchen/logs/eyes-render/<BOOK>/`.
+   Nothing is invented: a page with no printed number is recorded as such,
+   a chapter whose page is not found is recorded as unresolved and reported.
+3. The pointer (text layer) was rebuilt from the books' own structure, not
+   from Mimo's clustering: a chapter opener is found from the folio the
+   book's contents prints (the first page printing folio+1 is the page AFTER
+   the opener) or, for books whose TOC stores a PDF page, from that page.
+   Chapters are walked in book order so a pointer must be later than the
+   previous chapter's page.
+
+**THOMPSON-2023 -- the first book done with the new method:**
+    python kitchen/eyes_folio.py THOMPSON-2023 --all
+    20/20 chapters read by the eyes, 0 unresolved.
+    Every printed folio equals the folio the book's own contents prints
+    (1, 5, 23, 45, 61, 79, 109, 135, 149, 175, 203, 231, 251, 293, 321,
+    347, 373, 391, 411, 425).
+    detail: kitchen/logs/THOMPSON-2023-eyes.json
+    pictures: kitchen/logs/eyes-render/THOMPSON-2023/
+    The manager's own eyes on PDF page 28 (the page after chapter 2's
+    opener): the corner prints 6, so chapter 2's first page is printed
+    page 5 -- the tool and the eye agree.
+
+**Invariants untouched:** books.json (page_offset still null for all 37),
+every geography file, the 4,755 chapters, Neo4j (still empty).
+
 ### DONE 2026-10-19 (i) -- THE BUG BEHIND (h) FOUND AND FIXED; HARRISON-22 FINISHED AND CHECKED
 
 **READ `HANDOFF-2026-10-19-evening.md` FIRST. This entry only points at it.**
