@@ -271,6 +271,53 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-21 (l) -- THE TOOL FIXED: the reader REPORTS, the script DECIDES
+
+The first version of `kitchen/eyes_folio.py` asked the reader "is this the
+chapter's first page? YES/NO". On HARRISON-22 that gave a false YES on an
+index page (the index lists the chapter title), and the wrong page then
+poisoned every chapter after it: 72 ok, 433 unresolved, and some of the
+"ok" ones pointed at the index. The reader now reports what it SEES and the
+script decides:
+
+    KIND:    OPENING | BODY | INDEX | OTHER
+    HEADING: the heading printed at the top of the page, verbatim
+    FOLIO:   the page number printed in a corner, or NONE
+
+A page is the chapter's opener when KIND is OPENING and the heading carries
+the chapter number or the chapter's title. An INDEX page can no longer be
+mistaken for an opener.
+
+The pointer (which page to show) was rebuilt from the books' own structure:
+    1. the folio evidence: the opener is the page before the one that prints
+       folio+1, or the page that prints the folio itself;
+    2. pages whose head carries a chapter marker and the number
+       ("c h a p t e r" / "19"), which is the opener in some books;
+    3. pages whose running head carries the chapter title;
+    4. if all of that fails, the pages after the previous chapter are read
+       one by one (--scan N) until the reader finds the opener.
+Two more lessons, both measured today:
+  * a Table-of-Contents line that is only a number ("45") is NOT a folio;
+    only the first three and last three lines of a page are trusted for the
+    folio, so the front matter can no longer hijack the pointer;
+  * a title with no significant word ("Introduction") is matched by the
+    reader's KIND=OPENING alone.
+
+RESULT, both books clean with the fixed tool:
+    python kitchen/eyes_folio.py THOMPSON-2023 --all --scan 6
+      20/20 chapters read by the eyes, 0 unresolved, and every folio equals
+      the folio the book's own contents prints. 4 provinces.
+    python kitchen/eyes_folio.py ROBBINS-10 --all --scan 6
+      29/29 chapters read by the eyes, 0 unresolved, every folio equal to the
+      contents' folio. 6 provinces.
+The tool also writes the BIBLE's own file `kitchen/logs/<BOOK>-toc.json`
+(part 3 section 4.4): provinces with their page ranges, chapters with
+page_start = the printed page the page shows and page_end = the next
+chapter's printed page minus one. That is the one thing the Table of
+Contents data still lacked.
+
+HARRISON-22 (505 chapters) is running with the fixed tool.
+
 ### DONE 2026-10-21 (k) -- ROBBINS-10 read by the eyes: 29/29, 0 unresolved
 
     python kitchen/eyes_folio.py ROBBINS-10 --all
