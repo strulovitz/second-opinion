@@ -1,5 +1,45 @@
 # HANDOFF -- 2026-10-21 evening, the printed page of every chapter, read by the eyes
 
+# ############################################################################
+# ## THE VERY FIRST THING TO CHECK -- BEFORE ANYTHING ELSE IN THIS PROJECT
+#
+# **Is every one of our 37 PDFs the COMPLETE book?** The human checks this
+# by hand. The working list is `BOOKS-COMPLETENESS-CHECK.md` in the repo
+# root: one row per book, with the number of chapters the book's own
+# contents lists, how many of them are inside our PDF, how many are
+# MISSING, our PDF's page count, the last printed page our PDF reaches and
+# the last page the contents lists.
+#
+# Two books are already known to be HALF-BOOKS (only volume 1 of a
+# two-volume set):
+#   * BRAUNWALD-12 -- our PDF ends at printed page 888 (then publisher
+#     advertisements); the contents lists 102 chapters up to printed 1893.
+#     45 chapters inside, 57 MISSING (from chapter 46 onwards).
+#   * BOLOGNIA-2024 -- our PDF ends at printed page 1692; the contents lists
+#     161 chapters up to printed 2705. 95 inside, 66 MISSING.
+# A missing chapter is not a lost chapter: the pages are simply not in our
+# file, so we cannot read them and cannot cite them (Law 2).
+#
+# Three more books are FLAGGED by the checklist and need the human's eye:
+# GRAY-2020 (28 chapters past the last numbered page), GUYTON-2026 (79),
+# KRAUSE-16 (15). For these the "last numbered page" could not be measured
+# reliably (some books print their folio in a place the text layer does
+# not show), so the human must look at the last pages of the PDF and say
+# whether the book ends there. Every other book is "ok" or differs by 1-4
+# chapters at the very end, which is normal (the last chapter often starts
+# on a page after the last numbered page).
+#
+# The human's decision: get the other volume, or another copy of the whole
+# book, or accept the book as "volume 1 only" and build only what we have.
+# He says he will check every book himself, because a bad scan is a real
+# possibility -- the same check must also catch a PDF whose pages are
+# missing in the middle.
+#
+# **REMINDER TO THE MANAGER: the first thing to raise with the human in
+# the next session is this checklist. Do not start any other work before
+# it is settled.**
+# ############################################################################
+
 READ FIRST, IN ORDER:
 1. This file.
 2. `PROGRESS.md` (the ledger; the newest entry is at the top of "DONE").
