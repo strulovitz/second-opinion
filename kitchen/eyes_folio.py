@@ -73,8 +73,9 @@ SYSTEM = (
     "KIND: BODY      -- an ordinary text page\n"
     "KIND: INDEX     -- an alphabetical index page\n"
     "KIND: OTHER     -- anything else (title page, contents, plate, blank)\n"
-    "HEADING: <the heading printed at the top of the page, copied exactly as\n"
-    "          printed, or NONE if the page has no heading>\n"
+    "HEADING: <EVERY heading you can read in the top third of the page,\n"
+    "          copied exactly as printed, separated by \" | \", or NONE\n"
+    "          if the page has no heading>\n"
     "FOLIO: <n>      -- the PAGE NUMBER the book prints in a corner of this\n"
     "          page (header or footer). It is NOT a chapter number, NOT a\n"
     "          table or figure number. NONE if no page number is printed.\n"
@@ -110,7 +111,7 @@ def parse(ans):
                     break
         elif up.startswith("HEADING:"):
             heading = s.split(":", 1)[1].strip()
-            if heading.upper() == "NONE":
+            if heading.upper().startswith("NONE"):
                 heading = ""
         elif up.startswith("FOLIO:"):
             tail = s.split(":", 1)[1].strip()
@@ -331,19 +332,32 @@ def pointers_for(ch, kind, pages, fidx, after):
 # ------------------------------------------------------------------- the work
 
 def is_opener(ch, kind, heading):
-    """Does the heading the reader reported belong to this chapter?"""
-    if kind != "OPENING" or not heading:
+    """Does the heading the reader reported belong to this chapter?
+
+    KIND=OPENING with a matching heading is the normal case. But some
+    books start the next chapter at the BOTTOM of the previous chapter's
+    last page (Harrison does this), and the reader then calls the page
+    BODY. So a page whose headings carry the chapter NUMBER and the
+    chapter TITLE is accepted as well.
+    """
+    if not heading:
         return False
-    h = heading.lower()
+    h = heading.lower().replace("|", " ")
     num = str(ch.get("number") or "")
-    if num and re.search(r"\b" + re.escape(num.lower()) + r"\b", h):
-        return True
+    has_num = bool(num) and bool(re.search(r"\b" + re.escape(num.lower()) + r"\b", h))
     words = title_words(ch.get("title") or "")
+    hits = sum(1 for w in words if w in h)
+    if kind != "OPENING":
+        if not (has_num and hits >= 1):
+            return False
     if not words:
         # a title with no significant word ("Introduction") cannot be
         # matched by words: the reader's KIND=OPENING is the evidence
         return True
-    hits = sum(1 for w in words if w in h)
+    if has_num and hits >= 1:
+        return True
+    if kind != "OPENING":
+        return False
     return hits >= 1 and hits >= max(1, len(words) // 2)
 
 
@@ -354,8 +368,14 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--only", default="",
+                    help="comma separated chapter numbers to work on")
     ap.add_argument("--dpi", type=int, default=120)
     ap.add_argument("--max-tries", type=int, default=4)
+    ap.add_argument("--proof", action="store_true",
+                    help="when a page prints no number, read the page "
+                         "before as well, so the number is forced by both "
+                         "sides")
     ap.add_argument("--scan", type=int, default=0,
                     help="if the pointer fails, look at this many\n                          pages forward, one by one")
     ap.add_argument("--write-toc", action="store_true", default=True,
@@ -388,7 +408,10 @@ def main():
     fidx = folio_index(text_pages)
 
     todo = chapters
-    if args.sample:
+    if args.only:
+        want = {w.strip() for w in args.only.split(",") if w.strip()}
+        todo = [c for c in chapters if str(c["number"]) in want]
+    elif args.sample:
         random.seed(args.seed)
         todo = random.sample(chapters, min(args.sample, len(chapters)))
         todo = sorted(todo, key=lambda c: (c["page_start"] or 0))
@@ -434,13 +457,34 @@ def main():
             rec["tries"][-1]["next_folio"] = folio2
             rec["tries"][-1]["next_kind"] = k2
             if folio2 is not None and folio2 >= 2:
+                proof = None
+                if args.proof and page > 1:
+                    # read the page BEFORE as well: a number forced by both
+                    # sides is a fact, a number from one side is a guess
+                    k0, h0, folio0, raw0, png0 = ask_page(pdf, bid, page - 1)
+                    rec["tries"][-1]["prev_page"] = page - 1
+                    rec["tries"][-1]["prev_folio"] = folio0
+                    if folio0 is not None:
+                        if folio0 + 2 == folio2:
+                            proof = (f"the page before prints {folio0} and "
+                                     f"the page after prints {folio2}, so "
+                                     f"this page prints {folio2 - 1}")
+                        elif folio0 + 1 == folio2:
+                            proof = (f"UNNUMBERED PAGE: the page before "
+                                     f"prints {folio0} and the page after "
+                                     f"prints {folio2}; this page carries "
+                                     f"no number of its own")
+                    rec["proof"] = proof
                 found = (page, folio2 - 1, raw, png, "from-the-next-page",
                          heading)
                 break
         # nothing worked: walk forward from the previous chapter and let the
         # reader look at the pages one by one
         if not found and args.scan > 0:
-            for page in range(after + 1, after + 1 + args.scan):
+            start = after
+            if start == 0 and cands:
+                start = min(cands) - 1
+            for page in range(start + 1, start + 1 + args.scan):
                 if page in cands[:args.max_tries]:
                     continue
                 kind_seen, heading, folio, raw, png = ask_page(pdf, bid, page)
@@ -484,6 +528,27 @@ def main():
 
     if args.list:
         return
+
+    # a chapter with no page in this PDF: the book goes straight from the
+    # previous chapter's page to the next chapter's page (Harrison-22
+    # chapter 46: our PDF jumps from printed 292 to printed 293)
+    by_num = {}
+    for r in records:
+        by_num.setdefault(str(r["number"]), r)
+    order = [str(r["number"]) for r in records]
+    for i, num in enumerate(order):
+        r = by_num.get(num)
+        if not r or r.get("status") == "ok":
+            continue
+        prev = next((by_num[order[j]] for j in range(i - 1, -1, -1)
+                     if by_num.get(order[j], {}).get("status") == "ok"), None)
+        nxt = next((by_num[order[j]] for j in range(i + 1, len(order))
+                    if by_num.get(order[j], {}).get("status") == "ok"), None)
+        if prev and nxt and nxt["pdf_page"] - prev["pdf_page"] == 1:
+            r["status"] = "no-page-in-this-pdf"
+            r["why"] = (f"the PDF goes from chapter page {prev['pdf_page']} "
+                        f"straight to {nxt['pdf_page']}: no page for this "
+                        f"chapter in this file")
 
     ok = [r for r in records if r.get("status") == "ok"]
     diff = [r for r in ok if r["toc_page_start"] not in (None, r["printed"])]
