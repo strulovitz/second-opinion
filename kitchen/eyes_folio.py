@@ -546,6 +546,19 @@ def main():
     elif not args.all and not args.list:
         sys.exit("give --sample N or --all")
 
+    # keep what an earlier run already read: a small test run must never
+    # throw away a full book's work (2026-10-21: a two-chapter test wiped
+    # THOMPSON-2023's 20-chapter record)
+    previous = {}
+    outfile = LOGS / f"{bid}-eyes.json"
+    if outfile.exists():
+        try:
+            old = json.loads(outfile.read_text())
+            for r in old.get("chapters", []):
+                previous[str(r.get("number"))] = r
+        except json.JSONDecodeError:
+            previous = {}
+
     records, unresolved = [], []
     after = 0
     for ch in todo:
@@ -719,6 +732,12 @@ def main():
     if args.list:
         return
 
+    # chapters that this run did not touch keep their earlier record
+    done_now = {str(r.get("number")) for r in records}
+    for num, r in previous.items():
+        if num not in done_now and r.get("status") == "ok":
+            records.append(r)
+
     # a chapter with no page in this PDF: the book goes straight from the
     # previous chapter's page to the next chapter's page (Harrison-22
     # chapter 46: our PDF jumps from printed 292 to printed 293)
@@ -747,7 +766,7 @@ def main():
                "contents_disagreements": len(diff),
                "printed_kinds": n_printed}
     out = {"_summary": summary, "chapters": records}
-    (LOGS / f"{bid}-eyes.json").write_text(json.dumps(out, indent=1))
+    outfile.write_text(json.dumps(out, indent=1))
     print(f"\n{bid}: {len(ok)}/{len(records)} chapters read by the eyes; "
           f"{len(unresolved)} unresolved; {len(diff)} disagree with the "
           f"book's own contents.")

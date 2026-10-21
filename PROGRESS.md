@@ -271,6 +271,35 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-21 (n) -- FINAL STATE OF THE TOC WORK (do not redo these)
+
+    Book            chapters   read by the eyes   not placed   BIBLE toc.json
+    HARRISON-22         505            503             2        written
+    ROBBINS-10           29             29             0        written
+    THOMPSON-2023        20             20             0        written
+
+* HARRISON-22: the two chapters not placed are ch 46 (its page is NOT in
+  our PDF -- the book jumps from printed 292 to 293; checked by hand) and
+  ch 417 (needs one more look).
+* THOMPSON-2023 was re-run in full on 2026-10-21 evening because a small
+  test run had overwritten its evidence file; the tool now MERGES with an
+  existing file instead of overwriting it, so this cannot happen again.
+* The result files live in `kitchen/logs/` (gitignored by the project): the
+  working file `<BOOK>-eyes.json` (every chapter with its picture, the
+  number, the proof) and the BIBLE's own `<BOOK>-toc.json` (provinces with
+  page ranges, chapters with page_start and page_end). They are on this
+  laptop; they are rebuildable with one command, but there is no need to
+  rebuild them.
+* STILL TO DO (24 books, one at a time, the human watching):
+  AVERY-2021, BENZON-2023, BOLOGNIA-2024, BRANT-5, BRAUNWALD-12,
+  BRENNER-11, DELISA-6, DEVITA-12, FIRESTEIN-12, GRAY-2020,
+  GREEN-HAND-2021, GUYTON-2026, HAZZARD-2022, IRWIN-RIPPE-2023, KAPLAN-11,
+  MILLER-10, NELSON-2024, OXFORD-6, ROCKWOOD-10, SLEISENGER-11, STAHL-2024,
+  WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021, WILLIAMS-OBSTETRICS-26.
+* THE FIRST THING to raise with the human next time: he is to check by
+  hand whether our PDFs are the COMPLETE books. BOLOGNIA-2024 and
+  BRAUNWALD-12 are only volume 1 of a 2-volume set.
+
 ### DONE 2026-10-21 (m) -- THE TOC CHECKED AGAINST THE REAL PAGES, BY THE EYES
 
 **READ `HANDOFF-2026-10-21-evening.md` FIRST. This entry only points at it.**
