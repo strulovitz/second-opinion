@@ -644,6 +644,17 @@ def main():
                 found = (page, folio, raw, png, "printed-on-the-page",
                          heading)
                 break
+            if kind == "pdf-page":
+                # The book's own contents gives PDF links and its pages
+                # print NO folio (DELISA-6, BRANT-5, ROCKWOOD-10,
+                # WILLIAMS-OBSTETRICS-26). The document's link plus the
+                # heading on the page are the proof; the number is the PDF
+                # page (the number the human sees), so page_offset is 0 by
+                # construction -- the project's own rule for these books.
+                found = (page, page, raw, png,
+                         "pdf-page (no printed folio; PDF page used)",
+                         heading)
+                break
             # the opener prints no number (common): the NEXT page prints
             # folio+1, so the opener is that number minus one
             nxt = page + 1

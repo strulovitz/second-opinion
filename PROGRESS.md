@@ -25,9 +25,9 @@ Why 37, item by item, with the human's agreement:
 
 **2026-10-22: BRAUNWALD-12 and BOLOGNIA-2024 were only half-books; both are now
 COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
-161/161 by the eyes. AVERY-2021 (61/61) and BENZON-2023 (86/86) are now also
-done -- see the newest DONE entries. 20 books remain for the eyes. The human
-still checks the OTHER PDFs himself for completeness.**
+161/161 by the eyes. AVERY-2021 (61/61), BENZON-2023 (86/86) and BRANT-5
+(83/83) are now also done -- see the newest DONE entries. 19 books remain for
+the eyes. The human still checks the OTHER PDFs himself for completeness.**
 
 **READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
 19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
@@ -276,6 +276,29 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-22 -- BRANT-5 read by the eyes: 83/83, 0 unresolved, 0 disagreements
+
+4,324 PDF pages, 12 provinces, 83 chapters. BRANT-5 is one of the four books
+whose pages print NO folio (with DELISA-6, ROCKWOOD-10 and
+WILLIAMS-OBSTETRICS-26); its own contents gives hidden PDF links and the
+project's rule for these books is: the page number is the PDF image number
+(the number the human sees in the reader), so `page_offset` is 0 by
+construction.
+
+The first pass failed every chapter because the tool still demanded a printed
+folio. Fix in `kitchen/eyes_folio.py`: when the contents is link-sourced
+(`kind == "pdf-page"`) and the page prints no folio, the PDF link PLUS the
+chapter heading on the page are the proof, and the number stored is the PDF
+page. Recorded as `printed_from = "pdf-page (no printed folio; PDF page
+used)"` so nobody mistakes it for a measured printed folio.
+
+Evidence:
+
+    .venv/bin/python kitchen/eyes_folio.py BRANT-5 --all --scan 6
+      83/83 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/BRANT-5-toc.json  12 provinces, 83 chapters
 
 ### DONE 2026-10-22 -- BENZON-2023 read by the eyes: 86/86, 0 unresolved, 0 disagreements
 
