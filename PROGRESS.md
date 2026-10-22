@@ -25,9 +25,10 @@ Why 37, item by item, with the human's agreement:
 
 **2026-10-22: BRAUNWALD-12 and BOLOGNIA-2024 were only half-books; both are now
 COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
-161/161 by the eyes. AVERY-2021 (61/61), BENZON-2023 (86/86) and BRANT-5
-(83/83) are now also done -- see the newest DONE entries. 19 books remain for
-the eyes. The human still checks the OTHER PDFs himself for completeness.**
+161/161 by the eyes. AVERY-2021 (61/61), BENZON-2023 (86/86), BRANT-5 (83/83)
+and BRENNER-11 (71/71) are now also done -- see the newest DONE entries. 18
+books remain for the eyes. The human still checks the OTHER PDFs himself for
+completeness.**
 
 **READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
 19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
@@ -276,6 +277,42 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-22 -- BRENNER-11 read by the eyes: 71/71, 0 unresolved, 0 disagreements
+
+3,529 PDF pages, 18 provinces, 71 chapters. The first pass placed 69. The two
+misses exposed a TOC bug, not a page we could not find:
+
+    vis-toc.txt had TWO entries for chapter 31 and TWO for chapter 56
+      31  Primary Glomerular Disease          1007   <- the real chapter
+      31  PRIMARY GLOMERULAR DISEASE          1091   <- duplicate, an e-page
+      56  Endocrine Aspects of CKD            1901   <- the real chapter
+      56  ENDOCRINE ASPECTS OF CKD            1915.e7 <- duplicate, an e-page
+
+The TOC stage had kept the uppercase duplicates, whose "page" was the
+e-page number (1091.e21 / 1915.e7) and therefore pointed at the wrong place.
+The real openers, measured by the eyes, are pdf 1333 -> printed 1007 and
+pdf 2521 -> printed 1901. The two entries in `BRENNER-11-vis-toc.json` were
+corrected to the title-case titles and the real pages, then the eyes placed
+them.
+
+Two tool changes in `kitchen/eyes_folio.py`:
+1. **The floor rule now keeps the SMALLER number in both directions.** It was
+   written for the page showing a LATER number; when a bad TOC points LATER
+   than the page (these two chapters), it used to restore the bad number.
+   Now `kept = min(page, contents)` -- exactly the human's rule.
+2. New `--from PAGE` starts the forward scan at a given PDF page, for the
+   rare case where the pointer is far off. It does not decide anything: the
+   reader still has to see the heading and the folio.
+
+Evidence:
+
+    .venv/bin/python kitchen/eyes_folio.py BRENNER-11 --all --scan 6
+      69/71; unresolved ch31, ch56
+    .venv/bin/python kitchen/eyes_folio.py BRENNER-11 --only 31,56 --scan 8 --proof
+      71/71 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/BRENNER-11-toc.json  18 provinces, 71 chapters
 
 ### DONE 2026-10-22 -- BRANT-5 read by the eyes: 83/83, 0 unresolved, 0 disagreements
 

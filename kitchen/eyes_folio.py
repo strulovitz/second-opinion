@@ -535,6 +535,8 @@ def main():
                          "sides")
     ap.add_argument("--scan", type=int, default=0,
                     help="if the pointer fails, look at this many\n                          pages forward, one by one")
+    ap.add_argument("--from", dest="from_page", type=int, default=0,
+                    help="start the forward scan at this PDF page (when\n                          the pointer is far off, e.g. an e-page in\n                          the source TOC)")
     ap.add_argument("--write-toc", action="store_true", default=True,
                     help="also write <BOOK>-toc.json in the BIBLE's format")
     args = ap.parse_args()
@@ -688,7 +690,9 @@ def main():
         # reader look at the pages one by one
         if not found and args.scan > 0:
             start = after
-            if start == 0 and cands:
+            if args.from_page:
+                start = args.from_page - 1
+            elif start == 0 and cands:
                 start = min(cands) - 1
             if start == 0:
                 # no pointer at all: start where the chapter's printed page
@@ -747,13 +751,17 @@ def main():
                     and new_printed is not None and new_printed != toc_ps
                     and not looks_like_chapter_number(ch, new_printed,
                                                        toc_ps)):
+                # THE FLOOR RULE: keep the SMALLER number, always. The
+                # usual case is the page showing a later number than the
+                # contents. BRENNER-11 ch31/ch56 showed the other case:
+                # the old TOC pointed at an e-page (1091, 1915) while the
+                # chapter really opens earlier (1055, 1901).
+                kept = min(new_printed, toc_ps)
                 rec["floor_applied"] = {
-                    "the_page_shows": new_printed, "kept": toc_ps,
-                    "why": ("the page carries a number that belongs to a "
-                            "later page of the chapter; the book's own "
-                            "contents says the chapter starts at "
-                            f"{toc_ps}")}
-                new_printed = toc_ps
+                    "the_page_shows": new_printed, "kept": kept,
+                    "why": ("the book's own contents says "
+                            f"{toc_ps}; the smaller number is kept")}
+                new_printed = kept
             page, printed = new_page, new_printed
             if refine["reason"]:
                 if printed is None:
