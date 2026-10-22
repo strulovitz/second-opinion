@@ -163,17 +163,34 @@ def folio_of(pages, i):
     2026-10-21).
     """
     lines = lines_of(pages, i)
+    # an online-supplement page ("786.e1") is NOT printed page 786: it is
+    # an EXTRA page that sits between 786 and 787. Reading it as 786 put
+    # Braunwald chapters 41, 64 and 74 on the wrong page (2026-10-22).
+    lines = [ln for ln in lines if not ANNOT.search(ln)]
     if len(lines) < 5:
         return None
-    for line in lines:
-        m = ANNOT.search(line)
-        if m:
-            return int(m.group(1))
-    for line in lines[:3] + lines[-3:]:
+    # the BOTTOM of the page is checked first: Bolognia prints its folio at
+    # the bottom while the CHAPTER number sits at the top, so reading the
+    # top first returned the chapter number as if it were the page
+    # (2026-10-22: chapters 7, 14, 27, 36, ... of BOLOGNIA-2024).
+    for line in lines[-3:] + lines[:3]:
         m = BARE.match(line)
         if m:
             return int(m.group(1))
     return None
+
+
+def is_epage(pages, i):
+    """Is PDF page i an online-supplement page ("786.e1")?
+
+    Braunwald prints the e-page number at the top, Bolognia at the bottom,
+    so both ends of the page are checked.
+    """
+    lines = lines_of(pages, i)
+    if not lines:
+        return False
+    return bool(ANNOT.fullmatch(lines[0].strip())
+                or ANNOT.fullmatch(lines[-1].strip()))
 
 
 def plain(s):
@@ -313,13 +330,25 @@ def pointers_for(ch, kind, pages, fidx, after):
     # 1. the folio evidence: the opener is the page before the one that
     #    prints folio+1, or the page that prints the folio itself
     folio_cands = []
+
+    def printed_before(p):
+        """The last PRINTED page before p: skip the e-pages ("786.e1")
+        that sit between a chapter's opener and the next printed page."""
+        q = p - 1
+        while q >= 1 and is_epage(pages, q):
+            q -= 1
+        return q
+
     if isinstance(ps, int) and ps > 0:
-        for p in fidx.get(ps + 1, []):
-            add_f(p - 1)
+        # the page that prints EXACTLY the folio the contents gives is the
+        # strongest evidence there is (the handoff's own rule), so it goes
+        # first; only then the page before the one printing folio+1.
         for p in fidx.get(ps, []):
             add_f(p)
+        for p in fidx.get(ps + 1, []):
+            add_f(printed_before(p))
         for p in fidx.get(ps + 2, []):
-            add_f(p - 2)
+            add_f(printed_before(p - 1))
     # 2. the pages that carry a chapter marker and the chapter number
     marker_cands = []
     for p in chapter_opener_pages(pages, ch.get("number"), after,
@@ -722,7 +751,6 @@ def main():
                   flush=True)
         else:
             rec["status"] = "opener-not-found"
-            records.append(rec)
             unresolved.append(rec)
             print(f"XX  ch{ch['number']:>6s} {str(ch['title'])[:40]:42s} "
                   f"tried {[t['pdf_page'] for t in rec.get('tries', [])]}",

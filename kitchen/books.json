@@ -115,11 +115,11 @@
  },
  {
   "book_id": "BOLOGNIA-2024",
-  "pdf_file": "Jean L. Bolognia MD, Julie V. Schaffer MD, Lorenzo Cerroni MD - Dermatology_ 2-Volume Set. Section 1-14 (2024, Elsevier) - libgen.li.pdf",
+  "pdf_file": "Dermatology_ 2-Volume Set_ Section 1-22 (2024, Elsevier) - complete.pdf",
   "title": "Dermatology",
   "edition": "",
   "year": 2024,
-  "page_count_images": 2042,
+  "page_count_images": 3233,
   "text_layer": true,
   "image_dir": "kitchen/pages/BOLOGNIA-2024",
   "image_name_pattern": "page-{n:04d}.png",
@@ -132,7 +132,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "Bolognia, 2-volume set, sections 1-14",
+  "notes": "COMPLETE 2-volume set (Sections 1-22, 3233 pages) glued 2026-10-22 from vol 1 Sections 1-14 + vol 2 Sections 15-22; the two source volumes were deleted afterwards (no souvenirs kept). toc_images need re-measuring.",
   "toc_images_found": [
    4,
    10
@@ -171,11 +171,11 @@
  },
  {
   "book_id": "BRAUNWALD-12",
-  "pdf_file": "Braunwalds Heart Disease A Textbook Of Cardiovascular -- Peter Libby MD PhD, Robert O_ Bonow MD MS, Douglas L_ Mann -- 1, 12, 2022 -- Elsevier - -- isbn13 9780323722193 -- f9e6f30e0e0fbe8f028dc24ecfd58463 -- Anna’s Archive-5.pdf",
+  "pdf_file": "Braunwald’s Heart Disease _ A Textbook of Cardiovascular -- Peter Libby MD PhD, Robert O_ Bonow MD MS, Douglas L_ Mann -- 12, 2021 -- Elsevier - -- isbn13 9780323722193 -- 2db2ad4ab087fdbe8371ae65bac7cddc -- Anna’s Archive.pdf",
   "title": "Braunwald's Heart Disease: A Textbook of Cardiovascular Medicine",
   "edition": "12",
   "year": 2022,
-  "page_count_images": 1227,
+  "page_count_images": 2549,
   "text_layer": true,
   "image_dir": "kitchen/pages/BRAUNWALD-12",
   "image_name_pattern": "page-{n:04d}.png",
@@ -191,7 +191,7 @@
   "field_name": "",
   "cluster": "",
   "status": "candidate",
-  "notes": "TOC range set by the vision pass on 2026-10-10 (found 6 contents pages)",
+  "notes": "COMPLETE 2-volumes-in-1 PDF added 2026-10-22 (Parts I-XI, 2549 pages); the earlier half-book (Parts I-V, 1227 pages) was deleted afterwards (no souvenirs kept). toc_images/index_images were measured on the old PDF and need re-measuring.",
   "toc_images_found": [
    5,
    25

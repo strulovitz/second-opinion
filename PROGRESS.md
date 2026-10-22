@@ -23,6 +23,11 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
+**2026-10-22: BRAUNWALD-12 and BOLOGNIA-2024 were only half-books; both are now
+COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
+161/161 by the eyes -- see the newest DONE entry. 22 books remain for the
+eyes. The human still checks the OTHER PDFs himself for completeness.**
+
 **READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
 19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
 describes the rewritten tool). Then `HANDOFF-2026-10-19-page-offset.md`
@@ -270,6 +275,68 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-22 -- THE TWO HALF-BOOKS MADE WHOLE; both verified 100%
+
+The human downloaded the missing parts. Both are real, complete PDFs and are
+now the library's files; the old half-files and the two separate Bolognia
+volumes were DELETED afterwards (the human asked for no souvenirs), and the
+stray duplicate copy in ~/Downloads was deleted too.
+
+    BRAUNWALD-12   new complete PDF: 2,549 pages, Parts I-XI, full index
+                   (the old file was Parts I-V only, 1,227 pages)
+    BOLOGNIA-2024  vol 2 (Sections 15-22, 1,191 pages) glued to vol 1
+                   (Sections 1-14, 2,042 pages) = 3,233 pages; the printed
+                   page numbers are continuous (vol 1 ends at printed 1692,
+                   vol 2 starts at printed 1693)
+
+Commands and evidence:
+
+    pdfinfo  -> BRAUNWALD-12 2549 pages; BOLOGNIA-2024 combined 3233 pages
+    python kitchen/eyes_folio.py BRAUNWALD-12 --all --scan 6
+      102/102 chapters; 0 unresolved; 0 disagree with the contents
+    python kitchen/eyes_folio.py BOLOGNIA-2024 --all --scan 6
+      (then --only for the 10 chapters the first pass missed)
+      161/161 chapters; 0 unresolved; 0 disagree with the contents
+    kitchen/logs/BRAUNWALD-12-toc.json   11 provinces, 102 chapters
+    kitchen/logs/BOLOGNIA-2024-toc.json  22 provinces, 161 chapters
+
+`kitchen/books.json`: `pdf_file` and `page_count_images` updated for both
+(the only tracked file whose DATA changed). Stale `<BOOK>-folio.txt` caches
+removed so the text layer is re-read from the new PDFs. The vis-toc.json
+files are unchanged: their chapter lists already covered all 102/161
+chapters; only the physical pages had been missing.
+
+Tool fixes in `kitchen/eyes_folio.py` (all measured on these two books):
+1. An online-supplement page ("786.e1") is NOT printed page 786; it is an
+   EXTRA page between 786 and 787. It was read as 786, which put Braunwald
+   chapters 41, 64, 74 on the wrong page. `folio_of` now ignores such lines,
+   and when the page before folio+1 is such a page the tool skips back over
+   ALL of them to the last PRINTED page.
+2. Bolognia prints its folio at the BOTTOM and the CHAPTER number at the
+   top; reading the top first returned the chapter number. `folio_of` now
+   checks the bottom lines first. This fixed chapters 7, 14, 27, 36, 50,
+   62, 72, 90, 150.
+3. The page that prints EXACTLY the folio the contents gives is now tried
+   FIRST (the handoff's strongest-proof rule), then the page before
+   folio+1. This fixed chapter 0.
+4. An unresolved chapter was appended to the records twice (the summary
+   said 105/105 instead of 102/102). Fixed.
+
+Still to do (22 books, one at a time, the human watching):
+AVERY-2021, BENZON-2023, BRANT-5, BRENNER-11, DELISA-6, DEVITA-12,
+FIRESTEIN-12, GRAY-2020, GREEN-HAND-2021, GUYTON-2026, HAZZARD-2022,
+IRWIN-RIPPE-2023, KAPLAN-11, MILLER-10, NELSON-2024, OXFORD-6, ROCKWOOD-10,
+SLEISENGER-11, STAHL-2024, WILLIAMS-ENDO-2024, WILLIAMS-HEMATOLOGY-2021,
+WILLIAMS-OBSTETRICS-26.
+
+The human still checks the OTHER PDFs himself for completeness (a scan can
+be missing pages in the middle); the two known half-books are now whole.
+
+Invariants untouched: the 4,755 chapters, every geography file, Neo4j (still
+empty), the BIBLE. The old half-files were DELETED (no souvenirs); the
+library now holds only the 37 books in use, all referenced by
+`kitchen/books.json`.
 
 ### DONE 2026-10-21 (n) -- FINAL STATE OF THE TOC WORK (do not redo these)
 
