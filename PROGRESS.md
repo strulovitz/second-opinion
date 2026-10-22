@@ -25,10 +25,10 @@ Why 37, item by item, with the human's agreement:
 
 **2026-10-22: BRAUNWALD-12 and BOLOGNIA-2024 were only half-books; both are now
 COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
-161/161 by the eyes. AVERY-2021 (61/61), BENZON-2023 (86/86), BRANT-5 (83/83)
-and BRENNER-11 (71/71) are now also done -- see the newest DONE entries. 18
-books remain for the eyes. The human still checks the OTHER PDFs himself for
-completeness.**
+161/161 by the eyes. AVERY-2021 (61/61), BENZON-2023 (86/86), BRANT-5 (83/83),
+BRENNER-11 (71/71) and DELISA-6 (62/62) are now also done -- see the newest
+DONE entries. 17 books remain for the eyes. The human still checks the OTHER
+PDFs himself for completeness.**
 
 **READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
 19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
@@ -277,6 +277,21 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-22 -- DELISA-6 read by the eyes: 62/62, 0 unresolved, 0 disagreements
+
+3,742 PDF pages, 9 provinces, 62 chapters. DELISA-6 is the third of the four
+"no printed folio" books (with BRANT-5, ROCKWOOD-10,
+WILLIAMS-OBSTETRICS-26); its contents is link-sourced, so the PDF link plus
+the heading on the page is the proof and the PDF page number is stored
+(`page_offset` 0 by construction). The new `pdf-page` branch handled it with
+no special work: every chapter's opener printed the heading that its link
+claimed.
+
+    .venv/bin/python kitchen/eyes_folio.py DELISA-6 --all --scan 6
+      62/62 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/DELISA-6-toc.json  9 provinces, 62 chapters
 
 ### DONE 2026-10-22 -- BRENNER-11 read by the eyes: 71/71, 0 unresolved, 0 disagreements
 
