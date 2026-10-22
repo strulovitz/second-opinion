@@ -25,8 +25,9 @@ Why 37, item by item, with the human's agreement:
 
 **2026-10-22: BRAUNWALD-12 and BOLOGNIA-2024 were only half-books; both are now
 COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
-161/161 by the eyes -- see the newest DONE entry. 22 books remain for the
-eyes. The human still checks the OTHER PDFs himself for completeness.**
+161/161 by the eyes. AVERY-2021 is now also done (61/61) -- see the newest
+DONE entries. 21 books remain for the eyes. The human still checks the OTHER
+PDFs himself for completeness.**
 
 **READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
 19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
@@ -275,6 +276,22 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-22 -- AVERY-2021 read by the eyes: 61/61, 0 unresolved, 0 disagreements
+
+The first of the 22 remaining books, in list order. The book is the South
+Asian Edition (no edition number stated), 1,019 PDF pages, 4 provinces.
+
+    .venv/bin/python kitchen/eyes_folio.py AVERY-2021 --all --scan 6
+      61 chapters; kind: 61 printed-folio
+      -> printed page 1 is PDF page 23 (page_offset 22)
+      61/61 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/AVERY-2021-toc.json  4 provinces, 61 chapters
+
+Every chapter's opener printed exactly the folio the contents gives, so this
+book needed no tool change. Note for the next run: the script needs the
+project venv (`.venv/bin/python`); plain `python3` cannot import `neo4j`.
 
 ### DONE 2026-10-22 -- THE TWO HALF-BOOKS MADE WHOLE; both verified 100%
 
