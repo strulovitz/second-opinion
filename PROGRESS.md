@@ -36,6 +36,10 @@ human still checks the OTHER PDFs himself for completeness.
 One book at a time (the human's rule, 2026-10-22): after each book, stop and
 report, so an interruption never leaves a long batch half-explained.**
 
+**NEWEST HAND-OFF (read this first): `HANDOFF-2026-10-22-night.md`** -- the
+full state at the end of 22 Oct: next book MILLER-10, the 9 books left, the
+tool fixes and the TOC findings.
+
 **READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
 19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
 describes the rewritten tool). Then `HANDOFF-2026-10-19-page-offset.md`

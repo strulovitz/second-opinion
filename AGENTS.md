@@ -1,5 +1,9 @@
 # Second Opinion -- standing orders for the manager
 
+WHERE THE CURRENT STATE LIVES: read `HANDOFF-2026-10-22-night.md` first,
+then `PROGRESS.md`. The hand-off says what is done, what is next (MILLER-10),
+how to run the eyes tool, and the findings recorded so far.
+
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general
   knowledge" of any AI model. If a fact is not on a page of one of the
