@@ -556,9 +556,18 @@ def main():
           f"{len(kinds) - n_printed} pdf-page", flush=True)
 
     cache = LOGS / f"{bid}-folio.txt"
+    want_pages = books[bid].get("page_count_images")
+    text_pages = None
     if cache.exists() and cache.stat().st_size > 0:
         text_pages = cache.read_text(errors="replace").split("\f")
-    else:
+        if want_pages and len(text_pages) < want_pages:
+            # a TRUNCATED cache silently hides the last pages: FIRESTEIN-12
+            # had 2,750 of 2,875 and chapter 130 could not be found
+            # (2026-10-22). Rebuild instead of trusting it.
+            print(f"{bid}: folio cache has {len(text_pages)} pages, PDF has "
+                  f"{want_pages}; rebuilding it", flush=True)
+            text_pages = None
+    if text_pages is None:
         res = subprocess.run(["pdftotext", str(pdf), str(cache)],
                              capture_output=True, text=True, timeout=1800)
         if res.returncode != 0 or not cache.exists():
