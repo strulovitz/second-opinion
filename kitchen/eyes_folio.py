@@ -518,6 +518,24 @@ def is_opener(ch, kind, heading):
     return hits >= 1 and hits >= max(1, len(words) // 2)
 
 
+def pdf_page_matches(ch, kind, heading):
+    """For a link/outline book the linked page may be a divider that says
+    only "Chapter N" (IRWIN-RIPPE-2023 ch167/184/185: the link page is the
+    chapter's first page, but the title is on the next page).
+
+    Accept such a divider and a normal OPENING page -- but NOT a contents
+    listing: those are KIND=OTHER and mention the number and the title
+    inside a list (IRWIN-RIPPE-2023 ch185 was wrongly placed on pdf 95,
+    a front-matter list).
+    """
+    if not heading:
+        return False
+    if kind == "OPENING" and is_opener(ch, kind, heading):
+        return True
+    m = re.match(r"^\s*Chapter\s+([0-9]+[A-Za-z]?)\b", plain(heading), re.I)
+    return bool(m and str(ch.get("number") or "").lower() == m.group(1).lower())
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("book")
@@ -649,13 +667,8 @@ def main():
                          "the page prints the folio the contents gives",
                          heading)
                 break
-            if not is_opener(ch, kind_seen, heading):
-                continue
-            if folio is not None:
-                found = (page, folio, raw, png, "printed-on-the-page",
-                         heading)
-                break
-            if kind == "pdf-page":
+            if kind == "pdf-page" and pdf_page_matches(ch, kind_seen,
+                                                       heading):
                 # The book's own contents gives PDF links and its pages
                 # print NO folio (DELISA-6, BRANT-5, ROCKWOOD-10,
                 # WILLIAMS-OBSTETRICS-26). The document's link plus the
@@ -664,6 +677,12 @@ def main():
                 # construction -- the project's own rule for these books.
                 found = (page, page, raw, png,
                          "pdf-page (no printed folio; PDF page used)",
+                         heading)
+                break
+            if not is_opener(ch, kind_seen, heading):
+                continue
+            if folio is not None:
+                found = (page, folio, raw, png, "printed-on-the-page",
                          heading)
                 break
             # the opener prints no number (common): the NEXT page prints
@@ -721,20 +740,21 @@ def main():
                     {"pdf_page": page, "kind": kind_seen, "heading": heading,
                      "folio": folio, "image_file": png, "raw": raw,
                      "scan": True})
+                if (kind == "pdf-page"
+                        and pdf_page_matches(ch, kind_seen, heading)):
+                    # same rule as the pointer loop above: a link-sourced
+                    # book is proved by the link page plus the heading, and
+                    # the number is the PDF page (HAZZARD-2022 ch7: the
+                    # outline pointed at the Part II page, the real opener
+                    # was only reachable through the scan).
+                    found = (page, page, raw, png,
+                             "pdf-page (no printed folio; PDF page used)",
+                             heading)
+                    break
                 if not is_opener(ch, kind_seen, heading):
                     continue
                 if folio is not None:
                     found = (page, folio, raw, png, "printed-on-the-page",
-                             heading)
-                    break
-                if kind == "pdf-page":
-                    # same rule as the pointer loop above: a link-sourced
-                    # book with no folio is proved by the heading, and the
-                    # number is the PDF page (HAZZARD-2022 ch7, 2026-10-22:
-                    # the outline pointed at the Part II page, the real
-                    # opener was only reachable through the scan).
-                    found = (page, page, raw, png,
-                             "pdf-page (no printed folio; PDF page used)",
                              heading)
                     break
                 nxt = page + 1
