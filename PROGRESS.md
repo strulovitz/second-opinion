@@ -27,9 +27,11 @@ Why 37, item by item, with the human's agreement:
 COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
 161/161 by the eyes. AVERY-2021 (61/61), BENZON-2023 (86/86), BRANT-5 (83/83),
 BRENNER-11 (71/71), DELISA-6 (62/62), DEVITA-12 (107/107), FIRESTEIN-12
-(125/125), GRAY-2020 (79/79), GREEN-HAND-2021 (60/60) and GUYTON-2026 (85/85)
-are now also done -- see the newest DONE entries. 12 books remain for the
-eyes. The human still checks the OTHER PDFs himself for completeness.
+(125/125), GRAY-2020 (79/79), GREEN-HAND-2021 (60/60), GUYTON-2026 (85/85)
+and HAZZARD-2022 (108/108, one TOC finding: ch7 outline says 284, the real
+opener is 286) are now also done -- see the newest DONE entries. 11 books
+remain for the eyes. The human still checks the OTHER PDFs himself for
+completeness.
 
 One book at a time (the human's rule, 2026-10-22): after each book, stop and
 report, so an interruption never leaves a long batch half-explained.**
@@ -281,6 +283,33 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-22 -- HAZZARD-2022 read by the eyes: 108/108, 0 unresolved, 1 TOC finding
+
+3,952 PDF pages, 23 provinces, 108 chapters. This book prints no folios on
+the pages the reader can see and its outline links are the only page numbers,
+so all 108 are "pdf-page": the printed number IS the PDF page. Clean except
+chapter 7: the outline points at pdf 284, which is the Part II divider page
+(its list of chapters mentions chapter 7), while the real opener is pdf 286.
+The scan found 286, but two bugs in the tool then put 284 back:
+
+1. the scan branch did not accept a `pdf-page` match (only the pointer loop
+   did), so 286 was found and rejected; and
+2. after accepting it, `refine_opener` + the floor rule moved it to the
+   contents number 284 -- but for a link/outline book the PDF page is the
+   truth, and the outline is what is wrong.
+
+Both fixed in `kitchen/eyes_folio.py`: the scan branch now accepts a
+`pdf-page` match, and refine/reconcile/floor are skipped for `pdf-page`
+chapters (their job is printed-folio repair). Re-run: 108/108, and chapter 7
+is recorded as a real disagreement with the book's own contents (284 vs 286).
+
+    .venv/bin/python kitchen/eyes_folio.py HAZZARD-2022 --all --scan 6
+      107/108; unresolved ch7 (outline points at the Part II page)
+    .venv/bin/python kitchen/eyes_folio.py HAZZARD-2022 --only 7 --from 285 --scan 10 --proof
+      108/108 chapters read by the eyes; 0 unresolved
+      1 disagree with the book's own contents: ch7 contents=284 page=286
+    kitchen/logs/HAZZARD-2022-toc.json  23 provinces, 108 chapters
 
 ### DONE 2026-10-22 -- GUYTON-2026 read by the eyes: 85/85, 0 unresolved, 0 disagreements
 

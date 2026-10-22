@@ -727,6 +727,16 @@ def main():
                     found = (page, folio, raw, png, "printed-on-the-page",
                              heading)
                     break
+                if kind == "pdf-page":
+                    # same rule as the pointer loop above: a link-sourced
+                    # book with no folio is proved by the heading, and the
+                    # number is the PDF page (HAZZARD-2022 ch7, 2026-10-22:
+                    # the outline pointed at the Part II page, the real
+                    # opener was only reachable through the scan).
+                    found = (page, page, raw, png,
+                             "pdf-page (no printed folio; PDF page used)",
+                             heading)
+                    break
                 nxt = page + 1
                 k2, h2, folio2, raw2, png2 = ask_page(pdf, bid, nxt)
                 rec["tries"][-1]["next_page"] = nxt
@@ -737,41 +747,43 @@ def main():
                     break
         if found:
             page, printed, raw, png, how, heading = found
-            new_page, new_printed, refine = refine_opener(
-                pdf, bid, ch, page, printed, rec["toc_page_start"])
-            if new_printed is not None:
-                fixed, why = reconcile(new_page, new_printed, fidx)
-                if fixed != new_printed:
-                    rec["reconciled"] = {"was": new_printed, "now": fixed,
-                                         "why": why}
-                    new_printed = fixed
-                elif why.startswith("forced"):
-                    rec["reconciled"] = {"was": new_printed, "now": fixed,
-                                         "why": why}
-            if refine["reason"]:
-                rec["refine"] = refine
-            # THE FLOOR RULE (the human's rule, 2026-10-21): when the
-            # book's own contents and the page disagree, the SMALLER number
-            # is kept -- the chapter starts earlier than the page we found.
-            # The difference is recorded, because it is a finding about the
-            # Table of Contents, not an error to hide.
-            toc_ps = rec["toc_page_start"]
-            if (isinstance(toc_ps, int) and toc_ps > 0
-                    and new_printed is not None and new_printed != toc_ps
-                    and not looks_like_chapter_number(ch, new_printed,
-                                                       toc_ps)):
-                # THE FLOOR RULE: keep the SMALLER number, always. The
-                # usual case is the page showing a later number than the
-                # contents. BRENNER-11 ch31/ch56 showed the other case:
-                # the old TOC pointed at an e-page (1091, 1915) while the
-                # chapter really opens earlier (1055, 1901).
-                kept = min(new_printed, toc_ps)
-                rec["floor_applied"] = {
-                    "the_page_shows": new_printed, "kept": kept,
-                    "why": ("the book's own contents says "
-                            f"{toc_ps}; the smaller number is kept")}
-                new_printed = kept
-            page, printed = new_page, new_printed
+            if kind == "pdf-page":
+                # For a link/outline book the PDF page IS the number. A
+                # printed-folio rule must never move it (HAZZARD-2022 ch7,
+                # 2026-10-22: the outline pointed at the Part II page 284,
+                # the real opener 286 was found by the scan, and the floor
+                # rule put the wrong 284 back).
+                refine = {"reason": ""}
+            else:
+                new_page, new_printed, refine = refine_opener(
+                    pdf, bid, ch, page, printed, rec["toc_page_start"])
+                if new_printed is not None:
+                    fixed, why = reconcile(new_page, new_printed, fidx)
+                    if fixed != new_printed:
+                        rec["reconciled"] = {"was": new_printed, "now": fixed,
+                                             "why": why}
+                        new_printed = fixed
+                    elif why.startswith("forced"):
+                        rec["reconciled"] = {"was": new_printed, "now": fixed,
+                                             "why": why}
+                if refine["reason"]:
+                    rec["refine"] = refine
+                # THE FLOOR RULE (the human's rule, 2026-10-21): when the
+                # book's own contents and the page disagree, the SMALLER
+                # number is kept. The difference is recorded, because it is
+                # a finding about the Table of Contents, not an error.
+                toc_ps = rec["toc_page_start"]
+                if (isinstance(toc_ps, int) and toc_ps > 0
+                        and new_printed is not None and new_printed != toc_ps
+                        and not looks_like_chapter_number(ch, new_printed,
+                                                           toc_ps)):
+                    kept = min(new_printed, toc_ps)
+                    rec["floor_applied"] = {
+                        "the_page_shows": new_printed, "kept": kept,
+                        "why": ("the book's own contents says "
+                                f"{toc_ps}; the smaller number is kept")}
+                    new_printed = kept
+                page, printed = new_page, new_printed
             if refine["reason"]:
                 if printed is None:
                     rec["status"] = "opener-not-found"
