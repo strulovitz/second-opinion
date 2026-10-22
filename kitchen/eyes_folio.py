@@ -590,8 +590,21 @@ def main():
 
     records, unresolved = [], []
     after = 0
+    order = {str(c["number"]): i for i, c in enumerate(chapters)}
+    prev_pdf = {num: r["pdf_page"] for num, r in previous.items()
+                if r.get("status") == "ok" and r.get("pdf_page")}
     for ch in todo:
         kind = kinds[str(ch["number"])]
+        if args.only:
+            # --only left `after` at 0, so the title/pointer search looked
+            # only at the first 400 pages and a chapter far into the book
+            # could not be found (BENZON-2023 ch76, 2026-10-22). Seed it
+            # from the nearest earlier chapter that a previous run placed.
+            for j in range(order[str(ch["number"])] - 1, -1, -1):
+                p = prev_pdf.get(str(chapters[j]["number"]))
+                if p:
+                    after = p
+                    break
         cands = pointers_for(ch, kind, text_pages, fidx, after)
         if args.list:
             print(f"ch{ch['number']:>6s} [{kind:9s}] "
@@ -806,7 +819,10 @@ def main():
         print(f"  contents disagree: ch{r['number']} {str(r['title'])[:40]} "
               f"contents={r['toc_page_start']} page={r['printed']}")
 
-    if args.write_toc and args.all:
+    if args.write_toc and (args.all or args.only):
+        # --only also writes the TOC: `records` already holds every earlier
+        # ok chapter, so the file is complete, not partial (BENZON-2023,
+        # 2026-10-22: the two fixed chapters were missing from the TOC).
         write_toc_json(bid, records, ok)
 
 

@@ -25,9 +25,9 @@ Why 37, item by item, with the human's agreement:
 
 **2026-10-22: BRAUNWALD-12 and BOLOGNIA-2024 were only half-books; both are now
 COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
-161/161 by the eyes. AVERY-2021 is now also done (61/61) -- see the newest
-DONE entries. 21 books remain for the eyes. The human still checks the OTHER
-PDFs himself for completeness.**
+161/161 by the eyes. AVERY-2021 (61/61) and BENZON-2023 (86/86) are now also
+done -- see the newest DONE entries. 20 books remain for the eyes. The human
+still checks the OTHER PDFs himself for completeness.**
 
 **READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
 19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
@@ -276,6 +276,35 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-22 -- BENZON-2023 read by the eyes: 86/86, 0 unresolved, 0 disagreements
+
+1,503 PDF pages, 8 provinces, 86 chapters. The first pass placed 84; two
+chapters were missed and then placed on the second pass:
+
+    ch76 Pain Management in the Emergency Department
+         pdf 1327 -> printed 1034
+    ch82 Pain Management at the End of Life and Home Care ...
+         pdf 1386 -> printed 1076
+
+Why they were missed: with `--only`, `after` stayed 0, so the pointer search
+only looked at the first 400 pages (it found page 2 instead of page 1327).
+Two small fixes in `kitchen/eyes_folio.py`:
+1. `--only` now seeds `after` from the nearest earlier chapter that an
+   earlier run placed, so the pointer is searched in the right part of the
+   book.
+2. `--only` now rewrites `<BOOK>-toc.json` from the MERGED records; before,
+   only `--all` wrote it, so the two repaired chapters were silently absent
+   from the TOC (it had 84 of 86).
+
+Evidence:
+
+    .venv/bin/python kitchen/eyes_folio.py BENZON-2023 --all --scan 6
+      84/86; unresolved ch76, ch82
+    .venv/bin/python kitchen/eyes_folio.py BENZON-2023 --only 76,82 --scan 30 --proof
+      86/86 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/BENZON-2023-toc.json  8 provinces, 86 chapters
 
 ### DONE 2026-10-22 -- AVERY-2021 read by the eyes: 61/61, 0 unresolved, 0 disagreements
 
