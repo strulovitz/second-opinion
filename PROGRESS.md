@@ -29,9 +29,9 @@ COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
 BRENNER-11 (71/71), DELISA-6 (62/62), DEVITA-12 (107/107), FIRESTEIN-12
 (125/125), GRAY-2020 (79/79), GREEN-HAND-2021 (60/60), GUYTON-2026 (85/85),
 HAZZARD-2022 (108/108, one TOC finding: ch7 outline says 284, the real
-opener is 286) and IRWIN-RIPPE-2023 (215/215) are now also done -- see the
-newest DONE entries. 10 books remain for the eyes. The human still checks
-the OTHER PDFs himself for completeness.
+opener is 286), IRWIN-RIPPE-2023 (215/215) and KAPLAN-11 (60/60) are now
+also done -- see the newest DONE entries. 9 books remain for the eyes. The
+human still checks the OTHER PDFs himself for completeness.
 
 One book at a time (the human's rule, 2026-10-22): after each book, stop and
 report, so an interruption never leaves a long batch half-explained.**
@@ -283,6 +283,18 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-22 -- KAPLAN-11 read by the eyes: 60/60, 0 unresolved, 0 disagreements
+
+16,525 PDF pages (the largest PDF in the library), 2 volumes, 60 chapters.
+No printed folio the reader can see, so all 60 are "pdf-page": the number is
+the PDF page. Clean on the first pass -- no tool change needed; the divider
+rule added for IRWIN-RIPPE-2023 also covers this book.
+
+    .venv/bin/python kitchen/eyes_folio.py KAPLAN-11 --all --scan 6
+      60/60 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/KAPLAN-11-toc.json  2 provinces (Volume I 26, Volume II 34), 60 chapters
 
 ### DONE 2026-10-22 -- IRWIN-RIPPE-2023 read by the eyes: 215/215, 0 unresolved, 0 disagreements
 
