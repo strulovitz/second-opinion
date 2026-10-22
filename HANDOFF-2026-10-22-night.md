@@ -1,5 +1,8 @@
 # HAND-OFF -- Second Opinion, end of 22 Oct 2026 (night)
 
+(Written just after midnight, 23 Oct 2026, 01:07. The session and all the
+work below belong to 22 Oct.)
+
 Written so the next session can start from exactly this point without
 reading any chat. Read this file first, then `PROGRESS.md`.
 
