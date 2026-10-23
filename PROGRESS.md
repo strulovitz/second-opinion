@@ -288,6 +288,34 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- SLEISENGER-11 read by the eyes: 132/132, 0 unresolved, 1 disagreement
+
+2,725 PDF pages ("Sleisenger and Fordtran's Gastrointestinal and Liver
+Disease", 11th ed.), 9 provinces, 132 chapters. The book prints folios, so
+all 132 are "printed": the number is the printed page.
+
+    .venv/bin/python kitchen/eyes_folio.py SLEISENGER-11 --all --scan 6
+      131/132 placed on the first pass; ch6 "Nutritional Management" not found
+    .venv/bin/python kitchen/eyes_folio.py SLEISENGER-11 --only 6 --from 90 --scan 10 --proof
+      ch6: pdf 94 -> printed 74 (the opener prints 74; the way in was --from)
+      132/132 chapters read by the eyes; 0 unresolved
+      1 disagree with the book's own contents
+    kitchen/logs/SLEISENGER-11-toc.json  9 provinces, 132 chapters
+
+WHY ch6 NEEDED --from: this book prints the CHAPTER NUMBER where the folio
+would be at the top of some openers ("6 Nutritional Management"), so the
+text cache yields junk folio candidates for ch6 (PDF 1404, 1412, ...) and the
+forward scan started at the previous chapter (73), 20 pages short of the real
+opener at PDF 94. The handoff's `--from` escape hatch was the right tool; no
+code change was made for it.
+
+FINDING (recorded, not silently fixed): **ch4 "Gut Sensory Transduction"** --
+our working vis-toc says printed page 51, but the chapter's own opener (PDF
+54) plainly prints **34** and its outline lists sections from 34 to 50; the
+page that prints 51 is ch4's LAST page. The eyes keep 34, which is also the
+smaller number the floor rule keeps. Recorded as a disagreement: contents 51
+vs page 34.
+
 ### DONE 2026-10-23 -- ROCKWOOD-10 read by the eyes: 69/69, 0 unresolved, 0 disagreements
 
 3,628 PDF pages ("Rockwood and Green's Fractures in Adults", 10th ed.),
