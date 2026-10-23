@@ -172,6 +172,7 @@ def main(argv=None):
         eyes = json.loads((LOGS / f"{args.book}-eyes.json").read_text())
         chapters, kind, offset, images = verify_pairs(
             book, toc, eyes, LOGS / "eyes-render" / args.book)
+        require(kind == "printed", "PDF-page citations are not printed folio evidence; use page_mapping.py")
         pdf = KITCHEN / "books" / book["pdf_file"]
         require(pdf.is_file(), "book PDF missing")
         samples = cross_check(pdf, chapters, kind)

@@ -289,6 +289,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-23, GPT 6.1 Sol: restarted at clean 2af8e9b (GitHub main matches); read RESTART-PROMPT-SMART.md, current ledger, project rules, BIBLE Part 3 sections 0.5/4.2-4.7 and Part 8 sections 4/6. Assignment: reusable TOC evidence/correction and A3 mapping software, synthetic regression proof, then one DeepSeek runbook. No book execution. Versions checked: git 2.47.3, gh 2.97.0, Python 3.13.5, pypdf 6.20.1, requests 2.34.2, pdftotext 25.03.0.
 - 2026-10-23, GPT 6.1 Sol after Campbell handoff: read the handoff/current pointers/project instructions/governing BIBLE section and checked git/tool versions. Nir stopped the session before PDF inspection or changes. Wrote RESTART-PROMPT-SMART.md and a short AGENTS.md pointer as requested; no book data or code changed.
 - 2026-10-23, GPT 6.1 Sol: read the DeepSeek handoff, current ledger, all 37 receipts, instructions and all 14 BIBLE files; confirmed GitHub main at dca403c. Read-only integrity review and two Campbell page samples; no book/configuration/output changes.
 - 2026-10-23 generic repair, GPT 6.1 Sol: replaced the unnecessarily restrictive offset-dependent handoff with a shared range-repair queue for all 37 accepted contents sources. Performed read-only metadata plans on the whole library; no new real-book output was applied.
@@ -297,6 +298,72 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 3.4.2-4.6 generic TOC evidence/correction and A3 tools -- GPT 6.1 Sol
+
+Implemented the reusable programming requested by RESTART-PROMPT-SMART.md.
+`toc_book.py` checks existing targets or proposes/applies a bookmark/checked-
+contents correction; `toc_evidence.py` opens one PDF and caches selected-page
+text by local PDF stat identity plus evidence identity. Full chapter-number/
+title checks handle drop caps and dotted numbers; bookmark ancestry retains
+innermost Sections and excludes internal/technique/online-only listings.
+`toc_observe.py` reads one selected opener through the existing free-reader
+helper, binds its image to the PDF/list identity, and reuses saved observations.
+`page_mapping.py` checks every available accepted pair, cross-checks four
+spread chapters and either saves a uniform printed offset or proposes observed
+ranges with explicit unresolved transitions. PDF citation numbers alone never
+become printed folios. Candidate acceptance is not promoted by these tools.
+
+`toc_store.py` backs up inputs and journals multi-file replacements; interrupted
+writes can be restored before retrying. List correction archives stale eyes/
+folio caches with the original source/export. Range receipts retain prior
+evidence/backup references and distinguish unique chapter corrections from
+legacy repeated assignments. The summary separates document-end proof from
+index/tail proof and estimates. A proved one-page final chapter is valid.
+
+COMMANDS:
+
+```bash
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+git diff --check
+```
+
+OUTPUT:
+
+```text
+.........................................................
+----------------------------------------------------------------------
+Ran 57 tests in 0.102s
+
+OK
+```
+
+CLI entry-point checks also returned:
+
+```text
+toc_book.py: --help OK
+page_mapping.py: --help OK
+toc_observe.py: --help OK
+toc_store.py: --help OK
+```
+
+FILES (`ls -l` byte counts): page_mapping.py 11943; page_offset.py 9761;
+test_toc_tools.py 18623; toc_book.py 16207; toc_evidence.py 8437;
+toc_observe.py 6037; toc_repair.py 14729; toc_repair_source.py 9538;
+toc_store.py 3812. All under kitchen/. The test suite contains the 39
+inherited regressions and 18 new tests using tiny artificial PDFs; renderer/
+reader calls in observation tests are mocked. It tests selected-page cache
+reuse/invalidation, full-title/number discrimination, hierarchy, correction,
+reader-assisted ambiguity, negative/variable offsets, candidate refusal,
+source-folio proof, no-op retries, history and transaction rollback.
+
+No real book/PDF audit, reader request, GPU work, installation, service change,
+database connection/write or library execution was performed. Book outputs,
+books.json and TOC-REPAIR-STATUS.json are unchanged. Tests are software proof,
+not certification of any book. PDF identities are explicitly local stat
+identities, not claims of whole-file SHA-256 hashes. The DeepSeek runbook and
+next-step pointer are the next documentation checkpoint.
+COMMIT: programming checkpoint recorded by hash in the following handoff entry.
 
 ### 2026-10-23 -- 8.6 SMART restart prompt and routing correction -- GPT 6.1 Sol
 

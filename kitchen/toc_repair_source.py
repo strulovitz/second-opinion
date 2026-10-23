@@ -82,7 +82,9 @@ def accepted_source(book, source, old, eyes, image_dir, rebuild=False):
         mapping = {"source": "accepted-vis-toc", "unit": unit, "offset_values": 0,
                    "uniform_offset": 0 if unit == "pdf-page" else book.get("page_offset"),
                    "structure_preserved": preserved}
-        fill_ranges(toc)
+        starts = [c.get("page_start") for _, c in flatten(toc)]
+        if all(positive_integer(p) for p in starts) and any(b > a for a, b in zip(starts, starts[1:])):
+            fill_ranges(toc)
     identities = [key(p, c) for p, c in flatten(toc)]
     require(len(set(identities)) == len(identities), "duplicate source chapter identities")
     if mapping["unit"] == "pdf-page":

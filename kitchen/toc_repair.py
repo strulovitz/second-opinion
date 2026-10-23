@@ -37,7 +37,7 @@ def digest(text):
 
 def plan(book, check_index=False, rebuild=False):
     bid = book["book_id"]
-    paths = {s: LOGS / f"{bid}-{s}.json" for s in ("vis-toc", "toc", "eyes")}
+    paths = {s: LOGS / f"{bid}-{s}.json" for s in ("vis-toc", "toc", "eyes", "toc-proof")}
     originals = {p: p.read_text() for p in paths.values() if p.is_file()}
     require(paths["vis-toc"] in originals, "accepted vis-toc missing")
     source = json.loads(originals[paths["vis-toc"]])
@@ -48,8 +48,20 @@ def plan(book, check_index=False, rebuild=False):
     identity = flat_identity(toc)
     end, boundary = final_boundary(book, toc, old, mapping,
                                    KITCHEN / "books" / book["pdf_file"], check_index)
+    if paths["toc-proof"] in originals:
+        from toc_evidence import pdf_identity
+        proof = json.loads(originals[paths["toc-proof"]])
+        if (proof.get("source_hash") == digest(originals[paths["vis-toc"]])
+                and proof.get("export_hash") == digest(originals.get(paths["toc"], ""))
+                and proof.get("pdf_identity") == pdf_identity(KITCHEN / "books" / book["pdf_file"])
+                and proof.get("unit") == mapping["unit"]):
+            if proof["boundary"]["mode"] in ("verified-document-end", "verified-index", "verified-tail-folios"):
+                end, boundary = proof["last_page"], proof["boundary"]
     last = flatten(toc)[-1][1]
     cap = printed_cap(book, mapping, eyes["chapters"] if eyes else None)
+    estimated_cap = mapping["unit"] == "printed" and mapping["offset_values"] > 1
+    if estimated_cap and end is not None:
+        cap = None  # A last-opener extrapolation cannot override a proved end.
     if end is None:
         starts = [c["page_start"] for _, c in flatten(toc)]
         gaps = [b - a for a, b in zip(starts, starts[1:]) if b > a]
@@ -74,13 +86,17 @@ def plan(book, check_index=False, rebuild=False):
     fill_ranges(toc, end, cap)
     if capped:
         boundary = boundary | {"note": boundary["note"] + "; capped at the last page"}
+    if estimated_cap and cap is not None:
+        boundary = boundary | {"note": boundary["note"] + "; last-opener end cap is an extrapolation estimate"}
     require(flat_identity(toc) == identity, "range calculation changed chapter starts/identity")
     expected = copy.deepcopy(toc)
     fill_ranges(expected, flatten(toc)[-1][1]["page_end"])
     require(expected == toc, "range verification failed")
     before = {(p, str(c.get("number")), c.get("title")): c for p, c in flatten(old)}
-    changed = sum(before.get((p, str(c.get("number")), c.get("title")), {}).get("page_end")
-                  != c["page_end"] for p, c in flatten(toc))
+    corrected = [json.dumps([p, str(c.get("number")), c.get("title")], ensure_ascii=False)
+                 for p, c in flatten(toc)
+                 if before.get((p, str(c.get("number")), c.get("title")), {}).get("page_end") != c["page_end"]]
+    changed = len(corrected)
     payloads = {paths["toc"]: json.dumps(toc, indent=1, ensure_ascii=False)}
     if updated is not None and updated != eyes:
         payloads[paths["eyes"]] = json.dumps(updated, indent=1)
@@ -89,7 +105,9 @@ def plan(book, check_index=False, rebuild=False):
               "previous_chapters": len(flatten(old)), "unit": mapping["unit"],
               "first_page": flatten(toc)[0][1]["page_start"],
               "last_page": flatten(toc)[-1][1]["page_end"],
-              "changed_ends": changed, "image_changes": images, "image_issues": issues,
+              "changed_ends": changed, "corrected_chapters": corrected,
+              "absent_inputs": [str(p.relative_to(ROOT)) for p in paths.values() if p not in originals],
+              "image_changes": images, "image_issues": issues,
               "structure": "preserved" if mapping.get("structure_preserved") else "rebuilt",
               "offset_values": mapping["offset_values"], "boundary": boundary,
               "starts_preserved_from": mapping["source"], "config_hash": digest(json.dumps(book, sort_keys=True))}
@@ -99,6 +117,8 @@ def plan(book, check_index=False, rebuild=False):
 def current(record, book):
     if not record or record.get("state") == "blocked":
         return bool(record and record.get("state") == "blocked")
+    if record.get("state") != "applied":
+        return False
     if record.get("config_hash") != digest(json.dumps(book, sort_keys=True)):
         return False
     if any((ROOT / p).exists() for p in record.get("absent", [])):
@@ -117,6 +137,8 @@ def same_document(before, after):
 
 def apply_plan(book, report, originals, payloads):
     require(all(p.read_text() == text for p, text in originals.items()), "inputs changed during verification")
+    require(not any((ROOT / p).exists() for p in report.get("absent_inputs", [])),
+            "a previously absent input appeared during verification")
     changed = {p: text for p, text in payloads.items()
                if p not in originals or not same_document(originals[p], text)}
     report = copy.deepcopy(report)
@@ -133,9 +155,33 @@ def apply_plan(book, report, originals, payloads):
     report["state"] = "applied"
     report["files"] = {str(p.relative_to(ROOT)): digest(p.read_text()) for p in originals.keys() | payloads.keys()}
     report["absent"] = [str((LOGS / f"{book['book_id']}-{suffix}.json").relative_to(ROOT))
-                        for suffix in ("eyes",) if not (LOGS / f"{book['book_id']}-{suffix}.json").exists()]
+                        for suffix in ("eyes", "toc-proof") if not (LOGS / f"{book['book_id']}-{suffix}.json").exists()]
     report["saved_files"] = len(changed)
     report["time"] = datetime.now().isoformat(timespec="seconds")
+    return report
+
+
+def retain_history(prior, report):
+    """Retries retain backups/proofs; repeat assignments are not unique fixes."""
+    if not prior:
+        report["distinct_corrected_chapters"] = len(set(report.get("corrected_chapters", [])))
+        return report
+    report = copy.deepcopy(report)
+    history = list(prior.get("history", []))
+    history.append({k: v for k, v in prior.items() if k != "history"})
+    report["history"] = history
+    backups = list(prior.get("backup_history", []))
+    for value in (prior.get("backup"), report.get("backup")):
+        if value and value not in backups:
+            backups.append(value)
+    if backups:
+        report["backup_history"] = backups
+        report.setdefault("backup", backups[-1])
+    corrected = sorted(set(prior.get("corrected_chapters", [])) | set(report.get("corrected_chapters", [])))
+    report["corrected_chapters"] = corrected
+    report["distinct_corrected_chapters"] = len(corrected)
+    if "ends_total" in prior:
+        report["legacy_end_assignments"] = prior["ends_total"]
     return report
 
 
@@ -160,10 +206,13 @@ def summary(status, books):
     applied = [r for r in records.values() if r["state"] == "applied"]
     blocked = [r for r in records.values() if r["state"] == "blocked"]
     pending = [b["book_id"] for b in books if not current(records.get(b["book_id"]), b)]
-    verified = {"verified-index", "verified-tail-folios", "saved-index-boundary"}
+    verified = {"verified-index", "verified-tail-folios"}
     provisional = [r for r in applied if r["boundary"]["mode"] not in verified]
     print(f"Queue: {len(applied)} applied; {len(blocked)} blocked; {len(pending)} pending/stale")
-    print(f"Final boundaries: {len(applied) - len(provisional)} index/tail proved; {len(provisional)} provisional (existing or median)")
+    document_ends = [r for r in provisional if r["boundary"]["mode"] == "verified-document-end"]
+    estimates = [r for r in provisional if r not in document_ends]
+    print(f"Final boundaries: {len(applied) - len(provisional)} index/tail proofs; "
+          f"{len(document_ends)} document-end proofs (PDF units); {len(estimates)} estimates/unverified")
     print(f"Image issues: {sum(len(r['image_issues']) for r in applied)}; "
           f"variable-offset books preserved: {sum(r['offset_values'] > 1 for r in applied)}")
     for r in blocked:
@@ -171,7 +220,7 @@ def summary(status, books):
     for r in applied:
         for issue in r["image_issues"]:
             print(f"IMAGE {r['book']}: {issue}")
-    for r in provisional:
+    for r in estimates:
         print(f"FINAL {r['book']}: {r['boundary']['note']}")
     if pending:
         print("Pending: " + ", ".join(pending))
@@ -221,8 +270,7 @@ def main(argv=None):
         show(report)
         if args.apply:
             prior = status["books"].get(book["book_id"], {})
-            report["ends_total"] = (prior.get("ends_total", prior.get("changed_ends", 0))
-                                    + report.get("changed_ends", 0))
+            report = retain_history(prior, report)
             status["books"][book["book_id"]] = report
             atomic_write(STATUS, json.dumps(status, indent=2, ensure_ascii=False) + "\n")
     if args.audit:
