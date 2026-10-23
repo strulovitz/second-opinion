@@ -222,34 +222,35 @@
     "CAMPBELL-2020": {
       "book": "CAMPBELL-2020",
       "state": "applied",
-      "source": "accepted-vis-toc",
-      "provinces": 4,
-      "chapters": 82,
+      "source": "pdf-bookmarks",
+      "provinces": 19,
+      "chapters": 90,
       "previous_chapters": 82,
-      "unit": "printed",
-      "first_page": 14,
-      "last_page": 4545,
-      "changed_ends": 0,
+      "unit": "pdf-page",
+      "first_page": 27,
+      "last_page": 5036,
+      "changed_ends": 90,
+      "ends_total": 90,
       "image_changes": [],
       "image_issues": [],
-      "structure": "preserved",
+      "structure": "rebuilt",
       "offset_values": 0,
       "boundary": {
-        "mode": "median-fallback",
-        "note": "BIBLE median estimate; index boundary not verified"
+        "mode": "verified-document-end",
+        "note": "final PDF page 5036 carries the chapter 90 running heading; document-end proof, not an index or printed-folio proof"
       },
-      "starts_preserved_from": "accepted-vis-toc",
+      "starts_preserved_from": "PDF chapter bookmarks, each checked against its destination page",
       "config_hash": "9f00d3f065990e6bbd85125964f56566fbd683fafd0f2e8aaaec25c73f5d7ca2",
       "files": {
-        "kitchen/logs/CAMPBELL-2020-toc.json": "c2f134a45f9e409e95edce0a26c148012c4b5f8c58a2609ba36e4c715e37730b",
-        "kitchen/logs/CAMPBELL-2020-vis-toc.json": "8f6364bc0ecabd99f4980b54209bd4881139f7f8db0a312174e39dd6e9cb4a27"
+        "kitchen/logs/CAMPBELL-2020-vis-toc.json": "76c754ef8d172f828fed1396058f7410f332be3f737fb90708f888f87ed358f7",
+        "kitchen/logs/CAMPBELL-2020-toc.json": "7b398104e5b1f9ac3cef46709ecb3782cf8c9008de57352377c29a244fc6c448"
       },
       "absent": [
         "kitchen/logs/CAMPBELL-2020-eyes.json"
       ],
-      "saved_files": 0,
-      "time": "2026-10-23T18:45:33",
-      "ends_total": 82
+      "saved_files": 2,
+      "time": "2026-10-23T19:14:58",
+      "reader_calls": 0
     },
     "DELISA-6": {
       "book": "DELISA-6",

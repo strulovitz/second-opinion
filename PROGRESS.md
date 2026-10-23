@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Campbell's chapter list is wrong; its PDF bookmarks provide 90 chapters under 19 real Parts. Nir stopped SMART and assigned the repair to DeepSeek for minimum cost. Book data remains unchanged. Current handoff: HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. CAMPBELL-2020 repaired from its PDF bookmarks: 90 chapters in 19 real Parts, chapter 1 "Surgical Techniques" at PDF 27, chapter 90 at PDF 4990-5036. The library now has 4,763 chapters. Unit is PDF page (printed-folio mapping is still Step A3). No model or reader call was used. Next: physically review the other three rebuilt books (KRAUSE-16, MIDDLETON-2019, SABISTON-22), then Step A3.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,11 +23,13 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-23 DeepSeek: repair Campbell first, then report and stop.**
-Follow HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md. Use the PDF's own
-chapter/Part bookmarks and confirm their destinations efficiently. The
-paid SMART attempt was stopped; no book data was applied. Step A3 and
-the other book reviews wait until Campbell is repaired.
+**2026-10-23 Campbell repaired; next are the other three rebuilt books.**
+KRAUSE-16 (93), MIDDLETON-2019 (99) and SABISTON-22 (92) were rebuilt
+from saved contents without a physical-book check. Review each against
+its actual book (PDF bookmarks/text first; the free reader only where
+genuinely ambiguous), then report and stop. After that, Step A3
+page_offset mapping. The 32 provisional final boundaries still need
+review; no Freeze.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -156,7 +158,7 @@ handle /2nd-opinion/* {
 **Awaiting the human's yes. Nothing has been changed on the web server.**
 
 ## BLOCKED
-- [open] 2026-10-23 SMART review: CAMPBELL-2020 rebuilt list has a confirmed chapter 1 title/start mismatch against the actual PDF. Matching saved vis-toc and export files is not independent proof of a correct TOC. The four rebuilt books' physical-page review is not complete; do not mark them geography-done from the repair receipts.
+- [resolved 2026-10-23] SMART review: CAMPBELL-2020's 82-chapter list was replaced from the PDF's 90 chapter bookmarks under 19 Parts; verified against each destination page; see DONE. The other three rebuilt books (KRAUSE-16, MIDDLETON-2019, SABISTON-22) still need a physical-book check before they can be called correct.
 - [resolved 2026-10-23 recovery] Part 3 section 4.4, HARRISON-22 exporter defects: the 21 chapter-range mismatches and two stale image references were repaired using saved evidence; index start PDF 4044 was confirmed directly. The final verifier reports zero range/image warnings for all 505 chapters. Status remains accepted pending human review. Other books are not claimed repaired; the no-reader tool stops on missing evidence, irregular offsets or an unconfirmed index boundary. Exact commands and output are under DONE.
 
 ## AMENDMENTS DECLARED BY THE MANAGER
@@ -295,6 +297,51 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-23 -- 3.4 CAMPBELL-2020 repaired from its PDF bookmarks -- DeepSeek
+
+The saved contents had 82 chapters in four fake volume groups and called
+chapter 1 "Total Ankle Arthroplasty" at page 14. The PDF's own bookmark
+outline has 90 explicit chapter bookmarks under 19 real Parts. Rebuilt
+both the source (`vis-toc`) and the export (`toc`) from those bookmarks.
+Every bookmark destination was checked against the page's own text:
+90/90 passed. Chapter 1 is "Surgical Techniques" at PDF 27; chapter 90 is
+"Sports Injuries of the Ankle" at PDF 4990, ending at PDF 5036.
+
+COMMANDS (temporary one-book script under /tmp; no new repository code):
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python /tmp/opencode/repair_campbell.py --apply
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py CAMPBELL-2020
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+```
+
+OUTPUT:
+
+```text
+CAMPBELL-2020: 90 chapters / 19 Parts; chapter 1 = 'Surgical Techniques'
+at PDF 27; last = chapter 90 at PDF 4990-5036; heading checks 90/90;
+reader calls 0
+Applied. Backup: kitchen/logs/toc-repair-backups/CAMPBELL-2020/20261023T191458756251
+CAMPBELL-2020: ready; 90 chapters; 0 ends; pdf-page; accepted-vis-toc;
+final=kept-existing; images=0 repaired/0 issues
+Dry run; no files written
+Ran 39 tests in 0.018s
+OK
+```
+
+Independent checks: numbers 1-90 in order; 19 Parts; every internal end =
+next start - 1; province bounds agree with their chapters; source chapters
+are marked `pdf-outline`; export chapters carry `pdf_page`; receipt config
+hash and both file hashes match; only Campbell's receipt changed; books.json
+unchanged. Total chapters 4,755 -> 4,763.
+
+Limitations recorded honestly: page numbers are PDF pages, not printed
+folios; printed-page mapping remains Step A3. The final end 5036 is
+document-end proof (the last page still carries the chapter 90 running
+heading), not an index proof, and is counted as provisional in the summary.
+No reader/model call, rendering, GPU or database write. Backups and the
+per-chapter evidence file are under the gitignored `kitchen/logs/`.
 
 ### 2026-10-23 -- Campbell investigation stopped; explanation-only DeepSeek handoff -- GPT 6.1 Sol
 

@@ -1,9 +1,9 @@
 # Second Opinion -- standing orders for the manager
 
-WHERE THE CURRENT STATE LIVES: read `HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md`
-first, then `PROGRESS.md`. Nir assigned Campbell's repair to DeepSeek;
-the handoff records the actual-book evidence and exact scope. Earlier
-completion claims do not prove that Campbell's chapter list is correct.
+WHERE THE CURRENT STATE LIVES: read `PROGRESS.md` first. CAMPBELL-2020 is
+repaired from its 90 PDF chapter bookmarks (19 Parts, PDF-page unit); the
+other three rebuilt books still need a physical check, then Step A3.
+`HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md` is the completed task record.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general
