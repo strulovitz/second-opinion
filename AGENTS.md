@@ -1,7 +1,7 @@
 # Second Opinion -- standing orders for the manager
 
-CURRENT RESTART: read `HANDOFF-2026-10-23-3D-RESTART.md`, especially section 12
-(exact saved todos and implementation steps), then the newest PROGRESS.md.
+CURRENT RESTART: read `HANDOFF-2026-10-23-3D-RESTART.md`, especially sections
+12-13 (saved todos and actual full-viewer scope), then the newest PROGRESS.md.
 Nir paused development to restart OpenCode; detailed state lives in that file.
 SMART writes generic software; DeepSeek/local reader run the long workflows.
 

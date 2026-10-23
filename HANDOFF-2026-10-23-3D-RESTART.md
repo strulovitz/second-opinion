@@ -1,4 +1,11 @@
-# Restart handoff -- paused 3D geography preview, 23 Oct 2026
+# Restart handoff -- paused actual 3D viewer implementation, 23 Oct 2026
+
+LATEST SCOPE CORRECTION FROM NIR: build the ACTUAL viewer, not a disposable
+preview or a warm-up for another programmer. Read section 13 as well as the
+saved checklist in section 12. The initial geography-only code is the
+starting point, not the definition of the finished assignment. The current
+session is still paused for a save/restart; this correction changes the
+next programming assignment, not the truth of what is already working.
 
 ## 1. Read this first: Nir stopped the session
 
@@ -262,9 +269,14 @@ Acceptance of Task 1 does NOT mean the reader is warmed up, the index
 pipeline has run, or the globe works. It means the requirements and exact
 installed components were identified. Recheck only a fact that changed.
 
-### Task 2 -- Build a working 3D geography preview from the approved map
+### Task 2 -- Build the actual 3D viewer from the approved map
 
 STATUS: PARTIALLY IMPLEMENTED, UNTESTED. Resume this task first.
+
+The sidebar originally said "Build a working 3D geography preview from the
+approved map". Nir explicitly corrected that wording and scope: he wants
+the actual application. The original title is preserved here as history;
+the active assignment is the real viewer, with the full scope in section 13.
 
 The initial code is saved in the seven site/viewer files listed in section
 7. The dependencies are already saved under site/assets/three (section 8).
@@ -314,9 +326,11 @@ Implementation sequence:
     entity shells/altitudes and cascades are not implemented by this
     prototype. Do not invent sample medical facts or disguise missing data.
 
-Task 2 is completed only when real browser evidence shows a textured round
-globe and the required basic interactions work. A JS syntax check, a flat
-image, a 2D fallback or the old 88 Python tests is not that evidence.
+The first visible milestone is real browser evidence of the textured globe
+and working interactions. Task 2's full completion also requires the actual
+viewer functionality and honest data-state handling described in section 13.
+A JS syntax check, a flat image, a 2D fallback or the old 88 Python tests
+does not verify the new viewer.
 
 ### Task 3 -- Verify/open the globe and give DeepSeek exact reader-start instructions
 
@@ -428,8 +442,84 @@ Keep AGENTS.md a short pointer and leave global memory unexpanded.
 
 ### What the next session should say and do
 
-One brief sentence to Nir: "I will finish checking the globe and open it
-in your browser." Then resume Task 2 on the SAVED code, proceed through
-Task 3 and save Task 4. Do not substitute a new audit, a giant planning
-conversation, another dependency download or another handoff for this
-requested visible deliverable. If blocked, state the concrete error plainly.
+One brief sentence to Nir: "I will build the actual globe application,
+test it and open it for you." Resume Task 2 on the SAVED code and apply
+the full scope in section 13. Proceed through Task 3 and save Task 4.
+Do not substitute a new audit, a giant planning conversation, another
+dependency download or another handoff for substantial implementation.
+If blocked, state the concrete error plainly.
+
+## 13. Nir's scope correction: ACTUAL APPLICATION, not a minimal preview
+
+After requesting the exact checklist, Nir explicitly objected to the word
+"preview" and to the impression that SMART was doing a minimal warm-up
+for a future, smarter programmer. He said SMART must do as much substantive
+work as it can, rather than requiring him to push out every next feature.
+
+This correction supersedes the narrow geography-only finish line earlier
+in this file. It does NOT permit fake clinical data, incorrect completion
+claims, reopening completed book work or starting unattended reader jobs.
+The paused-save instruction remains in force until he resumes the work.
+
+### What SMART is responsible for on continuation
+
+Build the real reusable viewer defined by BIBLE Part 7, progressing from
+the existing globe code into substantial functioning application code.
+SMART itself is the programmer for this work. Do not defer its core
+programming to an unspecified future smarter model. DeepSeek handles the
+long execution/data operations; that division is for cost, not an excuse
+for SMART to avoid building the application.
+
+The existing sphere/map code is an initial increment of the SAME product.
+It must be tested, corrected and developed, not discarded in favour of
+another demo. A working round globe is an early deliverable, not the
+automatic stopping point of the next substantial programming session.
+
+### Implement the actual viewer features from the BIBLE
+
+Read Part 7 sections 3-14 and the relevant Part 6 JSON export interfaces,
+then implement against those specified interfaces. No whole-BIBLE reread
+or invented replacement architecture is needed. The scope includes:
+
+1. The real textured globe: rotation, zoom, stable geography, picking,
+   reliable camera/navigation and actual district/book detail panels.
+2. Shared real geography/data loading and hash routing, browser Back,
+   caching and clear missing/loading/error states.
+3. The 2D entity map and 3D entity shells, including actual lit spots,
+   frequency-based sizes, unknown-frequency treatment, severity rings,
+   fixed-coordinate offsets and links/cascades between entity maps.
+4. The symptom/disease/treatment picker, search, entity cards, aliases,
+   altitude display, district information, legend and meaningful tooltips.
+5. Phone/touch/responsive behaviour and the BIBLE's browser checks, plus
+   focused tests of coordinate alignment, picking, routes and data use.
+6. The required export/integration code where it is necessary for the
+   viewer to consume Neo4j-derived data through the defined formats.
+
+Build as much of this real software as feasible in a substantial SMART
+session. Do not declare victory after adding one button, a static image,
+or a globe-only minimum and then hand another programming to-do to Nir.
+Save sensible working checkpoints as development proceeds. Explain only
+meaningful milestones briefly; keep routine implementation out of chat.
+
+### Missing medical data does not mean missing software is acceptable
+
+The approved geography is real and can be displayed now. Registry terms,
+relationships and altitudes are produced by later data execution. Their
+absence must be represented honestly in the application, but it does not
+prevent writing the viewer code described by the BIBLE's data formats.
+Use explicitly artificial test fixtures to test those features, isolated
+from the actual published project data. Do not add invented medical facts
+or invented entities to make the actual application appear populated.
+
+The user-facing product is Second Opinion's actual viewer. Avoid making
+"preview" its permanent goal or using that word to reduce the assignment.
+Distinguish software functionality from available data plainly. Show Nir
+the real working globe, and tell him in one short sentence which data
+layers are populated. Never claim live clinical layers have been loaded
+when they have not.
+
+After the substantial generic programming, give DeepSeek concrete working
+commands for the remaining repetitive execution, as Nir originally asked.
+Return to the remaining BIBLE stages with a clear next step. Preserve the
+full-project path rather than repeatedly waiting for Nir to identify each
+obvious missing piece. Keep global memory unchanged and AGENTS.md short.

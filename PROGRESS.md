@@ -25,8 +25,10 @@ Why 37, item by item, with the human's agreement:
 
 LATEST STOP INSTRUCTION: save the detailed restart handoff, reference it
 briefly from the project AGENTS.md, preserve partial work and stop. No global
-memory expansion. On the next user-authorised continuation, finish/test/open
-the existing 3D geography preview and explain local-reader startup plainly.
+memory expansion. On the next user-authorised continuation, build/test/open
+the actual 3D viewer, developing the saved code into the real application,
+and explain local-reader startup plainly. Nir rejected a minimal preview
+as the assignment: section 13 records the broader actual-viewer scope.
 See HANDOFF-2026-10-23-3D-RESTART.md for exact files/state and remaining work.
 Section 12 preserves the exact OpenCode sidebar checklist, task statuses,
 file-by-file implementation, browser verification/opening procedure and
@@ -296,6 +298,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23, after 9b0fb23: Nir explicitly rejected "preview" as a minimal goal and the idea of a warm-up for a future smarter programmer. He instructed SMART to do substantial work on the actual 3D application and as much real implementation as it can. HANDOFF-2026-10-23-3D-RESTART.md section 13 records this scope correction. Current session remains save-only for restart; no claim that the unfinished viewer is working.
 - 2026-10-23, after 0140ecf: Nir asked what the local/free reader means in executable BIBLE terms and whether the 3D globe works/can be shown. SMART explained it was not built and began a geography-only viewer. Nir then STOPPED development, criticised the long/rapid explanations and requested a detailed text restart handoff with a short project AGENTS.md reference, explicitly no expanded global memory. Save-only checkpoint; unfinished globe must not be called working.
 - 2026-10-23, Checkpoints 3.3/3.4 (A5): after viewing the specialty map, Nir approved the seating and the displayed appearance: "i think it's ok". Scope: the 37-book clinical grouping, field names and map preview. This is not a Neo4j load or a Freeze. The pre-change configuration backup is kitchen/logs/books-before-seating-20261023T205918.json.
 - 2026-10-23, after cf9fd27: Nir corrected the assistants: the ten books were skipped because the assistants had told him they were OK, not because he independently certified them. He stopped further contents work and instructed SMART: "i do not want to hear about doing the table of contents again, i want you to fucking build the project". The old checking queue is cancelled; SMART proceeds to generic geography programming using the saved data. No new certification of the books is claimed.
@@ -327,6 +330,18 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 8.6 correct SMART's scope to the actual viewer -- GPT 6.1 Sol
+
+Updated the restart handoff's title, active Task 2 and section 13 after
+Nir rejected the limited "preview" assignment. The next SMART session is
+responsible for substantial actual BIBLE Part 7 viewer implementation,
+including clinical-map/shell/data interfaces, not just a minimal globe.
+Available data and implemented software must be described separately and
+honestly. The short project AGENTS.md pointer now names sections 12-13.
+Documentation only; development remains paused, no new functional test,
+server/model launch or global memory change. Verification: git diff --check.
+COMMIT: the commit containing this entry, "8.6 define the actual full viewer as SMART's restart assignment".
 
 ### 2026-10-23 -- 8.6 persist the exact sidebar checklist and implementation procedure -- GPT 6.1 Sol
 
