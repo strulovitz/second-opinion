@@ -1,5 +1,7 @@
 # TOC repair -- ONE switch to DeepSeek for the library
 
+Generic-tool checkpoint: `4d378da`, committed and pushed to GitHub main.
+
 ## Assignment
 
 Stay with DeepSeek for the entire common chapter-range repair queue.

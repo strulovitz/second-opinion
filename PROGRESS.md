@@ -383,8 +383,8 @@ created by an audit. Future per-book backups are under the gitignored
 `kitchen/logs/toc-repair-backups/`. No library-wide apply was performed.
 DB: not applicable. No model, rendering, GPU, whole-PDF conversion or
 background job. The two direct Harrison PDF text checks were serial.
-COMMIT: generic-tool checkpoint; assigned hash to be recorded in the
-following documentation checkpoint after the commit/push.
+COMMIT: `4d378da`, pushed to origin/main. The following documentation
+checkpoint records this assigned hash in the handoff and ledger.
 
 ### DONE 2026-10-23 -- 3.4.4 repair chapter ranges; HARRISON-22 pilot -- GPT 6.1 Sol
 
