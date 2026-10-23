@@ -288,6 +288,17 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- MILLER-10 read by the eyes: 87/87, 0 unresolved, 0 disagreements
+
+13,485 PDF pages ("Miller's Anesthesia", 10th ed., 2-volume set), 8 provinces,
+87 chapters. No printed folio the reader can see, so all 87 are "pdf-page"
+(the number is the PDF page). Clean on the first pass -- no tool change needed.
+
+    .venv/bin/python kitchen/eyes_folio.py MILLER-10 --all --scan 6
+      87/87 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/MILLER-10-toc.json  8 provinces (7/19/20/25/4/3/4/5), 87 chapters
+
 ### DONE 2026-10-22 -- KAPLAN-11 read by the eyes: 60/60, 0 unresolved, 0 disagreements
 
 16,525 PDF pages (the largest PDF in the library), 2 volumes, 60 chapters.
