@@ -1,8 +1,8 @@
 # Second Opinion -- standing orders for the manager
 
-CURRENT RESTART: read `HANDOFF-2026-10-23-3D-RESTART.md`, then the newest
-PROGRESS.md pointers. Nir paused the session to restart OpenCode. The file
-records the unfinished 3D preview, completed index software and next steps.
+CURRENT RESTART: read `HANDOFF-2026-10-23-3D-RESTART.md`, especially section 12
+(exact saved todos and implementation steps), then the newest PROGRESS.md.
+Nir paused development to restart OpenCode; detailed state lives in that file.
 SMART writes generic software; DeepSeek/local reader run the long workflows.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or

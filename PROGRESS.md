@@ -28,6 +28,9 @@ briefly from the project AGENTS.md, preserve partial work and stop. No global
 memory expansion. On the next user-authorised continuation, finish/test/open
 the existing 3D geography preview and explain local-reader startup plainly.
 See HANDOFF-2026-10-23-3D-RESTART.md for exact files/state and remaining work.
+Section 12 preserves the exact OpenCode sidebar checklist, task statuses,
+file-by-file implementation, browser verification/opening procedure and
+the concrete DeepSeek reader-start commands. It is the next assignment.
 The older A6 execution pointer below remains the subsequent data workflow;
 it is not permission to start a reader job while this session is paused.
 
@@ -324,6 +327,20 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 8.6 persist the exact sidebar checklist and implementation procedure -- GPT 6.1 Sol
+
+At Nir's explicit request, expanded section 12 of
+HANDOFF-2026-10-23-3D-RESTART.md with the four original task titles, precise
+completed/paused status, implementation order, existing versus proposed
+commands, coordinate/raster tests, browser verification, actual browser
+opening, reader startup instructions and completion criteria. The work
+remains the active assignment after restart. The project AGENTS.md's same
+short pointer now names section 12; no global memory change.
+This is documentation only: no viewer coding, browser/server/model launch
+or functional test was resumed. The prior paused-work checkpoint is 0ed46ec.
+Verification: git diff --check and explicit task-heading inspection.
+COMMIT: the commit containing this entry, "8.6 preserve exact globe todos and restart implementation steps".
 
 ### 2026-10-23 -- 8.6 paused 3D prototype and detailed restart handoff -- GPT 6.1 Sol
 

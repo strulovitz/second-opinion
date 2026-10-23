@@ -223,3 +223,213 @@ viewer/vendor files, this handoff, the short AGENTS.md pointer and ledger
 update. No PDF/image/private log/env file belongs in this commit. Third-party
 JS/license files and their hashes are intentional public dependencies.
 Do not update global memory or copy this long handoff into AGENTS.md.
+
+## 12. EXACT SAVED OPENCODE TODO LIST AND IMPLEMENTATION PROCEDURE
+
+This section explicitly preserves the sidebar checklist Nir asked about.
+It is the active implementation assignment after restart. The unfinished
+items are PAUSED, not abandoned. The sidebar showed cancelled when Nir
+stopped the session; that UI status must not erase the remaining work.
+Restore the tasks from this file instead of relying on conversation memory.
+
+### Task 1 -- Check the configured local reader and the BIBLE's 3D viewer requirements
+
+STATUS: COMPLETED for inspection only. No model was loaded. Do not spend
+another session repeating the same inventory or rereading the whole BIBLE.
+
+Already established:
+
+1. The installed, configured book reader is qwen3.8:27b, for both text and
+   images, on the existing Ollama 0.32.14 server. Its API responded; no
+   model was resident in memory at the last check. Installed does not mean
+   already loaded. This reader runs on Nir's laptop, not a paid cloud API.
+2. The BIBLE routes generic programming to SMART, repetitive execution to
+   DeepSeek, and page reading/classification to that local reader.
+3. Part 7 sections 2, 4-6 and 8-10 were read for the current work. Required
+   technology: locally vendored Three.js and OrbitControls for the globe,
+   Canvas 2D for the map, existing JSON/PNG geography and fixed layout.
+4. Required interactions: rotate/zoom; click a district through the actual
+   raster; show real book/province/chapter names; keep texture and click
+   coordinates aligned. Part 7's Harrison alignment check is mandatory.
+5. The existing local-reader command is `.venv/bin/python kitchen/reader.py`.
+   It can load the installed model on demand through the configured local
+   endpoint and should return {'ok': True}. This is an actual existing
+   BIBLE command, not an invented launcher. It has not been run in the
+   paused 3D session. DeepSeek can run it with Nir watching when index
+   processing is due; the geography preview itself does not need Qwen.
+
+Acceptance of Task 1 does NOT mean the reader is warmed up, the index
+pipeline has run, or the globe works. It means the requirements and exact
+installed components were identified. Recheck only a fact that changed.
+
+### Task 2 -- Build a working 3D geography preview from the approved map
+
+STATUS: PARTIALLY IMPLEMENTED, UNTESTED. Resume this task first.
+
+The initial code is saved in the seven site/viewer files listed in section
+7. The dependencies are already saved under site/assets/three (section 8).
+Do not start over, redownload Three.js or regenerate the approved geography.
+
+Implementation sequence:
+
+1. Read the seven SMALL authored viewer files once. Do not print/read the
+   60,000-line Three.js core or its bundled module; use VERSION.txt for
+   dependency identity. Check git status before edits and preserve user work.
+2. Run syntax checks for the five authored JS modules. Proposed command for
+   the resumed session, not a command already executed:
+
+       for file in app data geo globe3d map2d; do node --check "site/viewer/$file.js" || break; done
+
+3. Confirm index.html's import map maps 'three' to the LOCAL module and
+   OrbitControls resolves it. The local module's relative three.core.js
+   import must work. No CDN/network dependency is required at runtime.
+4. Check data.js loads only the existing public viewer assets using relative
+   URLs. It should build the territory-ID and raster-code lookups, decode
+   the 2048x1024 PNG into ImageData and resolve a click to the real district.
+   Keep the ID raster lossless; do not smooth/recolour it for hit-testing.
+5. Check globe3d.js follows BIBLE 7.8: SphereGeometry(1,96,64), a texture
+   material with sRGB colour space, OrbitControls, fixed world coordinates,
+   camera movement rather than automatic planet movement, and rendering
+   only during interaction/damping/camera animation. Both texture sizes
+   already exist. Use the small one on small screens/limited hardware.
+6. Verify geo.js's coordinate convention with focused tests: lon=0/lat=0
+   points along +x; lon=90 points along -z; north points along +y. The
+   equirectangular pixel conversion must agree with the approved raster.
+   The sphere hit uses px=uv.x*2048, py=(1-uv.y)*1024 and code=R*256+G.
+7. Use Three.js Raycaster against the planet geometry to compare known
+   territory centres with their texture UVs. Then run the actual browser
+   alignment(home) check. A mirrored globe or misassigned click is a
+   failing test, not a cosmetic issue. Do not change approved seating to
+   hide a coordinate bug. Use the BIBLE's sign convention and verify it.
+8. In app.js, verify dynamic import failures show the honest 2D fallback;
+   successful startup must actually select 3D. Clicks/hash routes should
+   show the actual hierarchy and stored bounds through textContent, never
+   raw book-derived innerHTML. Sidebar search is specialty search at this
+   stage, not a fake symptom/disease search.
+9. Exercise home/selection marker clearing, malformed/unknown hashes,
+   drag versus click, pointer cancellation/release, zoom bounds and camera
+   tween/damping. Fix only diagnosed issues. In map2d.js verify letterbox
+   coordinates, click mapping and canvas redraw after it becomes visible.
+10. Retain the geography-preview label. Entity registries, clinical links,
+    entity shells/altitudes and cascades are not implemented by this
+    prototype. Do not invent sample medical facts or disguise missing data.
+
+Task 2 is completed only when real browser evidence shows a textured round
+globe and the required basic interactions work. A JS syntax check, a flat
+image, a 2D fallback or the old 88 Python tests is not that evidence.
+
+### Task 3 -- Verify/open the globe and give DeepSeek exact reader-start instructions
+
+STATUS: NOT STARTED. Do it after finishing Task 2; do not omit the opening.
+
+A. Serve the actual viewer locally
+
+- An import-map/ES-module app needs HTTP, not file://. Use a temporary
+  localhost-only development server rooted at site/, not the repo root.
+- A valid standard-library command for the next session is:
+
+      .venv/bin/python -m http.server 8765 --bind 127.0.0.1 --directory /home/nir/second-opinion/site
+
+- This server has NOT been started. Before using that port, check it is
+  free or already serves this same app. If another application owns it,
+  choose a free port and report the actual URL; do not kill that app.
+- If a persistent launcher is useful, create and test kitchen/open_globe.py
+  first; it does not exist at this checkpoint. Keep it small: reuse a
+  verified existing preview server or start one rooted at site/, wait a
+  bounded time for its HTML marker, then open the URL. Record its process
+  and log under ignored kitchen/logs. Do not invent an already-working
+  launcher in the reply. A direct server command is sufficient if simpler.
+- No changes to Apache/Caddy/cloudflared, system services or sudo. Serving
+  site/ must not make kitchen/.env or book PDFs available.
+
+B. Verify in a real browser, economically
+
+- Use installed Google Chrome 150 or Firefox 140; a desktop is available.
+  Prefer existing tools over installing playwright/selenium or more browsers.
+- For automation, Chrome's DevTools Protocol plus Node 26 native fetch and
+  WebSocket can avoid new dependencies. Use an isolated temporary profile
+  under /tmp/opencode and a free loopback debugging port. Do not touch
+  Nir's normal browser profile/settings or close his existing windows.
+- Chrome flags such as --headless=new, --remote-debugging-port=9223 and
+  --user-data-dir=/tmp/opencode/second-opinion-globe-test are a proposed
+  test setup, not an existing running process. Verify the port is free.
+  If headless WebGL needs a software graphics backend, diagnose that
+  locally; do not silently fall back to a flat map and call it 3D.
+- Obtain the page target from Chrome's /json/list, attach to its debugger
+  WebSocket, correlate incrementing request IDs and enable Runtime/Page.
+  Capture JS exceptions, failed asset requests and startup status.
+- Bounded wait for document.body.dataset.state='ready'. Require its mode
+  to be '3d' and alignment to be 'passed', and confirm the globe canvas
+  has a live WebGL context and visible rendered contents.
+- Test rotation and zoom, a real planet click and the correct district
+  panel, specialty selection (e.g. Cardiology), home navigation, 2D/3D
+  toggling, resize and a narrow phone-size viewport. A drag must not act
+  as a chapter click. Data must match the approved input, not hardcoded
+  expected placeholder names.
+- Capture a real screenshot through Page.captureScreenshot (or another
+  installed browser facility) into ignored kitchen/logs. View it with
+  the image-reading tool to check actual appearance, not just DOM flags.
+- Keep geometry tests focused and add tests for diagnosed bugs. Do not
+  rerun the entire Python suite after every CSS/JS change. Broader checks
+  are justified only when affected code or a new failure warrants them.
+
+C. Open the verified view for Nir
+
+- The intended URL, if port 8765 is the actual server, is:
+
+      http://127.0.0.1:8765/viewer/#/globe
+
+- Open the actual successful URL with xdg-open, for example:
+
+      xdg-open "http://127.0.0.1:8765/viewer/#/globe"
+
+- Do not merely send another map screenshot or say "you can open it".
+  Nir explicitly asked to SEE the 3D view. Request the browser opening
+  after verification, leave its preview server alive while he uses it,
+  and tell him briefly: drag, scroll/pinch, click a region.
+- Clean up only the isolated automation browser/processes you started.
+  The user's normal browser and the server needed for his open view stay.
+
+D. Give DeepSeek a concrete reader-start procedure
+
+- Update INDEX-PIPELINE.md's startup section to name Qwen qwen3.8:27b and
+  Ollama explicitly and give the existing reader.py test command, not
+  vague "start the free model" instructions. Do not require Nir to
+  figure out a second AI chat, model choice or download.
+- DeepSeek can run `.venv/bin/python kitchen/reader.py` with Nir watching.
+  Explain it loads the already-installed local reader if needed and
+  tests the configured connection. Expect {'ok': True}; if it fails,
+  save the exact error and diagnose it before launching index batches.
+- Do not expose .env/passwords/tokens. Do not secretly start a GPU job
+  during this save-only session. Do not build a new readiness wrapper
+  unless the existing command is genuinely insufficient.
+- The next bounded index commands already exist in INDEX-PIPELINE.md:
+  index_parse.py HARRISON-22 --limit 1, then index_classify.py HARRISON-22
+  --limit 1. Keep medical interpretation with the local reader and the
+  long execution with DeepSeek. No completed contents work is reopened.
+
+Task 3 is completed only when the verified globe was actually requested
+open in Nir's browser and the DeepSeek document contains explicit, real
+reader-start/test commands with the actual installed model name.
+
+### Task 4 -- Record the results and save the changes to GitHub
+
+STATUS: The interrupted-work checkpoint was saved/pushed as 0ed46ec.
+This checklist expansion is a documentation-only follow-up. The final
+WORKING-globe checkpoint is still pending Tasks 2 and 3.
+
+After that implementation is actually verified: update PROGRESS.md with
+exact commands, browser/test evidence, screenshot path, actual working URL,
+what is implemented and what remains. Update this handoff's status instead
+of starting another contradictory instruction chain. Inspect status/diff,
+stage only intended changes, commit/push and confirm the working tree.
+No claims that a globe test populated Neo4j or finished the medical viewer.
+Keep AGENTS.md a short pointer and leave global memory unexpanded.
+
+### What the next session should say and do
+
+One brief sentence to Nir: "I will finish checking the globe and open it
+in your browser." Then resume Task 2 on the SAVED code, proceed through
+Task 3 and save Task 4. Do not substitute a new audit, a giant planning
+conversation, another dependency download or another handoff for this
+requested visible deliverable. If blocked, state the concrete error plainly.
