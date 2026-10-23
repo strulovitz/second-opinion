@@ -300,6 +300,7 @@ def load_chapters(bid):
                 "image_field": img,
                 "link_image": ch.get("_link_image"),
                 "page_source": ch.get("_page_source"),
+                "printed_folio": ch.get("_printed_folio"),
             })
     return out
 
@@ -311,6 +312,14 @@ def chapter_kind(ch):
     link = ch.get("link_image")
     ps = ch.get("page_start")
     if isinstance(link, int) and link == ps:
+        return "pdf-page"
+    # A TOC read from the book's own text and recorded in PDF pages keeps
+    # the printed folio separately (STAHL-2024: page_start 22 is PDF page
+    # 22 while the page prints folio 1). Two different numbers are the
+    # proof that page_start is not a folio; treating it as one put 51
+    # chapters 21 pages late (2026-10-23).
+    pf = ch.get("printed_folio")
+    if pf is not None and str(pf) != "" and str(pf) != str(ps):
         return "pdf-page"
     return "printed"
 
@@ -548,10 +557,13 @@ def head_names_chapter(pages, i, ch):
     if not num:
         return False
     head = plain(head_of(pages, i))
-    if not number_in(head, num):
-        return False
     words = title_words(ch.get("title") or "")
-    return bool(words) and sum(1 for w in words if word_in(w, head)) >= 1
+    hits = sum(1 for w in words if word_in(w, head))
+    if number_in(head, num) and hits >= 1:
+        return True
+    # some books print the title itself as the head and no chapter number
+    # at all (STAHL-2024: "ALPRAZOLAM / THERAPEUTICS / Brands ...")
+    return bool(words) and hits >= max(1, len(words) // 2)
 
 
 def pdf_page_matches(ch, kind, heading):

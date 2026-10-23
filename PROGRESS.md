@@ -288,6 +288,39 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- STAHL-2024 read by the eyes: 61/61, 0 unresolved, 0 disagreements
+
+605 PDF pages ("Stahl's Essential Psychopharmacology", 2024), 61 provinces,
+61 chapters: Introduction + 59 drug monographs + Appendix (the structure the
+one-off builder recorded on 18 Oct).
+
+    .venv/bin/python kitchen/eyes_folio.py STAHL-2024 --all --scan 6
+      61/61 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/STAHL-2024-toc.json  61 provinces, 61 chapters
+
+THE FIRST PASS WAS WRONG AND WAS THROWN AWAY. It reported 51/61 "ok", but
+the numbers were nonsense: the 18 Oct builder stores **PDF pages** in
+`page_start` (PDF 22 = printed folio 1) and keeps the printed folio
+separately in `_printed_folio`, while `chapter_kind()` saw the source
+"text-contents" and called them printed folios. The tool then hunted for a
+page printing "22" and found it 21 pages later (printed 22 = another drug),
+so every "ok" chapter was one drug off. Caught by checking what the
+"successful" chapters had actually landed on (ch1 alprazolam was recorded at
+PDF 43, but the real opener PDF 22 prints folio 1 and the title ALPRAZOLAM).
+
+Fixes in `kitchen/eyes_folio.py`:
+1. `chapter_kind()`: when a text-read TOC carries `_printed_folio` that
+   differs from `page_start`, the number is a PDF page, not a folio. The
+   evidence travels from the vis-toc through `load_chapters()`.
+2. `head_names_chapter()`: a page whose head is the chapter TITLE and prints
+   no chapter number is accepted (STAHL prints "ARIPIPRAZOLE" as the head).
+
+The rerun placed every chapter on the page whose heading IS the drug name
+(ch5 aripiprazole -> PDF 64 "ARIPIPRAZOLE"; ch51 sertraline -> PDF 496), and
+PDF 22 was checked by eye: it prints folio 1 and the ALPRAZOLAM opener, as
+the builder's note says.
+
 ### DONE 2026-10-23 -- SLEISENGER-11 read by the eyes: 132/132, 0 unresolved, 1 disagreement
 
 2,725 PDF pages ("Sleisenger and Fordtran's Gastrointestinal and Liver
