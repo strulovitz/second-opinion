@@ -3,8 +3,66 @@
   "books": {
     "ADAMS-12": {
       "book": "ADAMS-12",
-      "state": "blocked",
-      "error": "existing export groups the same chapters under more provinces than the accepted contents (finer headings such as SECTIONs); refusing to flatten them; needs SMART review"
+      "state": "applied",
+      "source": "accepted-vis-toc",
+      "provinces": 13,
+      "chapters": 49,
+      "previous_chapters": 49,
+      "unit": "printed",
+      "first_page": 3,
+      "last_page": 1530,
+      "changed_ends": 0,
+      "image_changes": [],
+      "image_issues": [],
+      "structure": "preserved",
+      "offset_values": 0,
+      "boundary": {
+        "mode": "kept-existing",
+        "note": "kept the accepted export's final end; index boundary not verified"
+      },
+      "starts_preserved_from": "accepted-vis-toc",
+      "config_hash": "5dde496714d957455be886b967c270236ec59789a655d56d013f1d8b74b3e804",
+      "files": {
+        "kitchen/logs/ADAMS-12-vis-toc.json": "6af4989e59d5ed4c7d9bdc1cf6133ffaf53548e0b50b046df1dbb09216f688dd",
+        "kitchen/logs/ADAMS-12-toc.json": "31bd81789b0085b89719fa71ed3c425ce09d02bb672d811e931c3b8d9422c31f"
+      },
+      "absent": [
+        "kitchen/logs/ADAMS-12-eyes.json"
+      ],
+      "saved_files": 0,
+      "time": "2026-10-23T17:14:12"
+    },
+    "AVERY-2021": {
+      "book": "AVERY-2021",
+      "state": "applied",
+      "source": "saved-eyes",
+      "provinces": 4,
+      "chapters": 61,
+      "previous_chapters": 61,
+      "unit": "printed",
+      "first_page": 1,
+      "last_page": 958,
+      "changed_ends": 4,
+      "image_changes": [],
+      "image_issues": [],
+      "structure": "preserved",
+      "offset_values": 1,
+      "boundary": {
+        "mode": "verified-index",
+        "note": "index PDF 981; citation end 958"
+      },
+      "starts_preserved_from": "saved-eyes",
+      "config_hash": "9df212108096942a7af8f4e490696b790b942b87ae239cc7b7547c41b1a90662",
+      "backup": "kitchen/logs/toc-repair-backups/AVERY-2021/20261023T171414613556",
+      "created_files": [],
+      "files": {
+        "kitchen/logs/AVERY-2021-toc.json": "562e8c17b6e5a68443fef950d544c4ae1ca81d613f67ca842f2bd861bfbf54e4",
+        "kitchen/logs/AVERY-2021-vis-toc.json": "0f915753bc689cceedf53b19319307fbaaf9fb87e5e307034d97045ac9859953",
+        "kitchen/logs/AVERY-2021-eyes.json": "d67c215b0849c674838dc340d5a2d96f9d2c1f56153f03dbc3dbf78db61ef50e"
+      },
+      "absent": [],
+      "saved_files": 1,
+      "time": "2026-10-23T17:14:14"
     }
   }
 }

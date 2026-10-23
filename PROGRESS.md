@@ -295,7 +295,39 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- 3.4.4 in-place end repair: ADAMS-12 clean, AVERY-2021 fixed -- DeepSeek (executor)
+
+Nir rejected rebuilding whole books. The queue now keeps each accepted
+export exactly as it is and rewrites ONLY a wrong `page_end` (and the
+province bounds derived from it). ADAMS-12 therefore records 0 changes
+and writes no file. AVERY-2021 records 4 changed end pages and one
+verified final page.
+
+COMMANDS:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py ADAMS-12 --check-index --apply
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py --next --check-index --apply
+```
+
+OUTPUT:
+
+```text
+ADAMS-12: applied; 49 chapters; 0 ends; printed; accepted-vis-toc; final=kept-existing; images=0 repaired/0 issues
+AVERY-2021: applied; 61 chapters; 4 ends; printed; saved-eyes; final=verified-index; images=0 repaired/0 issues
+  backup: kitchen/logs/toc-repair-backups/AVERY-2021/20261023T171414613556
+```
+
+AVERY-2021 changed ends: ch9 90->108, ch14 165->186, ch18 238->250,
+ch61 930->958 (index PDF 981 proved citation end 958). A field-by-field
+comparison against the backup showed 0 changes outside `page_end` and
+province bounds; all 61 names, titles and starts are identical. ADAMS-12
+kept its 13 provinces (including its six SECTIONs) and its empty heading.
+
 ### DONE 2026-10-23 -- 3.4.4 generic queue, first work unit: ADAMS-12 blocked for structural review -- DeepSeek (executor)
+
+SUPERSEDED the same day by the in-place repair entry above: ADAMS-12 is
+now `applied` with 0 changes, and its SECTION provinces were preserved.
 
 First book visited by the generic queue, in the assigned order: ADAMS-12
 (Adams and Victor's Principles of Neurology, 49 chapters, accepted-vis-toc).
