@@ -1,9 +1,9 @@
 # Second Opinion -- standing orders for the manager
 
-WHERE THE CURRENT STATE LIVES: read `PROGRESS.md` first. CAMPBELL-2020 is
-repaired from its 90 PDF chapter bookmarks (19 Parts, PDF-page unit); the
-other three rebuilt books still need a physical check, then Step A3.
-`HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md` is the completed task record.
+WHERE THE CURRENT STATE LIVES: read `HANDOFF-TO-SMART-AFTER-CAMPBELL-2026-10-23.md`
+first, then `PROGRESS.md`. Campbell is repaired (90 chapters, 19 Parts,
+PDF-page unit); the handoff lists the remaining rebuilt-book checks and
+Step A3. Earlier completion claims are not physical-book proof.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general
