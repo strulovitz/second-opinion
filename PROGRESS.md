@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Chapter-end repair FINISHED for all 37: 33 applied in place, then the 4 reviewed books rebuilt from their accepted contents, 0 blocked, 0 pending. 1,337 wrong/missing end pages corrected; 3 books needed nothing and wrote no file; 4 empty exports restored from the already accepted contents. 5 final pages were proved from the index; 28 remain provisional. Field-by-field checks found no change outside `page_end` and province bounds. 34 tests pass. Details: HANDOFF-TOC-REPAIR.md and TOC-REPAIR-STATUS.json.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Section 4.4 chapter-end repair COMPLETE for all 37 books: 37 applied, 0 blocked, 0 pending; 1,730 end values corrected. 5 final pages proved from the index, 32 are provisional median estimates (8 capped at the book's last page); no zero-length chapters and no end past the book length. 39 tests pass. books.json untouched. Hand-off to SMART: HANDOFF-TO-SMART-2026-10-23.md. 1,337 wrong/missing end pages corrected; 3 books needed nothing and wrote no file; 4 empty exports restored from the already accepted contents. 5 final pages were proved from the index; 28 remain provisional. Field-by-field checks found no change outside `page_end` and province bounds. 34 tests pass. Details: HANDOFF-TOC-REPAIR.md and TOC-REPAIR-STATUS.json.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,14 +23,14 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-23 chapter-end repair COMPLETE for all 37 books.** After Nir
-approved the one review, CAMPBELL-2020, KRAUSE-16, MIDDLETON-2019 and
-SABISTON-22 were rebuilt from their already accepted contents with the
-explicit `--rebuild` switch and their ends filled. Result: 37 applied,
-0 blocked, 0 pending. Return to SMART once with
-`HANDOFF-TOC-REPAIR.md` and `TOC-REPAIR-STATUS.json`. This does not
-complete Step A3 page-offset mapping, does not verify the provisional
-final pages, and does not authorise a Freeze.
+**2026-10-23 section 4.4 COMPLETE; hand-off back to SMART.** The queue ran
+to 37 applied, 0 blocked, 0 pending, with 1,730 end values corrected.
+Five final pages were proved from the index; the other 32 are provisional
+median estimates (8 capped at the book's last page). No zero-length last
+chapter and no end past the book length remain. Next work belongs to
+SMART: Step A3 page-offset mapping (only HARRISON-22 has an offset), the
+review of the 32 provisional tails, Checkpoint 3.2 statuses, and a sanity
+check of the four rebuilt books. This does not authorise a Freeze.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -294,6 +294,52 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-23 -- 3.4.4 final end pass: no placeholders, no overshoots -- DeepSeek (executor)
+
+A verification scan after the rebuilds found two remaining defects that
+the earlier receipt counts hid:
+1. 22 books had a zero-length last chapter (page_end equal to page_start),
+   a placeholder left by the old exporter.
+2. ROBBINS-10's median estimate ran past the PDF (1352 on a 1328-page
+   file), and three more printed books were similarly over the limit.
+
+Fixed in `toc_ranges.py` and `toc_repair.py`: the final chapter now uses
+the BIBLE median estimate unless a plausible existing value differs; the
+estimate is capped for PDF-page books at the last PDF page, and for
+printed books at `page_count - (last_pdf - last_printed)`, so a negative
+offset is handled rather than truncated. Verified index boundaries still
+win. A zero/negative last end is never kept. `printed_cap()` is unit
+tested, and `ends_total` now accumulates across re-runs.
+
+COMMANDS:
+
+```bash
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+# every book re-applied so the corrected final rule reached the files
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py <BOOK_ID> --check-index --apply
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py --summary
+```
+
+OUTPUT / EVIDENCE:
+
+```text
+Ran 39 tests in 0.019s
+OK
+Queue: 37 applied; 0 blocked; 0 pending/stale
+Final boundaries: 5 index/tail proved; 32 provisional (existing or median)
+Image issues: 0; variable-offset books preserved: 13
+```
+
+Independent checks: zero zero-length last chapters; zero final ends above
+their cap; every internal end equals the next start minus one; 37/37
+applied; 1,730 cumulative end values. Five proved finals: AVERY-2021
+958, HARRISON-22 4000, HAZZARD-2022 3784, ROCKWOOD-10 3576,
+WILLIAMS-OBSTETRICS-26 3215. Eight medians were capped at the book's last
+page: BRENNER-11, GREEN-HAND-2021, GUYTON-2026, MANDELL-9, ROBBINS-10,
+ROSEN-2022, SLEISENGER-11, WILLIAMS-ENDO-2024. No model call, no
+rendering, no GPU and no whole-PDF conversion; only bounded single-page
+pdftotext checks. books.json unchanged.
 
 ### DONE 2026-10-23 -- 3.4.4 the four reviewed books rebuilt from accepted contents -- DeepSeek (executor)
 

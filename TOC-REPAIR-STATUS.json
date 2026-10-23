@@ -17,8 +17,8 @@
       "structure": "preserved",
       "offset_values": 0,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "5dde496714d957455be886b967c270236ec59789a655d56d013f1d8b74b3e804",
@@ -30,7 +30,8 @@
         "kitchen/logs/ADAMS-12-eyes.json"
       ],
       "saved_files": 0,
-      "time": "2026-10-23T17:14:12"
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 0
     },
     "AVERY-2021": {
       "book": "AVERY-2021",
@@ -42,7 +43,7 @@
       "unit": "printed",
       "first_page": 1,
       "last_page": 958,
-      "changed_ends": 4,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
@@ -53,16 +54,15 @@
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "9df212108096942a7af8f4e490696b790b942b87ae239cc7b7547c41b1a90662",
-      "backup": "kitchen/logs/toc-repair-backups/AVERY-2021/20261023T171414613556",
-      "created_files": [],
       "files": {
+        "kitchen/logs/AVERY-2021-eyes.json": "d67c215b0849c674838dc340d5a2d96f9d2c1f56153f03dbc3dbf78db61ef50e",
         "kitchen/logs/AVERY-2021-toc.json": "562e8c17b6e5a68443fef950d544c4ae1ca81d613f67ca842f2bd861bfbf54e4",
-        "kitchen/logs/AVERY-2021-vis-toc.json": "0f915753bc689cceedf53b19319307fbaaf9fb87e5e307034d97045ac9859953",
-        "kitchen/logs/AVERY-2021-eyes.json": "d67c215b0849c674838dc340d5a2d96f9d2c1f56153f03dbc3dbf78db61ef50e"
+        "kitchen/logs/AVERY-2021-vis-toc.json": "0f915753bc689cceedf53b19319307fbaaf9fb87e5e307034d97045ac9859953"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:14"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 4
     },
     "BENZON-2023": {
       "book": "BENZON-2023",
@@ -73,28 +73,27 @@
       "previous_chapters": 86,
       "unit": "printed",
       "first_page": 3,
-      "last_page": 1128,
-      "changed_ends": 7,
+      "last_page": 1140,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 82,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "040b979000d1ad1bc60dc4afe0b3b04d436d7f77c944d2dd9aac3c7567620d70",
-      "backup": "kitchen/logs/toc-repair-backups/BENZON-2023/20261023T171439535261",
-      "created_files": [],
       "files": {
+        "kitchen/logs/BENZON-2023-toc.json": "4da86b8d82ff2f868ad4cf8aa1969531a1e91cf28ee16a7bd8205983d48f7781",
         "kitchen/logs/BENZON-2023-eyes.json": "e6dd6394a88b4bc6482d6eaa2112680875f9ec65260ea9ca41b61cc8ff7ef142",
-        "kitchen/logs/BENZON-2023-vis-toc.json": "ab3e2e379e491ada8df3ee69f5c733eb7827e187ac29ac809b17b3f27e26c35c",
-        "kitchen/logs/BENZON-2023-toc.json": "9c3e1b8f3ebc94c81e7a531511362361c545de8bfddddcd7c171ce74ab8d40a3"
+        "kitchen/logs/BENZON-2023-vis-toc.json": "ab3e2e379e491ada8df3ee69f5c733eb7827e187ac29ac809b17b3f27e26c35c"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:39"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 8
     },
     "BOLOGNIA-2024": {
       "book": "BOLOGNIA-2024",
@@ -105,28 +104,27 @@
       "previous_chapters": 161,
       "unit": "printed",
       "first_page": 1,
-      "last_page": 2705,
-      "changed_ends": 21,
+      "last_page": 2720,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 146,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "4696d2e8f803fbd6be0a46fca2a1ec5893ebc612a0b5be89358a7f12898e8599",
-      "backup": "kitchen/logs/toc-repair-backups/BOLOGNIA-2024/20261023T171439582944",
-      "created_files": [],
       "files": {
+        "kitchen/logs/BOLOGNIA-2024-toc.json": "b91fe80133ca7d5a387f58ecd24e38736950e86f8b0a1196dd6df5cca7d4e0e6",
         "kitchen/logs/BOLOGNIA-2024-vis-toc.json": "af37027b7fce01c9d4b1261f38bb6b980cdc424f6e9c5045b9c6716f1081b0b0",
-        "kitchen/logs/BOLOGNIA-2024-eyes.json": "79271ae513afa39d604d9c7bef76060f575e9e0ddf231b64c251fad5eaacf773",
-        "kitchen/logs/BOLOGNIA-2024-toc.json": "43791fa14cc33a1937f6180cd51e77b57b2bbbde98293e5dd45c14698974fcd1"
+        "kitchen/logs/BOLOGNIA-2024-eyes.json": "79271ae513afa39d604d9c7bef76060f575e9e0ddf231b64c251fad5eaacf773"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:39"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 22
     },
     "BRANT-5": {
       "book": "BRANT-5",
@@ -137,28 +135,27 @@
       "previous_chapters": 83,
       "unit": "pdf-page",
       "first_page": 45,
-      "last_page": 4055,
-      "changed_ends": 11,
+      "last_page": 4100,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "7400d932df2c5dadde14b6240413368c611899317e7a2983b22eceada73297bc",
-      "backup": "kitchen/logs/toc-repair-backups/BRANT-5/20261023T171440344241",
-      "created_files": [],
       "files": {
-        "kitchen/logs/BRANT-5-vis-toc.json": "a69d746bd1d8510aeed1083e101b4ededa32ce6dc077463f5f60754f554aaa4f",
+        "kitchen/logs/BRANT-5-toc.json": "b7508271f561d254e7d74af376e235df687f9644e30e37402eb980a8a04dc85c",
         "kitchen/logs/BRANT-5-eyes.json": "1086cb2d1cbd55c749964345e8579f336445d0ce7ca2082e199c63047c5d6e80",
-        "kitchen/logs/BRANT-5-toc.json": "1bc3a77a5503a9d6a91b02dbc8dc5744f14fec541a7847fa06e69d7c73e1a587"
+        "kitchen/logs/BRANT-5-vis-toc.json": "a69d746bd1d8510aeed1083e101b4ededa32ce6dc077463f5f60754f554aaa4f"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:40"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 12
     },
     "BRAUNWALD-12": {
       "book": "BRAUNWALD-12",
@@ -169,28 +166,27 @@
       "previous_chapters": 102,
       "unit": "printed",
       "first_page": 1,
-      "last_page": 1893,
-      "changed_ends": 10,
+      "last_page": 1910,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 66,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "74d7f27104ca662be3a03613c988d1b4b547f8a487a5d84fa97d61a2b4c4f590",
-      "backup": "kitchen/logs/toc-repair-backups/BRAUNWALD-12/20261023T171440391447",
-      "created_files": [],
       "files": {
-        "kitchen/logs/BRAUNWALD-12-toc.json": "46e3d03db9b63c2537574940d64576c3f754df2f0c163e1ec080093bb10c51e8",
+        "kitchen/logs/BRAUNWALD-12-toc.json": "52248da6a0c9d544cd478c89c8fc61c01a0dd70c58fc37b461fc741ecb660aaf",
         "kitchen/logs/BRAUNWALD-12-eyes.json": "65e9073da8d9dd6294179651c548baabe3872fa5976ec33a59a2421905b18f61",
         "kitchen/logs/BRAUNWALD-12-vis-toc.json": "cb152d5a47e88da1b0f64db26f0c2253b71e00a0de3a8fbe3da36a5d06bab764"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:40"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 11
     },
     "BRENNER-11": {
       "book": "BRENNER-11",
@@ -201,28 +197,27 @@
       "previous_chapters": 71,
       "unit": "printed",
       "first_page": 2,
-      "last_page": 2663,
-      "changed_ends": 17,
+      "last_page": 2683,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 71,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified; capped at the last page"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "0e4aafe1982d71b2dd5e9c9e517fa07fd2a196c2e2026d124f9db59a5c38d7ba",
-      "backup": "kitchen/logs/toc-repair-backups/BRENNER-11/20261023T171440437345",
-      "created_files": [],
       "files": {
         "kitchen/logs/BRENNER-11-vis-toc.json": "b47e6e5d34003af21101697f93209a61b1d3418a92fc7d9920a9ca7ef2aebe46",
-        "kitchen/logs/BRENNER-11-eyes.json": "fe923267d0d20e6a9e0b1e239faba0bad3da7e96d4ab7eceae5fa0e4b8788435",
-        "kitchen/logs/BRENNER-11-toc.json": "2bdba4fe47040cc58a826ba4af4715b8f8d5a67379d80d235d035bbad4845f38"
+        "kitchen/logs/BRENNER-11-toc.json": "96c18d394923b2dfbb39d2860e3caafe50be453f4cb352ccb3baeb6bcd7856cf",
+        "kitchen/logs/BRENNER-11-eyes.json": "fe923267d0d20e6a9e0b1e239faba0bad3da7e96d4ab7eceae5fa0e4b8788435"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:40"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 19
     },
     "CAMPBELL-2020": {
       "book": "CAMPBELL-2020",
@@ -230,32 +225,31 @@
       "source": "accepted-vis-toc",
       "provinces": 4,
       "chapters": 82,
-      "previous_chapters": 862,
+      "previous_chapters": 82,
       "unit": "printed",
       "first_page": 14,
       "last_page": 4545,
-      "changed_ends": 82,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
-      "structure": "rebuilt",
+      "structure": "preserved",
       "offset_values": 0,
       "boundary": {
         "mode": "median-fallback",
-        "note": "index absent/invalid; BIBLE median fallback"
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "9f00d3f065990e6bbd85125964f56566fbd683fafd0f2e8aaaec25c73f5d7ca2",
-      "backup": "kitchen/logs/toc-repair-backups/CAMPBELL-2020/20261023T173043011286",
-      "created_files": [],
       "files": {
-        "kitchen/logs/CAMPBELL-2020-vis-toc.json": "8f6364bc0ecabd99f4980b54209bd4881139f7f8db0a312174e39dd6e9cb4a27",
-        "kitchen/logs/CAMPBELL-2020-toc.json": "c2f134a45f9e409e95edce0a26c148012c4b5f8c58a2609ba36e4c715e37730b"
+        "kitchen/logs/CAMPBELL-2020-toc.json": "c2f134a45f9e409e95edce0a26c148012c4b5f8c58a2609ba36e4c715e37730b",
+        "kitchen/logs/CAMPBELL-2020-vis-toc.json": "8f6364bc0ecabd99f4980b54209bd4881139f7f8db0a312174e39dd6e9cb4a27"
       },
       "absent": [
         "kitchen/logs/CAMPBELL-2020-eyes.json"
       ],
-      "saved_files": 1,
-      "time": "2026-10-23T17:30:43"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 82
     },
     "DELISA-6": {
       "book": "DELISA-6",
@@ -266,28 +260,27 @@
       "previous_chapters": 62,
       "unit": "pdf-page",
       "first_page": 51,
-      "last_page": 3518,
-      "changed_ends": 8,
+      "last_page": 3565,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "b3e13773eb3ade0825f0ab38d36b581c0914668b0e09c53587a6e3e01a0ac927",
-      "backup": "kitchen/logs/toc-repair-backups/DELISA-6/20261023T171440524136",
-      "created_files": [],
       "files": {
         "kitchen/logs/DELISA-6-vis-toc.json": "c8a8a718acb42e88b30423592af8914c1ab433e878237072521938024f103a13",
-        "kitchen/logs/DELISA-6-eyes.json": "c3f318299a1e9da61641069b261d7103d3baaa72e4a37eca39aa05dc6a12e8e0",
-        "kitchen/logs/DELISA-6-toc.json": "1c386f607209a3e537ecdd2dd57aefe4e3ad5258db8d17e3374002f9794cf2fc"
+        "kitchen/logs/DELISA-6-toc.json": "e503138afc869d63c713b5bad7cb67006f70f471ad16c9ec21055aa657e23cad",
+        "kitchen/logs/DELISA-6-eyes.json": "c3f318299a1e9da61641069b261d7103d3baaa72e4a37eca39aa05dc6a12e8e0"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:40"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 9
     },
     "DEVITA-12": {
       "book": "DEVITA-12",
@@ -298,28 +291,27 @@
       "previous_chapters": 107,
       "unit": "printed",
       "first_page": 2,
-      "last_page": 1872,
-      "changed_ends": 3,
+      "last_page": 1885,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 7,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "9c26d98486409e0cbb5ba97b0e7a792c155e83e94cdb872978611709c081dcd0",
-      "backup": "kitchen/logs/toc-repair-backups/DEVITA-12/20261023T171440570981",
-      "created_files": [],
       "files": {
-        "kitchen/logs/DEVITA-12-vis-toc.json": "395ac671f8762a854d5672c41cc88dafe3205a7bfb5c0c7389def3820f7ef9d1",
-        "kitchen/logs/DEVITA-12-toc.json": "d9fb2ab1db46952548c99ce135b7e94b2f61d52459e605d504b4c09fb445f544",
-        "kitchen/logs/DEVITA-12-eyes.json": "22fbc71d3cdc48f16e3bd4f3bcf0f1bf81131e988dee0fa4e094e7bcd827fc7f"
+        "kitchen/logs/DEVITA-12-eyes.json": "22fbc71d3cdc48f16e3bd4f3bcf0f1bf81131e988dee0fa4e094e7bcd827fc7f",
+        "kitchen/logs/DEVITA-12-toc.json": "c2f4b54d4219abfeb45930d5d4230cb43ddabc88ff1c7b49630b957b07226523",
+        "kitchen/logs/DEVITA-12-vis-toc.json": "395ac671f8762a854d5672c41cc88dafe3205a7bfb5c0c7389def3820f7ef9d1"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:40"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 4
     },
     "FIRESTEIN-12": {
       "book": "FIRESTEIN-12",
@@ -330,31 +322,27 @@
       "previous_chapters": 125,
       "unit": "printed",
       "first_page": 1,
-      "last_page": 2229,
-      "changed_ends": 20,
-      "image_changes": [
-        "ch92: 02020.png -> 02019.png",
-        "ch115: 02518.png -> 02517.png"
-      ],
+      "last_page": 2246,
+      "changed_ends": 0,
+      "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 92,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "f828ee53b3831f1f5bb6ea449ddd7ea1da33450d553443d8307d7f0af24d4150",
-      "backup": "kitchen/logs/toc-repair-backups/FIRESTEIN-12/20261023T171441235080",
-      "created_files": [],
       "files": {
-        "kitchen/logs/FIRESTEIN-12-eyes.json": "8018482af1e63139d8eed6f6bed0605ba125f502c6cb02fd4d3c41ea806e879d",
         "kitchen/logs/FIRESTEIN-12-vis-toc.json": "29382594742ce15e56e426f032300bffaf1c470940f50e2406b71624d6062ded",
-        "kitchen/logs/FIRESTEIN-12-toc.json": "b8bc692cd7adbc9451213c8a4343293f4fed4806726c66490108e4095e0488af"
+        "kitchen/logs/FIRESTEIN-12-toc.json": "af3fdb315f911bfb2183d6e5ea7ae323e4eeb3ebaba8b5408f959e2309ba6a1e",
+        "kitchen/logs/FIRESTEIN-12-eyes.json": "8018482af1e63139d8eed6f6bed0605ba125f502c6cb02fd4d3c41ea806e879d"
       },
       "absent": [],
-      "saved_files": 2,
-      "time": "2026-10-23T17:14:41"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:33",
+      "ends_total": 21
     },
     "GOODMAN-14": {
       "book": "GOODMAN-14",
@@ -372,8 +360,8 @@
       "structure": "preserved",
       "offset_values": 0,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "88c1fd475b1fc86ecddd2e6953a90c06ce488dcfd5190848b2b70b80ac85c2d9",
@@ -385,7 +373,8 @@
         "kitchen/logs/GOODMAN-14-eyes.json"
       ],
       "saved_files": 0,
-      "time": "2026-10-23T17:14:41"
+      "time": "2026-10-23T18:45:34",
+      "ends_total": 0
     },
     "GRAY-2020": {
       "book": "GRAY-2020",
@@ -396,28 +385,27 @@
       "previous_chapters": 79,
       "unit": "printed",
       "first_page": 4,
-      "last_page": 1430,
-      "changed_ends": 8,
+      "last_page": 1447,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 78,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "38e4579ad196ac36cec0129922eb6aa4cd789e3df78b2ee1b04c1b961b11385c",
-      "backup": "kitchen/logs/toc-repair-backups/GRAY-2020/20261023T171442510261",
-      "created_files": [],
       "files": {
         "kitchen/logs/GRAY-2020-vis-toc.json": "3df6bb17d34e22f650e60e3da3288b25e57f0eee4d22110878a25879e2a75b8a",
-        "kitchen/logs/GRAY-2020-eyes.json": "f59dafd575ed8529c45a2a5f27a6dc3ededf998c02b1dcda400f74b7f59d5af5",
-        "kitchen/logs/GRAY-2020-toc.json": "171ef1a91a0d33554f2602a1ec0499e6dcb334917cf9dceb293b5f38f3bcd195"
+        "kitchen/logs/GRAY-2020-toc.json": "3e2ab8968571d36eccebaaf7a25eab45a343af8794e72f0aa798fd5900de19c8",
+        "kitchen/logs/GRAY-2020-eyes.json": "f59dafd575ed8529c45a2a5f27a6dc3ededf998c02b1dcda400f74b7f59d5af5"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:42"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:34",
+      "ends_total": 9
     },
     "GREEN-HAND-2021": {
       "book": "GREEN-HAND-2021",
@@ -428,28 +416,27 @@
       "previous_chapters": 60,
       "unit": "printed",
       "first_page": 1,
-      "last_page": 2234,
-      "changed_ends": 7,
+      "last_page": 2257,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 25,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified; capped at the last page"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "7c77c4bd628d9f7f1259c50d204ac93ad6a95cfac8cd874086db34db03cbad2c",
-      "backup": "kitchen/logs/toc-repair-backups/GREEN-HAND-2021/20261023T171442555986",
-      "created_files": [],
       "files": {
-        "kitchen/logs/GREEN-HAND-2021-toc.json": "b771672cdc35c9c576b51ba39a716cfb9550d267c8843bf6fa581abe5c12bd73",
         "kitchen/logs/GREEN-HAND-2021-eyes.json": "ac881ce564ffb6ba4ad605a984ce11711073b8c68f301d1ecd2a94ad67a9e48e",
+        "kitchen/logs/GREEN-HAND-2021-toc.json": "0e1f3f391ad698a4c56fb1c25dc2e5f2bbc8d2280e94fccc8db1d3e8b07c1bfc",
         "kitchen/logs/GREEN-HAND-2021-vis-toc.json": "88db6509e15ff44d3859cc36a4be159e6edf63c69b1b4fdac9ca00d1cfb96196"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:42"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:34",
+      "ends_total": 9
     },
     "GUYTON-2026": {
       "book": "GUYTON-2026",
@@ -460,28 +447,27 @@
       "previous_chapters": 85,
       "unit": "printed",
       "first_page": 3,
-      "last_page": 1101,
-      "changed_ends": 14,
+      "last_page": 1113,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 43,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified; capped at the last page"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "23196d66471dd88a4232f4ae69448016fbe2747ce9cf55e17ca4e906a077edc9",
-      "backup": "kitchen/logs/toc-repair-backups/GUYTON-2026/20261023T171442602361",
-      "created_files": [],
       "files": {
         "kitchen/logs/GUYTON-2026-vis-toc.json": "3cd67258046d9d33dee0c1e87e597614685e28a4f6d5c91c5faf8ce96126d989",
         "kitchen/logs/GUYTON-2026-eyes.json": "535f147c40f9dff2c2f7c8b7d3fa5c14ce693323af3a86717e310b644e44c17e",
-        "kitchen/logs/GUYTON-2026-toc.json": "14baeb5a6845337919b83d88d124fad09eb4b77cf03e6e17bd672183139681cd"
+        "kitchen/logs/GUYTON-2026-toc.json": "e61995e65d4dd80ff6032fc82e5312ae3e0b5f2159e960e6b7a335847953cc72"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:42"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:34",
+      "ends_total": 15
     },
     "HARRISON-22": {
       "book": "HARRISON-22",
@@ -505,13 +491,14 @@
       "starts_preserved_from": "saved-eyes",
       "config_hash": "27a7961b22d07fa3a375f3a228bf173d28b60ef885b1916979da0c63627250ad",
       "files": {
+        "kitchen/logs/HARRISON-22-toc.json": "4c829eb3b40565dd76200d5753b5d83949815f5f47963a7a21744304ac40efce",
         "kitchen/logs/HARRISON-22-vis-toc.json": "db9bd3dd20c838ea5d363d9f95065349acfd27375b7ef074cf911fe18a12401f",
-        "kitchen/logs/HARRISON-22-eyes.json": "3d1c9c3b2a344b3407c14b0242456d2d68bc2b2830be424267e9feb0bda3acd5",
-        "kitchen/logs/HARRISON-22-toc.json": "4c829eb3b40565dd76200d5753b5d83949815f5f47963a7a21744304ac40efce"
+        "kitchen/logs/HARRISON-22-eyes.json": "3d1c9c3b2a344b3407c14b0242456d2d68bc2b2830be424267e9feb0bda3acd5"
       },
       "absent": [],
       "saved_files": 0,
-      "time": "2026-10-23T17:14:42"
+      "time": "2026-10-23T18:45:34",
+      "ends_total": 0
     },
     "HAZZARD-2022": {
       "book": "HAZZARD-2022",
@@ -523,7 +510,7 @@
       "unit": "pdf-page",
       "first_page": 70,
       "last_page": 3784,
-      "changed_ends": 23,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
@@ -534,16 +521,15 @@
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "99ba68c9b4d408c96114267d77454737472c0a440080dba2d6f6b962be550f40",
-      "backup": "kitchen/logs/toc-repair-backups/HAZZARD-2022/20261023T171443169663",
-      "created_files": [],
       "files": {
-        "kitchen/logs/HAZZARD-2022-eyes.json": "940dbbdb677e0787272515d2de6dffb4937fc5ce0839cb26968dde43d24b8309",
         "kitchen/logs/HAZZARD-2022-vis-toc.json": "70b70ca24c0873f671c9ba0a686de85e60a129c79ed40eb31e8ea263b1092815",
-        "kitchen/logs/HAZZARD-2022-toc.json": "7f04d3e1a2b64123eb6c3bbdfb985f631ee21518cd4bf2e31488f367b04391de"
+        "kitchen/logs/HAZZARD-2022-toc.json": "7f04d3e1a2b64123eb6c3bbdfb985f631ee21518cd4bf2e31488f367b04391de",
+        "kitchen/logs/HAZZARD-2022-eyes.json": "940dbbdb677e0787272515d2de6dffb4937fc5ce0839cb26968dde43d24b8309"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:43"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 23
     },
     "IRWIN-RIPPE-2023": {
       "book": "IRWIN-RIPPE-2023",
@@ -554,28 +540,27 @@
       "previous_chapters": 215,
       "unit": "pdf-page",
       "first_page": 99,
-      "last_page": 7576,
-      "changed_ends": 19,
+      "last_page": 7608,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "29780a6f360321d0a58ca5ad82ff602feb6c1e49f0f62f1f1c91adfcbb4f718d",
-      "backup": "kitchen/logs/toc-repair-backups/IRWIN-RIPPE-2023/20261023T171443338007",
-      "created_files": [],
       "files": {
-        "kitchen/logs/IRWIN-RIPPE-2023-toc.json": "7dea2bde9d50fc2b3f60b6e275d17c38b2c10cb7cc9472e501731660bf51a98c",
+        "kitchen/logs/IRWIN-RIPPE-2023-toc.json": "7f5714ec5e86d964a29b96c4b450013d4539f0cb327ddc8de6737b1dd29e55dd",
         "kitchen/logs/IRWIN-RIPPE-2023-vis-toc.json": "0d6ff9a3b789dacbe970e24a9fc50425c516f98637f03a5f8b8222ddb02a1813",
         "kitchen/logs/IRWIN-RIPPE-2023-eyes.json": "501533bae2d0593d9565119d1922ea96a335221113360ab97f6ba62d725d3f6b"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:43"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 20
     },
     "KAPLAN-11": {
       "book": "KAPLAN-11",
@@ -586,28 +571,27 @@
       "previous_chapters": 60,
       "unit": "pdf-page",
       "first_page": 175,
-      "last_page": 15194,
-      "changed_ends": 1,
+      "last_page": 15303,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "edab7ba50cd88a0753461cb4ae46958f1e38aaa1a5b1a0d0d19e36a89eaea825",
-      "backup": "kitchen/logs/toc-repair-backups/KAPLAN-11/20261023T171444375423",
-      "created_files": [],
       "files": {
-        "kitchen/logs/KAPLAN-11-eyes.json": "31943e3b028cc2ee938b811e2e493abd2c4cc0dd72b014df91c1bb43423c3699",
-        "kitchen/logs/KAPLAN-11-toc.json": "6d00ad618bc2fea9276b200c0447b09e1833e224e23a85309612b68c8d3ed051",
-        "kitchen/logs/KAPLAN-11-vis-toc.json": "a8ac7ce7fb4c7618991a4296ab7a5c91360b30ac1d69bffc657c69ab42cceb9d"
+        "kitchen/logs/KAPLAN-11-toc.json": "a8dcd5a037fe9929bdfee32b716e92593bd6b6cc68b02d6500727d093b2c0954",
+        "kitchen/logs/KAPLAN-11-vis-toc.json": "a8ac7ce7fb4c7618991a4296ab7a5c91360b30ac1d69bffc657c69ab42cceb9d",
+        "kitchen/logs/KAPLAN-11-eyes.json": "31943e3b028cc2ee938b811e2e493abd2c4cc0dd72b014df91c1bb43423c3699"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:44"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 2
     },
     "KRAUSE-16": {
       "book": "KRAUSE-16",
@@ -615,32 +599,31 @@
       "source": "accepted-vis-toc",
       "provinces": 7,
       "chapters": 93,
-      "previous_chapters": 87,
+      "previous_chapters": 93,
       "unit": "printed",
       "first_page": 2,
       "last_page": 1211,
-      "changed_ends": 93,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
-      "structure": "rebuilt",
+      "structure": "preserved",
       "offset_values": 0,
       "boundary": {
         "mode": "median-fallback",
-        "note": "index check: configured index opener not confirmed; BIBLE median fallback"
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "c35832bccb84862ad6d641c34d6fe39c85b35860d53e0135f3493a44f2f4ca44",
-      "backup": "kitchen/logs/toc-repair-backups/KRAUSE-16/20261023T173043222655",
-      "created_files": [],
       "files": {
-        "kitchen/logs/KRAUSE-16-vis-toc.json": "e5b68ae6279f50d1c6634c823f88d3fe47a6148073716bddc1bf95ef0ad3eb45",
-        "kitchen/logs/KRAUSE-16-toc.json": "9b2d180261b5f4a42dd3c7ec4f5dffbd20ad892797b7f06081d06e76a3836e83"
+        "kitchen/logs/KRAUSE-16-toc.json": "9b2d180261b5f4a42dd3c7ec4f5dffbd20ad892797b7f06081d06e76a3836e83",
+        "kitchen/logs/KRAUSE-16-vis-toc.json": "e5b68ae6279f50d1c6634c823f88d3fe47a6148073716bddc1bf95ef0ad3eb45"
       },
       "absent": [
         "kitchen/logs/KRAUSE-16-eyes.json"
       ],
-      "saved_files": 1,
-      "time": "2026-10-23T17:30:43"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 93
     },
     "MANDELL-9": {
       "book": "MANDELL-9",
@@ -648,23 +631,21 @@
       "source": "accepted-vis-toc",
       "provinces": 4,
       "chapters": 210,
-      "previous_chapters": 0,
+      "previous_chapters": 210,
       "unit": "pdf-page",
       "first_page": 29,
       "last_page": 4895,
-      "changed_ends": 210,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
-      "structure": "rebuilt",
+      "structure": "preserved",
       "offset_values": 0,
       "boundary": {
         "mode": "median-fallback",
-        "note": "configured index is before the final opener; fallback, locator needs review"
+        "note": "BIBLE median estimate; index boundary not verified; capped at the last page"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "3eb676e95a4d75d62f3901098b2385b98dc5a4a6b48243115cc07e6b313db056",
-      "backup": "kitchen/logs/toc-repair-backups/MANDELL-9/20261023T171444465658",
-      "created_files": [],
       "files": {
         "kitchen/logs/MANDELL-9-toc.json": "647502f85afc8a227de78e62facd342d1e9bdb849fc7445be2ea56ac14bff715",
         "kitchen/logs/MANDELL-9-vis-toc.json": "5137ddefdb54165d1068fc92d3275669acb482e287b4dee53c60f4b2a0706c5b"
@@ -672,8 +653,9 @@
       "absent": [
         "kitchen/logs/MANDELL-9-eyes.json"
       ],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:44"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 210
     },
     "MIDDLETON-2019": {
       "book": "MIDDLETON-2019",
@@ -681,32 +663,31 @@
       "source": "accepted-vis-toc",
       "provinces": 8,
       "chapters": 99,
-      "previous_chapters": 22,
+      "previous_chapters": 99,
       "unit": "pdf-page",
       "first_page": 18,
       "last_page": 1739,
-      "changed_ends": 99,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
-      "structure": "rebuilt",
+      "structure": "preserved",
       "offset_values": 0,
       "boundary": {
         "mode": "median-fallback",
-        "note": "configured index is before the final opener; fallback, locator needs review"
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "f9e0d96671e5f078300fa0e281c41f41d75e5ecdb9ecfc1a8d9da28dd6f3df76",
-      "backup": "kitchen/logs/toc-repair-backups/MIDDLETON-2019/20261023T173043263358",
-      "created_files": [],
       "files": {
-        "kitchen/logs/MIDDLETON-2019-toc.json": "825ad56a568d5ddce054c20dc68b0cb526ad7368e7a6bcec65fa82190e3d1938",
-        "kitchen/logs/MIDDLETON-2019-vis-toc.json": "d970224a22cdfdcdf880a0e3954ec0d6296ea63b6ec157c9775e1a792ecd38c6"
+        "kitchen/logs/MIDDLETON-2019-vis-toc.json": "d970224a22cdfdcdf880a0e3954ec0d6296ea63b6ec157c9775e1a792ecd38c6",
+        "kitchen/logs/MIDDLETON-2019-toc.json": "825ad56a568d5ddce054c20dc68b0cb526ad7368e7a6bcec65fa82190e3d1938"
       },
       "absent": [
         "kitchen/logs/MIDDLETON-2019-eyes.json"
       ],
-      "saved_files": 1,
-      "time": "2026-10-23T17:30:43"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 99
     },
     "MILLER-10": {
       "book": "MILLER-10",
@@ -717,28 +698,27 @@
       "previous_chapters": 87,
       "unit": "pdf-page",
       "first_page": 122,
-      "last_page": 12659,
-      "changed_ends": 7,
+      "last_page": 12787,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "7808c216692ad2b76821387f25fde7d2e0c1e7382472d35f8041a898e2ce5801",
-      "backup": "kitchen/logs/toc-repair-backups/MILLER-10/20261023T171444558523",
-      "created_files": [],
       "files": {
-        "kitchen/logs/MILLER-10-vis-toc.json": "0227f46974f9a75376c59e8a1760dcfdbbc9a54c4d166bc352f3bf2ae41a6f89",
         "kitchen/logs/MILLER-10-eyes.json": "3495b65c3099c9b783c54c002755b384a5f051407b73e52f5f27f07d7225385a",
-        "kitchen/logs/MILLER-10-toc.json": "bc9f885b1fd7f7497becfc3a85d04a0dabd149fa30fc6cf9d8328c4a5a324139"
+        "kitchen/logs/MILLER-10-toc.json": "b5c3f56949f7121b038697777e42d448071c1ab7ac81029ee9e3cd25a335347c",
+        "kitchen/logs/MILLER-10-vis-toc.json": "0227f46974f9a75376c59e8a1760dcfdbbc9a54c4d166bc352f3bf2ae41a6f89"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:44"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 8
     },
     "MURRAY-7": {
       "book": "MURRAY-7",
@@ -746,23 +726,21 @@
       "source": "accepted-vis-toc",
       "provinces": 3,
       "chapters": 142,
-      "previous_chapters": 1,
+      "previous_chapters": 142,
       "unit": "pdf-page",
       "first_page": 32,
       "last_page": 3312,
-      "changed_ends": 142,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
-      "structure": "rebuilt",
+      "structure": "preserved",
       "offset_values": 0,
       "boundary": {
         "mode": "median-fallback",
-        "note": "configured index is before the final opener; fallback, locator needs review"
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "6be85a765afad2986913178b5d943077eb0458910338cfd85fb41a8206e2f0b7",
-      "backup": "kitchen/logs/toc-repair-backups/MURRAY-7/20261023T171444605841",
-      "created_files": [],
       "files": {
         "kitchen/logs/MURRAY-7-toc.json": "2495f0173a5898235479e1bcfadbc9d3babd5aafaf2b1d79f01ede6d2bec1894",
         "kitchen/logs/MURRAY-7-vis-toc.json": "783bc263bde580beaa0b8ecea71b9aed70b3415e8729e5c39b4eadcfb73b513a"
@@ -770,8 +748,9 @@
       "absent": [
         "kitchen/logs/MURRAY-7-eyes.json"
       ],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:44"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 142
     },
     "NELSON-2024": {
       "book": "NELSON-2024",
@@ -782,28 +761,27 @@
       "previous_chapters": 519,
       "unit": "pdf-page",
       "first_page": 44,
-      "last_page": 4522,
-      "changed_ends": 30,
+      "last_page": 4528,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "9b205dd7e30b1f1ed79d9865eca01e86042ede3d670865f906ba99cf61e1de62",
-      "backup": "kitchen/logs/toc-repair-backups/NELSON-2024/20261023T171444664121",
-      "created_files": [],
       "files": {
-        "kitchen/logs/NELSON-2024-eyes.json": "0b38dbedb7321da9cc0f515eb38796524e9ad6f3ba2285e62fa88ca0289547f7",
-        "kitchen/logs/NELSON-2024-toc.json": "ee0499d52ec760295d9334ec2d4fcad0b0e60ebbad06dd1cffb62113bd6ba63d",
-        "kitchen/logs/NELSON-2024-vis-toc.json": "7f8a9c4b582365309b0e44e39a160f7fc266f20b4062720d3d9ab60e5d0c9ae4"
+        "kitchen/logs/NELSON-2024-vis-toc.json": "7f8a9c4b582365309b0e44e39a160f7fc266f20b4062720d3d9ab60e5d0c9ae4",
+        "kitchen/logs/NELSON-2024-toc.json": "7721ed93185662b2cc051cbd6cf068922e5aeb18fc3acf39764b7b80ae764125",
+        "kitchen/logs/NELSON-2024-eyes.json": "0b38dbedb7321da9cc0f515eb38796524e9ad6f3ba2285e62fa88ca0289547f7"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:44"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 31
     },
     "OXFORD-6": {
       "book": "OXFORD-6",
@@ -814,28 +792,27 @@
       "previous_chapters": 127,
       "unit": "printed",
       "first_page": 3,
-      "last_page": 1335,
-      "changed_ends": 21,
+      "last_page": 1345,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 6,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "adf0e5aecd4197c427aef0a39cddd6dfc0e51ecb5550b47a95903452aa3ba25d",
-      "backup": "kitchen/logs/toc-repair-backups/OXFORD-6/20261023T171445034304",
-      "created_files": [],
       "files": {
+        "kitchen/logs/OXFORD-6-toc.json": "e33a71d642c66872c27a1e058f854698f6c3cf316ce097ad594824feb6733d17",
         "kitchen/logs/OXFORD-6-vis-toc.json": "10cf6ce86e83f3bdb22f870386cb3405a7626dcabac7c5e94a1d0368c217904c",
-        "kitchen/logs/OXFORD-6-eyes.json": "b7238ed8e9ecb28bdd9179523b9d46c87070892b0bf6ee90cdb74ae980991020",
-        "kitchen/logs/OXFORD-6-toc.json": "662fcd8cc74c8271639bf82e0bf4f994bcbb84c50c76c5d3392eab20b4aa93ce"
+        "kitchen/logs/OXFORD-6-eyes.json": "b7238ed8e9ecb28bdd9179523b9d46c87070892b0bf6ee90cdb74ae980991020"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:45"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 22
     },
     "ROBBINS-10": {
       "book": "ROBBINS-10",
@@ -846,28 +823,27 @@
       "previous_chapters": 29,
       "unit": "printed",
       "first_page": 1,
-      "last_page": 1305,
-      "changed_ends": 5,
+      "last_page": 1328,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 14,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified; capped at the last page"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "951df928259e1e32b13a8b66eebb5fb73a377939d30d526a75821667e93406c9",
-      "backup": "kitchen/logs/toc-repair-backups/ROBBINS-10/20261023T171445084288",
-      "created_files": [],
       "files": {
+        "kitchen/logs/ROBBINS-10-vis-toc.json": "2471c120aca4440f486c8aaafb8f4005979eb160bbaf6025a8aff0f1a578c609",
         "kitchen/logs/ROBBINS-10-eyes.json": "894b1e7972b2175c47bde8ef7136698ebd5b0a2d828c2764214ad9971b3ad83b",
-        "kitchen/logs/ROBBINS-10-toc.json": "015ac1a3fafe92d29858c07f8ceaf9a7e8caf622f43c0b9941f19465f88d0ef6",
-        "kitchen/logs/ROBBINS-10-vis-toc.json": "2471c120aca4440f486c8aaafb8f4005979eb160bbaf6025a8aff0f1a578c609"
+        "kitchen/logs/ROBBINS-10-toc.json": "eb01d4423378feb450ea1158ff418ccebc40d191781a31a3a3747828328a1dbd"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:45"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:35",
+      "ends_total": 7
     },
     "ROCKWOOD-10": {
       "book": "ROCKWOOD-10",
@@ -879,7 +855,7 @@
       "unit": "pdf-page",
       "first_page": 22,
       "last_page": 3576,
-      "changed_ends": 4,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
@@ -890,16 +866,15 @@
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "67dc372d299c430051d2997520b71b8e74497e82533d19cba9b5a7f6984ed225",
-      "backup": "kitchen/logs/toc-repair-backups/ROCKWOOD-10/20261023T171445823817",
-      "created_files": [],
       "files": {
         "kitchen/logs/ROCKWOOD-10-eyes.json": "7e8445f9e6a0dd5e9da42be809e02a1761af18946f04afdd3c8d2125bb3f3267",
-        "kitchen/logs/ROCKWOOD-10-vis-toc.json": "f8aefe85755116471948c2a18c9202b548b81abdd6bdb22de946505b5d5e7f02",
-        "kitchen/logs/ROCKWOOD-10-toc.json": "f894141c56d181b0a6e4d3e549dd2c5599dcb121b7bfe9b459a70aa1e46098af"
+        "kitchen/logs/ROCKWOOD-10-toc.json": "f894141c56d181b0a6e4d3e549dd2c5599dcb121b7bfe9b459a70aa1e46098af",
+        "kitchen/logs/ROCKWOOD-10-vis-toc.json": "f8aefe85755116471948c2a18c9202b548b81abdd6bdb22de946505b5d5e7f02"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:45"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 4
     },
     "ROSEN-2022": {
       "book": "ROSEN-2022",
@@ -907,32 +882,31 @@
       "source": "accepted-vis-toc",
       "provinces": 25,
       "chapters": 208,
-      "previous_chapters": 0,
+      "previous_chapters": 208,
       "unit": "pdf-page",
       "first_page": 21,
-      "last_page": 3056,
-      "changed_ends": 208,
+      "last_page": 3050,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
-      "structure": "rebuilt",
+      "structure": "preserved",
       "offset_values": 0,
       "boundary": {
         "mode": "median-fallback",
-        "note": "configured index is before the final opener; fallback, locator needs review"
+        "note": "BIBLE median estimate; index boundary not verified; capped at the last page"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "9fb0563e7bed4bc3b917e145170ffa8e526a0bcd32615558745b876645a79d76",
-      "backup": "kitchen/logs/toc-repair-backups/ROSEN-2022/20261023T171445871933",
-      "created_files": [],
       "files": {
-        "kitchen/logs/ROSEN-2022-toc.json": "056e97a9419096d6a324a011a1bae860a3b2814b090350cc4004d9259cc96f33",
-        "kitchen/logs/ROSEN-2022-vis-toc.json": "ea0ca58ea7a181c9bed557df806c78b81a42aa2374558ad50bf973599cf94321"
+        "kitchen/logs/ROSEN-2022-vis-toc.json": "ea0ca58ea7a181c9bed557df806c78b81a42aa2374558ad50bf973599cf94321",
+        "kitchen/logs/ROSEN-2022-toc.json": "ea2a46eb2b442a3b99f370c909f1ba3eacdc12f5913d4fd7df86ba68abea9812"
       },
       "absent": [
         "kitchen/logs/ROSEN-2022-eyes.json"
       ],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:45"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 209
     },
     "SABISTON-22": {
       "book": "SABISTON-22",
@@ -940,32 +914,31 @@
       "source": "accepted-vis-toc",
       "provinces": 10,
       "chapters": 92,
-      "previous_chapters": 124,
+      "previous_chapters": 92,
       "unit": "printed",
       "first_page": 38,
       "last_page": 2084,
-      "changed_ends": 92,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
-      "structure": "rebuilt",
+      "structure": "preserved",
       "offset_values": 0,
       "boundary": {
         "mode": "median-fallback",
-        "note": "index absent/invalid; BIBLE median fallback"
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "1de4bc97954b1111240a4896088ef0e6a9adb20f3dabbe03491c9f13a2f491e8",
-      "backup": "kitchen/logs/toc-repair-backups/SABISTON-22/20261023T173043305365",
-      "created_files": [],
       "files": {
-        "kitchen/logs/SABISTON-22-toc.json": "4d275c97a569b119d4b9867fbc16435bde76c2a8928b843941b54933aac36356",
-        "kitchen/logs/SABISTON-22-vis-toc.json": "0c2f9f181fc1dad02e9dfa30a5bca2d4e00f57d8d0cca3be5268ba73c07db527"
+        "kitchen/logs/SABISTON-22-vis-toc.json": "0c2f9f181fc1dad02e9dfa30a5bca2d4e00f57d8d0cca3be5268ba73c07db527",
+        "kitchen/logs/SABISTON-22-toc.json": "4d275c97a569b119d4b9867fbc16435bde76c2a8928b843941b54933aac36356"
       },
       "absent": [
         "kitchen/logs/SABISTON-22-eyes.json"
       ],
-      "saved_files": 1,
-      "time": "2026-10-23T17:30:43"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 92
     },
     "SLEISENGER-11": {
       "book": "SLEISENGER-11",
@@ -976,28 +949,27 @@
       "previous_chapters": 132,
       "unit": "printed",
       "first_page": 1,
-      "last_page": 2206,
-      "changed_ends": 8,
+      "last_page": 2215,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 99,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified; capped at the last page"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "bc727580708fa22117b8ea3e6a692fc805c3915c510106aeb18b812401863256",
-      "backup": "kitchen/logs/toc-repair-backups/SLEISENGER-11/20261023T171445967849",
-      "created_files": [],
       "files": {
         "kitchen/logs/SLEISENGER-11-vis-toc.json": "d4120a9164e1584ca55760ffeaf61f1b481f71fee258f11697f0453835d34b76",
-        "kitchen/logs/SLEISENGER-11-toc.json": "9c11b9b80c37373e78fdd9d36a397dbe6943e11da9e399e715281b830e30bbcd",
-        "kitchen/logs/SLEISENGER-11-eyes.json": "aa0b3ee0d212f584226bcc1a6a15c714a40c00e86df972855ef72994da0aeda5"
+        "kitchen/logs/SLEISENGER-11-eyes.json": "aa0b3ee0d212f584226bcc1a6a15c714a40c00e86df972855ef72994da0aeda5",
+        "kitchen/logs/SLEISENGER-11-toc.json": "1e920b1d4f591658a499a66810c9c8604f1802d7c5cd2bd566162e2831cd08e4"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:45"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 10
     },
     "STAHL-2024": {
       "book": "STAHL-2024",
@@ -1008,28 +980,27 @@
       "previous_chapters": 61,
       "unit": "pdf-page",
       "first_page": 8,
-      "last_page": 582,
-      "changed_ends": 60,
+      "last_page": 592,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "bb97bc9cdf729e0d932e0352bd17a689be893edfecc7fe5c10d5b0d680c58bca",
-      "backup": "kitchen/logs/toc-repair-backups/STAHL-2024/20261023T171446164595",
-      "created_files": [],
       "files": {
-        "kitchen/logs/STAHL-2024-vis-toc.json": "77f42a3181c2d03bfc6148bc29fe8fe7ac9f2314b34ada3487eb567342c81125",
         "kitchen/logs/STAHL-2024-eyes.json": "b3de49e83487851850dc3cf71838be64428a3649de2a00a0e6fb435c1012b24a",
-        "kitchen/logs/STAHL-2024-toc.json": "d374292b2c3ef270745b62d0b55a96505cb275eb22d79731f56cc4ac00f3da6b"
+        "kitchen/logs/STAHL-2024-vis-toc.json": "77f42a3181c2d03bfc6148bc29fe8fe7ac9f2314b34ada3487eb567342c81125",
+        "kitchen/logs/STAHL-2024-toc.json": "62d055fbd7423987a79597f699bcba83df84d91ad02694eaade5981632911f17"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:46"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 61
     },
     "THOMPSON-2023": {
       "book": "THOMPSON-2023",
@@ -1040,28 +1011,27 @@
       "previous_chapters": 20,
       "unit": "printed",
       "first_page": 1,
-      "last_page": 425,
-      "changed_ends": 3,
+      "last_page": 447,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 13,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "f1cbb0109041d19be3108930a0e01edfbceaa67beb36af3bae08c9b9d33ec4f5",
-      "backup": "kitchen/logs/toc-repair-backups/THOMPSON-2023/20261023T171446213575",
-      "created_files": [],
       "files": {
-        "kitchen/logs/THOMPSON-2023-toc.json": "46e6d47fe56304f2cbba880122c1003741f097e323b584afd93457369300be3f",
         "kitchen/logs/THOMPSON-2023-vis-toc.json": "cc24d7a80a87bf77cfd8cc757583ddb033fd5e9c05074748ceb8b3056bbd51ee",
-        "kitchen/logs/THOMPSON-2023-eyes.json": "e42b966645a549b651a087d463c89c517067723089ed60bcc62576451ebefdfe"
+        "kitchen/logs/THOMPSON-2023-eyes.json": "e42b966645a549b651a087d463c89c517067723089ed60bcc62576451ebefdfe",
+        "kitchen/logs/THOMPSON-2023-toc.json": "da24b72ad63dcd993f5d23c93cdb3a273acc7814f54011582bedfad6ff9b44af"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:46"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 4
     },
     "WILLIAMS-ENDO-2024": {
       "book": "WILLIAMS-ENDO-2024",
@@ -1072,28 +1042,27 @@
       "previous_chapters": 48,
       "unit": "pdf-page",
       "first_page": 13,
-      "last_page": 2310,
-      "changed_ends": 10,
+      "last_page": 2319,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified; capped at the last page"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "b92410071b6e20307509e85d3fae56aef5e85b3c4990df75430cf560bf4ea56d",
-      "backup": "kitchen/logs/toc-repair-backups/WILLIAMS-ENDO-2024/20261023T171446261733",
-      "created_files": [],
       "files": {
         "kitchen/logs/WILLIAMS-ENDO-2024-eyes.json": "c326171b8bcfd0db7afa9bfc8f79d2985a218d900e0a80e9c1b786852bb6cf97",
-        "kitchen/logs/WILLIAMS-ENDO-2024-toc.json": "dc071bed0e3e1ca6687335f7affa52fb9e91c3eeaf62591ff6146a79f4cf9a95",
+        "kitchen/logs/WILLIAMS-ENDO-2024-toc.json": "6e0cf8f0ded129830521d56d31083edcf3cf4acd837aafed2dd4423d6009bd68",
         "kitchen/logs/WILLIAMS-ENDO-2024-vis-toc.json": "79aa121f971bc757269df28b461c91a41dcc6fa54cc63eb7cfdb6a14fc3dc1c0"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:46"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 11
     },
     "WILLIAMS-HEMATOLOGY-2021": {
       "book": "WILLIAMS-HEMATOLOGY-2021",
@@ -1104,28 +1073,27 @@
       "previous_chapters": 140,
       "unit": "pdf-page",
       "first_page": 84,
-      "last_page": 4999,
-      "changed_ends": 12,
+      "last_page": 5027,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
       "offset_values": 1,
       "boundary": {
-        "mode": "kept-existing",
-        "note": "kept the accepted export's final end; index boundary not verified"
+        "mode": "median-fallback",
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "0c85eb800a6c718d9a43831a9564e9c48ff66f29865bddd94809e704b8ebf562",
-      "backup": "kitchen/logs/toc-repair-backups/WILLIAMS-HEMATOLOGY-2021/20261023T171446312221",
-      "created_files": [],
       "files": {
-        "kitchen/logs/WILLIAMS-HEMATOLOGY-2021-toc.json": "1d26a878d1bb6b16c95b5e06c772cd76d156bf18e14a0c0c42822ab25aa03cad",
-        "kitchen/logs/WILLIAMS-HEMATOLOGY-2021-eyes.json": "2bad11afefb5853a20115d857c84bb594b4d1e8ea84f4b0ae44cbff80534b877",
-        "kitchen/logs/WILLIAMS-HEMATOLOGY-2021-vis-toc.json": "4e0f55828ee5c24250dc811093aa233380e43e11e8d020aef1343caec7136e21"
+        "kitchen/logs/WILLIAMS-HEMATOLOGY-2021-toc.json": "9d3deca4cb7dcc3dd5592f4c3d566c62148120bb65b75d3323b2d2e26e1162d4",
+        "kitchen/logs/WILLIAMS-HEMATOLOGY-2021-vis-toc.json": "4e0f55828ee5c24250dc811093aa233380e43e11e8d020aef1343caec7136e21",
+        "kitchen/logs/WILLIAMS-HEMATOLOGY-2021-eyes.json": "2bad11afefb5853a20115d857c84bb594b4d1e8ea84f4b0ae44cbff80534b877"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:46"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 13
     },
     "WILLIAMS-OBSTETRICS-26": {
       "book": "WILLIAMS-OBSTETRICS-26",
@@ -1137,7 +1105,7 @@
       "unit": "pdf-page",
       "first_page": 28,
       "last_page": 3215,
-      "changed_ends": 12,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
       "structure": "preserved",
@@ -1148,16 +1116,15 @@
       },
       "starts_preserved_from": "saved-eyes",
       "config_hash": "0e0ce35f44c0bf78cf6f37a0740262fb3597d9fa5e017c0df84f817b875e5ada",
-      "backup": "kitchen/logs/toc-repair-backups/WILLIAMS-OBSTETRICS-26/20261023T171446443947",
-      "created_files": [],
       "files": {
         "kitchen/logs/WILLIAMS-OBSTETRICS-26-toc.json": "fa84afa6801639b22bb4765f022ea0bc2733b63304611f64ab5416c45ec91770",
-        "kitchen/logs/WILLIAMS-OBSTETRICS-26-eyes.json": "2ab6bd74efd96c16857f312d603a654e6bbb019a708f5a61a89c3e68b485445f",
-        "kitchen/logs/WILLIAMS-OBSTETRICS-26-vis-toc.json": "556b8b2c369ea61c25ba7a5565ca5c9caf17b7331410f58f2fa562892b2332fa"
+        "kitchen/logs/WILLIAMS-OBSTETRICS-26-vis-toc.json": "556b8b2c369ea61c25ba7a5565ca5c9caf17b7331410f58f2fa562892b2332fa",
+        "kitchen/logs/WILLIAMS-OBSTETRICS-26-eyes.json": "2ab6bd74efd96c16857f312d603a654e6bbb019a708f5a61a89c3e68b485445f"
       },
       "absent": [],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:46"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 12
     },
     "YOUMANS-4": {
       "book": "YOUMANS-4",
@@ -1165,25 +1132,21 @@
       "source": "accepted-vis-toc",
       "provinces": 49,
       "chapters": 432,
-      "previous_chapters": 0,
+      "previous_chapters": 432,
       "unit": "printed",
       "first_page": 275,
       "last_page": 3804,
-      "changed_ends": 432,
+      "changed_ends": 0,
       "image_changes": [],
       "image_issues": [],
-      "structure": "rebuilt",
+      "structure": "preserved",
       "offset_values": 0,
       "boundary": {
         "mode": "median-fallback",
-        "note": "index check: configured index opener not confirmed; BIBLE median fallback"
+        "note": "BIBLE median estimate; index boundary not verified"
       },
       "starts_preserved_from": "accepted-vis-toc",
       "config_hash": "2c74ea0ef725b0885e15161a23e52417358cfbddfad1b86496067734be976d6b",
-      "backup": "kitchen/logs/toc-repair-backups/YOUMANS-4/20261023T171446759465",
-      "created_files": [
-        "kitchen/logs/YOUMANS-4-toc.json"
-      ],
       "files": {
         "kitchen/logs/YOUMANS-4-toc.json": "33ab8e28491d965cbb64e74b1728c5ba9e60cd8c9f3ffc2ecf11817367fbf570",
         "kitchen/logs/YOUMANS-4-vis-toc.json": "9b3642c53446e404bc1d586710ed39301dcb59d683c366bd5843ee1253126beb"
@@ -1191,8 +1154,9 @@
       "absent": [
         "kitchen/logs/YOUMANS-4-eyes.json"
       ],
-      "saved_files": 1,
-      "time": "2026-10-23T17:14:46"
+      "saved_files": 0,
+      "time": "2026-10-23T18:45:36",
+      "ends_total": 432
     }
   }
 }

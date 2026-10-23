@@ -20,19 +20,24 @@ file is written.
 ## Queue status at the end of 2026-10-23
 
 FINISHED for all 37 books: 37 applied, 0 blocked, 0 pending/stale.
-1,337 end values were corrected in 30 files; ADAMS-12, GOODMAN-14 and
+1,730 end values were corrected in total. ADAMS-12, GOODMAN-14 and
 HARRISON-22 wrote nothing; four empty exports were restored from accepted
-contents (MANDELL-9, MURRAY-7, ROSEN-2022, YOUMANS-4). Five final pages
-were proved from the index; the rest remain provisional. Field-by-field
-checks found no change outside page_end and province bounds for the
-in-place books. FIRESTEIN-12 also fixed two stale image links.
+contents (MANDELL-9, MURRAY-7, ROSEN-2022, YOUMANS-4). The four reviewed
+books were rebuilt with `--rebuild` (CAMPBELL-2020 82, KRAUSE-16 93,
+MIDDLETON-2019 99, SABISTON-22 92). A final scan then removed every
+zero-length last chapter and capped estimates at the book's last page:
+no placeholder and no overshoot remains.
 
-The four exceptions were reviewed by Nir and rebuilt on 2026-10-23 with
-the explicit `--rebuild` switch (which is refused for `--next`):
-CAMPBELL-2020 now 82 chapters, KRAUSE-16 93, MIDDLETON-2019 99,
-SABISTON-22 92. Each matches its accepted contents exactly, and every
-internal end equals the next start minus one. Nothing in books.json was
-changed. A finished queue can be re-audited with `--summary`.
+Five final pages were proved from the index: AVERY-2021 (958),
+HARRISON-22 (4000), HAZZARD-2022 (3784), ROCKWOOD-10 (3576),
+WILLIAMS-OBSTETRICS-26 (3215). The other 32 are provisional median
+estimates; eight of those are capped at the book's last page. Field-by-
+field checks found no change outside page_end and province bounds for the
+in-place books. FIRESTEIN-12 also fixed two stale image links. 39 tests
+pass. books.json was not changed.
+
+The manager hand-off for SMART is now `HANDOFF-TO-SMART-2026-10-23.md`;
+this file remains the detailed repair procedure.
 
 ## Assignment
 

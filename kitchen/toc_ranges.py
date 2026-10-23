@@ -3,11 +3,12 @@
 import statistics
 
 
-def fill_ranges(toc, final_end=None):
+def fill_ranges(toc, final_end=None, max_page=None):
     """Mutate only chapter/province bounds, preserving accepted starts/order.
 
     BIBLE 3.4.4 plus AMENDMENT 3.4. A missing verified final boundary uses
-    the book-wide median of positive successive-start differences.
+    the book-wide median of positive successive-start differences. For
+    PDF-page citations, max_page caps the result at the book's last page.
     """
     provinces = toc.get("provinces", [])
     chapters = [c for p in provinces for c in p.get("chapters", [])]
@@ -27,6 +28,8 @@ def fill_ranges(toc, final_end=None):
         if not lengths:
             raise ValueError("no positive chapter lengths for median fallback")
         final_end = chapters[-1]["page_start"] + int(statistics.median(lengths))
+    if max_page is not None:
+        final_end = min(final_end, max_page)
     if type(final_end) is not int or final_end < chapters[-1]["page_start"]:
         raise ValueError("index boundary precedes the final chapter")
     chapters[-1]["page_end"] = final_end

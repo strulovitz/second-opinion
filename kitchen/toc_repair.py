@@ -15,6 +15,7 @@ import argparse
 import copy
 import hashlib
 import json
+import statistics
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -22,7 +23,7 @@ from pathlib import Path
 from page_offset import flatten, positive_integer, require
 from toc_ranges import fill_ranges
 from toc_reexport import atomic_write
-from toc_repair_source import accepted_source, final_boundary, flat_identity
+from toc_repair_source import accepted_source, final_boundary, flat_identity, printed_cap
 
 ROOT = Path(__file__).resolve().parents[1]
 KITCHEN = ROOT / "kitchen"
@@ -47,15 +48,32 @@ def plan(book, check_index=False, rebuild=False):
     identity = flat_identity(toc)
     end, boundary = final_boundary(book, toc, old, mapping,
                                    KITCHEN / "books" / book["pdf_file"], check_index)
-    if end is None and mapping.get("structure_preserved"):
-        # Minimal-change rule: an unproved tail does not justify rewriting
-        # the accepted export's own final number.
-        last = flatten(toc)[-1][1]
-        have = flatten(old)[-1][1].get("page_end")
-        if positive_integer(have) and have >= last["page_start"]:
+    last = flatten(toc)[-1][1]
+    cap = printed_cap(book, mapping, eyes["chapters"] if eyes else None)
+    if end is None:
+        starts = [c["page_start"] for _, c in flatten(toc)]
+        gaps = [b - a for a, b in zip(starts, starts[1:]) if b > a]
+        estimate = starts[-1] + int(statistics.median(gaps)) if gaps else None
+        if cap is not None and estimate is not None:
+            estimate = min(estimate, cap)
+        have = flatten(old)[-1][1].get("page_end") if flatten(old) else None
+        keep = (mapping.get("structure_preserved") and positive_integer(have)
+                and have > starts[-1] and have != estimate)
+        if keep:
             end, boundary = have, {"mode": "kept-existing",
-                                   "note": "kept the accepted export's final end; index boundary not verified"}
-    fill_ranges(toc, end)
+                                   "note": "kept a plausible existing final end; index boundary not verified"}
+        elif estimate is not None:
+            end = estimate
+            boundary = {"mode": "median-fallback",
+                        "note": "BIBLE median estimate; index boundary not verified"}
+            if cap is not None and estimate == cap:
+                boundary["note"] += "; capped at the last page"
+    capped = False
+    if end is not None and cap is not None and end > cap:
+        end, capped = cap, True
+    fill_ranges(toc, end, cap)
+    if capped:
+        boundary = boundary | {"note": boundary["note"] + "; capped at the last page"}
     require(flat_identity(toc) == identity, "range calculation changed chapter starts/identity")
     expected = copy.deepcopy(toc)
     fill_ranges(expected, flatten(toc)[-1][1]["page_end"])
@@ -202,6 +220,9 @@ def main(argv=None):
             blocked += 1
         show(report)
         if args.apply:
+            prior = status["books"].get(book["book_id"], {})
+            report["ends_total"] = (prior.get("ends_total", prior.get("changed_ends", 0))
+                                    + report.get("changed_ends", 0))
             status["books"][book["book_id"]] = report
             atomic_write(STATUS, json.dumps(status, indent=2, ensure_ascii=False) + "\n")
     if args.audit:

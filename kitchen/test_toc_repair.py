@@ -12,7 +12,8 @@ from unittest.mock import patch
 
 import toc_repair
 import test_toc_reexport as fixture_cases
-from toc_repair_source import accepted_source, final_boundary, flat_identity
+from toc_repair_source import accepted_source, final_boundary, flat_identity, printed_cap
+from toc_ranges import fill_ranges
 
 
 class GenericRepairTests(unittest.TestCase):
@@ -111,6 +112,38 @@ class GenericRepairTests(unittest.TestCase):
             self.book, self.legacy(), old, None, self.fixture.images, rebuild=True)
         self.assertEqual(len(flat_identity(toc)), 4)
         self.assertFalse(mapping["structure_preserved"])
+
+    def test_zero_length_last_chapter_uses_the_median_estimate(self):
+        self.prepare(eyes=False)
+        toc, _, _, _, _ = accepted_source(
+            self.book, self.legacy(), {"provinces": []}, None, self.fixture.images)
+        last = toc["provinces"][-1]["chapters"][-1]
+        last["page_end"] = last["page_start"]
+        path = self.logs / "TEST-1-toc.json"
+        path.write_text(json.dumps(toc, indent=1))
+        self.assertEqual(self.run_cli("--next", "--apply")[0], 0)
+        new = json.loads(path.read_text())
+        end = [c for p in new["provinces"] for c in p["chapters"]][-1]
+        self.assertEqual(end["page_end"], end["page_start"] + 10)
+
+    def test_printed_final_cap_uses_the_last_known_offset(self):
+        self.assertEqual(printed_cap({"page_count_images": 1070},
+                                     {"unit": "pdf-page"}), 1070)
+        self.assertEqual(printed_cap({"page_count_images": 1070},
+                                     {"unit": "printed"},
+                                     [{"pdf_page": 1058, "printed": 1101}]), 1113)
+        self.assertEqual(printed_cap({"page_count_images": 1328},
+                                     {"unit": "printed"},
+                                     [{"pdf_page": 1305, "printed": 1305}]), 1328)
+        self.assertIsNone(printed_cap({"page_count_images": 1070},
+                                      {"unit": "printed"}))
+
+    def test_pdf_page_final_end_is_capped_at_the_book_length(self):
+        toc = {"provinces": [{"name": "P", "chapters": [
+            {"number": "1", "title": "A", "page_start": 90},
+            {"number": "2", "title": "B", "page_start": 95}]}]}
+        fill_ranges(toc, max_page=98)
+        self.assertEqual(toc["provinces"][0]["chapters"][-1]["page_end"], 98)
 
     def test_rebuild_is_refused_for_the_automatic_queue(self):
         self.prepare(eyes=False)

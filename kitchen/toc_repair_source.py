@@ -91,6 +91,26 @@ def accepted_source(book, source, old, eyes, image_dir, rebuild=False):
     return toc, updated, mapping, image_changes, issues
 
 
+def printed_cap(book, mapping, rows=None):
+    """Largest sensible final page for the last chapter, from the last pair.
+
+    PDF-page books cannot pass their last page. Printed-page books use the
+    last known pdf-minus-printed offset, so a negative offset (printed folios
+    above the PDF count) is handled instead of capped at the PDF length.
+    """
+    if mapping.get("unit") == "pdf-page":
+        return book["page_count_images"]
+    if rows:
+        row = rows[-1]
+        pdf, printed = row.get("pdf_page"), row.get("printed")
+        if positive_integer(pdf) and positive_integer(printed):
+            return book["page_count_images"] - (pdf - printed)
+    offset = mapping.get("uniform_offset")
+    if mapping.get("unit") == "printed" and offset is not None:
+        return book["page_count_images"] - offset
+    return None
+
+
 def flat_identity(toc):
     return [(p, c.get("number"), c.get("title"), c.get("page_start"), c.get("pdf_page"))
             for p, c in flatten(toc)]
