@@ -56,6 +56,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from toc_ranges import fill_ranges
 
 ROOT = Path(__file__).resolve().parent.parent
 KITCHEN = ROOT / "kitchen"
@@ -1098,31 +1099,7 @@ def toc_from_evidence(data, ok, final_end=None, require_complete=False):
             provinces.append(output | {"chapters": chapters})
     if set(good) - seen:
         raise ValueError("eyes contain chapters absent from the source TOC")
-    chapters = [c for p in provinces for c in p["chapters"]]
-    if not chapters:
-        raise ValueError("no confirmed chapters")
-    if any(type(c["page_start"]) is not int or c["page_start"] < 1
-           for c in chapters):
-        raise ValueError("invalid page_start")
-    lengths = []
-    for cur, nxt in zip(chapters, chapters[1:]):
-        length = nxt["page_start"] - cur["page_start"]
-        if length < 0:
-            raise ValueError(f"page_start decreases at ch{nxt['number']}")
-        if length > 0:
-            lengths.append(length)
-        cur["page_end"] = max(cur["page_start"], nxt["page_start"] - 1)
-    if final_end is None:
-        if not lengths:
-            raise ValueError("no positive chapter lengths for median fallback")
-        final_end = chapters[-1]["page_start"] + int(statistics.median(lengths))
-    if type(final_end) is not int or final_end < chapters[-1]["page_start"]:
-        raise ValueError("index boundary precedes the final chapter")
-    chapters[-1]["page_end"] = final_end
-    for prov in provinces:
-        prov["page_start"] = min(c["page_start"] for c in prov["chapters"])
-        prov["page_end"] = max(c["page_end"] for c in prov["chapters"])
-    return {"provinces": provinces}
+    return fill_ranges({"provinces": provinces}, final_end)
 
 
 def write_toc_json(bid, records, ok):

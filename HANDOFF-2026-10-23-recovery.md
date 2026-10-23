@@ -1,5 +1,10 @@
 # Second Opinion -- recovery and DeepSeek handoff, 23 Oct 2026
 
+SUPERSEDED for next actions by `HANDOFF-TOC-REPAIR.md`. The generic tool
+supports all 37 saved contents sources and variable offsets. Use ONE
+DeepSeek session for the queue, not a switch back to SMART per book.
+The older restrictions/procedure below are the historical Harrison pilot.
+
 Read this first, then PROGRESS.md and BIBLE Part 3 sections 4.4-4.7 and
 Part 8 section 6. This supersedes the evening handoff's next-step text.
 

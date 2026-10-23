@@ -1,8 +1,8 @@
 # Second Opinion -- standing orders for the manager
 
-WHERE THE CURRENT STATE LIVES: read `HANDOFF-2026-10-23-recovery.md` first,
-then `PROGRESS.md`. It records the crash recovery, chapter-range repair,
-verification and the next model's exact scope.
+WHERE THE CURRENT STATE LIVES: read `HANDOFF-TOC-REPAIR.md` first,
+then `PROGRESS.md`. It gives the generic library repair queue and the
+single-switch DeepSeek scope; earlier handoffs are historical.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

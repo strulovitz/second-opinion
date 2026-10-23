@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. HARRISON-22 offset=43 verified; exporter repaired and Harrison re-exported: 505/505, zero range/image warnings. CHEAP handoff ready in HANDOFF-2026-10-23-recovery.md. The remaining books have not received this repair yet.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Generic chapter-range repair plans pass for 37/37 books (read-only); 31 tests pass. ONE switch to DeepSeek for the full supervised queue: HANDOFF-TOC-REPAIR.md. Harrison's earlier apply is complete; the generic library queue is not yet applied.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,13 +23,14 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-23 (GPT 6.1 Sol): HARRISON-22 Step A3 is verified, offset 43 saved.**
-Next: CHEAP (DeepSeek) reads `HANDOFF-2026-10-23-recovery.md`, reports the
-five-line Harrison summary to Nir, and asks which ONE book comes next.
-Use the tested no-reader dry-run/apply procedure; stop after each book.
-Missing saved eyes, irregular offsets or an unproved index boundary mean
-stop and report, not new page-reading or silent guesses. Harrison remains
-accepted pending the human's Checkpoint 3.2 review.
+**2026-10-23 generic repair: ONE model switch for the library.** CHEAP
+(DeepSeek) follows `HANDOFF-TOC-REPAIR.md`, uses the SAME generic command
+for each queued book, saves/pushes each result, and collects exceptions
+for ONE SMART review at the end. No SMART switch is needed per book.
+Book-end pauses remain in the same DeepSeek session. Range calculation
+does not require a constant PDF offset or new eyes runs; uncertain final
+boundaries use the explicitly recorded BIBLE median fallback. This does
+not complete Step A3 mapping or authorise a Freeze.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -42,7 +43,8 @@ by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
 unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-**NEWEST HAND-OFF (read this first): `HANDOFF-2026-10-23-recovery.md`.**
+**NEWEST HAND-OFF (read this first): `HANDOFF-TOC-REPAIR.md`.**
+`HANDOFF-2026-10-23-recovery.md` records the historical Harrison pilot.
 The earlier `HANDOFF-2026-10-23-evening.md` records the completed TOC
 readings, counts and findings; recovery work supersedes its next-step text.
 
@@ -272,6 +274,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23 generic-repair correction: Nir rejected a handoff that would make him switch models repeatedly and instructed: "do something generic" and "give him general instructions how to fix at least the majority of books". The new scope is one shared library repair procedure, DeepSeek throughout the common queue, and one consolidated return to SMART for genuine exceptions. A book-end pause is not a model switch. No re-reading of accepted books, no unattended jobs, and no BIBLE edit is involved.
 - 2026-10-23 recovery: Nir requested "save every now and then in the github and push and in your memory (make pointer from agents.md - just refer , please, do NOT inflate agents.md)" and a return to the chapter-end bug and cheaper-model handoff. Asked whether both chapters may include page 291 and whether SMART should fix the exporter, check Harrison only and write the handoff, he selected "Yes, please continue". Save checkpoints and stop after the handoff; continue one book at a time with human supervision.
 - 2026-10-23, Part 3 section 3.3: Nir approved the proposal to finish HARRISON-22's acceptance record with continent name "Internal Medicine (general)" and to let GPT 6.1 Sol do this one routine CHEAP-tier step here. His reply, after asking how long that step takes, was: "ok please do it". Scope: this book's status and field name, verification, and the progress record; then stop and report.
 - 2026-10-10: The human confirmed all seven Part 1 section 10 defaults, including "the Indexes are the source of the entity registry", and the names second-opinion (repo) / 2nd-opinion (URL).
@@ -285,11 +288,103 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-23 generic repair, GPT 6.1 Sol: replaced the unnecessarily restrictive offset-dependent handoff with a shared range-repair queue for all 37 accepted contents sources. Performed read-only metadata plans on the whole library; no new real-book output was applied.
 - 2026-10-23 recovery, GPT 6.1 Sol: read the whole BIBLE (all 14 files), instructions, current ledger and GitHub main. Recovered the previous session's uncommitted offset verifier, tests and Harrison record. Rechecked them before the first recovery checkpoint. No cause of the earlier computer freeze has been established.
 - 2026-10-23, GPT 6.1 Sol: after Nir asked "so now can you do serious things please ?", started substantive Step A3 implementation for HARRISON-22 using the existing TOC/reader evidence; one book, then report.
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-23 -- 3.4.4 generic library range-repair tool and one-switch handoff -- GPT 6.1 Sol
+
+The first re-export tool wrongly coupled common chapter-end arithmetic
+to constant PDF offsets and complete eyes files. Those are unnecessary
+conditions for section 4.4. Added `toc_ranges.py` (shared pure arithmetic),
+`toc_repair_source.py` (accepted eyes OR accepted legacy vis-toc; separate
+tail/index checks), and `toc_repair.py` (metadata audit, one-book resumable
+queue, backups, hash receipts and consolidated exceptions summary).
+The existing eyes exporter uses the same range arithmetic. The old strict
+offset verifier stays available for the separate Step A3 mapping task.
+
+No new chapter starts are invented. For the 27 eyes books, existing output
+must agree with the accepted saved observations. For the ten earlier
+accepted books without eyes, the accepted vis-toc is the source, not a
+stale/empty old -toc export. Both old and new chapter counts are reported.
+No fake eyes or global offsets are created. Neither books.json nor status
+is changed. A final boundary that cannot be proved gets the BIBLE's
+explicitly provisional median fallback, without blocking internal ends.
+
+COMMANDS (repository root; current versions Git 2.47.3, Python 3.13.5,
+pdftotext 25.03.0 checked before use):
+
+```bash
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py' -v
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py --audit
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py HARRISON-22 --check-index
+git diff --check
+```
+
+OUTPUT (test summary):
+
+```text
+Ran 31 tests in 0.015s
+
+OK
+```
+
+OUTPUT (last line of library audit; all 37 per-book plans reported ready):
+
+```text
+Read-only readiness: 37/37 books repairable; 0 blocked; no PDFs/models/writes
+```
+
+OUTPUT (additional metadata-plan preservation/count check; iterated
+`toc_repair.plan(book)` for all registry records and compared every input
+text before/after; also asserted books.json unchanged and no receipt exists):
+
+```text
+PASS: 37/37 metadata repair plans; all inputs unchanged; no receipt written
+Sources: {'accepted-vis-toc': 10, 'saved-eyes': 27}
+Variable-offset books supported: 13
+Legacy exports with different chapter counts: 8
+Selected-image repairs available: 2
+Unresolved selected-image issues: 0
+Final boundary modes (metadata only): {'median-fallback': 36, 'saved-index-boundary': 1}
+```
+
+The eight stale legacy count mismatches are CAMPBELL-2020, KRAUSE-16,
+MANDELL-9, MIDDLETON-2019, MURRAY-7, ROSEN-2022, SABISTON-22, YOUMANS-4.
+Their accepted vis-toc files supply the complete already accepted chapter
+list; nothing is re-read. The two further saved-image-link repairs available
+are FIRESTEIN-12; the plans did not write them.
+
+OUTPUT (the new generic tool's real PDF boundary dry-run pilot):
+
+```text
+HARRISON-22: ready; 505 chapters; 0 ends; printed; saved-eyes; final=verified-index; images=0 repaired/0 issues
+Dry run; no files written
+```
+
+FILES: `kitchen/toc_ranges.py`, `kitchen/toc_repair_source.py`,
+`kitchen/toc_repair.py`, `kitchen/test_toc_repair.py`, shared-code change
+in `kitchen/eyes_folio.py`, the new handoff, ledger and short pointers.
+`ls -l --time-style=long-iso` snapshot:
+
+```text
+-rw-rw-r-- 1 nir nir 8343 2026-10-23 16:09 HANDOFF-TOC-REPAIR.md
+-rw-rw-r-- 1 nir nir 8673 2026-10-23 16:06 kitchen/test_toc_repair.py
+-rw-rw-r-- 1 nir nir 1728 2026-10-23 16:00 kitchen/toc_ranges.py
+-rw-rw-r-- 1 nir nir 9722 2026-10-23 16:06 kitchen/toc_repair.py
+-rw-rw-r-- 1 nir nir 7363 2026-10-23 16:02 kitchen/toc_repair_source.py
+```
+
+Future receipts will be in TOC-REPAIR-STATUS.json; no such receipt is
+created by an audit. Future per-book backups are under the gitignored
+`kitchen/logs/toc-repair-backups/`. No library-wide apply was performed.
+DB: not applicable. No model, rendering, GPU, whole-PDF conversion or
+background job. The two direct Harrison PDF text checks were serial.
+COMMIT: generic-tool checkpoint; assigned hash to be recorded in the
+following documentation checkpoint after the commit/push.
 
 ### DONE 2026-10-23 -- 3.4.4 repair chapter ranges; HARRISON-22 pilot -- GPT 6.1 Sol
 
