@@ -3,6 +3,8 @@
 SUPERSEDED STOP STATE: Nir resumed Task 2. The actual viewer software is now
 implemented, browser-tested and requested open. Read section 14 and VIEWER.md
 for results and the DeepSeek execution handoff; the paused text below is history.
+LATEST OVERNIGHT STATE: honeycomb map approved; implementation and detailed
+overnight handoff pushed as 726d5c4. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md.
 
 LATEST SCOPE CORRECTION FROM NIR: build the ACTUAL viewer, not a disposable
 preview or a warm-up for another programmer. Read section 13 as well as the

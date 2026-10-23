@@ -3,8 +3,9 @@
 LATEST GEOMETRY: Amendment 3.5 replaced the rectangles with one whole
 honeycomb tile per chapter. Nir approved its displayed appearance on 23 Oct;
 the canonical manifest records it. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md
-first: he paused for sleep, and the next session first saves the working
-tree to GitHub. Chapter/territory IDs, hierarchy and page bounds are unchanged.
+first: he paused for sleep, and the completed implementation was subsequently
+pushed to GitHub as 726d5c4. Next is the supervised reader/index trial.
+Chapter/territory IDs, hierarchy and page bounds are unchanged.
 
 ## Current assignment and boundaries
 

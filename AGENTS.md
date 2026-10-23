@@ -2,8 +2,8 @@
 
 NEXT SESSION (DeepSeek): read `HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md`, then
 the newest PROGRESS.md. Nir approved the honeycomb globe and paused for sleep.
-First save the working tree to GitHub; then the supervised Harrison index
-trial. SMART writes software; DeepSeek/local reader run the workflows.
+The GitHub backup is done; next is the supervised Harrison index trial.
+SMART writes software; DeepSeek/local reader run the workflows.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

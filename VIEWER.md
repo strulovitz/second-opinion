@@ -6,6 +6,9 @@ opened and Nir has approved its appearance. Read the current overnight
 handoff, HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md, before execution; HONEYCOMB.md
 has the geometry detail. The viewer work and commands below still apply;
 the old equal-continent/rectangle layout does not.
+GITHUB SAVE COMPLETED at Nir's explicit bedtime request: implementation and
+approved map/handoff pushed as 726d5c4. The routine-save section below is
+historical staging guidance; next session begins with the supervised trial.
 
 ## Working view
 
@@ -125,8 +128,8 @@ broken/pending counts are unchanged. See HONEYCOMB.md for the newest evidence.
 ## DeepSeek: exact next task and when to switch back
 
 This is now routine execution. Read the newest PROGRESS.md and
-INDEX-PIPELINE.md. First finish the routine GitHub save below, then run the
-bounded Harrison trial with Nir watching.
+INDEX-PIPELINE.md. The GitHub save below is complete; run the bounded
+Harrison trial with Nir watching next session.
 Qwen qwen3.8:27b via Ollama reads pages; DeepSeek operates the scripts.
 
 First commands, after briefly explaining the trial to Nir:
@@ -173,12 +176,13 @@ To copy UI wording alone without a database connection:
 When Part 6 build_pages.py is implemented, it must use this same wording
 file and invoke the existing entity exporter rather than replace its format.
 
-### Routine GitHub save belongs to DeepSeek
+### Routine GitHub save -- completed at Nir's bedtime request
 
-SMART has finished programming and verification. All changes are saved on
-disk but are UNCOMMITTED at this handoff; starting HEAD is 42af00d. Nir
-explicitly wants inexpensive work handed to DeepSeek. The current tree was
-clean at session start. Do not claim these changes have already been pushed.
+SMART finished programming and verification, then handed off the routine
+save. Nir subsequently explicitly asked for GitHub backup immediately before
+sleep. Commit 726d5c4 includes the intended implementation/map/handoff and
+was successfully pushed. Starting HEAD was 42af00d. The staging list below
+is retained as historical scope, not an unfinished task for DeepSeek.
 
 Inspect git status, git diff and git log --oneline -10 first, including the
 new files. Stage only the implementation/docs/UI wording named below. PDFs,
@@ -195,8 +199,7 @@ git diff --cached --check
 git diff --cached --stat
 ```
 
-After reviewing that staged diff, the remaining saved Task 4 is the working
-implementation commit/push. Suggested repository-style message:
-`7.3-12 build and verify the actual globe and entity viewer`. Record the
-actual commit/push result in the ledger and report its link to Nir. Never
-stage the whole repository blindly or silently discard later user changes.
+The actual implementation commit message was `7.3-12 build the viewer and
+approved chapter honeycomb`. Its successful push is recorded in PROGRESS.md
+and the overnight handoff. For later changes, never stage the whole
+repository blindly or silently discard user changes.

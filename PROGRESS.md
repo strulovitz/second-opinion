@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-PAUSED FOR THE NIGHT AT NIR'S REQUEST (23 Oct, around 23:23 Israel as reported by him). HONEYCOMB GLOBE APPROVED: "it looks great, yes i am very happy with it!!!" The canonical manifest records Checkpoint 3.4 approval. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md next session. The actual viewer has 4,751 hexagons and 12 pentagons, one whole near-equal-area tile per chapter, 37 connected books and 533 connected nonempty provinces plus the existing empty heading. All 4,763 chapter IDs/page bounds are unchanged. Last actual Neo4j check: three Meta nodes only. No reader/index job, book check or database data load was started. All viewer/honeycomb work and the overnight handoff are saved locally but remain uncommitted.
+PAUSED FOR THE NIGHT AT NIR'S REQUEST (23 Oct, around 23:23 Israel as reported by him). HONEYCOMB GLOBE APPROVED: "it looks great, yes i am very happy with it!!!" The canonical manifest records Checkpoint 3.4 approval. At his further explicit request, the full viewer/honeycomb/approval/handoff checkpoint was COMMITTED AND PUSHED to GitHub as 726d5c4 before sleep. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md next session; its first project task is now the supervised Harrison trial. The actual viewer has 4,751 hexagons and 12 pentagons, 37 connected books and 533 connected nonempty provinces plus the existing empty heading, and the unchanged 4,763 chapter IDs/page bounds. Last actual Neo4j check: three Meta nodes only. No reader/index job, book check or database data load was started.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -25,16 +25,17 @@ Why 37, item by item, with the human's agreement:
 
 OVERNIGHT STOP: Nir approved the new globe and asked to save a detailed
 DeepSeek handoff and a short project AGENTS.md pointer, then stop for sleep.
+Nir then requested immediate GitHub backup, and it was pushed as 726d5c4.
 NEXT AUTHORISED SESSION: DeepSeek reads HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md,
-saves the intended viewer/honeycomb/approval/handoff working tree to GitHub,
-then explains and runs the bounded Harrison index trial with Nir watching.
+checks normal Git status, then explains and runs the bounded Harrison index
+trial with Nir watching. The save is already done; do not repeat it.
 No approval re-request, map regeneration, contents audit or overnight job.
 
 LATEST HUMAN DECISION: use one whole honeycomb polygon per chapter, with
 near-equal sizes worldwide and stepped book borders; no chapter-length
 area weighting. Amendment 3.5 is implemented and the new globe is opened.
-Checkpoint 3.4 is now approved and recorded. DeepSeek saves the intended
-viewer/honeycomb working tree to GitHub next session, then INDEX-PIPELINE.md.
+Checkpoint 3.4 is approved and recorded. The viewer/honeycomb GitHub save
+is complete; next session follows INDEX-PIPELINE.md.
 HONEYCOMB.md has the exact files, evidence, old-map backup and model handoff.
 The older continuation below records the completed viewer programming.
 
@@ -44,8 +45,7 @@ with real geography/isolated artificial entity fixtures, and opened through
 the desktop browser. VIEWER.md contains the software/data distinction,
 evidence, launcher and exact DeepSeek handoff. The old paused instructions
 in HANDOFF-2026-10-23-3D-RESTART.md are superseded by its section 14.
-NEXT: switch to DeepSeek to save the verified working tree to GitHub as
-specified in VIEWER.md, then INDEX-PIPELINE.md's supervised Harrison trial
+NEXT: switch to DeepSeek for INDEX-PIPELINE.md's supervised Harrison trial
 with the local Qwen reader, then the index/registry book workflows and human
 reviews. No book completeness/contents checking. Return to SMART for the
 later Freeze/rules/software review or a twice-failed reproducible code bug.
@@ -323,6 +323,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23, immediately after the overnight handoff: Nir explicitly asked "can we save to github now please? in case something happens to this pc?" This authorises tonight's commit/push instead of leaving that routine save to DeepSeek tomorrow. The completed implementation, approved geography and detailed handoff were pushed as 726d5c4; no reader/index workflow was started.
 - 2026-10-23, around 23:23 Israel (user-reported), honeycomb Checkpoint 3.4: after seeing the real new globe, Nir said "it looks great, yes i am very happy with it!!!" He then requested a detailed saved handoff for DeepSeek, a short pointer in the project AGENTS.md without inflating it, and an overnight stop. This approves the honeycomb map's appearance, not an entity-registry review, Freeze or overnight execution. He intends to return with DeepSeek, hopefully tomorrow.
 - 2026-10-23, after 9b0fb23: Nir explicitly rejected "preview" as a minimal goal and the idea of a warm-up for a future smarter programmer. He instructed SMART to do substantial work on the actual 3D application and as much real implementation as it can. HANDOFF-2026-10-23-3D-RESTART.md section 13 records this scope correction. Current session remains save-only for restart; no claim that the unfinished viewer is working.
 - 2026-10-23, after 0140ecf: Nir asked what the local/free reader means in executable BIBLE terms and whether the 3D globe works/can be shown. SMART explained it was not built and began a geography-only viewer. Nir then STOPPED development, criticised the long/rapid explanations and requested a detailed text restart handoff with a short project AGENTS.md reference, explicitly no expanded global memory. Save-only checkpoint; unfinished globe must not be called working.
@@ -356,6 +357,31 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- User-requested GitHub backup completed before sleep
+
+At Nir's explicit request, reviewed status/diff/history, staged only the
+intended implementation/docs/approved geography and committed 48 files:
+
+```text
+726d5c4 7.3-12 build the viewer and approved chapter honeycomb
+git push origin main
+42af00d..726d5c4 main -> main
+```
+
+Commit: https://github.com/strulovitz/second-opinion/commit/726d5c4
+
+GitHub repository was verified as strulovitz/second-opinion; the remote
+starting HEAD matched local 42af00d. Staged checks showed no .env, PDF,
+kitchen/books, kitchen/logs or BIBLE changes. The tested application,
+approved honeycomb map, source tools/tests and detailed overnight handoff
+are now on GitHub. Local book PDFs, private configuration and ignored
+screenshots/logs are not part of this code/map backup.
+
+This documentation follow-up records the actual successful push and removes
+the obsolete instruction that DeepSeek must save it tomorrow. The next
+project work is the supervised Harrison reader/index trial after Nir returns.
+No application change or extra test rerun was needed for the Git save.
 
 ### 2026-10-23 -- Approved honeycomb map and overnight DeepSeek restart saved
 

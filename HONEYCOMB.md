@@ -4,6 +4,8 @@ OVERNIGHT RESTART: read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md first. Nir
 approved the displayed globe on 23 Oct: "it looks great, yes i am very happy
 with it!!!" Approval is recorded in the canonical manifest and PROGRESS.md.
 He stopped for sleep; the next execution belongs to DeepSeek when he returns.
+At his further request, the completed implementation/map/handoff were
+successfully pushed tonight as 726d5c4. DeepSeek need not repeat that save.
 
 ## Nir's decision, 23 October 2026
 
@@ -156,14 +158,14 @@ He paused for sleep. Follow HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md on his next
 authorised continuation. A later appearance adjustment belongs to SMART;
 completed contents/book-completeness checking is not the next assignment.
 
-Then DeepSeek can finish the routine GitHub save in VIEWER.md. In addition
-to its earlier staging list, include HONEYCOMB.md, GEOGRAPHY.md,
+The routine GitHub save was completed tonight at Nir's explicit request
+(726d5c4, pushed). Its scope includes HONEYCOMB.md, GEOGRAPHY.md,
 kitchen/geography.py, kitchen/geography_honeycomb.py, kitchen/honeycomb_mesh.py,
 kitchen/honeycomb_partition.py, kitchen/test_honeycomb.py,
 kitchen/load_geography.py, data/export/geography/ and site/data/geography/.
 The updated wording and browser/link-check tools are also intentional.
 Inspect status/diffs first; do not stage ignored backups, previews, receipts,
-logs, PDFs or credentials. All viewer/honeycomb changes remain uncommitted.
+logs, PDFs or credentials. These viewer/honeycomb changes are already committed.
 
 With this map approved, INDEX-PIPELINE.md remains the next routine
 workflow: Qwen reader startup, bounded Harrison trial, approved geography

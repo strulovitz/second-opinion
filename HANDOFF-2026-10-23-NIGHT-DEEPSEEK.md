@@ -1,5 +1,11 @@
 # Overnight restart for DeepSeek -- approved honeycomb globe, 23 October 2026
 
+LATEST UPDATE: Nir asked for the GitHub backup immediately before sleep.
+The entire implementation, approved map and detailed handoff were committed
+and successfully pushed to origin/main as 726d5c4. This documentation
+follow-up removes the obsolete instruction to make that backup tomorrow.
+Next session: check normal Git status, then the supervised Harrison trial.
+
 ## 1. Read first: the exact stop and next assignment
 
 Nir stopped for sleep, reporting it was around 23:23 in Israel. He hopes to
@@ -19,7 +25,7 @@ this visual approval. It is in PROGRESS.md and the canonical manifest.
 
 Next authorised session, DeepSeek does two things, in order:
 
-1. Save the completed viewer/honeycomb/approval/handoff changes to GitHub.
+1. Check the normal repository status; the completed work is already on GitHub.
 2. Explain one small next step and begin INDEX-PIPELINE.md's bounded
    HARRISON-22 reader/index trial, with Nir present and watching.
 
@@ -27,8 +33,8 @@ Do not launch the full library at startup. Complete the one-page/one-batch
 trial and its review before the full Harrison run. Stay with DeepSeek for
 routine execution across books; the free local Qwen reads pages/terms.
 
-Suggested first reply: "The honeycomb globe is approved and saved locally.
-I will first save it to GitHub, then test one Harrison index page with Qwen
+Suggested first reply: "The honeycomb globe is approved and backed up on
+GitHub. The next small step is testing Qwen, then one Harrison index page
 while you watch." Use friendly emojis in actual chat, not in project files.
 
 ## 2. Repository, sources of truth and reading order
@@ -36,11 +42,14 @@ while you watch." Use friendly emojis in actual chat, not in project files.
 Local repository: /home/nir/second-opinion
 GitHub: https://github.com/strulovitz/second-opinion
 Branch: main
-Last committed HEAD at this overnight stop: 42af00d
+Implementation checkpoint: 726d5c4 (successfully pushed to origin/main).
+It follows the earlier starting HEAD 42af00d; consult git log for this
+documentation follow-up and the latest actual HEAD.
 
-The viewer/honeycomb implementation, generated assets and this handoff are
-saved on disk but STILL UNCOMMITTED. No commit or push happened in the
-programming/save sessions. Do not describe them as already on GitHub.
+The viewer/honeycomb implementation, generated approved assets and this
+handoff are on GitHub. The push completed before this follow-up was written:
+`42af00d..726d5c4 main -> main`. Do not repeat the completed GitHub save
+merely because older implementation notes say "uncommitted".
 
 Read economically:
 
@@ -232,14 +241,25 @@ Do not repeat already-passing builds/browser tests merely to make the GitHub
 save. Recheck only something that changed or a concrete failure. The bedtime
 save changed documentation and approval metadata, not application code.
 
-## 7. First next-session task: intended GitHub checkpoint
+## 7. GitHub checkpoint completed before sleep
+
+Nir explicitly requested the backup now, in case something happens to the
+PC. SMART therefore performed this routine save at his request. Commit:
+
+https://github.com/strulovitz/second-opinion/commit/726d5c4
+
+Message: `7.3-12 build the viewer and approved chapter honeycomb`.
+48 intended files were committed and pushed successfully. No PDF, .env,
+reader log, source-page image/text or BIBLE modification was included.
+The commands below record the intended staging scope for future reference;
+they are not an unfinished next-session assignment.
 
 Inspect git status, git diff, git log --oneline -10 and new-file contents.
 Preserve later user changes. The large geography JSON diffs are updated
 coordinates/areas/layout anchors for the same chapters, not new book text.
 Screenshots, source images, page text, credentials and local logs stay ignored.
 
-Complete intended staging list, from /home/nir/second-opinion:
+Recorded implementation staging list, from /home/nir/second-opinion:
 
 ```bash
 git add AGENTS.md PROGRESS.md HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md HANDOFF-2026-10-23-3D-RESTART.md HONEYCOMB.md GEOGRAPHY.md VIEWER.md INDEX-PIPELINE.md
@@ -251,12 +271,10 @@ git diff --cached --check
 git diff --cached --stat
 ```
 
-Inspect the staged diff. Commit/push the intended software, approved assets
-and handoffs, following the existing project Git discipline. Suggested
-message: `7.3-12 build the viewer and approved chapter honeycomb`.
-Update the ledger with the actual result and return the commit link to Nir.
-Never claim a push unless it succeeded. Do not stage the whole repository
-blindly, force-push, amend user history or include ignored local evidence.
+For future new changes, inspect the staged diff, follow project Git
+discipline and record actual commit/push results. Do not stage the whole
+repository blindly, force-push, amend user history or include ignored local
+evidence. The current checkpoint's result is already recorded above.
 
 ## 8. Next small project step: Qwen and the bounded Harrison trial
 
