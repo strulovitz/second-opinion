@@ -518,6 +518,28 @@ def is_opener(ch, kind, heading):
     return hits >= 1 and hits >= max(1, len(words) // 2)
 
 
+def head_names_chapter(pages, i, ch):
+    """The page's HEAD names this chapter.
+
+    NELSON-2024 ch46 starts at the foot of the page where ch45 opens: the
+    reader reports only the page's main title (ch45), but the running head
+    and the chapter box both say "Chapter 46 Self-Injurious Behavior". The
+    page therefore belongs to both chapters, and the chapter's page is the
+    page. The caller only uses this on a page the book's own contents points
+    at, and never when the reader saw a contents listing (KIND=OTHER).
+    """
+    if not pages or not (1 <= i <= len(pages)):
+        return False
+    num = str(ch.get("number") or "")
+    if not num:
+        return False
+    head = plain(head_of(pages, i))
+    if not re.search(r"\bchapter\s+" + re.escape(plain(num)) + r"\b", head):
+        return False
+    words = title_words(ch.get("title") or "")
+    return bool(words) and sum(1 for w in words if word_in(w, head)) >= 1
+
+
 def pdf_page_matches(ch, kind, heading):
     """For a link/outline book the linked page may be a divider that says
     only "Chapter N" (IRWIN-RIPPE-2023 ch167/184/185: the link page is the
@@ -679,6 +701,14 @@ def main():
                          "pdf-page (no printed folio; PDF page used)",
                          heading)
                 break
+            if (kind == "pdf-page" and kind_seen != "OTHER"
+                    and head_names_chapter(text_pages, page, ch)):
+                # two chapters open on one page (NELSON-2024 ch46); the
+                # reader named only the first, the page's head names both
+                found = (page, page, raw, png,
+                         "pdf-page (the page's head names this chapter)",
+                         heading)
+                break
             if not is_opener(ch, kind_seen, heading):
                 continue
             if folio is not None:
@@ -772,7 +802,15 @@ def main():
                 # printed-folio rule must never move it (HAZZARD-2022 ch7,
                 # 2026-10-22: the outline pointed at the Part II page 284,
                 # the real opener 286 was found by the scan, and the floor
-                # rule put the wrong 284 back).
+                # rule put the wrong 284 back). The reader sometimes sees a
+                # printed folio on such a page (NELSON-2024 ch118 prints
+                # 1028 on PDF page 1038); it is kept only as evidence, never
+                # as the number, or the book's TOC would mix two units
+                # (2026-10-23: 12 NELSON chapters had the folio, 507 the
+                # PDF page).
+                if printed is not None and printed != page:
+                    rec["reader_folio"] = printed
+                printed, how = page, "pdf-page (PDF page used)"
                 refine = {"reason": ""}
             else:
                 new_page, new_printed, refine = refine_opener(
@@ -861,7 +899,17 @@ def main():
                         f"chapter in this file")
 
     ok = [r for r in records if r.get("status") == "ok"]
-    diff = [r for r in ok if r["toc_page_start"] not in (None, r["printed"])]
+
+    def contents_disagrees(r):
+        # Compare like with like: for a link/outline book the book's own
+        # contents gives a PDF page, so compare it with the PDF page. The
+        # printed folio is a different unit (NELSON-2024: comparing 1038
+        # with the 1028 printed on the page is not a disagreement).
+        if r.get("kind") == "pdf-page":
+            return r["toc_page_start"] not in (None, r["pdf_page"])
+        return r["toc_page_start"] not in (None, r["printed"])
+
+    diff = [r for r in ok if contents_disagrees(r)]
     summary = {"book": bid, "chapters": len(records),
                "read_by_eyes": len(ok), "unresolved": len(unresolved),
                "contents_disagreements": len(diff),

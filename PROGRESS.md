@@ -288,6 +288,47 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- NELSON-2024 read by the eyes: 519/519, 0 unresolved, 1 disagreement
+
+4,534 PDF pages ("Nelson Textbook of Pediatrics", 2024), 33 provinces,
+519 chapters. The outline gives PDF pages, so all 519 are "pdf-page"
+(page_offset 0 by construction).
+
+    .venv/bin/python kitchen/eyes_folio.py NELSON-2024 --all --scan 6
+      518/519 placed on the first pass; ch46 "Self-Injurious Behavior" not found
+    .venv/bin/python kitchen/eyes_folio.py NELSON-2024 --only 46,118,162,372,419,478,504,506,516,531,534,682,732 --scan 6 --proof
+      519/519 chapters read by the eyes; 0 unresolved
+      1 disagree with the book's own contents
+    kitchen/logs/NELSON-2024-toc.json  33 provinces, 519 chapters
+
+TWO TOOL BUGS FOUND AND FIXED in `kitchen/eyes_folio.py` (both were
+introduced by the pdf-page work of 22 Oct and only showed up in this book):
+
+1. **Mixed units in the TOC.** On 12 chapters the reader happened to see a
+   printed folio on the page, and the tool stored that folio as the chapter's
+   number while the other 507 chapters stored the PDF page (ch118: PDF 1038,
+   stored 1028). The TOC therefore mixed two units. Fixed: for a pdf-page
+   book the number is ALWAYS the PDF page; the folio the reader saw is kept
+   only as `reader_folio` evidence. Re-ran those 12 chapters.
+2. **The disagreement test compared unlike things** (contents PDF page vs
+   printed folio), which turned those 12 chapters into false disagreements.
+   Fixed to compare the contents page with the PDF page for pdf-page books.
+
+Also new: `head_names_chapter()` -- a chapter can open at the FOOT of a page
+whose main title belongs to the previous chapter (ch46 begins at the bottom
+of ch45's page; the running head and the chapter box say "Chapter 46
+Self-Injurious Behavior"). Such a page is accepted when the book's own
+contents points at it and the page's head names the chapter. The front-matter
+listing trap of IRWIN-RIPPE-2023 ch185 stays closed (KIND=OTHER is rejected).
+
+FINDING (recorded, not silently fixed): **ch506 "Definitions and
+Classification of Hemolytic Anemias"** -- the book's own contents says PDF
+page 2976, but the chapter opener is on PDF page 2975 (printed 2952), where
+"Section 3 Hemolytic Anemias" and the Chapter 506 box are plainly visible.
+Page 2976 of our PDF is a duplicated, out-of-order page (printed 2950, the
+Chapter 505 box), and PDF pages 2974-2976 are repeated as 2977-2979 later in
+the same file. Recorded as a disagreement: contents 2976 vs page 2975.
+
 ### DONE 2026-10-23 -- MILLER-10 read by the eyes: 87/87, 0 unresolved, 0 disagreements
 
 13,485 PDF pages ("Miller's Anesthesia", 10th ed., 2-volume set), 8 provinces,
