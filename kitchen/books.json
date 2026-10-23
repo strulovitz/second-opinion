@@ -499,10 +499,10 @@
    4044,
    4273
   ],
-  "page_offset": null,
-  "field_name": "",
+  "page_offset": 43,
+  "field_name": "Internal Medicine (general)",
   "cluster": "",
-  "status": "candidate",
+  "status": "accepted",
   "notes": "the hub book; exempt from duplicate detection",
   "toc_images_found": [
    7,

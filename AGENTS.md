@@ -1,9 +1,8 @@
 # Second Opinion -- standing orders for the manager
 
-WHERE THE CURRENT STATE LIVES: read `HANDOFF-2026-10-23-evening.md` first,
-then `PROGRESS.md`. The hand-off says what is done (the TOC lane is
-complete: all 37 books), how to run and verify the eyes tool, the findings
-recorded so far, and what must not be started (the paid-model work).
+WHERE THE CURRENT STATE LIVES: read `HANDOFF-2026-10-23-recovery.md` first,
+then `PROGRESS.md`. It records the crash recovery, chapter-range repair,
+verification and the next model's exact scope.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

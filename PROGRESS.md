@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Tier deviation recorded: BIBLE part 3 asks for [SWITCH TO SMART] on the writing steps, but the human has nobody to switch models with, so Space Bunny (the manager) executes every step itself, including the SMART ones.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. HARRISON-22 Step A3 (section 4.6) verified and page_offset=43 saved. Geography readiness is blocked by chapter-range and image-reference defects in the existing TOC output. The TOC reading lane remains complete.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,6 +23,12 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
+**2026-10-23 (GPT 6.1 Sol): HARRISON-22 Step A3 is verified, offset 43 saved.**
+Next: SMART repairs the chapter-range exporter (Part 3 section 4.4) and
+stale image references using saved evidence, then checks HARRISON-22 only
+and writes the CHEAP-tier handoff. Nir approved shared pages on recovery.
+Current recovery state: `HANDOFF-2026-10-23-recovery.md`.
+
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
 unresolved and 0 disagreements, 3 with one recorded contents-vs-page
@@ -34,11 +40,9 @@ by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
 unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-**NEWEST HAND-OFF (read this first): `HANDOFF-2026-10-23-evening.md`** --
-the full end-of-day state: every book and its count, the eight tool
-changes made on 23 Oct, the three findings, how to verify, the git log,
-and what must not be started unasked (the paid-model work: globe, entity
-registry, viewer, reading pipeline).
+**NEWEST HAND-OFF (read this first): `HANDOFF-2026-10-23-recovery.md`.**
+The earlier `HANDOFF-2026-10-23-evening.md` records the completed TOC
+readings, counts and findings; recovery work supersedes its next-step text.
 
 Older hand-offs, only if ever needed: `HANDOFF-2026-10-22-night.md`,
 `HANDOFF-2026-10-19-evening.md`, `HANDOFF-2026-10-19-page-offset.md`,
@@ -78,6 +82,8 @@ deliberate. `page_offset` (BIBLE part 3 section 4.6) is still NOT started
 and every citation depends on it.
 
 ## QUESTIONS FOR HUMAN
+
+- [answered 2026-10-23 recovery] Part 3 section 4.4: HARRISON-22 chapters 45 and 46 both start on printed page 291. The literal next-start-minus-one rule made ch45 end at 290. May the exporter use `max(current_start, next_start - 1)` so both chapters include the shared page? Nir answered "Yes, please continue" to this rule, fixing the exporter, checking Harrison only and writing the DeepSeek handoff. See AMENDMENT 3.4.
 
 ### TO BE ASKED ONE AT A TIME, IN PLAIN WORDS, ON 2026-10-11
 
@@ -148,9 +154,10 @@ handle /2nd-opinion/* {
 **Awaiting the human's yes. Nothing has been changed on the web server.**
 
 ## BLOCKED
-- (nothing)
+- [open] 2026-10-23, Part 3 section 4.4, HARRISON-22 geography readiness: `page_offset.py HARRISON-22` reports 21 chapter-range mismatches and two stale image references. `eyes_folio.write_toc_json()` ends each province's last chapter at its own first page, instead of using the next chapter across the province boundary. It also makes ch45's shared-page range negative. `refine_opener()` changes ch103/ch448's selected PDF pages but the output retains their original image filenames. All 505 page pairs agree on offset 43; the offset is saved, status remains accepted. Exact findings are under DONE; shared-page question is above. Verify the configured index boundary before extending the final chapter.
 
 ## AMENDMENTS DECLARED BY THE MANAGER
+- AMENDMENT 3.4 (2026-10-23 recovery, approved by Nir): Part 3 section 4.4 permits equal chapter starts but its literal next-start-minus-one formula can produce an end before the start. Use `max(current_start, next_start - 1)`, matching the existing validator. Chapters with equal starts both include their shared page. The BIBLE is unchanged.
 - AMENDMENT 3.1 (from BIBLE part 3): continents have equal area; page-count
   proportionality applies to provinces and districts inside each continent.
 - AMENDMENT 3.2 (from BIBLE part 3): Territory.border_geojson is null for all
@@ -263,6 +270,8 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23 recovery: Nir requested "save every now and then in the github and push and in your memory (make pointer from agents.md - just refer , please, do NOT inflate agents.md)" and a return to the chapter-end bug and cheaper-model handoff. Asked whether both chapters may include page 291 and whether SMART should fix the exporter, check Harrison only and write the handoff, he selected "Yes, please continue". Save checkpoints and stop after the handoff; continue one book at a time with human supervision.
+- 2026-10-23, Part 3 section 3.3: Nir approved the proposal to finish HARRISON-22's acceptance record with continent name "Internal Medicine (general)" and to let GPT 6.1 Sol do this one routine CHEAP-tier step here. His reply, after asking how long that step takes, was: "ok please do it". Scope: this book's status and field name, verification, and the progress record; then stop and report.
 - 2026-10-10: The human confirmed all seven Part 1 section 10 defaults, including "the Indexes are the source of the entity registry", and the names second-opinion (repo) / 2nd-opinion (URL).
 - 2026-10-10: The human chose the Neo4j password himself and authorised its use. It is written ONLY into kitchen/.env (gitignored). It appears in no committed file and not in this ledger.
 - 2026-10-10: The 42 PDFs were MOVED from ~/Downloads/books to ~/second-opinion/kitchen/books/ (no copies; the folder was emptied).
@@ -272,7 +281,218 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-15 (evening): **TERRITORY NAMES = NUMBER + MEANING TOGETHER (Nir's final rule, supersedes the entry above).** Nir's words: "i want to do BOTH the entity (entity is 'part' or 'chapter' etc) and the entity's number, AND the entity's meaning (if it does not have a written meaning in the book (title) then you write a short and descriptive meaning/title by yourself)... it is NOT elegant, the elegant solution would have been to design the database better and to make 2 separate fields... but i do not want to change the structure of the database which is in the BIBLE." So: "SECTION V CARDIAC RADIOLOGY" -> name = "Section V - Cardiac Radiology" (number kept, meaning added). Books that print "PART 3" with no title: look on the part's opening page; if nothing, WRITE a short descriptive name, marked "name_source": "written". ONE name field in the existing schema holds the combined string — the database structure is NOT changed. The GOOD books already reading "PART 2 Cardinal Manifestations..." are in the target form: do not strip their numbers. The TOC prompts must ask for BOTH the numbering and the title. Full plan in HANDOFF-meaningful-names.md.
 - 2026-10-15 (late evening): **FOR A BOOK WITH NO PARTS AT ALL, WRITE THE PARTS THE AUTHOR LEFT OUT.** Nir's words: "in books that have NO parts at a ll, please try to create such 'parts' for them, like, please group the chapters (assuming like that there are more than a handful of chapters), like the first few chapters, and give them a proper title that will contain all of them, and then the next few chapters and group them with another title, and so on please. please do the work that the author should have done. as much as you can, similar to other books. like try to imitate the style of other books (where the author DID do a proper job) please. it's a lot better than 1 big group." So a flat book is NOT left as one province called "ALL". The chapters are grouped and each group is given a written title covering every chapter in it, in the same style as the books that printed theirs. Every such province carries `name_source: "written"` so the database can always tell a printed part from a part we wrote (Law 2). The grouping itself is a HUMAN decision and lives in `kitchen/parts/<BOOK>.json`; the script only applies it.
 
+## SESSIONS
+
+- 2026-10-23 recovery, GPT 6.1 Sol: read the whole BIBLE (all 14 files), instructions, current ledger and GitHub main. Recovered the previous session's uncommitted offset verifier, tests and Harrison record. Rechecked them before the first recovery checkpoint. No cause of the earlier computer freeze has been established.
+- 2026-10-23, GPT 6.1 Sol: after Nir asked "so now can you do serious things please ?", started substantive Step A3 implementation for HARRISON-22 using the existing TOC/reader evidence; one book, then report.
+- 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
+
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-23 -- 8.4 recovery checkpoint before exporter repair -- GPT 6.1 Sol
+
+Recovered changes present on entry: `PROGRESS.md`, `kitchen/books.json`,
+`kitchen/page_offset.py`, untracked `kitchen/test_page_offset.py`.
+GitHub main and local HEAD both pointed at
+`e20cdb392b55b6b92b8b318642148134be850806`; no remote work needed merging.
+The earlier acceptance/offset entries below were not committed before the
+crash. This checkpoint preserves them under Nir's new explicit save request.
+
+COMMANDS (repository root):
+
+```bash
+git --version
+gh --version
+.venv/bin/python --version
+pdftotext -v
+gh repo view strulovitz/second-opinion --json url,defaultBranchRef,isPrivate
+gh api repos/strulovitz/second-opinion/commits/main --jq .sha
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p test_page_offset.py -v
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/page_offset.py HARRISON-22
+```
+
+OUTPUT (versions): git 2.47.3; gh 2.97.0 (2026-07-31); Python 3.13.5;
+pdftotext 25.03.0. Repository public, default branch main.
+
+OUTPUT (test summary and dry-run summary; full warnings are unchanged
+from the immediately preceding session's raw output below):
+
+```text
+Ran 7 tests in 0.003s
+
+OK
+HARRISON-22: 505/505 saved pairs verified; unit=printed; page_offset=43
+  ch1: PDF 44 -> printed 1; title found; corner folio not readable
+  ch127: PDF 1032 -> printed 989; title found; corner folio not readable
+  ch253: PDF 1975 -> printed 1932; title found; corner folio found
+  ch379: PDF 2964 -> printed 2921; title found; corner folio not readable
+Image-reference warnings: 2; range warnings: 21
+Dry run; no files written
+Offset verified; geography readiness still needs the warnings resolved
+```
+
+FILES: recovered code/config/test files above, this ledger, the recovery
+handoff and repository AGENTS.md pointer. Global memory pointer updated in
+`~/.config/opencode/AGENTS.md` (outside this repository; no new detail added).
+DB: not applicable; no Neo4j or reader calls.
+COMMIT: this entry is included in the recovery checkpoint; its hash is
+recorded in the next checkpoint/handoff once Git has assigned it.
+
+### DONE 2026-10-23 -- 3.4.6 HARRISON-22 page mapping verified and saved -- GPT 6.1 Sol
+
+Implemented the substantive Step A3 verifier in `kitchen/page_offset.py`,
+replacing the historical majority-vote method that was documented as
+unusable on 19 Oct. Uses the existing `<BOOK>-toc.json` and eyes evidence;
+no reader calls, no TOC rebuild, no medical extraction. The verifier checks
+complete one-to-one chapter coverage, confirmed openers, uniform page
+units, existing evidence images, monotonic page pairs and agreement of
+EVERY pair. A majority is never enough. It checks the BIBLE's four sample
+titles against the current PDF and requires a readable sampled folio for
+printed-page books. Only `page_offset` can be saved, and a failed check
+cannot write it. There is no unattended batch mode.
+
+The first dry run correctly refused to save: default pdftotext reading
+order puts "to" before "253 Approach", so the ch253 title prefix did not
+match. A direct `pdftotext -layout` check preserved the printed order.
+Added that layout retry, with a regression test; the second dry run and
+the final save passed. The header's chapter number 1 is explicitly not
+counted as a page folio for the first sample.
+
+COMMANDS (repository root):
+
+```bash
+git --version
+.venv/bin/python --version
+pdftotext -v
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p test_page_offset.py -v
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/page_offset.py HARRISON-22 --save
+git diff --check
+```
+
+OUTPUT (versions checked before use):
+
+```text
+git version 2.47.3
+Python 3.13.5
+pdftotext version 25.03.0
+```
+
+OUTPUT (final test summary):
+
+```text
+Ran 7 tests in 0.003s
+
+OK
+```
+
+The regression cases cover an unsampled minority offset disagreement,
+duplicate/missing coverage, mixed PDF/printed units, stale image evidence,
+shared-page range reporting, reordered PDF headings and refusal to save
+any record when the PDF cross-check fails.
+
+OUTPUT (final save, complete):
+
+```text
+HARRISON-22: 505/505 saved pairs verified; unit=printed; page_offset=43
+  ch1: PDF 44 -> printed 1; title found; corner folio not readable
+  ch127: PDF 1032 -> printed 989; title found; corner folio not readable
+  ch253: PDF 1975 -> printed 1932; title found; corner folio found
+  ch379: PDF 2964 -> printed 2921; title found; corner folio not readable
+Image-reference warnings: 2; range warnings: 21
+  WARNING ch103: stale image_file=00813.png; back_walk proves 00812.png (file exists)
+  WARNING ch448: stale image_file=03563.png; back_walk proves 03562.png (file exists)
+  WARNING ch13: page_end=74; next chapter/index boundary gives 92
+  WARNING ch45: page_end=290; next chapter/index boundary gives 291
+  WARNING ch70: page_end=476; next chapter/index boundary gives 482
+  WARNING ch72: page_end=491; next chapter/index boundary gives 496
+  WARNING ch123: page_end=941; next chapter/index boundary gives 956
+  WARNING ch242: page_end=1832; next chapter/index boundary gives 1840
+  WARNING ch294: page_end=2185; next chapter/index boundary gives 2198
+  WARNING ch310: page_end=2287; next chapter/index boundary gives 2290
+  WARNING ch318: page_end=2342; next chapter/index boundary gives 2352
+  WARNING ch331: page_end=2453; next chapter/index boundary gives 2458
+  WARNING ch359: page_end=2742; next chapter/index boundary gives 2754
+  WARNING ch387: page_end=2973; next chapter/index boundary gives 2976
+  WARNING ch432: page_end=3373; next chapter/index boundary gives 3376
+  WARNING ch468: page_end=3692; next chapter/index boundary gives 3698
+  WARNING ch472: page_end=3728; next chapter/index boundary gives 3738
+  WARNING ch478: page_end=3772; next chapter/index boundary gives 3776
+  WARNING ch484: page_end=3830; next chapter/index boundary gives 3842
+  WARNING ch487: page_end=3859; next chapter/index boundary gives 3868
+  WARNING ch489: page_end=3876; next chapter/index boundary gives 3896
+  WARNING ch492: page_end=3905; next chapter/index boundary gives 3910
+  WARNING ch505: page_end=3995; next chapter/index boundary gives 4000
+Saved HARRISON-22.page_offset=43; status unchanged
+Offset verified; geography readiness still needs the warnings resolved
+```
+
+The last expected end (4000) is computed from the configured index start
+4044 minus offset 43 minus one. The index location itself was not
+re-measured in this step and must be checked before repairing that range.
+The two corrected image files already exist, and their folios are recorded
+in the reader's saved `refine.back_walk`; no image or page number was guessed.
+
+An additional semantic comparison with HEAD passed: all 37 book records
+remain; only Harrison's previously approved status/field name and this
+step's page_offset differ. `git diff --check` reported no errors.
+
+FILES: `ls -l --time-style=long-iso kitchen/page_offset.py kitchen/test_page_offset.py kitchen/books.json PROGRESS.md`
+(snapshot before this evidence entry was appended):
+
+```text
+-rw-rw-r-- 1 nir nir  28427 2026-10-23 14:51 kitchen/books.json
+-rw-rw-r-- 1 nir nir   9652 2026-10-23 14:50 kitchen/page_offset.py
+-rw-rw-r-- 1 nir nir   4889 2026-10-23 14:50 kitchen/test_page_offset.py
+-rw-rw-r-- 1 nir nir 178457 2026-10-23 14:48 PROGRESS.md
+```
+
+DB: not applicable; this step does not access Neo4j.
+COMMIT: local changes; no Git commit or push requested.
+
+### DONE 2026-10-23 -- 3.3.3 HARRISON-22 acceptance record -- GPT 6.1 Sol
+
+The human approved status `accepted` and field name `Internal Medicine
+(general)` for HARRISON-22. This completes this book's acceptance record,
+not the library-wide Checkpoint 3.1. Harrison is the general hub, exempt
+from same-field duplicate detection (Part 3 section 3.2).
+
+COMMANDS: edited the two existing fields in `kitchen/books.json` with
+`apply_patch`; checked versions before verification:
+
+```text
+git --version
+git version 2.47.3
+.venv/bin/python --version
+Python 3.13.5
+```
+
+Semantic verification command, run from the repository root:
+
+```bash
+.venv/bin/python -c 'import json, subprocess; from pathlib import Path; before = json.loads(subprocess.check_output(["git", "show", "HEAD:kitchen/books.json"], text=True)); after = json.loads(Path("kitchen/books.json").read_text()); targets = [b for b in before if b["book_id"] == "HARRISON-22"]; assert len(targets) == 1; target = targets[0]; assert target["status"] == "candidate" and target["field_name"] == ""; target.update(status="accepted", field_name="Internal Medicine (general)"); assert before == after, "Unexpected change outside the two approved fields"; assert len(after) == 37; print("PASS: valid JSON; 37 book records"); print("HARRISON-22: status=accepted; field_name=Internal Medicine (general)"); print("PASS: only the two approved Harrison fields changed; all other data matches HEAD")'
+git diff --check
+git diff -- kitchen/books.json
+```
+
+OUTPUT (semantic check; `git diff --check` produced no errors):
+
+```text
+PASS: valid JSON; 37 book records
+HARRISON-22: status=accepted; field_name=Internal Medicine (general)
+PASS: only the two approved Harrison fields changed; all other data matches HEAD
+```
+
+FILES: `ls -l --time-style=long-iso kitchen/books.json PROGRESS.md`
+(snapshot before this evidence entry was appended):
+
+```text
+-rw-rw-r-- 1 nir nir  28429 2026-10-23 14:43 kitchen/books.json
+-rw-rw-r-- 1 nir nir 175868 2026-10-23 14:43 PROGRESS.md
+```
+
+DB: not applicable; no database operation was part of this step.
+COMMIT: local changes, not committed or pushed; the human approved the
+record update, not a Git commit or push.
 
 ### DONE 2026-10-23 -- HARRISON-22 finished by the eyes: 505/505, 0 unresolved, 0 disagreements
 
