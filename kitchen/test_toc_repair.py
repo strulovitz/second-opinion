@@ -104,6 +104,19 @@ class GenericRepairTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "needs SMART review"):
             accepted_source(self.book, self.legacy(), old, None, self.fixture.images)
 
+    def test_rebuild_flag_replaces_a_different_list_only_on_request(self):
+        old = copy.deepcopy(self.old)
+        old["provinces"][1]["chapters"].pop()
+        toc, _, mapping, _, _ = accepted_source(
+            self.book, self.legacy(), old, None, self.fixture.images, rebuild=True)
+        self.assertEqual(len(flat_identity(toc)), 4)
+        self.assertFalse(mapping["structure_preserved"])
+
+    def test_rebuild_is_refused_for_the_automatic_queue(self):
+        self.prepare(eyes=False)
+        with self.assertRaisesRegex(ValueError, "explicit BOOK_ID"):
+            self.run_cli("--next", "--rebuild", "--apply")
+
     def test_apply_writes_nothing_when_ends_are_already_correct(self):
         self.prepare(eyes=False)
         toc, _, _, _, _ = accepted_source(

@@ -11,11 +11,13 @@ from toc_ranges import fill_ranges
 from toc_reexport import repair_images
 
 
-def accepted_source(book, source, old, eyes, image_dir):
+def accepted_source(book, source, old, eyes, image_dir, rebuild=False):
     """Eyes when present; otherwise the previously accepted vis-toc itself.
 
     A legacy -toc can be stale/empty. Without eyes, the accepted -vis-toc
     is authoritative, not the old export. Never change its chapter starts.
+    `rebuild` is an explicit human-approved replacement of a different
+    non-empty chapter list; the default refuses and asks for review.
     """
     image_changes, issues = [], []
     updated = copy.deepcopy(eyes)
@@ -64,7 +66,7 @@ def accepted_source(book, source, old, eyes, image_dir):
         require(len(kinds) == 1, "empty source or mixed/unknown citation units")
         unit = next(iter(kinds))
         old_rows, new_rows = flatten(old), flatten(toc)
-        preserved = len(old_rows) >= 2
+        preserved = len(old_rows) >= 2 and not rebuild
         if preserved:
             # Nir's rule: keep the accepted book exactly as it is and edit
             # only a wrong page_end. Never rebuild names or provinces.

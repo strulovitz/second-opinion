@@ -19,18 +19,20 @@ file is written.
 
 ## Queue status at the end of 2026-10-23
 
-FINISHED in one run: 33 applied, 4 blocked, 0 pending/stale. 1,337 end
-values corrected in 30 files; ADAMS-12, GOODMAN-14 and HARRISON-22 wrote
-nothing; four empty exports were restored from accepted contents
-(MANDELL-9, MURRAY-7, ROSEN-2022, YOUMANS-4). Five final pages proved
-from the index; 28 remain provisional. Field-by-field checks found no
-change outside page_end and province bounds. FIRESTEIN-12 also fixed two
-stale image links.
+FINISHED for all 37 books: 37 applied, 0 blocked, 0 pending/stale.
+1,337 end values were corrected in 30 files; ADAMS-12, GOODMAN-14 and
+HARRISON-22 wrote nothing; four empty exports were restored from accepted
+contents (MANDELL-9, MURRAY-7, ROSEN-2022, YOUMANS-4). Five final pages
+were proved from the index; the rest remain provisional. Field-by-field
+checks found no change outside page_end and province bounds for the
+in-place books. FIRESTEIN-12 also fixed two stale image links.
 
-BLOCKED for one SMART review, nothing rewritten: CAMPBELL-2020 (862 vs
-82 chapters), KRAUSE-16 (87 vs 93), MIDDLETON-2019 (22 vs 99),
-SABISTON-22 (124 vs 92). A finished queue can be re-audited with
-`--summary`; the procedure below remains valid for explicit retries.
+The four exceptions were reviewed by Nir and rebuilt on 2026-10-23 with
+the explicit `--rebuild` switch (which is refused for `--next`):
+CAMPBELL-2020 now 82 chapters, KRAUSE-16 93, MIDDLETON-2019 99,
+SABISTON-22 92. Each matches its accepted contents exactly, and every
+internal end equals the next start minus one. Nothing in books.json was
+changed. A finished queue can be re-audited with `--summary`.
 
 ## Assignment
 

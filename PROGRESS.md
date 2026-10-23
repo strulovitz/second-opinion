@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. In-place chapter-end repair queue FINISHED: 33 applied, 4 blocked for one review, 0 pending. 1,337 wrong/missing end pages corrected; 3 books needed nothing and wrote no file; 4 empty exports restored from the already accepted contents. 5 final pages were proved from the index; 28 remain provisional. Field-by-field checks found no change outside `page_end` and province bounds. 34 tests pass. Details: HANDOFF-TOC-REPAIR.md and TOC-REPAIR-STATUS.json.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Chapter-end repair FINISHED for all 37: 33 applied in place, then the 4 reviewed books rebuilt from their accepted contents, 0 blocked, 0 pending. 1,337 wrong/missing end pages corrected; 3 books needed nothing and wrote no file; 4 empty exports restored from the already accepted contents. 5 final pages were proved from the index; 28 remain provisional. Field-by-field checks found no change outside `page_end` and province bounds. 34 tests pass. Details: HANDOFF-TOC-REPAIR.md and TOC-REPAIR-STATUS.json.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,13 +23,13 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-23 chapter-end repair queue FINISHED.** The generic queue ran to
-"Queue finished": 33 applied, 4 blocked, 0 pending/stale. The 4 blocked
-books (CAMPBELL-2020, KRAUSE-16, MIDDLETON-2019, SABISTON-22) have a
-non-empty chapter list that differs from the accepted contents; nothing
-was rewritten and they need ONE SMART review. Return to SMART once with
+**2026-10-23 chapter-end repair COMPLETE for all 37 books.** After Nir
+approved the one review, CAMPBELL-2020, KRAUSE-16, MIDDLETON-2019 and
+SABISTON-22 were rebuilt from their already accepted contents with the
+explicit `--rebuild` switch and their ends filled. Result: 37 applied,
+0 blocked, 0 pending. Return to SMART once with
 `HANDOFF-TOC-REPAIR.md` and `TOC-REPAIR-STATUS.json`. This does not
-complete Step A3 page-offset mapping, does not verify the 28 provisional
+complete Step A3 page-offset mapping, does not verify the provisional
 final pages, and does not authorise a Freeze.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
@@ -294,6 +294,53 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-23 -- 3.4.4 the four reviewed books rebuilt from accepted contents -- DeepSeek (executor)
+
+Nir reviewed the four exceptions and said "okay thank you please fix it".
+Added an explicit `--rebuild` switch that is refused for `--next`/`--audit`
+and requires a named BOOK_ID, so a stale list can never be replaced
+silently in the queue. Each of the four was rebuilt from the accepted
+contents (the same source used by the rest of the library), then its ends
+were filled. Before/after evidence:
+
+- CAMPBELL-2020: old export was 862 operation sub-entries (45.1...90.10)
+  covering only pages 2222-4526; now the accepted 82 chapters, page 14.
+- KRAUSE-16: old 87 entries, missing chapters 22-25 and numbering the
+  appendices 1-48; now the accepted 93 (appendices A1-A48).
+- MIDDLETON-2019: old 22 rows, mostly "3 Immunoglobulin Structure and
+  Function" repeated, pages 1-59; now the accepted 99 chapters (pdf-outline).
+- SABISTON-22: old 124 rows including chapters 1-19 marked "(online only)"
+  and duplicate sections; now the accepted 92 printed chapters.
+  Online-only content is not a territory (BIBLE 4.2).
+
+COMMANDS (one book at a time):
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py CAMPBELL-2020 --rebuild --check-index --apply
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py KRAUSE-16 --rebuild --check-index --apply
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py MIDDLETON-2019 --rebuild --check-index --apply
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py SABISTON-22 --rebuild --check-index --apply
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+```
+
+OUTPUT:
+
+```text
+CAMPBELL-2020: applied; 82 chapters; 82 ends; printed; accepted-vis-toc; final=median-fallback; images=0 repaired/0 issues
+KRAUSE-16: applied; 93 chapters; 93 ends; printed; accepted-vis-toc; final=median-fallback; images=0 repaired/0 issues
+MIDDLETON-2019: applied; 99 chapters; 99 ends; pdf-page; accepted-vis-toc; final=median-fallback; images=0 repaired/0 issues
+SABISTON-22: applied; 92 chapters; 92 ends; printed; accepted-vis-toc; final=median-fallback; images=0 repaired/0 issues
+Ran 36 tests in 0.016s
+OK
+```
+
+Independent check: every rebuilt chapter list equals its accepted contents
+(number, title, start; province names too), and every internal end equals
+the next start minus one. Last ends: CAMPBELL 4545, KRAUSE 1211,
+MIDDLETON 1739, SABISTON 2084; all four final boundaries are provisional
+(median fallback), not proved. books.json was not changed. Backups are
+under `kitchen/logs/toc-repair-backups/<BOOK>/`. No AI/model call.
 
 ### DONE 2026-10-23 -- 3.4.4 library end repair finished in one queue run -- DeepSeek (executor)
 

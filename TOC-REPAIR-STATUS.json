@@ -226,8 +226,36 @@
     },
     "CAMPBELL-2020": {
       "book": "CAMPBELL-2020",
-      "state": "blocked",
-      "error": "existing chapter list has 862 chapters but the accepted contents has 82; needs SMART review"
+      "state": "applied",
+      "source": "accepted-vis-toc",
+      "provinces": 4,
+      "chapters": 82,
+      "previous_chapters": 862,
+      "unit": "printed",
+      "first_page": 14,
+      "last_page": 4545,
+      "changed_ends": 82,
+      "image_changes": [],
+      "image_issues": [],
+      "structure": "rebuilt",
+      "offset_values": 0,
+      "boundary": {
+        "mode": "median-fallback",
+        "note": "index absent/invalid; BIBLE median fallback"
+      },
+      "starts_preserved_from": "accepted-vis-toc",
+      "config_hash": "9f00d3f065990e6bbd85125964f56566fbd683fafd0f2e8aaaec25c73f5d7ca2",
+      "backup": "kitchen/logs/toc-repair-backups/CAMPBELL-2020/20261023T173043011286",
+      "created_files": [],
+      "files": {
+        "kitchen/logs/CAMPBELL-2020-vis-toc.json": "8f6364bc0ecabd99f4980b54209bd4881139f7f8db0a312174e39dd6e9cb4a27",
+        "kitchen/logs/CAMPBELL-2020-toc.json": "c2f134a45f9e409e95edce0a26c148012c4b5f8c58a2609ba36e4c715e37730b"
+      },
+      "absent": [
+        "kitchen/logs/CAMPBELL-2020-eyes.json"
+      ],
+      "saved_files": 1,
+      "time": "2026-10-23T17:30:43"
     },
     "DELISA-6": {
       "book": "DELISA-6",
@@ -583,8 +611,36 @@
     },
     "KRAUSE-16": {
       "book": "KRAUSE-16",
-      "state": "blocked",
-      "error": "existing chapter list has 87 chapters but the accepted contents has 93; needs SMART review"
+      "state": "applied",
+      "source": "accepted-vis-toc",
+      "provinces": 7,
+      "chapters": 93,
+      "previous_chapters": 87,
+      "unit": "printed",
+      "first_page": 2,
+      "last_page": 1211,
+      "changed_ends": 93,
+      "image_changes": [],
+      "image_issues": [],
+      "structure": "rebuilt",
+      "offset_values": 0,
+      "boundary": {
+        "mode": "median-fallback",
+        "note": "index check: configured index opener not confirmed; BIBLE median fallback"
+      },
+      "starts_preserved_from": "accepted-vis-toc",
+      "config_hash": "c35832bccb84862ad6d641c34d6fe39c85b35860d53e0135f3493a44f2f4ca44",
+      "backup": "kitchen/logs/toc-repair-backups/KRAUSE-16/20261023T173043222655",
+      "created_files": [],
+      "files": {
+        "kitchen/logs/KRAUSE-16-vis-toc.json": "e5b68ae6279f50d1c6634c823f88d3fe47a6148073716bddc1bf95ef0ad3eb45",
+        "kitchen/logs/KRAUSE-16-toc.json": "9b2d180261b5f4a42dd3c7ec4f5dffbd20ad892797b7f06081d06e76a3836e83"
+      },
+      "absent": [
+        "kitchen/logs/KRAUSE-16-eyes.json"
+      ],
+      "saved_files": 1,
+      "time": "2026-10-23T17:30:43"
     },
     "MANDELL-9": {
       "book": "MANDELL-9",
@@ -621,8 +677,36 @@
     },
     "MIDDLETON-2019": {
       "book": "MIDDLETON-2019",
-      "state": "blocked",
-      "error": "existing chapter list has 22 chapters but the accepted contents has 99; needs SMART review"
+      "state": "applied",
+      "source": "accepted-vis-toc",
+      "provinces": 8,
+      "chapters": 99,
+      "previous_chapters": 22,
+      "unit": "pdf-page",
+      "first_page": 18,
+      "last_page": 1739,
+      "changed_ends": 99,
+      "image_changes": [],
+      "image_issues": [],
+      "structure": "rebuilt",
+      "offset_values": 0,
+      "boundary": {
+        "mode": "median-fallback",
+        "note": "configured index is before the final opener; fallback, locator needs review"
+      },
+      "starts_preserved_from": "accepted-vis-toc",
+      "config_hash": "f9e0d96671e5f078300fa0e281c41f41d75e5ecdb9ecfc1a8d9da28dd6f3df76",
+      "backup": "kitchen/logs/toc-repair-backups/MIDDLETON-2019/20261023T173043263358",
+      "created_files": [],
+      "files": {
+        "kitchen/logs/MIDDLETON-2019-toc.json": "825ad56a568d5ddce054c20dc68b0cb526ad7368e7a6bcec65fa82190e3d1938",
+        "kitchen/logs/MIDDLETON-2019-vis-toc.json": "d970224a22cdfdcdf880a0e3954ec0d6296ea63b6ec157c9775e1a792ecd38c6"
+      },
+      "absent": [
+        "kitchen/logs/MIDDLETON-2019-eyes.json"
+      ],
+      "saved_files": 1,
+      "time": "2026-10-23T17:30:43"
     },
     "MILLER-10": {
       "book": "MILLER-10",
@@ -852,8 +936,36 @@
     },
     "SABISTON-22": {
       "book": "SABISTON-22",
-      "state": "blocked",
-      "error": "existing chapter list has 124 chapters but the accepted contents has 92; needs SMART review"
+      "state": "applied",
+      "source": "accepted-vis-toc",
+      "provinces": 10,
+      "chapters": 92,
+      "previous_chapters": 124,
+      "unit": "printed",
+      "first_page": 38,
+      "last_page": 2084,
+      "changed_ends": 92,
+      "image_changes": [],
+      "image_issues": [],
+      "structure": "rebuilt",
+      "offset_values": 0,
+      "boundary": {
+        "mode": "median-fallback",
+        "note": "index absent/invalid; BIBLE median fallback"
+      },
+      "starts_preserved_from": "accepted-vis-toc",
+      "config_hash": "1de4bc97954b1111240a4896088ef0e6a9adb20f3dabbe03491c9f13a2f491e8",
+      "backup": "kitchen/logs/toc-repair-backups/SABISTON-22/20261023T173043305365",
+      "created_files": [],
+      "files": {
+        "kitchen/logs/SABISTON-22-toc.json": "4d275c97a569b119d4b9867fbc16435bde76c2a8928b843941b54933aac36356",
+        "kitchen/logs/SABISTON-22-vis-toc.json": "0c2f9f181fc1dad02e9dfa30a5bca2d4e00f57d8d0cca3be5268ba73c07db527"
+      },
+      "absent": [
+        "kitchen/logs/SABISTON-22-eyes.json"
+      ],
+      "saved_files": 1,
+      "time": "2026-10-23T17:30:43"
     },
     "SLEISENGER-11": {
       "book": "SLEISENGER-11",

@@ -34,7 +34,7 @@ def digest(text):
     return hashlib.sha256(text.encode()).hexdigest()
 
 
-def plan(book, check_index=False):
+def plan(book, check_index=False, rebuild=False):
     bid = book["book_id"]
     paths = {s: LOGS / f"{bid}-{s}.json" for s in ("vis-toc", "toc", "eyes")}
     originals = {p: p.read_text() for p in paths.values() if p.is_file()}
@@ -43,7 +43,7 @@ def plan(book, check_index=False):
     old = json.loads(originals.get(paths["toc"], '{"provinces":[]}'))
     eyes = json.loads(originals[paths["eyes"]]) if paths["eyes"] in originals else None
     toc, updated, mapping, images, issues = accepted_source(
-        book, source, old, eyes, LOGS / "eyes-render" / bid)
+        book, source, old, eyes, LOGS / "eyes-render" / bid, rebuild)
     identity = flat_identity(toc)
     end, boundary = final_boundary(book, toc, old, mapping,
                                    KITCHEN / "books" / book["pdf_file"], check_index)
@@ -168,9 +168,11 @@ def main(argv=None):
     targets.add_argument("--summary", action="store_true", help="one consolidated status and exceptions list")
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--check-index", action="store_true", help="optional bounded tail-page checks for one book")
+    parser.add_argument("--rebuild", action="store_true", help="explicitly replace a different non-empty chapter list with the accepted contents")
     args = parser.parse_args(argv)
     require(not args.audit or not (args.apply or args.check_index), "--audit is metadata-only and read-only")
     require(not args.summary or not (args.apply or args.check_index), "--summary is read-only")
+    require(not args.rebuild or (args.book and not (args.audit or args.next)), "--rebuild needs an explicit BOOK_ID, not the queue")
     books_text = (KITCHEN / "books.json").read_text()
     books = sorted(json.loads(books_text), key=lambda b: b["book_id"])
     status = json.loads(STATUS.read_text()) if STATUS.exists() else {"purpose": "range-repair run receipts, not a database export", "books": {}}
@@ -190,7 +192,7 @@ def main(argv=None):
     passed = blocked = 0
     for book in targets:
         try:
-            report, originals, payloads = plan(book, args.check_index)
+            report, originals, payloads = plan(book, args.check_index, args.rebuild)
             if args.apply:
                 require((KITCHEN / "books.json").read_text() == books_text, "books.json changed during verification")
                 report = apply_plan(book, report, originals, payloads)
