@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. The generic TOC evidence/correction and A3 mapping software is delivered; DeepSeek owns the remaining book execution. Read DEEPSEEK-TOC-RUNBOOK.md. Campbell remains repaired. SMART's programming used artificial fixtures, not real-book execution.
+Part 3 (Phase A -- Building the Skeleton) -- Step A4 geography software is built and tested. The first provisional map has 37 continents, 534 provinces and 4,763 districts. Nir explicitly stopped further contents work. Existing book lists are inputs, not a new audit queue. Read GEOGRAPHY.md and the newest NEXT STEP; older book-checking handoffs are superseded.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -24,13 +24,19 @@ Why 37, item by item, with the human's agreement:
 ## NEXT STEP
 
 **LATEST HUMAN ROUTING: SMART writes generic tools; DeepSeek executes books.**
-Generic programming is complete (57 tests at checkpoint 1cd08c0; final
-evidence-merge regression and handoff below). CHEAP / DeepSeek follows
-DEEPSEEK-TOC-RUNBOOK.md for the remaining A2/A3 book work, starting with
-KRAUSE-16 when Nir says continue. One book, record/report, then pause for
-his instruction; keep the same cheaper model between books. Collect genuine
-exceptions for one consolidated review. No real book/config/output was
-changed by SMART's generic programming session.
+LATEST HUMAN DIRECTION (23 Oct, after cf9fd27): build the project; no more
+contents work or repeated checks of the ten books the assistants said were
+already OK. The old KRAUSE/MIDDLETON/SABISTON checking queue is cancelled.
+SMART has implemented BIBLE 3.6 geography: sphere centres, continent seating,
+page-weighted subdivision, raster, textures and map exports. The provisional
+preview is kitchen/logs/geography-draft/seating-preview.png. NEXT A5
+(CHEAP plus human): clinical seating metadata/proposal from existing book
+metadata, then seating/texture checkpoints 3.3/3.4. Use GEOGRAPHY.md. This is
+not a contents-reading task. After seating approval, the next SMART
+programming is the A6 index-to-registry machinery in BIBLE 3.7.4-3.7.7.
+Provisional preview is not seating approval, a Neo4j load or Freeze A.
+Separate uncompleted data/checkpoint requirements remain recorded honestly;
+they do not authorise reopening the completed contents lane.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -43,7 +49,7 @@ by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
 unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-**CURRENT OPERATING HANDOFF: `DEEPSEEK-TOC-RUNBOOK.md`. `RESTART-PROMPT-SMART.md` records the now-completed programming assignment and cost boundary. Older handoffs are historical where they conflict with Nir's latest routing.**
+**CURRENT WORK: BIBLE Part 3 section 6, geography programming. The book-checking queue in `DEEPSEEK-TOC-RUNBOOK.md` is superseded by Nir's instruction above.**
 `HANDOFF-2026-10-23-recovery.md` records the historical Harrison pilot.
 The earlier `HANDOFF-2026-10-23-evening.md` records the completed TOC
 readings, counts and findings; recovery work supersedes its next-step text.
@@ -276,6 +282,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23, after cf9fd27: Nir corrected the assistants: the ten books were skipped because the assistants had told him they were OK, not because he independently certified them. He stopped further contents work and instructed SMART: "i do not want to hear about doing the table of contents again, i want you to fucking build the project". The old checking queue is cancelled; SMART proceeds to generic geography programming using the saved data. No new certification of the books is claimed.
 - 2026-10-23 SMART restart and routing correction: Nir said, "processes that are book by book need to be done by deepseek. processes that are the heavy lifting of GENERIC programming need to be done by you." He stopped the repeated paid book checking and requested a very detailed restart prompt with a short reference in AGENTS.md, rather than expanded memory. Book execution is cancelled for SMART; the next SMART session writes reusable tools and one DeepSeek procedure.
 - 2026-10-23 Campbell: Nir said "ok please repair with minimum money", then stopped the paid session and requested a detailed handoff to DeepSeek. He clarified: "do not give him unfinished code, he knows how to code. explain to him what needs to be fixed , not code". SMART withdrew its unfinished script/test and summary change; only instructions and evidence are handed over.
 - 2026-10-23 generic-repair correction: Nir rejected a handoff that would make him switch models repeatedly and instructed: "do something generic" and "give him general instructions how to fix at least the majority of books". The new scope is one shared library repair procedure, DeepSeek throughout the common queue, and one consolidated return to SMART for genuine exceptions. A book-end pause is not a model switch. No re-reading of accepted books, no unattended jobs, and no BIBLE edit is involved.
@@ -292,6 +299,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-23, GPT 6.1 Sol: at clean cf9fd27, cancelled the attempted return to contents work following Nir's explicit correction. Started BIBLE 3.6 geography programming. No geography implementation exists yet. Checked Python 3.13.5, numpy 2.5.3, Pillow 12.3.0, matplotlib 3.11.2, networkx 3.7, git 2.47.3 and gh 2.97.0.
 - 2026-10-23, GPT 6.1 Sol: restarted at clean 2af8e9b (GitHub main matches); read RESTART-PROMPT-SMART.md, current ledger, project rules, BIBLE Part 3 sections 0.5/4.2-4.7 and Part 8 sections 4/6. Assignment: reusable TOC evidence/correction and A3 mapping software, synthetic regression proof, then one DeepSeek runbook. No book execution. Versions checked: git 2.47.3, gh 2.97.0, Python 3.13.5, pypdf 6.20.1, requests 2.34.2, pdftotext 25.03.0.
 - 2026-10-23, GPT 6.1 Sol after Campbell handoff: read the handoff/current pointers/project instructions/governing BIBLE section and checked git/tool versions. Nir stopped the session before PDF inspection or changes. Wrote RESTART-PROMPT-SMART.md and a short AGENTS.md pointer as requested; no book data or code changed.
 - 2026-10-23, GPT 6.1 Sol: read the DeepSeek handoff, current ledger, all 37 receipts, instructions and all 14 BIBLE files; confirmed GitHub main at dca403c. Read-only integrity review and two Campbell page samples; no book/configuration/output changes.
@@ -301,6 +309,88 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 3.6 geography generator and first provisional world map -- GPT 6.1 Sol
+
+Implemented kitchen/geography.py from BIBLE 3.6: Fibonacci-sphere centres,
+Voronoi continent pixels, clustered clinical seating and stable saved seats,
+cos(latitude)-weighted nested subdivision, raster hit-testing, territory
+centres snapped inside their districts, borders, colours, labels and exports.
+The Matplotlib diagnostic preview and both globe texture sizes are generated.
+The full globe is assigned in bounded blocks to avoid a huge pixel-by-book
+matrix. CPU math-library thread counts were limited to two for the proof run.
+
+Implementation details required by existing inputs: preserve zero-area empty
+headings instead of crashing/dropping them; reserve at least one pixel per
+district; keep noninteger/restarted chapter numbers in toc_number and give
+them collision-free IDs as Appendix B allows. Longitude-seam borders wrap,
+while north/south raster edges do not. The staging CSV includes Appendix B's
+columns; the frozen registry is not substituted. BIBLE itself is unchanged.
+
+COMMANDS:
+
+```bash
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_geography.py'
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/geography.py --draft --out kitchen/logs/geography-draft
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+git diff --check
+git diff --quiet cf9fd27 -- BIBLE kitchen/books.json TOC-REPAIR-STATUS.json
+```
+
+OUTPUT:
+
+```text
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 1.012s
+
+OK
+Building one 2048x1024 raster from 37 existing books; draft=True
+Built: 37 continents; 534 provinces; 4763 districts
+District area sum: 1.000000000000; unpainted pixels: 0
+Preview: kitchen/logs/geography-draft/seating-preview.png
+Existing empty headings retained: 1; inputs unchanged; seating not approved; database not loaded
+...................................................................
+----------------------------------------------------------------------
+Ran 67 tests in 0.549s
+
+OK
+```
+
+FILES (`ls -lh`):
+
+```text
+kitchen/geography.py                 19K
+kitchen/test_geography.py           7.4K
+kitchen/logs/geography-draft/:
+build.json                         1.2K
+continents_texture_2k.png           1.4M
+continents_texture.png             928K
+district_raster.npy                8.1M
+district_raster.png                128K
+districts_lookup.json              116K
+geography.json                     2.7M
+seating-preview.png               1005K
+seating-proposal.json               30K
+territories.csv                    962K
+```
+
+Proof unit: one full raster build from existing saved metadata, no PDF or
+reader invocation and no re-reading/rechecking of chapter lists. The displayed
+image is provisional alphabetical geography using BIBLE 4.5's provisional
+IDs, not final clinical seating. Draft mode explicitly includes candidate
+configuration records, labels them from their existing titles where field_name
+is blank, and never changes their acceptance or page-offset fields. This
+does not claim that the earlier configuration/checkpoint gaps are complete.
+
+The local generated files and build hashes stay under gitignored logs;
+the generator, tests and GEOGRAPHY.md are committed. Viewed the Matplotlib
+preview in chat. Draft build manifest: draft=true, seating_approved=false,
+database_loaded=false, district_area_sum=1.0. Input/BIBLE/receipt git diff
+returned zero. No model calls, database/service changes, data deletions or
+Freezes. The superseded book queues are marked historical at their file
+headers, so the next model does not restart them.
+COMMIT: the commit containing this entry, "3.6 build spherical geography and generate the first world map".
 
 ### 2026-10-23 -- 3.4.6 / 8.6 final generic verification and DeepSeek operating handoff -- GPT 6.1 Sol
 

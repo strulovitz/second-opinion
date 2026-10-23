@@ -1,5 +1,12 @@
 # Restart prompt for GPT 6.1 Sol -- generic programming, not book execution
 
+## Latest direction -- geography, not the old book queue
+
+After cf9fd27 Nir explicitly cancelled further contents work and told SMART
+to build the project. Follow the newest PROGRESS.md pointers: BIBLE Part 3
+section 6 geography programming. The book-checking queue below and in the
+DeepSeek runbook is historical and must not be restarted.
+
 ## Programming delivered -- 23 Oct 2026
 
 The generic assignment below is implemented and tested. Read the latest

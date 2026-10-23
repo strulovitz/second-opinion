@@ -1,5 +1,10 @@
 # DeepSeek operating handoff: TOC evidence, corrections and A3 mapping
 
+SUPERSEDED AFTER cf9fd27: Nir explicitly cancelled the repeated contents
+checks and instructed SMART to build the project. Do not execute the book
+queue in this historical runbook. Read the latest PROGRESS.md pointers;
+the active work is BIBLE Part 3 section 6 geography programming.
+
 ## 1. Assignment and cost boundary
 
 Read AGENTS.md, the CURRENT PHASE/NEXT STEP/questions in PROGRESS.md, BIBLE
