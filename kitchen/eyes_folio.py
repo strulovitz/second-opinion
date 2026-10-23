@@ -56,7 +56,6 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from reader import ask  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 KITCHEN = ROOT / "kitchen"
@@ -124,6 +123,8 @@ def parse(ans):
 
 def ask_page(pdf, book, page):
     """Show one page to the reader; return (kind, heading, folio, raw, file)."""
+    from reader import ask  # Only reading pages needs the reader or its .env.
+
     png = render(pdf, book, page)
     ans = ask(SYSTEM, "What is on this page? Report what you see.",
               images=[png], max_tokens=600, expect_json=False, retries=2,
@@ -440,7 +441,8 @@ def refine_opener(pdf, bid, ch, page, folio, toc_folio, max_back=4):
     while p >= max(1, page - max_back):
         kind, heading, f2, raw, png = ask_page(pdf, bid, p)
         rec["back_walk"].append({"pdf_page": p, "kind": kind,
-                                 "heading": heading, "folio": f2})
+                                 "heading": heading, "folio": f2,
+                                 "raw": raw, "image_file": png})
         if not is_opener(ch, kind, heading):
             break
         best_page, best_folio = p, f2
@@ -449,7 +451,8 @@ def refine_opener(pdf, bid, ch, page, folio, toc_folio, max_back=4):
         # the opener prints no number: the next page prints folio+1
         kind2, h2, f3, raw3, png3 = ask_page(pdf, bid, best_page + 1)
         rec["back_walk"].append({"pdf_page": best_page + 1, "kind": kind2,
-                                 "heading": h2, "folio": f3})
+                                 "heading": h2, "folio": f3,
+                                 "raw": raw3, "image_file": png3})
         if f3 is not None and f3 >= 2:
             best_folio = f3 - 1
     return best_page, best_folio, rec
@@ -951,6 +954,15 @@ def main():
                         "why": ("the book's own contents says "
                                 f"{toc_ps}; the smaller number is kept")}
                     new_printed = kept
+                if new_page != page:
+                    # Keep the selected picture and observation on the same
+                    # page. HARRISON-22 ch103/ch448 previously kept the old
+                    # picture after a successful backward refinement.
+                    selected = next(r for r in refine["back_walk"]
+                                    if r["pdf_page"] == new_page)
+                    png, heading, raw = (selected["image_file"],
+                                         selected["heading"], selected["raw"])
+                    how = "refined-opener (saved back-walk)"
                 page, printed = new_page, new_printed
             if refine["reason"]:
                 if printed is None:
@@ -1045,37 +1057,82 @@ def main():
         write_toc_json(bid, records, ok)
 
 
-def write_toc_json(bid, records, ok):
-    """The BIBLE's <BOOK>-toc.json (part 3 section 4.4).
+def toc_from_evidence(data, ok, final_end=None, require_complete=False):
+    """Part 3 section 4.4 and AMENDMENT 3.4: ranges across the whole book.
 
-    Chapters carry the printed page the PAGE shows (not the contents'
-    number) and page_end = the next chapter's printed page minus one.
+    A verified index boundary may supply final_end. Otherwise use the
+    BIBLE's median-length fallback; never truncate a province's last chapter
+    to its first page. Preserve source order so decreases cannot be hidden.
     """
-    good = {str(r["number"]): r for r in ok}
-    data = json.loads((LOGS / f"{bid}-vis-toc.json").read_text())
+    def key(province, chapter):
+        return province, str(chapter.get("number")), chapter.get("title")
+
+    good = {key(r["province"], r): r for r in ok}
+    if len(good) != len(ok):
+        raise ValueError("duplicate eye records")
     provinces = []
+    seen = set()
     for prov in data.get("provinces", []):
         chapters = []
         for ch in prov.get("chapters", []):
-            g = good.get(str(ch.get("number")))
+            k = key(prov["name"], ch)
+            if k in seen:
+                raise ValueError("duplicate source chapters")
+            seen.add(k)
+            g = good.get(k)
             if not g:
+                if require_complete:
+                    raise ValueError(f"missing saved eyes for ch{ch.get('number')}")
                 continue
+            if g.get("status") != "ok" or g.get("opener_confirmed") is not True:
+                raise ValueError(f"unconfirmed ch{ch.get('number')}")
             chapters.append({"number": ch.get("number"), "title": ch.get("title"),
                              "page_start": g["printed"],
                              "pdf_page": g["pdf_page"]})
-        chapters.sort(key=lambda c: c["page_start"])
-        for i, c in enumerate(chapters):
-            c["page_end"] = (chapters[i + 1]["page_start"] - 1
-                             if i + 1 < len(chapters) else c["page_start"])
         if chapters:
-            provinces.append({"name": prov.get("name"),
-                              "part_name": prov.get("part_name", prov.get("name")),
-                              "chapters": chapters,
-                              "page_start": chapters[0]["page_start"],
-                              "page_end": chapters[-1]["page_end"]})
+            # Includes name_source: an authored province name must not lose
+            # its provenance when exported from the accepted source TOC.
+            output = {k: v for k, v in prov.items()
+                      if k not in ("chapters", "page_start", "page_end")}
+            output.setdefault("part_name", prov["name"])
+            provinces.append(output | {"chapters": chapters})
+    if set(good) - seen:
+        raise ValueError("eyes contain chapters absent from the source TOC")
+    chapters = [c for p in provinces for c in p["chapters"]]
+    if not chapters:
+        raise ValueError("no confirmed chapters")
+    if any(type(c["page_start"]) is not int or c["page_start"] < 1
+           for c in chapters):
+        raise ValueError("invalid page_start")
+    lengths = []
+    for cur, nxt in zip(chapters, chapters[1:]):
+        length = nxt["page_start"] - cur["page_start"]
+        if length < 0:
+            raise ValueError(f"page_start decreases at ch{nxt['number']}")
+        if length > 0:
+            lengths.append(length)
+        cur["page_end"] = max(cur["page_start"], nxt["page_start"] - 1)
+    if final_end is None:
+        if not lengths:
+            raise ValueError("no positive chapter lengths for median fallback")
+        final_end = chapters[-1]["page_start"] + int(statistics.median(lengths))
+    if type(final_end) is not int or final_end < chapters[-1]["page_start"]:
+        raise ValueError("index boundary precedes the final chapter")
+    chapters[-1]["page_end"] = final_end
+    for prov in provinces:
+        prov["page_start"] = min(c["page_start"] for c in prov["chapters"])
+        prov["page_end"] = max(c["page_end"] for c in prov["chapters"])
+    return {"provinces": provinces}
+
+
+def write_toc_json(bid, records, ok):
+    """Export saved openers; toc_reexport.py can verify the index boundary."""
+    data = json.loads((LOGS / f"{bid}-vis-toc.json").read_text())
+    toc = toc_from_evidence(data, ok)
     (LOGS / f"{bid}-toc.json").write_text(
-        json.dumps({"provinces": provinces}, indent=1, ensure_ascii=False))
-    print(f"wrote {LOGS / (bid + '-toc.json')} with {len(provinces)} provinces")
+        json.dumps(toc, indent=1, ensure_ascii=False))
+    print(f"wrote {LOGS / (bid + '-toc.json')} with {len(toc['provinces'])} provinces; "
+          "final chapter uses median fallback (index boundary not checked here)")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. HARRISON-22 Step A3 (section 4.6) verified and page_offset=43 saved. Geography readiness is blocked by chapter-range and image-reference defects in the existing TOC output. The TOC reading lane remains complete.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. HARRISON-22 offset=43 verified; exporter repaired and Harrison re-exported: 505/505, zero range/image warnings. CHEAP handoff ready in HANDOFF-2026-10-23-recovery.md. The remaining books have not received this repair yet.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -24,10 +24,12 @@ Why 37, item by item, with the human's agreement:
 ## NEXT STEP
 
 **2026-10-23 (GPT 6.1 Sol): HARRISON-22 Step A3 is verified, offset 43 saved.**
-Next: SMART repairs the chapter-range exporter (Part 3 section 4.4) and
-stale image references using saved evidence, then checks HARRISON-22 only
-and writes the CHEAP-tier handoff. Nir approved shared pages on recovery.
-Current recovery state: `HANDOFF-2026-10-23-recovery.md`.
+Next: CHEAP (DeepSeek) reads `HANDOFF-2026-10-23-recovery.md`, reports the
+five-line Harrison summary to Nir, and asks which ONE book comes next.
+Use the tested no-reader dry-run/apply procedure; stop after each book.
+Missing saved eyes, irregular offsets or an unproved index boundary mean
+stop and report, not new page-reading or silent guesses. Harrison remains
+accepted pending the human's Checkpoint 3.2 review.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -77,9 +79,9 @@ python kitchen/toc_fix_names.py <BOOK_ID> --apply
 Before ANY rebuild of a book, copy its `vis-toc.json` to a safe place:
 `toc_reparse.py` has been proven capable of emptying a book.
 
-Nothing is loaded into Neo4j until the validator is happy, which is
-deliberate. `page_offset` (BIBLE part 3 section 4.6) is still NOT started
-and every citation depends on it.
+Nothing is loaded into Neo4j until validation and human checkpoints pass.
+Step A3 now has the verified Harrison pilot; the remaining books still
+need their own checks. Every citation depends on correct page units.
 
 ## QUESTIONS FOR HUMAN
 
@@ -154,7 +156,7 @@ handle /2nd-opinion/* {
 **Awaiting the human's yes. Nothing has been changed on the web server.**
 
 ## BLOCKED
-- [open] 2026-10-23, Part 3 section 4.4, HARRISON-22 geography readiness: `page_offset.py HARRISON-22` reports 21 chapter-range mismatches and two stale image references. `eyes_folio.write_toc_json()` ends each province's last chapter at its own first page, instead of using the next chapter across the province boundary. It also makes ch45's shared-page range negative. `refine_opener()` changes ch103/ch448's selected PDF pages but the output retains their original image filenames. All 505 page pairs agree on offset 43; the offset is saved, status remains accepted. Exact findings are under DONE; shared-page question is above. Verify the configured index boundary before extending the final chapter.
+- [resolved 2026-10-23 recovery] Part 3 section 4.4, HARRISON-22 exporter defects: the 21 chapter-range mismatches and two stale image references were repaired using saved evidence; index start PDF 4044 was confirmed directly. The final verifier reports zero range/image warnings for all 505 chapters. Status remains accepted pending human review. Other books are not claimed repaired; the no-reader tool stops on missing evidence, irregular offsets or an unconfirmed index boundary. Exact commands and output are under DONE.
 
 ## AMENDMENTS DECLARED BY THE MANAGER
 - AMENDMENT 3.4 (2026-10-23 recovery, approved by Nir): Part 3 section 4.4 permits equal chapter starts but its literal next-start-minus-one formula can produce an end before the start. Use `max(current_start, next_start - 1)`, matching the existing validator. Chapters with equal starts both include their shared page. The BIBLE is unchanged.
@@ -288,6 +290,131 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-23 -- 3.4.4 repair chapter ranges; HARRISON-22 pilot -- GPT 6.1 Sol
+
+Changed `kitchen/eyes_folio.py` to compute next-chapter ends across the
+whole book, allow shared starts under AMENDMENT 3.4, preserve source
+order/name provenance, and use a positive-length median fallback only
+when no verified final boundary is supplied. The writer no longer sorts
+away a decreasing page sequence. Backward refinement now retains the
+chosen page's image and observation together.
+
+Added `kitchen/toc_reexport.py`: one book, dry run by default, no reader or
+database imports/calls, complete saved evidence required. It checks the
+configured index opener and previous page directly with pdftotext, checks
+all saved page pairs, and refuses to change accepted chapter starts,
+identities or order. Apply backs up the three input JSONs plus books.json
+before atomically replacing individual output files. It is resumable if
+interrupted between replacements. It never changes books.json or status.
+
+The historical raw answer for a corrected selected page was not saved in
+the old back_walk. Rather than invent it, re-export keeps the initial
+observation under refine.initial_observation and sets reader_raw=null for
+that selected page. Its real saved heading/folio remain in back_walk.
+
+COMMANDS (repository root):
+
+```bash
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py' -v
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_reexport.py HARRISON-22
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_reexport.py HARRISON-22 --apply
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/page_offset.py HARRISON-22
+git diff --check
+```
+
+OUTPUT (tests):
+
+```text
+Ran 19 tests in 0.006s
+
+OK
+```
+
+Regression coverage includes cross-province ends, shared pages including
+province boundaries, median fallback, decreasing starts, missing/duplicate
+evidence, chapter-number restarts, invalid final boundaries, stale-image
+proof, selected refinement observations, PDF/printed index conversion,
+dry-run no writes, backup before apply, idempotence, and failed-check no
+writes. The seven offset-verifier cases also remain passing.
+
+OUTPUT (Harrison apply, complete):
+
+```text
+HARRISON-22: 20 provinces; 505 chapters; unit=printed; offset=43
+index starts at PDF 4044; final citation page 4000
+Chapter ends changed: 21; selected images repaired: 2
+  ch13: 74 -> 92
+  ch45: 290 -> 291
+  ch70: 476 -> 482
+  ch72: 491 -> 496
+  ch123: 941 -> 956
+  ch242: 1832 -> 1840
+  ch294: 2185 -> 2198
+  ch310: 2287 -> 2290
+  ch318: 2342 -> 2352
+  ch331: 2453 -> 2458
+  ch359: 2742 -> 2754
+  ch387: 2973 -> 2976
+  ch432: 3373 -> 3376
+  ch468: 3692 -> 3698
+  ch472: 3728 -> 3738
+  ch478: 3772 -> 3776
+  ch484: 3830 -> 3842
+  ch487: 3859 -> 3868
+  ch489: 3876 -> 3896
+  ch492: 3905 -> 3910
+  ch505: 3995 -> 4000
+  ch103: 00813.png -> 00812.png
+  ch448: 03563.png -> 03562.png
+Backup: /home/nir/second-opinion/kitchen/logs/toc-reexport-backups/HARRISON-22/20261023T155058442741
+Saved 2 files; books.json/status unchanged; no reader calls
+```
+
+OUTPUT (independent final verifier, complete):
+
+```text
+HARRISON-22: 505/505 saved pairs verified; unit=printed; page_offset=43
+  ch1: PDF 44 -> printed 1; title found; corner folio not readable
+  ch127: PDF 1032 -> printed 989; title found; corner folio not readable
+  ch253: PDF 1975 -> printed 1932; title found; corner folio found
+  ch379: PDF 2964 -> printed 2921; title found; corner folio not readable
+Image-reference warnings: 0; range warnings: 0
+Dry run; no files written
+```
+
+Direct boundary check also found PDF 4043 says "This page intentionally
+left blank" and PDF 4044 opens with "Index". Per BIBLE 3.4.4 the last
+citation page is 4044 - 43 - 1 = 4000 (includes that blank pre-index page).
+
+OUTPUT (semantic comparison against the backup):
+
+```text
+PASS: 505 chapter identities, starts, PDF pages and order unchanged
+PASS: exactly 21 chapter ends corrected; all ranges nonnegative; province bounds agree
+PASS: exactly ch103/ch448 evidence records updated; eyes summary unchanged
+PASS: books.json and source vis-toc byte-identical to backup
+```
+
+FILES: `kitchen/eyes_folio.py`, `kitchen/toc_reexport.py`,
+`kitchen/test_toc_reexport.py`, this ledger and the recovery handoff.
+`ls -l --time-style=long-iso` snapshot before this evidence was appended:
+
+```text
+-rw-rw-r-- 1 nir nir   8333 2026-10-23 15:53 HANDOFF-2026-10-23-recovery.md
+-rw-rw-r-- 1 nir nir  51112 2026-10-23 15:49 kitchen/eyes_folio.py
+-rw-rw-r-- 1 nir nir   8608 2026-10-23 15:53 kitchen/test_toc_reexport.py
+-rw-rw-r-- 1 nir nir   7610 2026-10-23 15:49 kitchen/toc_reexport.py
+-rw-rw-r-- 1 nir nir 192901 2026-10-23 15:53 PROGRESS.md
+```
+
+Local-only outputs: `kitchen/logs/HARRISON-22-toc.json`,
+`kitchen/logs/HARRISON-22-eyes.json`, and the backup folder above.
+DB: not applicable. No Neo4j, local-model, rendering, whole-PDF conversion
+or library-wide run. The other 36 books were not re-exported.
+COMMIT: this entry belongs to the repair checkpoint (discover with
+`git log --oneline -- kitchen/toc_reexport.py`). Recovery checkpoint
+`2762f1f` was already pushed before this repair began.
 
 ### DONE 2026-10-23 -- 8.4 recovery checkpoint before exporter repair -- GPT 6.1 Sol
 
