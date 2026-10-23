@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- A6 index-to-registry software is implemented and tested; its operator handoff is being saved. A5 approved geography remains 37 continents, 534 provinces, 4,763 districts. Neo4j still has only the three schema Meta nodes; no data load or Freeze. Existing completed book lists are inputs, not a new audit queue.
+Part 3 (Phase A -- Building the Skeleton) -- A6 index-to-registry software is delivered with 88 passing tests. Read INDEX-PIPELINE.md for DeepSeek/free-reader execution, Harrison first. A5 approved geography remains 37 continents, 534 provinces, 4,763 districts. Neo4j still has only the three schema Meta nodes; no data load or Freeze. Existing completed book lists are inputs, not a new audit queue.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -34,11 +34,11 @@ all 37 books. data/export/geography and site/data/geography hold the approved
 The A6 machinery is now written (88 tests passing): extraction, parsing,
 classification, same-group resolution, Neo4j persistence, See aliases,
 review samples, and the explicit no-usable-index fallback of BIBLE 3.7.9.
-The current SMART session is saving one operator runbook. NEXT CHEAP plus
+Read INDEX-PIPELINE.md (programming checkpoint 41fbd27). NEXT CHEAP plus
 the free reader: supervised Harrison index-page/batch trial, then Harrison's
 full registry and human Checkpoint 3.5 before other books, alphabetically.
 The free reader had no model loaded at the check; no reader job was started.
-See the newest DONE entry for programming proof and the forthcoming runbook.
+See the newest DONE entries for programming proof and the operator handoff.
 Do not reopen the contents lane or the old book-checking queue.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
@@ -315,6 +315,20 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 8.6 A6 operator handoff saved -- GPT 6.1 Sol
+
+Programming checkpoint 41fbd27 was committed and pushed to origin/main.
+INDEX-PIPELINE.md is the single DeepSeek procedure: reader startup and a
+one-page/one-batch real trial, approved-geometry loading before resolution,
+Harrison's registry and Checkpoint 3.5, alphabetical execution/reviews,
+index-location gaps versus genuine no-index fallback, provenance, restart
+behaviour and the exact later SMART review boundary. GEOGRAPHY.md and
+RESTART-PROMPT-SMART.md now route to that current handoff.
+Verification: git diff --check; documentation only after the recorded
+88-test/Neo4j EXPLAIN proof, so no repeated test/model/library runs.
+COMMIT: software 41fbd27; handoff is the commit containing this entry,
+"8.6 hand the index registry pipeline to DeepSeek".
 
 ### 2026-10-23 -- 3.7 A6 generic index-to-registry software -- GPT 6.1 Sol
 

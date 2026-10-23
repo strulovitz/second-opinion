@@ -98,8 +98,10 @@ Neo4j at its later step. Neo4j was not loaded and nothing was frozen.
 
 ## Exact model hand-back point
 
-STATUS: reached on 23 Oct 2026. The next task is SMART's index-to-entity
-registry software (BIBLE 3.7.4-3.7.7).
+STATUS: the hand-back was completed. SMART delivered the A6 index-to-entity
+registry software in 41fbd27. Read INDEX-PIPELINE.md and the latest
+PROGRESS.md pointers for DeepSeek's current execution instructions. The
+checklist below records the earlier A5-to-SMART boundary.
 
 
 DeepSeek stays in charge throughout Step A5:

@@ -1,5 +1,13 @@
 # Restart prompt for GPT 6.1 Sol -- generic programming, not book execution
 
+## Current handoff -- A6 software delivered
+
+Geography was approved and exported in a816e30. The A6 index-to-Neo4j
+machinery is implemented and tested in 41fbd27. Read INDEX-PIPELINE.md and
+the newest PROGRESS.md pointers. NEXT is DeepSeek/free-reader execution,
+Harrison first, with its registry review before later books. Older geography
+programming and contents-checking assignments below are historical.
+
 ## Latest direction -- geography, not the old book queue
 
 After cf9fd27 Nir explicitly cancelled further contents work and told SMART
