@@ -38,11 +38,13 @@ original number is preserved in toc_number (Appendix B).
 
 ## Clinical seating and normal generation
 
-This is the next routine CHEAP-tier operation, followed by the human's
-seating/texture checkpoints, not another contents-reading task. Use existing
-book metadata to prepare the field names and clinical clusters specified in
-BIBLE 3.6.3. Record the existing acceptance decisions correctly; do not treat
-a draft rendering as permission to change statuses or declare a Freeze.
+Completed on 23 Oct 2026 (see Approved result below). The instructions remain
+for future regeneration. This was a CHEAP-tier operation followed by the
+human's seating/texture checkpoints, not another contents-reading task. Use
+existing book metadata to prepare the field names and clinical clusters
+specified in BIBLE 3.6.3. Record the existing acceptance decisions correctly;
+do not treat a draft rendering as permission to change statuses or declare a
+Freeze.
 
 Use a separately prepared configuration file with the accepted records:
 
@@ -62,7 +64,43 @@ Once the relevant checkpoints are satisfied, the same generator can write
 The registry CSV is exported from Neo4j at its later BIBLE step, not replaced
 by this staging atlas. No service, model endpoint or PDF is used by this tool.
 
+## Approved result -- 23 Oct 2026
+
+Nir approved the specialty seating and the displayed map on 23 Oct 2026
+("i think it's ok"). The approval is recorded in PROGRESS.md under
+DECISIONS BY HUMAN and in `data/export/geography/build.json`
+(`seating_approved` and `approved_by_human` are true).
+
+The canonical `kitchen/books.json` now records the approved grouping for all
+37 books: status accepted, field_name, cluster. A pre-change backup is at
+`kitchen/logs/books-before-seating-20261023T205918.json`. No chapter title,
+page number, TOC source or acceptance evidence was changed.
+
+Approved build command (from the repository root):
+
+```bash
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/geography.py --approved --out data/export/geography
+```
+
+Result: 37 continents, 534 provinces, 4,763 districts, district area sum
+1.0, no unpainted pixels, no missing lat/lon. The preview output is
+byte-identical to the approved clinical preview (SHA-256 e564b3c3...).
+One pre-existing empty heading (ADAMS-12, `C10.P02 PART 2: CARDINAL
+MANIFESTATIONS OF NEUROLOGIC DISEASE`) remains a zero-area province; no
+district was lost.
+
+Viewer files copied to `site/data/geography/`: geography.json,
+districts_lookup.json, district_raster.png, continents_texture.png and
+continents_texture_2k.png. The public site does not receive the diagnostic
+preview or the configuration dump. The `.npy` and `territories.csv` staging
+atlas stay in data/export; the frozen registry CSV is still exported from
+Neo4j at its later step. Neo4j was not loaded and nothing was frozen.
+
 ## Exact model hand-back point
+
+STATUS: reached on 23 Oct 2026. The next task is SMART's index-to-entity
+registry software (BIBLE 3.7.4-3.7.7).
+
 
 DeepSeek stays in charge throughout Step A5:
 

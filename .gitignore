@@ -15,5 +15,14 @@ kitchen/logs/
 *.tiff
 !site/assets/**/*.png
 !site/assets/**/*.jpg
+!data/export/geography/continents_texture.png
+!data/export/geography/continents_texture_2k.png
+!data/export/geography/district_raster.png
+!site/data/geography/continents_texture.png
+!site/data/geography/continents_texture_2k.png
+!site/data/geography/district_raster.png
+data/export/geography/seating-preview.png
+data/export/geography/seating-proposal.json
+data/export/geography/territories.csv
 .DS_Store
 Thumbs.db

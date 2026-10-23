@@ -1,0 +1,26 @@
+{
+  "draft": false,
+  "seating_approved": true,
+  "approved_by_human": true,
+  "database_loaded": false,
+  "width": 2048,
+  "height": 1024,
+  "continents": 37,
+  "provinces": 534,
+  "districts": 4763,
+  "district_area_sum": 1.0,
+  "warnings": [
+    "C10.P02: existing empty heading retained with zero area"
+  ],
+  "files": {
+    "continents_texture.png": "a5854cd4fab3a7338ceea1eba68d8d3acb2b108e0ee8b7371d719c57da23ab0a",
+    "continents_texture_2k.png": "dd16510cb6cdc4ca6c3e3e9fe5d5820b99bf42ce9144c8413194e201aaf59563",
+    "district_raster.npy": "6e6fe771db012b02efd66c9368bc96bc14a3a1ec4ec7ab8078a1ad7301ac00a9",
+    "district_raster.png": "51ae1e0abccc7fedd16a1710a7d5f94ddc730acb27a0438c8d1c978815e311a4",
+    "districts_lookup.json": "2a81f714a1a6e86e8732a33e1b9e732f53f3c089c189170da17d3a1118506b12",
+    "geography.json": "6e0b310e965fa634052df51f162e8560e5f049f4e666fdd2ad35dcd13cf6a9a5",
+    "seating-preview.png": "e564b3c327e6433f61ed5587ac92abb103dffe7e80d9add81fc5bb90f6c82592",
+    "seating-proposal.json": "d5409f8d019da3745ac2e7f07b6dbe34d6478f072424e4633db816ba5563f8e3",
+    "territories.csv": "08a6aab02c2e55045793a1d3c948ab1c28d5061806141dc1729013c541627e8f"
+  }
+}

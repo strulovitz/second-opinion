@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- Step A4 geography software is built and tested. The first provisional map has 37 continents, 534 provinces and 4,763 districts. Nir explicitly stopped further contents work. Existing book lists are inputs, not a new audit queue. Read GEOGRAPHY.md and the newest NEXT STEP; older book-checking handoffs are superseded.
+Part 3 (Phase A -- Building the Skeleton) -- Step A5 approved geography exported: 37 continents, 534 provinces, 4,763 districts. Nir approved the specialty seating and the displayed map on 23 Oct 2026. The public viewer files are in site/data/geography; no Neo4j load and no Freeze. Nir explicitly stopped further contents work. Existing book lists are inputs, not a new audit queue. Read GEOGRAPHY.md and the newest NEXT STEP; older book-checking handoffs are superseded.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -24,19 +24,18 @@ Why 37, item by item, with the human's agreement:
 ## NEXT STEP
 
 **LATEST HUMAN ROUTING: SMART writes generic tools; DeepSeek executes books.**
-LATEST HUMAN DIRECTION (23 Oct, after cf9fd27): build the project; no more
-contents work or repeated checks of the ten books the assistants said were
-already OK. The old KRAUSE/MIDDLETON/SABISTON checking queue is cancelled.
-SMART has implemented BIBLE 3.6 geography: sphere centres, continent seating,
-page-weighted subdivision, raster, textures and map exports. The provisional
-preview is kitchen/logs/geography-draft/seating-preview.png. NEXT A5
-(CHEAP plus human): clinical seating metadata/proposal from existing book
-metadata, then seating/texture checkpoints 3.3/3.4. Use GEOGRAPHY.md. This is
-not a contents-reading task. After seating approval, the next SMART
-programming is the A6 index-to-registry machinery in BIBLE 3.7.4-3.7.7.
-Provisional preview is not seating approval, a Neo4j load or Freeze A.
-Separate uncompleted data/checkpoint requirements remain recorded honestly;
-they do not authorise reopening the completed contents lane.
+LATEST HUMAN DIRECTION (23 Oct): build the project; no more contents work or
+repeated checks of the ten books the assistants said were already OK. The old
+KRAUSE/MIDDLETON/SABISTON checking queue is cancelled.
+A5 IS COMPLETE: Nir approved the specialty seating and displayed map
+("i think it's ok"). books.json carries the approved cluster/field_name for
+all 37 books. data/export/geography and site/data/geography hold the approved
+37-continent / 534-province / 4,763-district map. No Neo4j load and no Freeze.
+NEXT: [SWITCH TO SMART] write the A6 index-to-entity-registry machinery in
+BIBLE 3.7.4-3.7.7 (index text extraction, reader prompts P-A4a/P-A4b,
+entity/alias resolution and quarantine handling). After the code is tested,
+CHEAP plus the free reader run the index pages. Do not reopen the contents
+lane or the old book-checking queue.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -282,6 +281,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23, Checkpoints 3.3/3.4 (A5): after viewing the specialty map, Nir approved the seating and the displayed appearance: "i think it's ok". Scope: the 37-book clinical grouping, field names and map preview. This is not a Neo4j load or a Freeze. The pre-change configuration backup is kitchen/logs/books-before-seating-20261023T205918.json.
 - 2026-10-23, after cf9fd27: Nir corrected the assistants: the ten books were skipped because the assistants had told him they were OK, not because he independently certified them. He stopped further contents work and instructed SMART: "i do not want to hear about doing the table of contents again, i want you to fucking build the project". The old checking queue is cancelled; SMART proceeds to generic geography programming using the saved data. No new certification of the books is claimed.
 - 2026-10-23 SMART restart and routing correction: Nir said, "processes that are book by book need to be done by deepseek. processes that are the heavy lifting of GENERIC programming need to be done by you." He stopped the repeated paid book checking and requested a very detailed restart prompt with a short reference in AGENTS.md, rather than expanded memory. Book execution is cancelled for SMART; the next SMART session writes reusable tools and one DeepSeek procedure.
 - 2026-10-23 Campbell: Nir said "ok please repair with minimum money", then stopped the paid session and requested a detailed handoff to DeepSeek. He clarified: "do not give him unfinished code, he knows how to code. explain to him what needs to be fixed , not code". SMART withdrew its unfinished script/test and summary change; only instructions and evidence are handed over.
@@ -299,6 +299,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-23, DeepSeek V4.1 Flash: A5 approval. Prepared the clinical grouping proposal from existing metadata, generated the specialty preview, obtained Nir's approval, recorded the approved grouping in books.json (with backup), generated and verified data/export/geography and site/data/geography. No contents re-read, model call, Neo4j load or service change.
 - 2026-10-23, GPT 6.1 Sol: at clean cf9fd27, cancelled the attempted return to contents work following Nir's explicit correction. Started BIBLE 3.6 geography programming. No geography implementation exists yet. Checked Python 3.13.5, numpy 2.5.3, Pillow 12.3.0, matplotlib 3.11.2, networkx 3.7, git 2.47.3 and gh 2.97.0.
 - 2026-10-23, GPT 6.1 Sol: restarted at clean 2af8e9b (GitHub main matches); read RESTART-PROMPT-SMART.md, current ledger, project rules, BIBLE Part 3 sections 0.5/4.2-4.7 and Part 8 sections 4/6. Assignment: reusable TOC evidence/correction and A3 mapping software, synthetic regression proof, then one DeepSeek runbook. No book execution. Versions checked: git 2.47.3, gh 2.97.0, Python 3.13.5, pypdf 6.20.1, requests 2.34.2, pdftotext 25.03.0.
 - 2026-10-23, GPT 6.1 Sol after Campbell handoff: read the handoff/current pointers/project instructions/governing BIBLE section and checked git/tool versions. Nir stopped the session before PDF inspection or changes. Wrote RESTART-PROMPT-SMART.md and a short AGENTS.md pointer as requested; no book data or code changed.
@@ -309,6 +310,81 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 3.6 A5 approved seating and approved geography -- DeepSeek V4.1 Flash
+
+Nir approved the specialty seating and the displayed map: "i think it's ok".
+Applied the approved grouping to the canonical kitchen/books.json for all
+37 books: status accepted, field_name and cluster. No chapter title, page
+number, TOC source or evidence was changed. Pre-change backup:
+kitchen/logs/books-before-seating-20261023T205918.json. The acceptance
+status records the existing human decisions (AMENDMENT 3.3; the ten
+previously accepted books and the 27 eyes-verified TOCs, plus Nir's explicit
+instruction that the books are OK). This session did not re-read or re-check
+any contents.
+
+Added a small `--approved` flag to kitchen/geography.py so build.json records
+the human approval honestly instead of always saying false; the regression
+also checks that an unapproved build stays false. The approved preview is
+byte-identical to the preview Nir saw. Copied only the five viewer files
+(geography.json, districts_lookup.json, district_raster.png,
+continents_texture.png, continents_texture_2k.png) to site/data/geography;
+the diagnostic preview and configuration dump are not published. Added
+.gitignore exceptions for the BIBLE-required geography PNGs.
+
+COMMANDS:
+```bash
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/geography.py --approved --out data/export/geography
+sha256sum data/export/geography/seating-preview.png kitchen/logs/geography-clinical-preview/seating-preview.png
+mkdir -p site/data/geography && cp data/export/geography/geography.json data/export/geography/districts_lookup.json data/export/geography/district_raster.png data/export/geography/continents_texture.png data/export/geography/continents_texture_2k.png site/data/geography/
+```
+
+OUTPUT:
+```text
+...................................................................
+----------------------------------------------------------------------
+Ran 67 tests in 0.714s
+
+OK
+
+Building one 2048x1024 raster from 37 existing books; draft=False
+Built: 37 continents; 534 provinces; 4763 districts
+District area sum: 1.000000000000; unpainted pixels: 0
+Preview: data/export/geography/seating-preview.png
+Existing empty headings retained: 1; inputs unchanged; seating human-approved; database not loaded
+
+e564b3c327e6433f61ed5587ac92abb103dffe7e80d9add81fc5bb90f6c82592  data/export/geography/seating-preview.png
+e564b3c327e6433f61ed5587ac92abb103dffe7e80d9add81fc5bb90f6c82592  kitchen/logs/geography-clinical-preview/seating-preview.png
+
+levels: {'continent': 37, 'province': 534, 'district': 4763} | ids unique: True | parents valid: True
+district area sum: 1.0 | lat/lon missing: 0
+raster codes: 4763 | lookup keys: 4763 | equal: True | png==npy: True
+per-book district count == toc chapters: True | total: 4763
+site copy: all five files match data/export
+```
+
+FILES (`ls -lh`):
+```text
+data/export/geography:
+build.json 1.2K; continents_texture_2k.png 1.1M; continents_texture.png 508K;
+district_raster.npy 8.1M; district_raster.png 127K; districts_lookup.json 116K;
+geography.json 2.7M; seating-preview.png 914K; seating-proposal.json 31K;
+territories.csv 959K
+
+site/data/geography:
+continents_texture_2k.png 1.1M; continents_texture.png 508K;
+district_raster.png 127K; districts_lookup.json 116K; geography.json 2.7M
+```
+
+DB: not touched. Neo4j was not loaded and no Freeze was declared. The
+approved map has one pre-existing zero-area empty heading (ADAMS-12,
+C10.P02 PART 2: CARDINAL MANIFESTATIONS OF NEUROLOGIC DISEASE); all 4,763
+district entries and all page bounds are unchanged. No PDF, free-reader or
+GPU call was made. The local staging atlas (territories.csv) and diagnostic
+files stay under data/export/geography but are gitignored; the frozen
+registry CSV remains a later Neo4j export. COMMIT: the commit containing
+this entry, "3.6 record approved seating and export the approved geography".
 
 ### 2026-10-23 -- 8.6 explicit A5-to-SMART hand-back point -- GPT 6.1 Sol
 

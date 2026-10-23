@@ -18,9 +18,9 @@
    1615
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Neurology",
+  "cluster": "brain-nerves-mind",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    6,
@@ -56,9 +56,9 @@
    1011
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Neonatology",
+  "cluster": "women-children-aging",
+  "status": "accepted",
   "notes": "pdfinfo calls it the South Asian Edition; no edition number stated",
   "toc_images_found": [
    20,
@@ -94,9 +94,9 @@
    1503
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Pain Medicine",
+  "cluster": "brain-nerves-mind",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    19,
@@ -129,9 +129,9 @@
   ],
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Dermatology",
+  "cluster": "skin-bone-joint-muscle",
+  "status": "accepted",
   "notes": "COMPLETE 2-volume set (Sections 1-22, 3233 pages) glued 2026-10-22 from vol 1 Sections 1-14 + vol 2 Sections 15-22; the two source volumes were deleted afterwards (no souvenirs kept). toc_images need re-measuring.",
   "toc_images_found": [
    4,
@@ -164,9 +164,9 @@
    4323
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Radiology",
+  "cluster": "imaging-laboratory",
+  "status": "accepted",
   "notes": ""
  },
  {
@@ -188,9 +188,9 @@
    1024
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Cardiology",
+  "cluster": "heart-vessels",
+  "status": "accepted",
   "notes": "COMPLETE 2-volumes-in-1 PDF added 2026-10-22 (Parts I-XI, 2549 pages); the earlier half-book (Parts I-V, 1227 pages) was deleted afterwards (no souvenirs kept). toc_images/index_images were measured on the old PDF and need re-measuring.",
   "toc_images_found": [
    5,
@@ -226,9 +226,9 @@
    3312
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Nephrology",
+  "cluster": "kidney-urology",
+  "status": "accepted",
   "notes": "accepted copy of an identical pair; TOC range set by the vision pass on 2026-10-10 (found 3 contents pages)",
   "toc_images_found": [
    135,
@@ -261,9 +261,9 @@
   ],
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Orthopaedic Surgery",
+  "cluster": "skin-bone-joint-muscle",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    11,
@@ -299,9 +299,9 @@
    2076
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Oncology",
+  "cluster": "cancer-blood",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    20,
@@ -333,9 +333,9 @@
    2872
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Rheumatology",
+  "cluster": "skin-bone-joint-muscle",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    26,
@@ -371,9 +371,9 @@
    1664
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Pharmacology",
+  "cluster": "drugs",
+  "status": "accepted",
   "notes": "edition from pdfinfo ('14th E'); accepted copy of an identical pair",
   "toc_images_found": [
    8,
@@ -409,9 +409,9 @@
    2599
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Anatomy",
+  "cluster": "general",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    9,
@@ -441,9 +441,9 @@
   "toc_images": null,
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Hand Surgery",
+  "cluster": "surgery-anesthesia",
+  "status": "accepted",
   "notes": "disambiguated from GRAY-2020's unrelated 'Green'"
  },
  {
@@ -462,9 +462,9 @@
   ],
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Physiology",
+  "cluster": "general",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    14,
@@ -501,7 +501,7 @@
   ],
   "page_offset": 43,
   "field_name": "Internal Medicine (general)",
-  "cluster": "",
+  "cluster": "general",
   "status": "accepted",
   "notes": "the hub book; exempt from duplicate detection",
   "toc_images_found": [
@@ -531,9 +531,9 @@
    3900
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Geriatric Medicine",
+  "cluster": "women-children-aging",
+  "status": "accepted",
   "notes": ""
  },
  {
@@ -552,9 +552,9 @@
    7709
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Critical Care",
+  "cluster": "emergency-toxins-environment",
+  "status": "accepted",
   "notes": ""
  },
  {
@@ -573,9 +573,9 @@
    16465
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Psychiatry",
+  "cluster": "brain-nerves-mind",
+  "status": "accepted",
   "notes": "edition taken from pdfinfo, which says 11th edition"
  },
  {
@@ -597,9 +597,9 @@
    830
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Nutrition",
+  "cluster": "hormones-metabolism-nutrition",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    13,
@@ -635,9 +635,9 @@
    4597
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Infectious Diseases",
+  "cluster": "infection-immunity",
+  "status": "accepted",
   "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)",
   "toc_images_found": [
    41,
@@ -673,9 +673,9 @@
    1669
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Allergy and Immunology",
+  "cluster": "infection-immunity",
+  "status": "accepted",
   "notes": "UNCERTAIN: the file name shows '9' which may be an edition or an ISBN fragment; year used until the human decides; TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)",
   "toc_images_found": [
    49,
@@ -705,9 +705,9 @@
   "toc_images": null,
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Anesthesiology",
+  "cluster": "surgery-anesthesia",
+  "status": "accepted",
   "notes": ""
  },
  {
@@ -729,9 +729,9 @@
    3247
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Respiratory Medicine",
+  "cluster": "lungs",
+  "status": "accepted",
   "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)",
   "toc_images_found": [
    203,
@@ -764,9 +764,9 @@
   ],
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Pediatrics",
+  "cluster": "women-children-aging",
+  "status": "accepted",
   "notes": "TOC range set by the vision pass on 2026-10-10 (found 5 contents pages)",
   "toc_images_found": [
    117,
@@ -802,9 +802,9 @@
    1403
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Palliative Medicine",
+  "cluster": "cancer-blood",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    8,
@@ -837,9 +837,9 @@
   ],
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Pathology",
+  "cluster": "imaging-laboratory",
+  "status": "accepted",
   "notes": "verified: no back-of-book index detected in the last 400 images",
   "toc_images_found": [
    12,
@@ -875,9 +875,9 @@
    3627
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Orthopaedic Trauma",
+  "cluster": "skin-bone-joint-muscle",
+  "status": "accepted",
   "notes": "TOC range set by the vision pass on 2026-10-10 (found 3 contents pages)",
   "toc_images_found": [
    16,
@@ -913,9 +913,9 @@
    2886
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Emergency Medicine",
+  "cluster": "emergency-toxins-environment",
+  "status": "accepted",
   "notes": "TOC range set by the vision pass on 2026-10-10 (found 1 contents pages)",
   "toc_images_found": [
    3,
@@ -948,9 +948,9 @@
   ],
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Surgery",
+  "cluster": "surgery-anesthesia",
+  "status": "accepted",
   "notes": "",
   "toc_images_found": [
    35,
@@ -983,9 +983,9 @@
   ],
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Gastroenterology",
+  "cluster": "gut-liver",
+  "status": "accepted",
   "notes": "TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)",
   "toc_images_found": [
    21,
@@ -1018,9 +1018,9 @@
    603
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Psychopharmacology",
+  "cluster": "drugs",
+  "status": "accepted",
   "notes": ""
  },
  {
@@ -1039,9 +1039,9 @@
   ],
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Genetics and Genomics",
+  "cluster": "general",
+  "status": "accepted",
   "notes": "verified: 612-page book, no back-of-book index",
   "toc_images_found": [
    15,
@@ -1077,9 +1077,9 @@
    1954
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Endocrinology",
+  "cluster": "hormones-metabolism-nutrition",
+  "status": "accepted",
   "notes": "TOC range set by the vision pass on 2026-10-10 (found 2 contents pages)",
   "toc_images_found": [
    26,
@@ -1109,9 +1109,9 @@
   "toc_images": null,
   "index_images": null,
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Hematology",
+  "cluster": "cancer-blood",
+  "status": "accepted",
   "notes": ""
  },
  {
@@ -1133,9 +1133,9 @@
    3474
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Obstetrics",
+  "cluster": "women-children-aging",
+  "status": "accepted",
   "notes": "disambiguated from the other two Williams books; TOC range set by the vision pass on 2026-10-10 (found 5 contents pages)",
   "toc_images_found": [
    16,
@@ -1171,9 +1171,9 @@
    6164
   ],
   "page_offset": null,
-  "field_name": "",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Neurosurgery",
+  "cluster": "surgery-anesthesia",
+  "status": "accepted",
   "notes": "TOC range set by the vision pass on 2026-10-10 (found 32 contents pages)",
   "toc_images_found": [
    21,
@@ -1199,9 +1199,9 @@
   "toc_images": [],
   "index_images": [],
   "page_offset": null,
-  "field_name": "physical-medicine-and-rehabilitation",
-  "cluster": "",
-  "status": "candidate",
+  "field_name": "Rehabilitation Medicine",
+  "cluster": "skin-bone-joint-muscle",
+  "status": "accepted",
   "notes": "downloaded by the human on 2026-10-13 to replace BRADDOM-6, which prints no table of contents at all"
  }
 ]

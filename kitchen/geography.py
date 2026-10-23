@@ -269,7 +269,7 @@ def borders(image):
     return edge
 
 
-def write_outputs(result, out):
+def write_outputs(result, out, approved=False):
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     rows, raster = result["territories"], result["raster"]
@@ -325,7 +325,8 @@ def write_outputs(result, out):
     fig.tight_layout()
     fig.savefig(out / "seating-preview.png")
     plt.close(fig)
-    manifest = {"draft": result["draft"], "seating_approved": False, "database_loaded": False,
+    manifest = {"draft": result["draft"], "seating_approved": bool(approved),
+                "approved_by_human": bool(approved), "database_loaded": False,
                 "width": result["width"], "height": result["height"],
                 "continents": sum(r["level"] == "continent" for r in rows),
                 "provinces": sum(r["level"] == "province" for r in rows), "districts": len(districts),
@@ -343,6 +344,7 @@ def main(argv=None):
     parser.add_argument("--logs", type=Path, default=ROOT / "kitchen/logs")
     parser.add_argument("--out", type=Path)
     parser.add_argument("--draft", action="store_true", help="provisional alphabetical geometry from all active books")
+    parser.add_argument("--approved", action="store_true", help="record the human's approval of this exact seating/texture")
     args = parser.parse_args(argv)
     try:
         all_books = json.loads(args.books.read_text())
@@ -355,11 +357,12 @@ def main(argv=None):
         out = args.out or (args.logs / "geography-draft" if args.draft else ROOT / "data/export/geography")
         print(f"Building one {W}x{H} raster from {len(books)} existing books; draft={args.draft}", flush=True)
         result = build(books, contents, draft=args.draft)
-        manifest = write_outputs(result, out)
+        manifest = write_outputs(result, out, args.approved)
         print(f"Built: {manifest['continents']} continents; {manifest['provinces']} provinces; {manifest['districts']} districts")
         print(f"District area sum: {manifest['district_area_sum']:.12f}; unpainted pixels: 0")
         print(f"Preview: {out / 'seating-preview.png'}")
-        print(f"Existing empty headings retained: {len(manifest['warnings'])}; inputs unchanged; seating not approved; database not loaded")
+        approval = "human-approved" if manifest["seating_approved"] else "not approved"
+        print(f"Existing empty headings retained: {len(manifest['warnings'])}; inputs unchanged; seating {approval}; database not loaded")
         return 0
     except (ValueError, KeyError, TypeError, OSError) as exc:
         print(f"NOT BUILT: {exc}", file=sys.stderr)

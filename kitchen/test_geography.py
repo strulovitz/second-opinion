@@ -118,7 +118,7 @@ class GeographyTests(unittest.TestCase):
         result = geo.build(books, contents, 96, 48, draft=True)
         with tempfile.TemporaryDirectory() as temp:
             out = Path(temp)
-            manifest = geo.write_outputs(result, out)
+            manifest = geo.write_outputs(result, out, approved=True)
             with Image.open(out / "district_raster.png") as image:
                 encoded = np.asarray(image, dtype=np.int32)
             np.testing.assert_array_equal(encoded[..., 0] * 256 + encoded[..., 1], result["raster"])
@@ -128,8 +128,10 @@ class GeographyTests(unittest.TestCase):
                 rows = list(csv.DictReader(stream))
             districts = [r for r in rows if r["level"] == "district"]
             self.assertEqual(set(lookup), {r["raster_code"] for r in districts})
-            self.assertFalse(manifest["seating_approved"])
+            self.assertTrue(manifest["seating_approved"])
+            self.assertTrue(manifest["approved_by_human"])
             self.assertFalse(manifest["database_loaded"])
+            self.assertFalse(geo.write_outputs(result, out / "unapproved")["seating_approved"])
             for filename, digest in manifest["files"].items():
                 self.assertEqual(hashlib.sha256((out / filename).read_bytes()).hexdigest(), digest)
             with Image.open(out / "continents_texture.png") as image:
