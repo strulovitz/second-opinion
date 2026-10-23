@@ -204,6 +204,21 @@ def plain(s):
     return re.sub(r"[^a-z0-9 ]+", " ", s.lower())
 
 
+def number_in(text, num):
+    """Is the chapter number in this text?
+
+    Chapter numbers are not always integers: OXFORD-6 numbers them "4.2" and
+    the page prints "CHAPTER 4.2 ...". plain() flattens the dot to a space
+    ("4 2"), so the flattened forms are matched with word boundaries.
+    Comparing "4.2" with a flattened heading never matched, and every such
+    chapter failed (2026-10-23).
+    """
+    n = plain(str(num or ""))
+    if not n:
+        return False
+    return bool(re.search(r"\b" + re.escape(n) + r"\b", text))
+
+
 def title_words(title):
     words = re.findall(r"[A-Za-z][A-Za-z'-]{3,}", title or "")
     return [plain(w) for w in words if plain(w) not in STOP]
@@ -245,8 +260,7 @@ def chapter_opener_pages(pages, number, lo, hi):
             continue
         if not CHAPTER_MARK.match(lines[0]):
             continue
-        if any(re.search(r"\b" + re.escape(num) + r"\b", l.lower())
-               for l in lines[1:]):
+        if any(number_in(plain(l), num) for l in lines[1:]):
             hits.append(i)
     return hits
 
@@ -501,7 +515,7 @@ def is_opener(ch, kind, heading):
         return False
     h = plain(heading).replace("|", " ")
     num = str(ch.get("number") or "")
-    has_num = bool(num) and bool(re.search(r"\b" + re.escape(num.lower()) + r"\b", h))
+    has_num = number_in(h, num)
     words = title_words(ch.get("title") or "")
     hits = sum(1 for w in words if word_in(w, h))
     if kind != "OPENING":
@@ -534,7 +548,7 @@ def head_names_chapter(pages, i, ch):
     if not num:
         return False
     head = plain(head_of(pages, i))
-    if not re.search(r"\bchapter\s+" + re.escape(plain(num)) + r"\b", head):
+    if not number_in(head, num):
         return False
     words = title_words(ch.get("title") or "")
     return bool(words) and sum(1 for w in words if word_in(w, head)) >= 1
@@ -554,8 +568,8 @@ def pdf_page_matches(ch, kind, heading):
         return False
     if kind == "OPENING" and is_opener(ch, kind, heading):
         return True
-    m = re.match(r"^\s*Chapter\s+([0-9]+[A-Za-z]?)\b", plain(heading), re.I)
-    return bool(m and str(ch.get("number") or "").lower() == m.group(1).lower())
+    m = re.match(r"^\s*chapter\s+([0-9]+(?:[ .][0-9]+)*[a-z]?)\b", plain(heading))
+    return bool(m and plain(m.group(1)) == plain(str(ch.get("number") or "")))
 
 
 def main():
@@ -709,7 +723,15 @@ def main():
                          "pdf-page (the page's head names this chapter)",
                          heading)
                 break
-            if not is_opener(ch, kind_seen, heading):
+            opener_ok = is_opener(ch, kind_seen, heading)
+            if (not opener_ok and kind_seen != "OTHER"
+                    and head_names_chapter(text_pages, page, ch)):
+                # the reader named the body headings, but the page's own
+                # head carries the chapter number and title (OXFORD-6 ch4.9,
+                # 2026-10-23: the head is "4.9 / Physiotherapy in palliative
+                # care", the reader reported "Introduction to physiotherapy")
+                opener_ok = True
+            if not opener_ok:
                 continue
             if folio is not None:
                 found = (page, folio, raw, png, "printed-on-the-page",
@@ -750,7 +772,10 @@ def main():
             start = after
             if args.from_page:
                 start = args.from_page - 1
-            elif start == 0 and cands:
+            elif cands and (start == 0 or start < min(cands) - 1):
+                # all pointer candidates failed: walk from the pointer, not
+                # from the previous chapter (OXFORD-6 ch4.9: the scan
+                # started at 206 while the chapter opens at 248)
                 start = min(cands) - 1
             if start == 0:
                 # no pointer at all: start where the chapter's printed page

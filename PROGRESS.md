@@ -288,6 +288,39 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- OXFORD-6 read by the eyes: 127/127, 0 unresolved, 0 disagreements
+
+1,409 PDF pages ("Oxford Textbook of Palliative Medicine", 6th ed., 2021),
+22 provinces, 127 chapters (numbered "1.1", "4.2", ...). The book prints
+folios, so all 127 are "printed": the number is the printed page. 120
+chapters sit at PDF page = printed + 23; the few other offsets are chapters
+whose opener prints its folio on the page or after a divider (checked).
+
+    .venv/bin/python kitchen/eyes_folio.py OXFORD-6 --all --scan 6
+      127/127 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/OXFORD-6-toc.json  22 provinces, 127 chapters
+
+TWO TOOL BUGS FOUND AND FIXED (`kitchen/eyes_folio.py`), found because the
+first pass left 14 chapters unresolved in a row:
+
+1. **Dotted chapter numbers never matched.** The reader's heading is
+   flattened ("CHAPTER 4.2 ..." -> "chapter 4 2 ...") and the tool compared
+   it with the raw number "4.2", so the number was never seen and every
+   chapter of a book numbered this way failed `is_opener`. New helper
+   `number_in()` compares the flattened forms; used by `is_opener`,
+   `pdf_page_matches`, `head_names_chapter` and `chapter_opener_pages`.
+2. **The page's own head is proof.** On some openers the reader reports the
+   body headings, not the chapter box (ch4.9: head "4.9 /
+   Physiotherapy in palliative care", reader "Introduction to
+   physiotherapy"). The page's head now proves the opener
+   (`head_names_chapter`), and the next page's folio gives the number
+   (ch4.9: PDF 248, next page prints 226, so the opener is 225). A
+   contents listing (KIND=OTHER) is still rejected.
+3. Also: when every pointer candidate fails, the forward scan now starts at
+   the first candidate, not at the previous chapter (ch4.9 had been scanned
+   at pages 206-211 while it opens at 248).
+
 ### DONE 2026-10-23 -- NELSON-2024 read by the eyes: 519/519, 0 unresolved, 1 disagreement
 
 4,534 PDF pages ("Nelson Textbook of Pediatrics", 2024), 33 provinces,
