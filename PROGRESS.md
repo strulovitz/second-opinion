@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- Step A5 approved geography exported: 37 continents, 534 provinces, 4,763 districts. Nir approved the specialty seating and the displayed map on 23 Oct 2026. The public viewer files are in site/data/geography; no Neo4j load and no Freeze. Nir explicitly stopped further contents work. Existing book lists are inputs, not a new audit queue. Read GEOGRAPHY.md and the newest NEXT STEP; older book-checking handoffs are superseded.
+Part 3 (Phase A -- Building the Skeleton) -- A6 index-to-registry software is implemented and tested; its operator handoff is being saved. A5 approved geography remains 37 continents, 534 provinces, 4,763 districts. Neo4j still has only the three schema Meta nodes; no data load or Freeze. Existing completed book lists are inputs, not a new audit queue.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -31,11 +31,15 @@ A5 IS COMPLETE: Nir approved the specialty seating and displayed map
 ("i think it's ok"). books.json carries the approved cluster/field_name for
 all 37 books. data/export/geography and site/data/geography hold the approved
 37-continent / 534-province / 4,763-district map. No Neo4j load and no Freeze.
-NEXT: [SWITCH TO SMART] write the A6 index-to-entity-registry machinery in
-BIBLE 3.7.4-3.7.7 (index text extraction, reader prompts P-A4a/P-A4b,
-entity/alias resolution and quarantine handling). After the code is tested,
-CHEAP plus the free reader run the index pages. Do not reopen the contents
-lane or the old book-checking queue.
+The A6 machinery is now written (88 tests passing): extraction, parsing,
+classification, same-group resolution, Neo4j persistence, See aliases,
+review samples, and the explicit no-usable-index fallback of BIBLE 3.7.9.
+The current SMART session is saving one operator runbook. NEXT CHEAP plus
+the free reader: supervised Harrison index-page/batch trial, then Harrison's
+full registry and human Checkpoint 3.5 before other books, alphabetically.
+The free reader had no model loaded at the check; no reader job was started.
+See the newest DONE entry for programming proof and the forthcoming runbook.
+Do not reopen the contents lane or the old book-checking queue.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -48,7 +52,7 @@ by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
 unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-**CURRENT WORK: BIBLE Part 3 section 6, geography programming. The book-checking queue in `DEEPSEEK-TOC-RUNBOOK.md` is superseded by Nir's instruction above.**
+**CURRENT WORK: BIBLE Part 3 section 7, index-to-registry software. The book-checking queue in `DEEPSEEK-TOC-RUNBOOK.md` is superseded by Nir's instruction above.**
 `HANDOFF-2026-10-23-recovery.md` records the historical Harrison pilot.
 The earlier `HANDOFF-2026-10-23-evening.md` records the completed TOC
 readings, counts and findings; recovery work supersedes its next-step text.
@@ -299,6 +303,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-23, GPT 6.1 Sol: restarted at clean a816e30 for A6 generic index-to-registry programming (BIBLE 3.7.2-3.7.10). Read the approved geography handoff, current pointers and existing db/reader/slug/schema helpers. Versions: Python 3.13.5, neo4j driver 6.4.0, requests 2.34.2, rapidfuzz 3.14.6, pypdf 6.20.1, pdftotext 25.03.0, git 2.47.3, gh 2.97.0. No library run; existing geography and completed book lists are inputs.
 - 2026-10-23, DeepSeek V4.1 Flash: A5 approval. Prepared the clinical grouping proposal from existing metadata, generated the specialty preview, obtained Nir's approval, recorded the approved grouping in books.json (with backup), generated and verified data/export/geography and site/data/geography. No contents re-read, model call, Neo4j load or service change.
 - 2026-10-23, GPT 6.1 Sol: at clean cf9fd27, cancelled the attempted return to contents work following Nir's explicit correction. Started BIBLE 3.6 geography programming. No geography implementation exists yet. Checked Python 3.13.5, numpy 2.5.3, Pillow 12.3.0, matplotlib 3.11.2, networkx 3.7, git 2.47.3 and gh 2.97.0.
 - 2026-10-23, GPT 6.1 Sol: restarted at clean 2af8e9b (GitHub main matches); read RESTART-PROMPT-SMART.md, current ledger, project rules, BIBLE Part 3 sections 0.5/4.2-4.7 and Part 8 sections 4/6. Assignment: reusable TOC evidence/correction and A3 mapping software, synthetic regression proof, then one DeepSeek runbook. No book execution. Versions checked: git 2.47.3, gh 2.97.0, Python 3.13.5, pypdf 6.20.1, requests 2.34.2, pdftotext 25.03.0.
@@ -310,6 +315,97 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 3.7 A6 generic index-to-registry software -- GPT 6.1 Sol
+
+Implemented the five BIBLE 3.7.10 scripts: index_extract.py, index_parse.py,
+index_classify.py, index_resolve.py and index_pipeline.py. Shared helpers are
+index_common.py, index_pages.py, index_prompts.py and index_registry.py.
+Added index_fallback.py (explicit BIBLE 3.7.9 opener/title route),
+review_sample.py (BIBLE 3.9), and load_geography.py (the fixed 3.8.1 load
+needed before 3.7.7 can MATCH district nodes). No schema/BIBLE changes.
+
+The pipeline keeps verbatim source blocks/images, handles CONTINUED entries,
+suffix/shortened/ranged page refs, shared-page districts and honest unresolved
+printed mappings. Free-reader classification batches are 25 terms. Exact
+same-group matches are automatic; fuzzy candidates are reader decisions,
+low-confidence SAME creates a separate entity and doubtful record. See-only
+entries become aliases, with unresolved targets retried after later books.
+First-book canonical names are preserved. Fixed group labels avoid APOC.
+The prompts preserve the standing LAW 7 priority for measured abnormalities.
+
+Local caches are bound to PDF/configuration/prompt/model identities. Writes
+are atomic; Neo4j entity/alias/proving-page writes are one transaction per
+entry. Resolution decisions are durable before DB writes, and completion
+receipts are checked against actual database entities/links on resumption.
+Book order and human reviews are enforced. Missing or frozen geography stops
+before entity writes. No dictionary/JSON substitutes for the actual registry.
+Classification/parsing can be staged locally; resolution requires complete
+source parsing and supported printed-page provenance. Phase B quarantine is
+still Phase B: A6 creates new entities according to 3.7.6 instead.
+
+COMMANDS:
+
+```bash
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+.venv/bin/python kitchen/index_pipeline.py HARRISON-22 --plan --limit 1
+.venv/bin/python kitchen/load_geography.py
+.venv/bin/python kitchen/index_extract.py HARRISON-22 --limit 1
+git diff --check
+git diff --quiet a816e30 -- BIBLE kitchen/books.json data/export/geography site/data/geography kitchen/schema.cypher kitchen/reader.py
+```
+
+OUTPUT:
+
+```text
+........................................................................................
+----------------------------------------------------------------------
+Ran 88 tests in 0.779s
+
+OK
+Approved geometry: 37 books; 5334 territories
+Dry run; no database access or writes
+  extracted index PDF 4044
+HARRISON-22 extract: new_pages=1; cached_pages=0; expected_pages=230
+Neo4j EXPLAIN: approved geography transaction accepted
+Neo4j EXPLAIN: entity, alias and proving-page transaction accepted
+Database after planning: [{'labels': ['Meta'], 'count': 3}]
+```
+
+The EXPLAIN proof passed the production LOAD query and the Registry.persist
+query (with synthetic parameters) through db.run with EXPLAIN prepended;
+no query was applied. Neo4j reports Kernel 2026.09.0, Cypher 5/25. CLI help
+checks passed for all eight entry points. The original five scripts are
+under 200 lines each. The 21 new tests include an end-to-end artificial
+index, zero repeated reader calls on an unchanged second run, crash after
+DB commit/before receipt, DB reset recovery, See provenance, group conflicts,
+low-confidence separation, source grounding, fallback provenance and honest
+unknown folios. Fake DB/reader objects are test doubles only.
+
+FILES (`ls -lh`): kitchen/index_classify.py 2.6K; index_common.py 8.5K;
+index_extract.py 4.1K; index_fallback.py 8.7K; index_pages.py 6.7K;
+index_parse.py 4.5K; index_pipeline.py 1.7K; index_prompts.py 3.6K;
+index_registry.py 9.3K; index_resolve.py 8.9K; load_geography.py 4.1K;
+review_sample.py 3.8K; test_index_pipeline.py 22K (all under kitchen/).
+
+Live-model trial NOT claimed: the existing Ollama-compatible endpoint
+returned HTTP 200 but its already-loaded model list was empty. No model,
+GPU inference, service or unattended job was started. The programmer proof
+uses synthetic reader batches, real Neo4j query planning, and ONE real index
+page's text/image extraction (PDF 4044), without paid term interpretation.
+The operator must start with one supervised real-reader page and batch.
+
+Metadata inventory only: 25/37 records have a syntactically usable index
+range; 12 need index-location/operator handling. An unset locator is NOT
+proof that a book has no index. The explicit fallback exists for a confirmed
+unusable index; it preserves its thinner-coverage label and actual page
+source, and never converts an unknown printed folio to zero.
+
+DB: MATCH (n) RETURN labels(n) AS labels, count(*) AS count;
+result: Meta 3, all other node counts 0. No book record, approved geography,
+completed chapter list, schema, reader helper or public site was changed.
+Local pilot/cache files stay ignored. COMMIT: programming checkpoint saved
+with this entry; the following operator-handoff entry records its hash.
 
 ### 2026-10-23 -- 3.6 A5 approved seating and approved geography -- DeepSeek V4.1 Flash
 
