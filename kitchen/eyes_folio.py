@@ -566,6 +566,34 @@ def head_names_chapter(pages, i, ch):
     return bool(words) and hits >= max(1, len(words) // 2)
 
 
+def text_names_chapter(pages, i, ch):
+    """The page's own TEXT carries the chapter's opener box.
+
+    HARRISON-22 ch417 and ch499 start at the FOOT of the previous chapter's
+    last page: the reader describes only the top of the page, and the page
+    number is not extractable, but the text layer has the line
+    "CHAPTER 417 Diabetes Mellitus: Complications". The caller rejects
+    contents listings (KIND=OTHER) and requires the "chapter N" marker
+    together with the title, so a passing mention inside a paragraph is not
+    enough.
+    """
+    if not pages or not (1 <= i <= len(pages)):
+        return False
+    num = str(ch.get("number") or "")
+    if not num:
+        return False
+    words = title_words(ch.get("title") or "")
+    if not words:
+        return False
+    for line in lines_of(pages, i):
+        t = plain(line)
+        if not re.search(r"\bchapter\s+" + re.escape(plain(num)) + r"\b", t):
+            continue
+        if sum(1 for w in words if word_in(w, t)) >= max(1, len(words) // 2):
+            return True
+    return False
+
+
 def pdf_page_matches(ch, kind, heading):
     """For a link/outline book the linked page may be a divider that says
     only "Chapter N" (IRWIN-RIPPE-2023 ch167/184/185: the link page is the
@@ -670,6 +698,15 @@ def main():
     order = {str(c["number"]): i for i, c in enumerate(chapters)}
     prev_pdf = {num: r["pdf_page"] for num, r in previous.items()
                 if r.get("status") == "ok" and r.get("pdf_page")}
+    # number -> (pdf page, printed number) for chapters already placed, so a
+    # chapter that shares its title's first words with its neighbour is not
+    # placed on the neighbour's page (HARRISON-22 ch417 matched ch416's
+    # "Diabetes Mellitus..." opener). The previous chapter's own offset
+    # tells us where this chapter's printed page should sit in the PDF.
+    placed = {num: (r["pdf_page"], r["printed"])
+              for num, r in previous.items()
+              if r.get("status") == "ok" and r.get("pdf_page")
+              and r.get("printed") is not None}
     for ch in todo:
         kind = kinds[str(ch["number"])]
         if args.only:
@@ -683,6 +720,16 @@ def main():
                     after = p
                     break
         cands = pointers_for(ch, kind, text_pages, fidx, after)
+        if kind == "printed" and isinstance(ch.get("page_start"), int):
+            for j in range(order[str(ch["number"])] - 1, -1, -1):
+                pnum = str(chapters[j]["number"])
+                if pnum in placed:
+                    ppdf, pprinted = placed[pnum]
+                    expected = ppdf + (ch["page_start"] - pprinted)
+                    if expected > 0:
+                        cands = [expected] + [c for c in cands
+                                              if c != expected]
+                    break
         if args.list:
             print(f"ch{ch['number']:>6s} [{kind:9s}] "
                   f"{str(ch['title'])[:34]:36s} -> {cands[:6]}")
@@ -743,6 +790,11 @@ def main():
                 # 2026-10-23: the head is "4.9 / Physiotherapy in palliative
                 # care", the reader reported "Introduction to physiotherapy")
                 opener_ok = True
+            if (not opener_ok and kind_seen != "OTHER"
+                    and text_names_chapter(text_pages, page, ch)):
+                # the opener box is at the FOOT of the page and the reader
+                # only described the top (HARRISON-22 ch417)
+                opener_ok = True
             if not opener_ok:
                 continue
             if folio is not None:
@@ -777,6 +829,15 @@ def main():
                     rec["proof"] = proof
                 found = (page, folio2 - 1, raw, png, "from-the-next-page",
                          heading)
+                break
+            if (text_names_chapter(text_pages, page, ch)
+                    and isinstance(toc_ps0, int) and toc_ps0 > 0):
+                # the page's text names the chapter but no number could be
+                # read; the book's own contents gives the number, and this
+                # is the page it points at (HARRISON-22 ch417)
+                found = (page, toc_ps0, raw, png,
+                         "the page's own text names this chapter; the "
+                         "number is the book's own contents", heading)
                 break
         # nothing worked: walk forward from the previous chapter and let the
         # reader look at the pages one by one
@@ -818,7 +879,12 @@ def main():
                              "pdf-page (no printed folio; PDF page used)",
                              heading)
                     break
-                if not is_opener(ch, kind_seen, heading):
+                opener_ok = is_opener(ch, kind_seen, heading)
+                if (not opener_ok and kind_seen != "OTHER"
+                        and (head_names_chapter(text_pages, page, ch)
+                             or text_names_chapter(text_pages, page, ch))):
+                    opener_ok = True
+                if not opener_ok:
                     continue
                 if folio is not None:
                     found = (page, folio, raw, png, "printed-on-the-page",
@@ -831,6 +897,13 @@ def main():
                 if folio2 is not None and folio2 >= 2:
                     found = (page, folio2 - 1, raw, png, "from-the-next-page",
                              heading)
+                    break
+                toc_ps = rec["toc_page_start"]
+                if (text_names_chapter(text_pages, page, ch)
+                        and isinstance(toc_ps, int) and toc_ps > 0):
+                    found = (page, toc_ps, raw, png,
+                             "the page's own text names this chapter; the "
+                             "number is the book's own contents", heading)
                     break
         if found:
             page, printed, raw, png, how, heading = found
@@ -891,6 +964,7 @@ def main():
             rec.update(status="ok", pdf_page=page, printed=printed,
                        image_file=png, opener_confirmed=True,
                        printed_from=how, heading=heading, reader_raw=raw)
+            placed[str(ch["number"])] = (page, printed)
             after = max(after, page)
             agree = "" if rec["toc_page_start"] in (None, printed) else \
                 f"  <-- CONTENTS SAYS {rec['toc_page_start']}"

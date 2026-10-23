@@ -288,6 +288,39 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- HARRISON-22 finished by the eyes: 505/505, 0 unresolved, 0 disagreements
+
+The two chapters the 22 Oct handoff left open are now placed, and the
+duplicate rows that had inflated the count to 507 are gone.
+
+    .venv/bin/python kitchen/eyes_folio.py HARRISON-22 --only 417 --scan 6 --proof
+      ch417 Diabetes Mellitus: Complications  pdf 3264 -> printed 3221
+    .venv/bin/python kitchen/eyes_folio.py HARRISON-22 --only 499 --scan 6 --proof
+      ch499 Network Medicine and Multiomic Approaches...  pdf 3998 -> printed 3955
+      505/505 chapters read by the eyes; 0 unresolved; 0 disagree
+
+Both pages were checked by eye: PDF 3264 prints 3221 and carries the
+"417 Diabetes Mellitus: Complications" opener box at the FOOT of the page,
+below the end of ch416; PDF 3998 does the same for ch499. The page number
+is not extractable from the text layer there, and the reader only describes
+the top of the page, which is why the old run could not prove them.
+
+Fixes in `kitchen/eyes_folio.py` (both general, both recorded):
+1. `text_names_chapter()`: the page's own text carries the "CHAPTER N <title>"
+   opener box, so the page is proved even when the reader names only the top
+   of the page and no folio can be read. KIND=OTHER (a contents listing) is
+   still rejected; the number then comes from the book's own contents, as
+   the page is the one the contents points at.
+2. The candidate list now tries the EXPECTED page first, computed from the
+   previous placed chapter's own offset. ch417 had been matched to ch416's
+   opener because both titles begin "Diabetes Mellitus"; the expected page
+   for ch417 was 3264 and it is accepted there.
+
+```
+HARRISON-22: {'chapters': 505, 'read_by_eyes': 505, 'unresolved': 0,
+              'contents_disagreements': 0, 'printed_kinds': 505}
+```
+
 ### DONE 2026-10-23 -- WILLIAMS-OBSTETRICS-26 read by the eyes: 68/68, 0 unresolved, 0 disagreements
 
 3,475 PDF pages ("Williams Obstetrics", 26th ed.), 12 provinces, 68
