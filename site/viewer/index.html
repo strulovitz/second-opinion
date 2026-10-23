@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore the approved Second Opinion textbook geography in 3D.">
+  <title>Second Opinion — the globe</title>
+  <link rel="stylesheet" href="viewer.css">
+  <script type="importmap">{"imports":{"three":"../assets/three/three.module.js"}}</script>
+</head>
+<body data-app="second-opinion-geography" data-state="loading">
+  <header>
+    <a class="brand" href="../index.html">Second Opinion</a>
+    <span class="preview-label">Geography preview</span>
+    <nav aria-label="View">
+      <button id="view-3d" aria-pressed="true">3D globe</button>
+      <button id="view-2d" aria-pressed="false">2D map</button>
+    </nav>
+  </header>
+  <main>
+    <section id="stage" aria-label="Interactive textbook geography">
+      <canvas id="globe" aria-label="Drag to rotate the globe; scroll or pinch to zoom"></canvas>
+      <canvas id="map" hidden aria-label="Flat map; click a chapter to inspect it"></canvas>
+      <p id="status" role="status">Loading your world…</p>
+      <div id="tooltip" hidden role="tooltip"></div>
+      <div class="view-controls">
+        <button id="home">Harrison / home</button>
+        <button id="zoom-in" aria-label="Zoom in">+</button>
+        <button id="zoom-out" aria-label="Zoom out">−</button>
+        <label><input type="checkbox" id="guides"> Altitude guides</label>
+      </div>
+      <p class="gesture-help">Drag to rotate · Scroll or pinch to zoom · Click a chapter</p>
+    </section>
+    <aside>
+      <div class="world-summary"><h1>Your medical world</h1><p id="counts"></p></div>
+      <section id="info" aria-live="polite"></section>
+      <section class="books">
+        <label for="book-search">Find a specialty</label>
+        <input id="book-search" type="search" placeholder="e.g. Cardiology" autocomplete="off">
+        <ul id="book-list"></ul>
+      </section>
+      <p class="stage-note">This view shows the approved geography. Medical terms and relationship layers come from the index and reading stages.</p>
+    </aside>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

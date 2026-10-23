@@ -1,9 +1,9 @@
 # Second Opinion -- standing orders for the manager
 
-CURRENT RESTART INSTRUCTIONS: read `RESTART-PROMPT-SMART.md` first, then
-the current pointers in `PROGRESS.md`. Nir's latest rule: SMART writes
-GENERIC software; DeepSeek handles ALL book-by-book execution. Detailed
-state and the next programming assignment live in that prompt, not here.
+CURRENT RESTART: read `HANDOFF-2026-10-23-3D-RESTART.md`, then the newest
+PROGRESS.md pointers. Nir paused the session to restart OpenCode. The file
+records the unfinished 3D preview, completed index software and next steps.
+SMART writes generic software; DeepSeek/local reader run the long workflows.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

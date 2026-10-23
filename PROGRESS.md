@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- A6 index-to-registry software is delivered with 88 passing tests. Read INDEX-PIPELINE.md for DeepSeek/free-reader execution, Harrison first. A5 approved geography remains 37 continents, 534 provinces, 4,763 districts. Neo4j still has only the three schema Meta nodes; no data load or Freeze. Existing completed book lists are inputs, not a new audit queue.
+PAUSED AT NIR'S REQUEST for an OpenCode restart. Read HANDOFF-2026-10-23-3D-RESTART.md. A6 index-to-registry software is delivered; a new 3D geography preview has been written but NOT tested/opened. Approved geography remains 37 continents, 534 provinces, 4,763 districts. No new model/server job or database data load was started. Existing completed book lists stay closed.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -22,6 +22,14 @@ Why 37, item by item, with the human's agreement:
   The five deleted files, their sizes and their SHA-256 hashes are recorded
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
+
+LATEST STOP INSTRUCTION: save the detailed restart handoff, reference it
+briefly from the project AGENTS.md, preserve partial work and stop. No global
+memory expansion. On the next user-authorised continuation, finish/test/open
+the existing 3D geography preview and explain local-reader startup plainly.
+See HANDOFF-2026-10-23-3D-RESTART.md for exact files/state and remaining work.
+The older A6 execution pointer below remains the subsequent data workflow;
+it is not permission to start a reader job while this session is paused.
 
 **LATEST HUMAN ROUTING: SMART writes generic tools; DeepSeek executes books.**
 LATEST HUMAN DIRECTION (23 Oct): build the project; no more contents work or
@@ -285,6 +293,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23, after 0140ecf: Nir asked what the local/free reader means in executable BIBLE terms and whether the 3D globe works/can be shown. SMART explained it was not built and began a geography-only viewer. Nir then STOPPED development, criticised the long/rapid explanations and requested a detailed text restart handoff with a short project AGENTS.md reference, explicitly no expanded global memory. Save-only checkpoint; unfinished globe must not be called working.
 - 2026-10-23, Checkpoints 3.3/3.4 (A5): after viewing the specialty map, Nir approved the seating and the displayed appearance: "i think it's ok". Scope: the 37-book clinical grouping, field names and map preview. This is not a Neo4j load or a Freeze. The pre-change configuration backup is kitchen/logs/books-before-seating-20261023T205918.json.
 - 2026-10-23, after cf9fd27: Nir corrected the assistants: the ten books were skipped because the assistants had told him they were OK, not because he independently certified them. He stopped further contents work and instructed SMART: "i do not want to hear about doing the table of contents again, i want you to fucking build the project". The old checking queue is cancelled; SMART proceeds to generic geography programming using the saved data. No new certification of the books is claimed.
 - 2026-10-23 SMART restart and routing correction: Nir said, "processes that are book by book need to be done by deepseek. processes that are the heavy lifting of GENERIC programming need to be done by you." He stopped the repeated paid book checking and requested a very detailed restart prompt with a short reference in AGENTS.md, rather than expanded memory. Book execution is cancelled for SMART; the next SMART session writes reusable tools and one DeepSeek procedure.
@@ -315,6 +324,44 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 8.6 paused 3D prototype and detailed restart handoff -- GPT 6.1 Sol
+
+Nir stopped the session to restart OpenCode and reduce context/cost.
+Saved HANDOFF-2026-10-23-3D-RESTART.md with the complete operational state,
+actual installed reader, completed A6 checkpoints, unfinished viewer files,
+dependency versions, lack of browser proof and the next practical step.
+Replaced only the short restart pointer at the top of the project AGENTS.md.
+No global memory change. This is NOT a completed/verified 3D feature.
+
+Before stopping, added the seven site/viewer HTML/CSS/JS files and
+kitchen/vendor_three.py; downloaded pinned Three.js r186 dependencies
+unmodified under site/assets/three. VERSION.txt records URLs and SHA-256s.
+The prototype loads existing geography and intends rotation/zoom/district
+picking, but no browser/functional test or viewer server was run.
+
+COMMANDS/OUTPUT already observed:
+
+```text
+Configured reader: qwen3.8:27b
+Configured vision reader: qwen3.8:27b
+Reader server: 0.32.14
+Installed models: ['qwen3.8:27b']
+Loaded models: []
+Vendored three.module.js: 662772 bytes
+Vendored three.core.js: 1458113 bytes
+Vendored OrbitControls.js: 40755 bytes
+Vendored LICENSE: 1081 bytes
+Google Chrome 150.0.7871.181
+Mozilla Firefox 140.13.0esr
+Node v26.7.0
+```
+
+Local API inspection was read-only. No model/inference/service change,
+approved map edit, index ingestion, BIBLE edit or new browser opening.
+The earlier 88-test result belongs to A6, not this paused viewer prototype.
+Save verification is status/diff/whitespace and intended-file checks only.
+COMMIT: checkpoint containing this entry, "8.6 checkpoint paused globe prototype and detailed restart handoff".
 
 ### 2026-10-23 -- 8.6 A6 operator handoff saved -- GPT 6.1 Sol
 
