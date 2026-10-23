@@ -412,9 +412,9 @@ Local-only outputs: `kitchen/logs/HARRISON-22-toc.json`,
 `kitchen/logs/HARRISON-22-eyes.json`, and the backup folder above.
 DB: not applicable. No Neo4j, local-model, rendering, whole-PDF conversion
 or library-wide run. The other 36 books were not re-exported.
-COMMIT: this entry belongs to the repair checkpoint (discover with
-`git log --oneline -- kitchen/toc_reexport.py`). Recovery checkpoint
-`2762f1f` was already pushed before this repair began.
+COMMIT: `70189c8` (pushed to origin/main). Recovery checkpoint `2762f1f`
+was already pushed before this repair began. The following documentation
+checkpoint fills these assigned hashes into the ledger and handoff.
 
 ### DONE 2026-10-23 -- 8.4 recovery checkpoint before exporter repair -- GPT 6.1 Sol
 
@@ -462,8 +462,7 @@ FILES: recovered code/config/test files above, this ledger, the recovery
 handoff and repository AGENTS.md pointer. Global memory pointer updated in
 `~/.config/opencode/AGENTS.md` (outside this repository; no new detail added).
 DB: not applicable; no Neo4j or reader calls.
-COMMIT: this entry is included in the recovery checkpoint; its hash is
-recorded in the next checkpoint/handoff once Git has assigned it.
+COMMIT: `2762f1f` (pushed to origin/main before the exporter repair).
 
 ### DONE 2026-10-23 -- 3.4.6 HARRISON-22 page mapping verified and saved -- GPT 6.1 Sol
 

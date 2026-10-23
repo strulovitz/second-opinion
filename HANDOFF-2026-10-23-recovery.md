@@ -6,6 +6,7 @@ Part 8 section 6. This supersedes the evening handoff's next-step text.
 ## 1. Ready for the cheaper model
 
 SMART's exporter repair is implemented and proved on HARRISON-22 only.
+Repair checkpoint **70189c8** is committed and pushed to GitHub main.
 CHEAP (DeepSeek) may supervise the tested one-book commands below after
 Nir chooses the next book. Stop and report after EVERY book. Nothing
 runs unattended. Do not start geography, registry, viewer or Phase B.
