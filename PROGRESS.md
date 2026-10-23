@@ -288,6 +288,18 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- ROCKWOOD-10 read by the eyes: 69/69, 0 unresolved, 0 disagreements
+
+3,628 PDF pages ("Rockwood and Green's Fractures in Adults", 10th ed.),
+4 provinces, 69 chapters. The pages print no folio the reader can see, so
+all 69 are "pdf-page" (the number is the PDF page) -- the project's rule for
+these books. Clean on the first pass; no tool change needed.
+
+    .venv/bin/python kitchen/eyes_folio.py ROCKWOOD-10 --all --scan 6
+      69/69 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/ROCKWOOD-10-toc.json  4 provinces, 69 chapters
+
 ### DONE 2026-10-23 -- OXFORD-6 read by the eyes: 127/127, 0 unresolved, 0 disagreements
 
 1,409 PDF pages ("Oxford Textbook of Palliative Medicine", 6th ed., 2021),
