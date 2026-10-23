@@ -282,6 +282,25 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("no accepted printed/PDF pairs", text)
         self.assertEqual(self.books.read_bytes(), before)
 
+    def test_new_four_samples_cannot_hide_an_older_unsampled_disagreement(self):
+        self.prepare_mapping()
+        extra = {"book_id": "TEST-1", "pdf_identity": pdf_identity(self.pdf),
+                 "chapters": [copy.deepcopy(self.eyes["chapters"][i]) for i in (0, 2, 4, 6)]}
+        extra_path = self.logs / "TEST-1-checked-pairs.json"
+        extra_path.write_text(json.dumps(extra))
+        self.eyes["chapters"][-1]["printed"] = 99
+        self.eyes_path.write_text(json.dumps(self.eyes))
+        toc = json.loads(self.path.read_text())
+        toc["provinces"][0]["chapters"][-1]["page_start"] = 99
+        self.path.write_text(json.dumps(toc))
+        before = self.books.read_bytes()
+        code, text = self.cli(page_mapping, "--pairs", str(extra_path), "--report")
+        self.assertEqual(code, 2, text)
+        report = json.loads((self.logs / "TEST-1-mapping-proposal.json").read_text())
+        self.assertEqual(len(report["accepted_pairs"]), 8)
+        self.assertIsNone(report["page_offset"])
+        self.assertEqual(self.books.read_bytes(), before)
+
     def test_unaccepted_book_mapping_cannot_promote_status(self):
         self.prepare_mapping()
         self.book["status"] = "candidate"

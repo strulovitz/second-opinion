@@ -1,5 +1,13 @@
 # Restart prompt for GPT 6.1 Sol -- generic programming, not book execution
 
+## Programming delivered -- 23 Oct 2026
+
+The generic assignment below is implemented and tested. Read the latest
+PROGRESS.md entry and DEEPSEEK-TOC-RUNBOOK.md. NEXT: DeepSeek executes the
+per-book work with Nir watching. Do not repeat this programming assignment
+or restart SMART's cancelled book investigations. The text below preserves
+the assignment and cost boundary for reference.
+
 ## Read this first: Nir's latest instruction overrides earlier handoffs
 
 You are the SMART programmer for Second Opinion, not the book operator.

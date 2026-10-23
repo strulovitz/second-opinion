@@ -181,7 +181,11 @@ def main(argv=None):
             require(not unresolved, "ambiguous targets remain; use saved free-reader observations, then retry")
             if supplied and unit == "printed":
                 verify_source_folios(session, toc, reader_data, logs)
-            mapping = {"unit": unit, "uniform_offset": 0 if unit == "pdf-page" else book.get("page_offset")}
+            offset = book.get("page_offset")
+            if unit == "printed" and any(c.get("pdf_page") is None or c["pdf_page"] - c["page_start"] != offset
+                                          for _, c in flatten(toc)):
+                offset = None  # Never carry a stale constant through changed/irregular pairs.
+            mapping = {"unit": unit, "uniform_offset": 0 if unit == "pdf-page" else offset}
             end, boundary = final_boundary(book, toc, old, mapping, pdf, args.check_index)
             if args.document_end:
                 from page_offset import folded

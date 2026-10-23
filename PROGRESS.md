@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Nir stopped SMART's book-by-book checking. SMART's next assignment is GENERIC programming; DeepSeek owns book execution. Read RESTART-PROMPT-SMART.md before continuing. Campbell remains repaired; no book data was changed in this interrupted SMART session.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. The generic TOC evidence/correction and A3 mapping software is delivered; DeepSeek owns the remaining book execution. Read DEEPSEEK-TOC-RUNBOOK.md. Campbell remains repaired. SMART's programming used artificial fixtures, not real-book execution.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -24,10 +24,13 @@ Why 37, item by item, with the human's agreement:
 ## NEXT STEP
 
 **LATEST HUMAN ROUTING: SMART writes generic tools; DeepSeek executes books.**
-After restart, follow RESTART-PROMPT-SMART.md: implement the missing
-reusable TOC verification/correction and A3 mapping capabilities, test
-them economically, and hand DeepSeek one common runbook. Do not resume
-SMART's cancelled KRAUSE inspection or ask which book SMART should do.
+Generic programming is complete (57 tests at checkpoint 1cd08c0; final
+evidence-merge regression and handoff below). CHEAP / DeepSeek follows
+DEEPSEEK-TOC-RUNBOOK.md for the remaining A2/A3 book work, starting with
+KRAUSE-16 when Nir says continue. One book, record/report, then pause for
+his instruction; keep the same cheaper model between books. Collect genuine
+exceptions for one consolidated review. No real book/config/output was
+changed by SMART's generic programming session.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -40,7 +43,7 @@ by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
 unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-**CURRENT RESTART PROMPT: `RESTART-PROMPT-SMART.md`. Older handoffs are historical where they conflict with Nir's latest routing.**
+**CURRENT OPERATING HANDOFF: `DEEPSEEK-TOC-RUNBOOK.md`. `RESTART-PROMPT-SMART.md` records the now-completed programming assignment and cost boundary. Older handoffs are historical where they conflict with Nir's latest routing.**
 `HANDOFF-2026-10-23-recovery.md` records the historical Harrison pilot.
 The earlier `HANDOFF-2026-10-23-evening.md` records the completed TOC
 readings, counts and findings; recovery work supersedes its next-step text.
@@ -298,6 +301,69 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 3.4.6 / 8.6 final generic verification and DeepSeek operating handoff -- GPT 6.1 Sol
+
+Programming checkpoint `1cd08c0` was committed and pushed to origin/main.
+The final handoff closes one additional evidence loophole: explicitly
+supplying four new pairs now merges active inherited eyes pairs instead of
+replacing them. All accepted pairs still constrain the result, and conflicts
+cannot be hidden by selecting a newer subset. Reader cross-checks carry
+their own PDF identity. A stale configured constant is not used to derive
+a final boundary when the current opener pairs contradict it.
+
+COMMANDS:
+
+```bash
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+git diff --check
+```
+
+OUTPUT:
+
+```text
+..........................................................
+----------------------------------------------------------------------
+Ran 58 tests in 0.096s
+
+OK
+```
+
+The new regression supplies four agreeing new samples while an unsampled
+older accepted pair disagrees: all eight pairs remain in the proposal,
+page_offset stays null, and books.json is unchanged. This adds one focused
+test to the 57-test programming checkpoint; no real book was executed.
+
+FILES: DEEPSEEK-TOC-RUNBOOK.md is the single operating procedure: evidence
+choice, exact commands, source/observation formats, units, reader-assisted
+ambiguity, safe apply/range refresh, all-pair A3 proof/proposals, recovery,
+book checkpoints and cost boundaries. RESTART-PROMPT-SMART.md now points to
+the completed result; CURRENT PHASE/NEXT STEP route execution to DeepSeek.
+Final code changes are kitchen/page_mapping.py, kitchen/toc_book.py and
+kitchen/test_toc_tools.py. BIBLE, books.json, TOC-REPAIR-STATUS.json, real
+book outputs, database and global memory remain unchanged.
+
+FILES (ls -l):
+
+```text
+-rw-rw-r-- 1 nir nir 15178 Oct 23 19:55 DEEPSEEK-TOC-RUNBOOK.md
+-rw-rw-r-- 1 nir nir 13322 Oct 23 19:53 kitchen/page_mapping.py
+-rw-rw-r-- 1 nir nir 19699 Oct 23 19:53 kitchen/test_toc_tools.py
+-rw-rw-r-- 1 nir nir 16511 Oct 23 19:56 kitchen/toc_book.py
+-rw-rw-r-- 1 nir nir 13904 Oct 23 19:55 RESTART-PROMPT-SMART.md
+```
+
+`git diff --quiet 2af8e9b -- BIBLE kitchen/books.json TOC-REPAIR-STATUS.json data/registry`
+returned 0; the verification command printed:
+
+```text
+BIBLE, books.json, repair receipts and registry: unchanged from restart
+```
+
+COMMIT: core programming 1cd08c0; final handoff/code hardening is the commit
+containing this entry (message: "8.6 hand generic TOC tools to DeepSeek with all-pair mapping proof").
+NEXT: DeepSeek, KRAUSE-16 first when Nir says continue; report/pause after
+each book, keep the cheaper model between books and consolidate exceptions.
 
 ### 2026-10-23 -- 3.4.2-4.6 generic TOC evidence/correction and A3 tools -- GPT 6.1 Sol
 

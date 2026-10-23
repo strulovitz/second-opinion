@@ -39,7 +39,8 @@ def accepted_pairs(book, toc, evidence, logs):
         require(identity in by_key and identity not in seen, "stale/duplicate pair identity; do not reuse bad-list evidence")
         seen.add(identity)
         if row.get("status") != "ok" or row.get("opener_confirmed") is not True:
-            unresolved.append({"number": row.get("number"), "reason": "unconfirmed saved opener"})
+            unresolved.append({"province": row["province"], "number": row.get("number"), "title": row["title"],
+                               "reason": "unconfirmed saved opener"})
             continue
         pdf = row.get("pdf_page")
         require(positive_integer(pdf) and pdf <= book["page_count_images"], "invalid PDF pair")
@@ -55,7 +56,7 @@ def accepted_pairs(book, toc, evidence, logs):
             if len(candidates) == 1:
                 folio = candidates.pop()
         if not positive_integer(folio):
-            unresolved.append({"number": row.get("number"), "pdf_page": pdf,
+            unresolved.append({"province": row["province"], "number": row.get("number"), "title": row["title"], "pdf_page": pdf,
                                "reason": "no accepted printed folio (PDF citation/label is not a pair)"})
             continue
         image_root = logs / "eyes-render" / book["book_id"]
@@ -77,7 +78,8 @@ def accepted_pairs(book, toc, evidence, logs):
                       "chapter_index": by_key[identity], "pdf_page": pdf, "printed": folio,
                       "offset": pdf - folio, "image_file": str(image.relative_to(logs)),
                       "reader_heading": row.get("heading"), "reader_raw": row.get("reader_raw"),
-                      "printed_observed": row.get("printed_observed", False)})
+                      "printed_observed": row.get("printed_observed", False),
+                      "reader_pdf_identity": evidence.get("pdf_identity")})
     pairs.sort(key=lambda r: r["chapter_index"])
     require(all(a["pdf_page"] <= b["pdf_page"] for a, b in zip(pairs, pairs[1:])), "PDF pair sequence decreases")
     return pairs, unresolved
@@ -85,6 +87,7 @@ def accepted_pairs(book, toc, evidence, logs):
 
 def propose_mapping(chapters, pairs, unresolved):
     require(len(chapters) >= 4, "fewer than four chapters; human decision required")
+    require(all(a["pdf_page"] <= b["pdf_page"] for a, b in zip(pairs, pairs[1:])), "combined PDF pair sequence decreases")
     sample_indices = [0, len(chapters) // 4, len(chapters) // 2, 3 * len(chapters) // 4]
     by_index = {r["chapter_index"]: r for r in pairs}
     missing = [i for i in sample_indices if i not in by_index]
@@ -109,11 +112,11 @@ def propose_mapping(chapters, pairs, unresolved):
             "warning": "segments cover observations only; exact transitions and unsampled inserts are not proved; human approval required"}
 
 
-def cross_check(session, samples, current_reader=False):
+def cross_check(session, samples):
     results = []
     for row in samples:
         text = session.text(row["pdf_page"])
-        saved = (current_reader and row["printed_observed"] and row["reader_raw"]
+        saved = (row["reader_pdf_identity"] == session.identity and row["printed_observed"] and row["reader_raw"]
                  and heading_names_chapter(row["reader_heading"], row["number"], row["title"]))
         require(opener_matches(text, row["number"], row["title"]) or saved,
                 f"ch{row['number']}: sample heading ambiguous; use the free reader")
@@ -137,8 +140,9 @@ def main(argv=None):
         books_path = kitchen / "books.json"
         toc_path = logs / f"{args.book}-toc.json"
         evidence_path = args.pairs or logs / f"{args.book}-eyes.json"
+        inherited_path = logs / f"{args.book}-eyes.json"
         proof_path = logs / f"{args.book}-mapping-proof.json"
-        originals = snapshot([books_path, toc_path, evidence_path, proof_path])
+        originals = snapshot([books_path, toc_path, evidence_path, inherited_path, proof_path])
         books = json.loads(originals[books_path])
         matches = [b for b in books if b["book_id"] == args.book]
         require(len(matches) == 1, "unknown or duplicate book ID")
@@ -146,17 +150,30 @@ def main(argv=None):
         require(originals[evidence_path] is not None, "no saved pairs; prepare checked observations with the free reader")
         toc, evidence = json.loads(originals[toc_path]), json.loads(originals[evidence_path])
         pairs, unresolved = accepted_pairs(book, toc, evidence, logs)
+        evidence_inputs = [evidence]
+        if args.pairs and evidence_path.resolve() != inherited_path.resolve() and originals[inherited_path]:
+            inherited = json.loads(originals[inherited_path])
+            old_pairs, old_unresolved = accepted_pairs(book, toc, inherited, logs)
+            combined = {key(r["province"], r): r for r in old_pairs}
+            for row in pairs:
+                previous = combined.get(key(row["province"], row))
+                require(not previous or (previous["pdf_page"], previous["printed"]) == (row["pdf_page"], row["printed"]),
+                        "conflicting accepted printed/PDF pairs; ask the human, do not replace proof silently")
+                combined[key(row["province"], row)] = row
+            pairs = sorted(combined.values(), key=lambda r: r["chapter_index"])
+            unresolved = [r for r in old_unresolved + unresolved if key(r["province"], r) not in combined]
+            evidence_inputs.append(inherited)
         report = propose_mapping(flatten(toc), pairs, unresolved)
         pdf = kitchen / "books" / book["pdf_file"]
         identity = pdf_identity(pdf)
-        require(not evidence.get("pdf_identity") or evidence["pdf_identity"] == identity, "pair evidence PDF changed")
+        require(all(not e.get("pdf_identity") or e["pdf_identity"] == identity for e in evidence_inputs), "pair evidence PDF changed")
         if args.pairs:
             require(evidence.get("pdf_identity") == identity, "new pair input must name its current PDF identity")
         report.update(book=args.book, pdf_identity=identity, toc_hash=fingerprint(toc),
-                      evidence_hash=fingerprint(evidence))
+                      evidence_hash=fingerprint(evidence_inputs))
         with PdfEvidence(pdf, logs / f"{args.book}-mapping-cache.json", report["evidence_hash"]) as session:
             if report["state"] == "uniform-candidate":
-                report["cross_checks"] = cross_check(session, report["samples"], evidence.get("pdf_identity") == identity)
+                report["cross_checks"] = cross_check(session, report["samples"])
                 report["state"] = "verified-uniform"
             if args.cache:
                 session.save_cache()
