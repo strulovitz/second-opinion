@@ -1,9 +1,9 @@
 # Second Opinion -- standing orders for the manager
 
-WHERE THE CURRENT STATE LIVES: read `HANDOFF-TO-SMART-AFTER-CAMPBELL-2026-10-23.md`
-first, then `PROGRESS.md`. Campbell is repaired (90 chapters, 19 Parts,
-PDF-page unit); the handoff lists the remaining rebuilt-book checks and
-Step A3. Earlier completion claims are not physical-book proof.
+CURRENT RESTART INSTRUCTIONS: read `RESTART-PROMPT-SMART.md` first, then
+the current pointers in `PROGRESS.md`. Nir's latest rule: SMART writes
+GENERIC software; DeepSeek handles ALL book-by-book execution. Detailed
+state and the next programming assignment live in that prompt, not here.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. CAMPBELL-2020 repaired from its PDF bookmarks: 90 chapters in 19 real Parts, chapter 1 "Surgical Techniques" at PDF 27, chapter 90 at PDF 4990-5036. The library now has 4,763 chapters. Unit is PDF page (printed-folio mapping is still Step A3). No model or reader call was used. Next: physically review the other three rebuilt books (KRAUSE-16, MIDDLETON-2019, SABISTON-22), then Step A3.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Nir stopped SMART's book-by-book checking. SMART's next assignment is GENERIC programming; DeepSeek owns book execution. Read RESTART-PROMPT-SMART.md before continuing. Campbell remains repaired; no book data was changed in this interrupted SMART session.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,13 +23,11 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-23 Campbell repaired; next are the other three rebuilt books.**
-KRAUSE-16 (93), MIDDLETON-2019 (99) and SABISTON-22 (92) were rebuilt
-from saved contents without a physical-book check. Review each against
-its actual book (PDF bookmarks/text first; the free reader only where
-genuinely ambiguous), then report and stop. After that, Step A3
-page_offset mapping. The 32 provisional final boundaries still need
-review; no Freeze.
+**LATEST HUMAN ROUTING: SMART writes generic tools; DeepSeek executes books.**
+After restart, follow RESTART-PROMPT-SMART.md: implement the missing
+reusable TOC verification/correction and A3 mapping capabilities, test
+them economically, and hand DeepSeek one common runbook. Do not resume
+SMART's cancelled KRAUSE inspection or ask which book SMART should do.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -42,7 +40,7 @@ by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
 unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-**NEWEST HAND-OFF: `HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md`.**
+**CURRENT RESTART PROMPT: `RESTART-PROMPT-SMART.md`. Older handoffs are historical where they conflict with Nir's latest routing.**
 `HANDOFF-2026-10-23-recovery.md` records the historical Harrison pilot.
 The earlier `HANDOFF-2026-10-23-evening.md` records the completed TOC
 readings, counts and findings; recovery work supersedes its next-step text.
@@ -275,6 +273,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23 SMART restart and routing correction: Nir said, "processes that are book by book need to be done by deepseek. processes that are the heavy lifting of GENERIC programming need to be done by you." He stopped the repeated paid book checking and requested a very detailed restart prompt with a short reference in AGENTS.md, rather than expanded memory. Book execution is cancelled for SMART; the next SMART session writes reusable tools and one DeepSeek procedure.
 - 2026-10-23 Campbell: Nir said "ok please repair with minimum money", then stopped the paid session and requested a detailed handoff to DeepSeek. He clarified: "do not give him unfinished code, he knows how to code. explain to him what needs to be fixed , not code". SMART withdrew its unfinished script/test and summary change; only instructions and evidence are handed over.
 - 2026-10-23 generic-repair correction: Nir rejected a handoff that would make him switch models repeatedly and instructed: "do something generic" and "give him general instructions how to fix at least the majority of books". The new scope is one shared library repair procedure, DeepSeek throughout the common queue, and one consolidated return to SMART for genuine exceptions. A book-end pause is not a model switch. No re-reading of accepted books, no unattended jobs, and no BIBLE edit is involved.
 - 2026-10-23 recovery: Nir requested "save every now and then in the github and push and in your memory (make pointer from agents.md - just refer , please, do NOT inflate agents.md)" and a return to the chapter-end bug and cheaper-model handoff. Asked whether both chapters may include page 291 and whether SMART should fix the exporter, check Harrison only and write the handoff, he selected "Yes, please continue". Save checkpoints and stop after the handoff; continue one book at a time with human supervision.
@@ -290,6 +289,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-23, GPT 6.1 Sol after Campbell handoff: read the handoff/current pointers/project instructions/governing BIBLE section and checked git/tool versions. Nir stopped the session before PDF inspection or changes. Wrote RESTART-PROMPT-SMART.md and a short AGENTS.md pointer as requested; no book data or code changed.
 - 2026-10-23, GPT 6.1 Sol: read the DeepSeek handoff, current ledger, all 37 receipts, instructions and all 14 BIBLE files; confirmed GitHub main at dca403c. Read-only integrity review and two Campbell page samples; no book/configuration/output changes.
 - 2026-10-23 generic repair, GPT 6.1 Sol: replaced the unnecessarily restrictive offset-dependent handoff with a shared range-repair queue for all 37 accepted contents sources. Performed read-only metadata plans on the whole library; no new real-book output was applied.
 - 2026-10-23 recovery, GPT 6.1 Sol: read the whole BIBLE (all 14 files), instructions, current ledger and GitHub main. Recovered the previous session's uncommitted offset verifier, tests and Harrison record. Rechecked them before the first recovery checkpoint. No cause of the earlier computer freeze has been established.
@@ -297,6 +297,20 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 8.6 SMART restart prompt and routing correction -- GPT 6.1 Sol
+
+Nir cancelled SMART's attempt to start the KRAUSE-16 per-book review.
+The interrupted session only read existing documents and checked git,
+Python 3.13.5, pypdf 6.20.1 and pdftotext 25.03.0; local main was clean
+at 6de5b6d. No PDF/reader job, book mutation or programming was performed.
+
+FILES: RESTART-PROMPT-SMART.md contains the detailed continuation prompt,
+current evidence, BIBLE order, required generic capabilities, cost limits,
+and the SMART/DeepSeek boundary. AGENTS.md contains only a short pointer.
+CURRENT PHASE/NEXT STEP now point to the generic programming assignment.
+Historical book findings remain in the ledger. No BIBLE, configuration,
+receipt, book output, database or global memory changed.
 
 ### DONE 2026-10-23 -- 3.4 CAMPBELL-2020 repaired from its PDF bookmarks -- DeepSeek
 
