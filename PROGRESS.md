@@ -23,42 +23,28 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-22: BRAUNWALD-12 and BOLOGNIA-2024 were only half-books; both are now
-COMPLETE (2,549 and 3,233 pages) and both TOCs are verified 102/102 and
-161/161 by the eyes. AVERY-2021 (61/61), BENZON-2023 (86/86), BRANT-5 (83/83),
-BRENNER-11 (71/71), DELISA-6 (62/62), DEVITA-12 (107/107), FIRESTEIN-12
-(125/125), GRAY-2020 (79/79), GREEN-HAND-2021 (60/60), GUYTON-2026 (85/85),
-HAZZARD-2022 (108/108, one TOC finding: ch7 outline says 284, the real
-opener is 286), IRWIN-RIPPE-2023 (215/215) and KAPLAN-11 (60/60) are now
-also done -- see the newest DONE entries. 9 books remain for the eyes. The
+**2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
+Contents.** Twenty-seven books are verified by the eyes (24 with 0
+unresolved and 0 disagreements, 3 with one recorded contents-vs-page
+finding: HAZZARD-2022, NELSON-2024, SLEISENGER-11) and 10 were accepted
+earlier by the human's decision (YOUMANS-4, MANDELL-9, ROSEN-2022,
+MURRAY-7, MIDDLETON-2019, KRAUSE-16, SABISTON-22, CAMPBELL-2020,
+GOODMAN-14, ADAMS-12) and are not tested again. 1,251 chapters were read
+by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
+unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-One book at a time (the human's rule, 2026-10-22): after each book, stop and
-report, so an interruption never leaves a long batch half-explained.**
+**NEWEST HAND-OFF (read this first): `HANDOFF-2026-10-23-evening.md`** --
+the full end-of-day state: every book and its count, the eight tool
+changes made on 23 Oct, the three findings, how to verify, the git log,
+and what must not be started unasked (the paid-model work: globe, entity
+registry, viewer, reading pipeline).
 
-**NEWEST HAND-OFF (read this first): `HANDOFF-2026-10-22-night.md`** -- the
-full state at the end of 22 Oct: next book MILLER-10, the 9 books left, the
-tool fixes and the TOC findings.
-
-**READ FIRST: `HANDOFF-2026-10-19-evening.md`** (written at end of session
-19 Oct, evening -- it WITHDRAWS the morning's "10 trusted books" claim and
-describes the rewritten tool). Then `HANDOFF-2026-10-19-page-offset.md`
-(morning), then `HANDOFF-2026-10-18-evening.md`.
-Older: `HANDOFF-2026-10-16-evening.md`.
-
-**SUPERSEDED 2026-10-16 (late).** The TOC prompts now tell the reader to
-copy each heading EXACTLY as the book prints it (number kept if printed,
-title kept if printed, nothing invented) -- done 2026-10-16 in
-`kitchen/toc_vision.py` and `kitchen/toc_headings.py`.
-
-**WILLIAMS-HEMATOLOGY-2021 is now read and CLEAN (DONE 2026-10-18 (f)).
-Validator: 36/36 clean, 4,323 chapters -- every attempted book is clean.**
-1 book remains: YOUMANS-4 (the last one). Ask Nir first, per the
-one-book rule.
-*** SUPERSEDED 2026-10-19: YOUMANS-4 was read that morning (432 chapters, 49
-provinces, validator clean) and the library is 37/37 clean, 4,755 chapters.
-The reading of the books is FINISHED. The unfinished step is now
-`page_offset` / printed folio -- see `HANDOFF-2026-10-19-evening.md`. ***
+Older hand-offs, only if ever needed: `HANDOFF-2026-10-22-night.md`,
+`HANDOFF-2026-10-19-evening.md`, `HANDOFF-2026-10-19-page-offset.md`,
+`HANDOFF-2026-10-18-evening.md`, `HANDOFF-2026-10-16-evening.md`. The
+reading of the books (their text) was finished on 19 Oct: 37/37 clean,
+4,755 chapters -- that work is superseded by the TOC work above.
 
 **TWO PIPELINE FIXES landed with OXFORD-6 (2026-10-18), in
 `kitchen/toc_vision.py` -- both protect every future book:**
