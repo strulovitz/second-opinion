@@ -2,6 +2,21 @@
 
 Generic-tool checkpoint: `4d378da`, committed and pushed to GitHub main.
 
+## Executor amendment (Nir, 2026-10-23)
+
+Nir rejected rebuilding whole books. The queue now keeps each accepted
+export exactly as it is and rewrites ONLY wrong page_end values (plus the
+province bounds derived from them). When a book's chapter list (numbers and
+starts) matches the accepted contents, its own names, titles, province
+grouping and even a pre-existing empty heading are preserved. A stale or
+empty export (fewer than two chapters) is restored from the accepted
+contents. A different non-empty chapter list, or a different count, is
+recorded as blocked for the one final review; it is never rebuilt
+silently. An unproved final boundary keeps the export's existing final end
+(mode kept-existing) unless `--check-index` proves a better one. A book
+whose ends are already correct gets a receipt with saved_files 0, and no
+file is written.
+
 ## Assignment
 
 Stay with DeepSeek for the entire common chapter-range repair queue.

@@ -33,7 +33,7 @@ def fill_ranges(toc, final_end=None):
     for province in provinces:
         kids = province.get("chapters", [])
         if not kids:
-            raise ValueError("empty province")
+            continue  # keep a pre-existing empty heading untouched
         province["page_start"] = min(c["page_start"] for c in kids)
         province["page_end"] = max(c["page_end"] for c in kids)
     return toc

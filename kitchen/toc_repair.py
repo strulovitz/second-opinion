@@ -19,7 +19,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from page_offset import flatten, require
+from page_offset import flatten, positive_integer, require
 from toc_ranges import fill_ranges
 from toc_reexport import atomic_write
 from toc_repair_source import accepted_source, final_boundary, flat_identity
@@ -47,6 +47,14 @@ def plan(book, check_index=False):
     identity = flat_identity(toc)
     end, boundary = final_boundary(book, toc, old, mapping,
                                    KITCHEN / "books" / book["pdf_file"], check_index)
+    if end is None and mapping.get("structure_preserved"):
+        # Minimal-change rule: an unproved tail does not justify rewriting
+        # the accepted export's own final number.
+        last = flatten(toc)[-1][1]
+        have = flatten(old)[-1][1].get("page_end")
+        if positive_integer(have) and have >= last["page_start"]:
+            end, boundary = have, {"mode": "kept-existing",
+                                   "note": "kept the accepted export's final end; index boundary not verified"}
     fill_ranges(toc, end)
     require(flat_identity(toc) == identity, "range calculation changed chapter starts/identity")
     expected = copy.deepcopy(toc)
@@ -64,6 +72,7 @@ def plan(book, check_index=False):
               "first_page": flatten(toc)[0][1]["page_start"],
               "last_page": flatten(toc)[-1][1]["page_end"],
               "changed_ends": changed, "image_changes": images, "image_issues": issues,
+              "structure": "preserved" if mapping.get("structure_preserved") else "rebuilt",
               "offset_values": mapping["offset_values"], "boundary": boundary,
               "starts_preserved_from": mapping["source"], "config_hash": digest(json.dumps(book, sort_keys=True))}
     return report, originals, payloads
@@ -81,9 +90,17 @@ def current(record, book):
                                for p, h in files.items())
 
 
+def same_document(before, after):
+    try:
+        return json.loads(before) == json.loads(after)
+    except (TypeError, json.JSONDecodeError):
+        return False
+
+
 def apply_plan(book, report, originals, payloads):
     require(all(p.read_text() == text for p, text in originals.items()), "inputs changed during verification")
-    changed = {p: text for p, text in payloads.items() if originals.get(p) != text}
+    changed = {p: text for p, text in payloads.items()
+               if p not in originals or not same_document(originals[p], text)}
     report = copy.deepcopy(report)
     if changed:
         backup = LOGS / "toc-repair-backups" / book["book_id"] / datetime.now().strftime("%Y%m%dT%H%M%S%f")
@@ -125,9 +142,10 @@ def summary(status, books):
     applied = [r for r in records.values() if r["state"] == "applied"]
     blocked = [r for r in records.values() if r["state"] == "blocked"]
     pending = [b["book_id"] for b in books if not current(records.get(b["book_id"]), b)]
-    provisional = [r for r in applied if r["boundary"]["mode"] == "median-fallback"]
+    verified = {"verified-index", "verified-tail-folios", "saved-index-boundary"}
+    provisional = [r for r in applied if r["boundary"]["mode"] not in verified]
     print(f"Queue: {len(applied)} applied; {len(blocked)} blocked; {len(pending)} pending/stale")
-    print(f"Final boundaries: {len(applied) - len(provisional)} index-derived; {len(provisional)} provisional median fallbacks")
+    print(f"Final boundaries: {len(applied) - len(provisional)} index/tail proved; {len(provisional)} provisional (existing or median)")
     print(f"Image issues: {sum(len(r['image_issues']) for r in applied)}; "
           f"variable-offset books preserved: {sum(r['offset_values'] > 1 for r in applied)}")
     for r in blocked:

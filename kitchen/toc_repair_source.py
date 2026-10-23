@@ -40,7 +40,8 @@ def accepted_source(book, source, old, eyes, image_dir):
         offsets = Counter(r["pdf_page"] - r["printed"] for r in rows)
         mapping = {"source": "saved-eyes", "unit": unit,
                    "offset_values": len(offsets),
-                   "uniform_offset": next(iter(offsets)) if len(offsets) == 1 else None}
+                   "uniform_offset": next(iter(offsets)) if len(offsets) == 1 else None,
+                   "structure_preserved": True}
     else:
         toc = {"provinces": []}
         kinds = set()
@@ -62,19 +63,23 @@ def accepted_source(book, source, old, eyes, image_dir):
             toc["provinces"].append(out)
         require(len(kinds) == 1, "empty source or mixed/unknown citation units")
         unit = next(iter(kinds))
-        mapping = {"source": "accepted-vis-toc", "unit": unit, "offset_values": 0,
-                   "uniform_offset": 0 if unit == "pdf-page" else book.get("page_offset")}
         old_rows, new_rows = flatten(old), flatten(toc)
-        if old_rows and len(old_rows) == len(new_rows):
-            same_chapters = all(
-                str(a[1].get("number")) == str(b[1].get("number"))
-                and a[1].get("page_start") == b[1].get("page_start")
-                for a, b in zip(old_rows, new_rows))
-            if same_chapters and len(old["provinces"]) > len(toc["provinces"]):
-                raise ValueError(
-                    "existing export groups the same chapters under more provinces "
-                    "than the accepted contents (finer headings such as SECTIONs); "
-                    "refusing to flatten them; needs SMART review")
+        preserved = len(old_rows) >= 2
+        if preserved:
+            # Nir's rule: keep the accepted book exactly as it is and edit
+            # only a wrong page_end. Never rebuild names or provinces.
+            require(len(old_rows) == len(new_rows),
+                    f"existing chapter list has {len(old_rows)} chapters but the "
+                    f"accepted contents has {len(new_rows)}; needs SMART review")
+            for (_, have), (_, want) in zip(old_rows, new_rows):
+                require(str(have.get("number")) == str(want.get("number"))
+                        and have.get("page_start") == want.get("page_start"),
+                        f"existing export disagrees with accepted contents at "
+                        f"chapter {want.get('number')}; needs SMART review")
+            toc = copy.deepcopy(old)
+        mapping = {"source": "accepted-vis-toc", "unit": unit, "offset_values": 0,
+                   "uniform_offset": 0 if unit == "pdf-page" else book.get("page_offset"),
+                   "structure_preserved": preserved}
         fill_ranges(toc)
     identities = [key(p, c) for p, c in flatten(toc)]
     require(len(set(identities)) == len(identities), "duplicate source chapter identities")

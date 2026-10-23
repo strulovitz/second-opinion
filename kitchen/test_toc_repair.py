@@ -80,15 +80,42 @@ class GenericRepairTests(unittest.TestCase):
         self.assertNotIn("pdf_page", toc["provinces"][0]["chapters"][0])
         self.assertEqual((images, issues), ([], []))
 
-    def test_finer_existing_provinces_are_not_silently_flattened(self):
+    def test_matching_export_keeps_its_own_provinces_and_titles(self):
         old = copy.deepcopy(self.old)
         split = copy.deepcopy(old["provinces"][1])
         del split["chapters"][1:]
         removed = copy.deepcopy(old["provinces"][1])
         removed["chapters"] = removed["chapters"][1:]
         old["provinces"] = old["provinces"][:1] + [split, removed]
-        with self.assertRaisesRegex(ValueError, "more provinces"):
+        old["provinces"][0]["chapters"][0]["title"] = "Title 1 (book wording)"
+        toc, _, mapping, _, _ = accepted_source(
+            self.book, self.legacy(), old, None, self.fixture.images)
+        self.assertEqual([p["name"] for p in toc["provinces"]],
+                         ["Part 1", "Part 2", "Part 2"])
+        self.assertEqual(toc["provinces"][0]["chapters"][0]["title"],
+                         "Title 1 (book wording)")
+        self.assertEqual([c["page_end"] for p in toc["provinces"] for c in p["chapters"]],
+                         [10, 20, 30, 41])
+        self.assertTrue(mapping["structure_preserved"])
+
+    def test_different_chapter_list_is_blocked_for_review(self):
+        old = copy.deepcopy(self.old)
+        old["provinces"][1]["chapters"].pop()
+        with self.assertRaisesRegex(ValueError, "needs SMART review"):
             accepted_source(self.book, self.legacy(), old, None, self.fixture.images)
+
+    def test_apply_writes_nothing_when_ends_are_already_correct(self):
+        self.prepare(eyes=False)
+        toc, _, _, _, _ = accepted_source(
+            self.book, self.legacy(), {"provinces": []}, None, self.fixture.images)
+        path = self.logs / "TEST-1-toc.json"
+        path.write_text(json.dumps(toc, indent=1))
+        before = path.read_bytes()
+        self.assertEqual(self.run_cli("--next", "--apply")[0], 0)
+        receipt = json.loads(self.status.read_text())["books"]["TEST-1"]
+        self.assertEqual(receipt["saved_files"], 0)
+        self.assertNotIn("backup", receipt)
+        self.assertEqual(path.read_bytes(), before)
 
     def test_legacy_pdf_outline_units_are_kept_as_pdf_pages(self):
         source = self.legacy()
