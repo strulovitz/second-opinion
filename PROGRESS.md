@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Section 4.4 chapter-end repair COMPLETE for all 37 books: 37 applied, 0 blocked, 0 pending; 1,730 end values corrected. 5 final pages proved from the index, 32 are provisional median estimates (8 capped at the book's last page); no zero-length chapters and no end past the book length. 39 tests pass. books.json untouched. Hand-off to SMART: HANDOFF-TO-SMART-2026-10-23.md. 1,337 wrong/missing end pages corrected; 3 books needed nothing and wrote no file; 4 empty exports restored from the already accepted contents. 5 final pages were proved from the index; 28 remain provisional. Field-by-field checks found no change outside `page_end` and province bounds. 34 tests pass. Details: HANDOFF-TOC-REPAIR.md and TOC-REPAIR-STATUS.json.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. SMART review: all 37 receipt/file hashes and internal-range calculations match; 39 tests pass. Actual-page sample disproves CAMPBELL-2020's saved chapter 1 title/start, so the rebuilt contents cannot yet be declared correct. Five final boundaries are recorded as verified, 32 estimated. See the newest review entry and open question below.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,14 +23,11 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-23 section 4.4 COMPLETE; hand-off back to SMART.** The queue ran
-to 37 applied, 0 blocked, 0 pending, with 1,730 end values corrected.
-Five final pages were proved from the index; the other 32 are provisional
-median estimates (8 capped at the book's last page). No zero-length last
-chapter and no end past the book length remain. Next work belongs to
-SMART: Step A3 page-offset mapping (only HARRISON-22 has an offset), the
-review of the 32 provisional tails, Checkpoint 3.2 statuses, and a sanity
-check of the four rebuilt books. This does not authorise a Freeze.
+**2026-10-23 SMART review: awaiting Nir's approval to repair Campbell first.**
+Check its saved contents against the actual book, using the local reader
+where needed, before changing chapter data. Then resume Step A3 and the
+remaining rebuilt-book/final-boundary reviews. Do not treat an `applied`
+receipt as proof that the input contents is correct.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -43,7 +40,7 @@ by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
 unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-**NEWEST HAND-OFF (read this first): `HANDOFF-TOC-REPAIR.md`.**
+**NEWEST HAND-OFF: `HANDOFF-TO-SMART-2026-10-23.md`; the SMART review below supersedes its completion claim for Campbell.**
 `HANDOFF-2026-10-23-recovery.md` records the historical Harrison pilot.
 The earlier `HANDOFF-2026-10-23-evening.md` records the completed TOC
 readings, counts and findings; recovery work supersedes its next-step text.
@@ -87,6 +84,7 @@ need their own checks. Every citation depends on correct page units.
 
 ## QUESTIONS FOR HUMAN
 
+- [open] 2026-10-23 SMART review, Part 3 sections 4.2-4.6: May I repair CAMPBELL-2020 first against the actual book, using the local reader where needed? Its saved list says chapter 1 is "Total Ankle Arthroplasty", page 14, but PDF page 27 opens "CHAPTER 1 / SURGICAL TECHNIQUES" on printed page 1. No chapter data has been changed during this review.
 - [answered 2026-10-23 recovery] Part 3 section 4.4: HARRISON-22 chapters 45 and 46 both start on printed page 291. The literal next-start-minus-one rule made ch45 end at 290. May the exporter use `max(current_start, next_start - 1)` so both chapters include the shared page? Nir answered "Yes, please continue" to this rule, fixing the exporter, checking Harrison only and writing the DeepSeek handoff. See AMENDMENT 3.4.
 
 ### TO BE ASKED ONE AT A TIME, IN PLAIN WORDS, ON 2026-10-11
@@ -158,6 +156,7 @@ handle /2nd-opinion/* {
 **Awaiting the human's yes. Nothing has been changed on the web server.**
 
 ## BLOCKED
+- [open] 2026-10-23 SMART review: CAMPBELL-2020 rebuilt list has a confirmed chapter 1 title/start mismatch against the actual PDF. Matching saved vis-toc and export files is not independent proof of a correct TOC. The four rebuilt books' physical-page review is not complete; do not mark them geography-done from the repair receipts.
 - [resolved 2026-10-23 recovery] Part 3 section 4.4, HARRISON-22 exporter defects: the 21 chapter-range mismatches and two stale image references were repaired using saved evidence; index start PDF 4044 was confirmed directly. The final verifier reports zero range/image warnings for all 505 chapters. Status remains accepted pending human review. Other books are not claimed repaired; the no-reader tool stops on missing evidence, irregular offsets or an unconfirmed index boundary. Exact commands and output are under DONE.
 
 ## AMENDMENTS DECLARED BY THE MANAGER
@@ -288,12 +287,64 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-23, GPT 6.1 Sol: read the DeepSeek handoff, current ledger, all 37 receipts, instructions and all 14 BIBLE files; confirmed GitHub main at dca403c. Read-only integrity review and two Campbell page samples; no book/configuration/output changes.
 - 2026-10-23 generic repair, GPT 6.1 Sol: replaced the unnecessarily restrictive offset-dependent handoff with a shared range-repair queue for all 37 accepted contents sources. Performed read-only metadata plans on the whole library; no new real-book output was applied.
 - 2026-10-23 recovery, GPT 6.1 Sol: read the whole BIBLE (all 14 files), instructions, current ledger and GitHub main. Recovered the previous session's uncommitted offset verifier, tests and Harrison record. Rechecked them before the first recovery checkpoint. No cause of the earlier computer freeze has been established.
 - 2026-10-23, GPT 6.1 Sol: after Nir asked "so now can you do serious things please ?", started substantive Step A3 implementation for HARRISON-22 using the existing TOC/reader evidence; one book, then report.
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- 3.4 / 8.7 SMART handoff review -- GPT 6.1 Sol
+
+Read all 14 BIBLE files from the clean local clone of GitHub main;
+`gh api repos/strulovitz/second-opinion/commits/main --jq .sha` returned
+`dca403ceac02ffee773cee4486fc21461c69851d`, matching local HEAD.
+Versions checked: git 2.47.3, gh 2.97.0, Python 3.13.5,
+pdftotext/pdfinfo 25.03.0.
+
+COMMAND: `TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'`
+
+```text
+Ran 39 tests in 0.019s
+
+OK
+```
+
+Read-only Python stdlib integrity check: compared all receipt SHA-256s
+against their local files, all configuration hashes against books.json,
+and each internal end against `max(start, next_start - 1)`.
+
+```text
+Books/chapters: 37 4755 | receipts: {'applied': 37}
+Hash mismatches: 0 | config mismatches: 0 | internal-range errors: 0
+Empty provinces: [('ADAMS-12', 'PART 2: CARDINAL MANIFESTATIONS OF NEUROLOGIC DISEASE')]
+Finals: {'median-fallback': 32, 'verified-index': 5}
+Configured offsets: [('HARRISON-22', 43)]
+```
+
+Physical sample (CAMPBELL-2020 only): invoked
+`pdftotext -layout -f N -l N <its PDF from books.json> -` serially for
+N=11 and N=27, with a 20-second timeout each. Page 11 is explicitly
+"List of Techniques", not the book's chapter contents. Page 27 opens:
+
+```text
+CHAPTER         1
+SURGICAL TECHNIQUES
+Andrew H. Crenshaw Jr.
+SURGICAL TECHNIQUES                1
+```
+
+The current export and vis-toc instead store chapter 1 as
+"Total Ankle Arthroplasty", page_start 14. Thus the previous claim that
+the four rebuilds restored correct chapter lists is not established.
+The numerical range fix passes; its input list must still be checked.
+The last-known-offset cap in a variable-offset book is also an estimate,
+not proof of the printed folio at the end of the file.
+
+FILES: this ledger only. No book data, script, BIBLE, receipt or database
+changed. No reader/GPU jobs. Next: the one question above, then Campbell
+first if approved. Other books' TOCs were not reread.
 
 ### DONE 2026-10-23 -- 3.4.4 final end pass: no placeholders, no overshoots -- DeepSeek (executor)
 
