@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. SMART review: all 37 receipt/file hashes and internal-range calculations match; 39 tests pass. Actual-page sample disproves CAMPBELL-2020's saved chapter 1 title/start, so the rebuilt contents cannot yet be declared correct. Five final boundaries are recorded as verified, 32 estimated. See the newest review entry and open question below.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Campbell's chapter list is wrong; its PDF bookmarks provide 90 chapters under 19 real Parts. Nir stopped SMART and assigned the repair to DeepSeek for minimum cost. Book data remains unchanged. Current handoff: HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,11 +23,11 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-23 SMART review: awaiting Nir's approval to repair Campbell first.**
-Check its saved contents against the actual book, using the local reader
-where needed, before changing chapter data. Then resume Step A3 and the
-remaining rebuilt-book/final-boundary reviews. Do not treat an `applied`
-receipt as proof that the input contents is correct.
+**2026-10-23 DeepSeek: repair Campbell first, then report and stop.**
+Follow HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md. Use the PDF's own
+chapter/Part bookmarks and confirm their destinations efficiently. The
+paid SMART attempt was stopped; no book data was applied. Step A3 and
+the other book reviews wait until Campbell is repaired.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -40,7 +40,7 @@ by the eyes on 23 Oct; HARRISON-22 was finished the same day (505/505, 0
 unresolved, 0 disagreements). There is no book left for the eyes. The
 human still checks the OTHER PDFs himself for completeness.
 
-**NEWEST HAND-OFF: `HANDOFF-TO-SMART-2026-10-23.md`; the SMART review below supersedes its completion claim for Campbell.**
+**NEWEST HAND-OFF: `HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md`.**
 `HANDOFF-2026-10-23-recovery.md` records the historical Harrison pilot.
 The earlier `HANDOFF-2026-10-23-evening.md` records the completed TOC
 readings, counts and findings; recovery work supersedes its next-step text.
@@ -84,7 +84,7 @@ need their own checks. Every citation depends on correct page units.
 
 ## QUESTIONS FOR HUMAN
 
-- [open] 2026-10-23 SMART review, Part 3 sections 4.2-4.6: May I repair CAMPBELL-2020 first against the actual book, using the local reader where needed? Its saved list says chapter 1 is "Total Ankle Arthroplasty", page 14, but PDF page 27 opens "CHAPTER 1 / SURGICAL TECHNIQUES" on printed page 1. No chapter data has been changed during this review.
+- [answered 2026-10-23] SMART review, Part 3 sections 4.2-4.6: Campbell repair approved: "ok please repair with minimum money". Nir then stopped SMART and assigned the repair to DeepSeek, asking for an explanation-only handoff rather than unfinished code. The book remains unchanged.
 - [answered 2026-10-23 recovery] Part 3 section 4.4: HARRISON-22 chapters 45 and 46 both start on printed page 291. The literal next-start-minus-one rule made ch45 end at 290. May the exporter use `max(current_start, next_start - 1)` so both chapters include the shared page? Nir answered "Yes, please continue" to this rule, fixing the exporter, checking Harrison only and writing the DeepSeek handoff. See AMENDMENT 3.4.
 
 ### TO BE ASKED ONE AT A TIME, IN PLAIN WORDS, ON 2026-10-11
@@ -273,6 +273,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23 Campbell: Nir said "ok please repair with minimum money", then stopped the paid session and requested a detailed handoff to DeepSeek. He clarified: "do not give him unfinished code, he knows how to code. explain to him what needs to be fixed , not code". SMART withdrew its unfinished script/test and summary change; only instructions and evidence are handed over.
 - 2026-10-23 generic-repair correction: Nir rejected a handoff that would make him switch models repeatedly and instructed: "do something generic" and "give him general instructions how to fix at least the majority of books". The new scope is one shared library repair procedure, DeepSeek throughout the common queue, and one consolidated return to SMART for genuine exceptions. A book-end pause is not a model switch. No re-reading of accepted books, no unattended jobs, and no BIBLE edit is involved.
 - 2026-10-23 recovery: Nir requested "save every now and then in the github and push and in your memory (make pointer from agents.md - just refer , please, do NOT inflate agents.md)" and a return to the chapter-end bug and cheaper-model handoff. Asked whether both chapters may include page 291 and whether SMART should fix the exporter, check Harrison only and write the handoff, he selected "Yes, please continue". Save checkpoints and stop after the handoff; continue one book at a time with human supervision.
 - 2026-10-23, Part 3 section 3.3: Nir approved the proposal to finish HARRISON-22's acceptance record with continent name "Internal Medicine (general)" and to let GPT 6.1 Sol do this one routine CHEAP-tier step here. His reply, after asking how long that step takes, was: "ok please do it". Scope: this book's status and field name, verification, and the progress record; then stop and report.
@@ -294,6 +295,29 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- Campbell investigation stopped; explanation-only DeepSeek handoff -- GPT 6.1 Sol
+
+Repair NOT DONE. No source/export/receipt or books.json changed. The
+book's own bookmark metadata has 4,183 entries: 90 explicit Chapter
+bookmarks under 19 Parts, with valid PDF destinations. Examples: chapter
+1 Surgical Techniques PDF 27; chapter 2 Advanced Imaging in Orthopaedics
+PDF 170; chapter 10 Total Ankle Arthroplasty PDF 599; chapter 90 Sports
+Injuries of the Ankle PDF 4990. Final PDF page 5036 still explicitly names
+chapter 90 and prints folio 4536.e5. Page-label metadata incorrectly calls
+the chapter-1 opener "2" while the page prints 1; it is not reliable folio
+proof. The configured index location is absent.
+
+Tool versions checked: Python 3.13.5, pdftotext 25.03.0, pypdf 6.20.1;
+PyMuPDF is not installed. No install or reader calls.
+
+The read-only per-page pdftotext verification confirmed 10 destinations
+before its 180-second tool timeout. A one-open-PDF pypdf extraction
+experiment then failed a strict chapter-1 number check; investigate its
+text ordering/spacing on one page rather than treating that as a bad
+bookmark. Nir stopped this attempt and requested DeepSeek. All unfinished
+implementation changes were withdrawn. The new handoff records the
+evidence, blocker, efficient approach and acceptance checks without code.
 
 ### 2026-10-23 -- 3.4 / 8.7 SMART handoff review -- GPT 6.1 Sol
 

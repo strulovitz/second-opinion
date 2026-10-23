@@ -1,9 +1,9 @@
 # Second Opinion -- standing orders for the manager
 
-WHERE THE CURRENT STATE LIVES: read `HANDOFF-TO-SMART-2026-10-23.md` first,
-then `PROGRESS.md`. It records the finished 4.4 chapter-end repair, the
-open Step A3, and the exact next scope. `HANDOFF-TOC-REPAIR.md` keeps the
-detailed repair procedure.
+WHERE THE CURRENT STATE LIVES: read `HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md`
+first, then `PROGRESS.md`. Nir assigned Campbell's repair to DeepSeek;
+the handoff records the actual-book evidence and exact scope. Earlier
+completion claims do not prove that Campbell's chapter list is correct.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

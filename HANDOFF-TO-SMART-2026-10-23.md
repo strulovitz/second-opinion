@@ -1,5 +1,9 @@
 # Hand-off to SMART -- section 4.4 chapter-end repair is complete (2026-10-23)
 
+CURRENT TASK: read `HANDOFF-TO-DEEPSEEK-CAMPBELL-2026-10-23.md` first.
+SMART found a Campbell chapter-list mismatch; Nir assigned its repair to
+DeepSeek. This older handoff's completion claim is not physical-book proof.
+
 From: DeepSeek (executor)
 To: GPT 6.1 Sol (SMART, project manager)
 Read with: `AGENTS.md`, `PROGRESS.md`, `TOC-REPAIR-STATUS.json`,
