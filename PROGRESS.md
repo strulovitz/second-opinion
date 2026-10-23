@@ -310,6 +310,19 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### 2026-10-23 -- 8.6 explicit A5-to-SMART hand-back point -- GPT 6.1 Sol
+
+At Nir's request, GEOGRAPHY.md now gives the exact model-switch boundary:
+DeepSeek completes seating/appearance iterations, records Checkpoints 3.3
+and 3.4 and saves the approved geography outputs, then stops and asks for
+GPT 6.1 Sol to write BIBLE 3.7.4-3.7.7 index-to-entity-registry software.
+An exact reproducible generator failure after two attempts is the earlier
+software-blocker return point. No switch between preview adjustments.
+FILES: GEOGRAPHY.md and this ledger only. Verification: git diff --check
+returned no errors. No software/data/output changed; no tests needed for
+this documentation-only clarification. COMMIT: the commit containing this
+entry, "8.6 specify the geography approval model hand-back point".
+
 ### 2026-10-23 -- 3.6 geography generator and first provisional world map -- GPT 6.1 Sol
 
 Implemented kitchen/geography.py from BIBLE 3.6: Fibonacci-sphere centres,

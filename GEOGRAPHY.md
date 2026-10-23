@@ -62,6 +62,27 @@ Once the relevant checkpoints are satisfied, the same generator can write
 The registry CSV is exported from Neo4j at its later BIBLE step, not replaced
 by this staging atlas. No service, model endpoint or PDF is used by this tool.
 
+## Exact model hand-back point
+
+DeepSeek stays in charge throughout Step A5:
+
+1. Prepare the clinical grouping/seating proposal from the existing metadata.
+2. Generate the preview and show it to Nir. Apply any requested placement or
+   appearance adjustments with the existing generator.
+3. Record Nir's seating and texture approvals (Checkpoints 3.3 and 3.4),
+   generate the approved geography outputs, and commit/push the results and
+   evidence. Update PROGRESS.md with the approved configuration/output paths.
+4. STOP and tell Nir: "Please switch to GPT 6.1 Sol and say continue.
+   The next task is writing the index-to-entity-registry software,
+   BIBLE Part 3 sections 7.4-7.7."
+
+Do not switch models between preview adjustments. The next SMART assignment
+is reusable programming; after that code is tested, DeepSeek/free reader
+handle its repetitive execution. Do not start index extraction before that
+machinery is ready. If the reusable generator fails twice, record the exact
+commands/errors and return that software blocker to SMART earlier.
+The old contents-checking queue remains cancelled.
+
 ## Verification
 
 ```bash
