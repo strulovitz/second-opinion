@@ -64,6 +64,17 @@ def accepted_source(book, source, old, eyes, image_dir):
         unit = next(iter(kinds))
         mapping = {"source": "accepted-vis-toc", "unit": unit, "offset_values": 0,
                    "uniform_offset": 0 if unit == "pdf-page" else book.get("page_offset")}
+        old_rows, new_rows = flatten(old), flatten(toc)
+        if old_rows and len(old_rows) == len(new_rows):
+            same_chapters = all(
+                str(a[1].get("number")) == str(b[1].get("number"))
+                and a[1].get("page_start") == b[1].get("page_start")
+                for a, b in zip(old_rows, new_rows))
+            if same_chapters and len(old["provinces"]) > len(toc["provinces"]):
+                raise ValueError(
+                    "existing export groups the same chapters under more provinces "
+                    "than the accepted contents (finer headings such as SECTIONs); "
+                    "refusing to flatten them; needs SMART review")
         fill_ranges(toc)
     identities = [key(p, c) for p, c in flatten(toc)]
     require(len(set(identities)) == len(identities), "duplicate source chapter identities")

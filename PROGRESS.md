@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Generic chapter-range repair plans pass for 37/37 books (read-only); 31 tests pass. ONE switch to DeepSeek for the full supervised queue: HANDOFF-TOC-REPAIR.md. Harrison's earlier apply is complete; the generic library queue is not yet applied.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Generic chapter-range repair plans pass for 37/37 books; 32 tests pass. ONE switch to DeepSeek for the full supervised queue: HANDOFF-TOC-REPAIR.md. First queue work unit ADAMS-12 is `blocked` for structural review: its accepted export has SECTION provinces that the saved contents lacks, so the tool refused to flatten them. No ADAMS output changed; the queue resumes at AVERY-2021.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -294,6 +294,60 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-23 -- 3.4.4 generic queue, first work unit: ADAMS-12 blocked for structural review -- DeepSeek (executor)
+
+First book visited by the generic queue, in the assigned order: ADAMS-12
+(Adams and Victor's Principles of Neurology, 49 chapters, accepted-vis-toc).
+The range arithmetic itself is clean: every chapter start and every
+page_end already agrees with the accepted contents, so no numeric range
+fix is needed. What stopped the write is the province grouping. The
+existing accepted export has 13 provinces: the six SECTION headings of
+Part 2 plus the Parts (with one empty "PART 2" row and a duplicated
+"PART 4" row). The saved accepted contents has only the six Parts.
+Applying the queue as written would have flattened the six SECTIONs into
+one Part 2 province. BIBLE 4.2 says Sections are the provinces when a
+Part has them, so that would have degraded ADAMS-12's geography.
+
+Added a safety guard in `kitchen/toc_repair_source.py`: when the existing
+export and the accepted contents list the same chapters and starts but
+the export groups them under more provinces, the tool refuses and records
+`blocked` instead of silently flattening. Regression test added in
+`kitchen/test_toc_repair.py`. No ADAMS output file was changed.
+
+COMMANDS:
+
+```bash
+TMPDIR=/tmp/opencode PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py' -v
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py --next --check-index
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py --next --check-index --apply
+```
+
+OUTPUT (tests):
+
+```text
+Ran 32 tests in 0.014s
+OK
+```
+
+OUTPUT (dry run, then the queued write):
+
+```text
+ADAMS-12: BLOCKED: existing export groups the same chapters under more provinces than the accepted contents (finer headings such as SECTIONs); refusing to flatten them; needs SMART review
+Dry run; no files written
+EXIT=1
+```
+
+```text
+ADAMS-12: BLOCKED: existing export groups the same chapters under more provinces than the accepted contents (finer headings such as SECTIONs); refusing to flatten them; needs SMART review
+EXIT=1
+```
+
+RECEIPT: `TOC-REPAIR-STATUS.json` records ADAMS-12 as `blocked` with that
+reason. The next queue invocation will skip it and go to AVERY-2021.
+No backup was created because no file was written. The final chapter of
+ADAMS-12 stays provisional (median fallback) like the other unresolved
+tails. Nothing was sent to Neo4j.
 
 ### DONE 2026-10-23 -- 3.4.4 generic library range-repair tool and one-switch handoff -- GPT 6.1 Sol
 

@@ -80,6 +80,16 @@ class GenericRepairTests(unittest.TestCase):
         self.assertNotIn("pdf_page", toc["provinces"][0]["chapters"][0])
         self.assertEqual((images, issues), ([], []))
 
+    def test_finer_existing_provinces_are_not_silently_flattened(self):
+        old = copy.deepcopy(self.old)
+        split = copy.deepcopy(old["provinces"][1])
+        del split["chapters"][1:]
+        removed = copy.deepcopy(old["provinces"][1])
+        removed["chapters"] = removed["chapters"][1:]
+        old["provinces"] = old["provinces"][:1] + [split, removed]
+        with self.assertRaisesRegex(ValueError, "more provinces"):
+            accepted_source(self.book, self.legacy(), old, None, self.fixture.images)
+
     def test_legacy_pdf_outline_units_are_kept_as_pdf_pages(self):
         source = self.legacy()
         for province in source["provinces"]:

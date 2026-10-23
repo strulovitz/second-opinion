@@ -1,0 +1,10 @@
+{
+  "purpose": "range-repair run receipts, not a database export",
+  "books": {
+    "ADAMS-12": {
+      "book": "ADAMS-12",
+      "state": "blocked",
+      "error": "existing export groups the same chapters under more provinces than the accepted contents (finer headings such as SECTIONs); refusing to flatten them; needs SMART review"
+    }
+  }
+}
