@@ -1,5 +1,9 @@
 # Restart handoff -- paused actual 3D viewer implementation, 23 Oct 2026
 
+SUPERSEDED STOP STATE: Nir resumed Task 2. The actual viewer software is now
+implemented, browser-tested and requested open. Read section 14 and VIEWER.md
+for results and the DeepSeek execution handoff; the paused text below is history.
+
 LATEST SCOPE CORRECTION FROM NIR: build the ACTUAL viewer, not a disposable
 preview or a warm-up for another programmer. Read section 13 as well as the
 saved checklist in section 12. The initial geography-only code is the
@@ -523,3 +527,28 @@ commands for the remaining repetitive execution, as Nir originally asked.
 Return to the remaining BIBLE stages with a clear next step. Preserve the
 full-project path rather than repeatedly waiting for Nir to identify each
 obvious missing piece. Keep global memory unchanged and AGENTS.md short.
+
+## 14. Resumed implementation result -- 23 Oct 2026
+
+Nir resumed Task 2 on the saved code. The actual generic viewer now includes
+the globe, 2D entity maps, 3D shells, sprites, cascades, search/elevator,
+cards, provenance tooltips, severity/frequency styling, shared wording,
+phone bottom sheet, routes/Back/caching and honest missing-data/WebGL states.
+Neo4j entity/search and district export integration and a local launcher
+are written. Details, exact commands and remaining phases live in VIEWER.md.
+
+Task 2 software: implemented and checked with real geography plus isolated
+artificial entity fixtures. Four JS tests, six Python export tests and ten
+real-browser integration checks pass; screenshots were visually inspected.
+Task 3: actual localhost globe successfully requested open with xdg-open;
+INDEX-PIPELINE.md now names Qwen qwen3.8:27b on Ollama and the real reader.py
+startup/test command. The viewer server remains available on port 8765.
+Task 4: implementation evidence and handoff recorded in the working tree.
+The routine commit/push is handed to DeepSeek under VIEWER.md; it has not
+been performed by SMART. Starting HEAD remains 42af00d.
+
+Medical data are still absent, not invented. Neo4j remains three Meta nodes;
+there is no Freeze, no index/model job was started and no book was checked.
+The next cost-appropriate task is DeepSeek's supervised Harrison index trial
+in INDEX-PIPELINE.md, then its normal one-book/review sequence. Return to
+SMART for the later Freeze/rules/software work or a twice-failed code bug.

@@ -3,43 +3,56 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Explore the approved Second Opinion textbook geography in 3D.">
+  <meta name="description" content="Explore Second Opinion's textbook globe, entity maps and book-sourced connections.">
   <title>Second Opinion — the globe</title>
   <link rel="stylesheet" href="viewer.css">
   <script type="importmap">{"imports":{"three":"../assets/three/three.module.js"}}</script>
 </head>
-<body data-app="second-opinion-geography" data-state="loading">
-  <header>
+<body data-app="second-opinion-viewer" data-state="loading">
+  <header class="top">
     <a class="brand" href="../index.html">Second Opinion</a>
-    <span class="preview-label">Geography preview</span>
-    <nav aria-label="View">
-      <button id="view-3d" aria-pressed="true">3D globe</button>
-      <button id="view-2d" aria-pressed="false">2D map</button>
-    </nav>
+    <a href="#/globe" id="nav-globe">Globe</a>
+    <span id="data-state">Textbook geography</span>
+    <button id="btn-panel" class="mobile-only" aria-controls="panel" aria-expanded="false">Menu</button>
   </header>
   <main>
-    <section id="stage" aria-label="Interactive textbook geography">
+    <section id="stage" aria-label="Interactive textbook globe and entity map">
       <canvas id="globe" aria-label="Drag to rotate the globe; scroll or pinch to zoom"></canvas>
-      <canvas id="map" hidden aria-label="Flat map; click a chapter to inspect it"></canvas>
-      <p id="status" role="status">Loading your world…</p>
+      <canvas id="map" hidden aria-label="Drag to pan the map; scroll or pinch to zoom; click a light to follow a connection"></canvas>
       <div id="tooltip" hidden role="tooltip"></div>
-      <div class="view-controls">
-        <button id="home">Harrison / home</button>
+      <div id="controls">
+        <button id="home">Home</button>
+        <button id="btn-back" hidden>Back to globe</button>
+        <button id="view-3d" aria-pressed="true">3D globe</button>
+        <button id="view-2d" aria-pressed="false">2D map</button>
         <button id="zoom-in" aria-label="Zoom in">+</button>
         <button id="zoom-out" aria-label="Zoom out">−</button>
+        <button id="btn-fit">Fit</button>
         <label><input type="checkbox" id="guides"> Altitude guides</label>
       </div>
-      <p class="gesture-help">Drag to rotate · Scroll or pinch to zoom · Click a chapter</p>
+      <p id="status" role="status">Loading your world…</p>
+      <details id="legend"><summary>Legend</summary></details>
+      <p id="dense-note" hidden>Zoom in to see all mentions.</p>
+      <p class="gesture-help" id="gesture-help">Drag to rotate · Scroll or pinch to zoom · Click a chapter</p>
     </section>
-    <aside>
-      <div class="world-summary"><h1>Your medical world</h1><p id="counts"></p></div>
+    <aside id="panel">
+      <div class="world-summary"><h1>Your medical world</h1><p id="counts"></p><p id="registry-state" class="muted"></p></div>
+      <section id="elevator">
+        <label for="search">Find a symptom, disease or treatment</label>
+        <input id="search" type="search" placeholder="Search names or aliases" autocomplete="off">
+        <div class="tabs" role="group" aria-label="Entity group">
+          <button data-group="symptoms-and-signs" aria-pressed="true">Symptoms</button>
+          <button data-group="diseases-and-conditions" aria-pressed="false">Diseases</button>
+          <button data-group="treatments-and-drugs" aria-pressed="false">Treatments</button>
+        </div>
+        <p id="result-count" class="muted"></p><ol id="results"></ol><div id="places"></div>
+      </section>
       <section id="info" aria-live="polite"></section>
       <section class="books">
         <label for="book-search">Find a specialty</label>
         <input id="book-search" type="search" placeholder="e.g. Cardiology" autocomplete="off">
         <ul id="book-list"></ul>
       </section>
-      <p class="stage-note">This view shows the approved geography. Medical terms and relationship layers come from the index and reading stages.</p>
     </aside>
   </main>
   <script type="module" src="app.js"></script>

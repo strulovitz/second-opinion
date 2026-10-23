@@ -1,5 +1,11 @@
 # Geography generator
 
+CURRENT: Amendment 3.5 supersedes the rectangular/page-weighted layout below.
+Read HONEYCOMB.md: one whole near-equal-area tile per chapter, 4,751 hexagons
+and 12 pentagons. The new map is installed in the actual viewer and Nir has
+approved its appearance. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md for the next
+session. The old map is backed up; its history remains below.
+
 Implemented from BIBLE Part 3 section 6 and the mobile-texture amendment in
 Part 7. It builds the fixed spherical geography used by the eventual viewer.
 

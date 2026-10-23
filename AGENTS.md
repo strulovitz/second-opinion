@@ -1,9 +1,9 @@
 # Second Opinion -- standing orders for the manager
 
-CURRENT RESTART: read `HANDOFF-2026-10-23-3D-RESTART.md`, especially sections
-12-13 (saved todos and actual full-viewer scope), then the newest PROGRESS.md.
-Nir paused development to restart OpenCode; detailed state lives in that file.
-SMART writes generic software; DeepSeek/local reader run the long workflows.
+NEXT SESSION (DeepSeek): read `HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md`, then
+the newest PROGRESS.md. Nir approved the honeycomb globe and paused for sleep.
+First save the working tree to GitHub; then the supervised Harrison index
+trial. SMART writes software; DeepSeek/local reader run the workflows.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

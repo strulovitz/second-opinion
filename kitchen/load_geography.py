@@ -24,7 +24,8 @@ CALL () { UNWIND $territories AS t MERGE (x:Territory {territory_id:t.territory_
  SET x.level=t.level, x.name=t.name, x.part_name=t.part_name, x.book_id=t.book_id,
  x.page_start=t.page_start, x.page_end=t.page_end, x.page_count=t.page_count,
  x.lat=t.lat, x.lon=t.lon, x.area_fraction=t.area_fraction, x.seat_order=t.seat_order,
- x.raster_code=t.raster_code, x.colour_hex=t.colour_hex, x.bbox_px=t.bbox_px, x.border_geojson=null
+  x.raster_code=t.raster_code, x.colour_hex=t.colour_hex, x.bbox_px=t.bbox_px, x.border_geojson=null,
+  x.tile_sides=t.tile_sides, x.layout_anchor_lat=t.layout_anchor_lat, x.layout_anchor_lon=t.layout_anchor_lon
  RETURN count(x) AS territories }
 CALL () { UNWIND $territories AS t WITH t WHERE t.parent IS NOT NULL
  MATCH (c:Territory {territory_id:t.territory_id}), (p:Territory {territory_id:t.parent})
@@ -42,15 +43,21 @@ def main(argv=None):
     args = parser.parse_args(argv)
     books = [b for b in json.loads(args.books.read_text()) if b["status"] in ("accepted", "geography-done", "index-done")]
     geography = json.loads(args.geography.read_text())
+    # Supply null for optional fields on an older pre-honeycomb geography.
+    geography = [dict(tile_sides=None, layout_anchor_lat=None, layout_anchor_lon=None) | t for t in geography]
     continents = {t["book_id"]: t for t in geography if t["level"] == "continent"}
     require(set(continents) == {b["book_id"] for b in books}, "book/continent coverage differs")
     ids = {t["territory_id"] for t in geography}
     require(len(ids) == len(geography) and all(t["parent"] is None or t["parent"] in ids for t in geography), "invalid territory hierarchy")
     payload = [b | {"continent_id": continents[b["book_id"]]["territory_id"]} for b in books]
-    print(f"Approved geometry: {len(books)} books; {len(geography)} territories")
+    print(f"Geometry: {len(books)} books; {len(geography)} territories")
     if not args.apply:
         print("Dry run; no database access or writes")
         return 0
+    manifest_path = args.geography.parent / 'build.json'
+    if manifest_path.exists():
+        require(not json.loads(manifest_path.read_text()).get('geometry_review_pending'),
+                "the new honeycomb map awaits Nir's visual approval (Checkpoint 3.4); record his actual decision before loading")
     from db import run
     with lock(ROOT / "kitchen/logs/index-registry.lock"):
         freeze = run("MATCH (m:Meta {key:'skeleton_frozen'}) RETURN m.value AS value")

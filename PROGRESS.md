@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-PAUSED AT NIR'S REQUEST for an OpenCode restart. Read HANDOFF-2026-10-23-3D-RESTART.md. A6 index-to-registry software is delivered; a new 3D geography preview has been written but NOT tested/opened. Approved geography remains 37 continents, 534 provinces, 4,763 districts. No new model/server job or database data load was started. Existing completed book lists stay closed.
+PAUSED FOR THE NIGHT AT NIR'S REQUEST (23 Oct, around 23:23 Israel as reported by him). HONEYCOMB GLOBE APPROVED: "it looks great, yes i am very happy with it!!!" The canonical manifest records Checkpoint 3.4 approval. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md next session. The actual viewer has 4,751 hexagons and 12 pentagons, one whole near-equal-area tile per chapter, 37 connected books and 533 connected nonempty provinces plus the existing empty heading. All 4,763 chapter IDs/page bounds are unchanged. Last actual Neo4j check: three Meta nodes only. No reader/index job, book check or database data load was started. All viewer/honeycomb work and the overnight handoff are saved locally but remain uncommitted.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,18 +23,32 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-LATEST STOP INSTRUCTION: save the detailed restart handoff, reference it
-briefly from the project AGENTS.md, preserve partial work and stop. No global
-memory expansion. On the next user-authorised continuation, build/test/open
-the actual 3D viewer, developing the saved code into the real application,
-and explain local-reader startup plainly. Nir rejected a minimal preview
-as the assignment: section 13 records the broader actual-viewer scope.
-See HANDOFF-2026-10-23-3D-RESTART.md for exact files/state and remaining work.
-Section 12 preserves the exact OpenCode sidebar checklist, task statuses,
-file-by-file implementation, browser verification/opening procedure and
-the concrete DeepSeek reader-start commands. It is the next assignment.
-The older A6 execution pointer below remains the subsequent data workflow;
-it is not permission to start a reader job while this session is paused.
+OVERNIGHT STOP: Nir approved the new globe and asked to save a detailed
+DeepSeek handoff and a short project AGENTS.md pointer, then stop for sleep.
+NEXT AUTHORISED SESSION: DeepSeek reads HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md,
+saves the intended viewer/honeycomb/approval/handoff working tree to GitHub,
+then explains and runs the bounded Harrison index trial with Nir watching.
+No approval re-request, map regeneration, contents audit or overnight job.
+
+LATEST HUMAN DECISION: use one whole honeycomb polygon per chapter, with
+near-equal sizes worldwide and stepped book borders; no chapter-length
+area weighting. Amendment 3.5 is implemented and the new globe is opened.
+Checkpoint 3.4 is now approved and recorded. DeepSeek saves the intended
+viewer/honeycomb working tree to GitHub next session, then INDEX-PIPELINE.md.
+HONEYCOMB.md has the exact files, evidence, old-map backup and model handoff.
+The older continuation below records the completed viewer programming.
+
+LATEST CONTINUATION: Nir resumed the saved Task 2 and required the actual
+3D application. The reusable viewer is now implemented, checked in Chrome
+with real geography/isolated artificial entity fixtures, and opened through
+the desktop browser. VIEWER.md contains the software/data distinction,
+evidence, launcher and exact DeepSeek handoff. The old paused instructions
+in HANDOFF-2026-10-23-3D-RESTART.md are superseded by its section 14.
+NEXT: switch to DeepSeek to save the verified working tree to GitHub as
+specified in VIEWER.md, then INDEX-PIPELINE.md's supervised Harrison trial
+with the local Qwen reader, then the index/registry book workflows and human
+reviews. No book completeness/contents checking. Return to SMART for the
+later Freeze/rules/software review or a twice-failed reproducible code bug.
 
 **LATEST HUMAN ROUTING: SMART writes generic tools; DeepSeek executes books.**
 LATEST HUMAN DIRECTION (23 Oct): build the project; no more contents work or
@@ -185,6 +199,17 @@ handle /2nd-opinion/* {
 - [resolved 2026-10-23 recovery] Part 3 section 4.4, HARRISON-22 exporter defects: the 21 chapter-range mismatches and two stale image references were repaired using saved evidence; index start PDF 4044 was confirmed directly. The final verifier reports zero range/image warnings for all 505 chapters. Status remains accepted pending human review. Other books are not claimed repaired; the no-reader tool stops on missing evidence, irregular offsets or an unconfirmed index boundary. Exact commands and output are under DONE.
 
 ## AMENDMENTS DECLARED BY THE MANAGER
+- AMENDMENT 3.5 (2026-10-23, explicitly requested by Nir): replace the
+  page-weighted rectangular subdivision with one whole spherical tile per
+  chapter, mostly hexagons with pentagons where needed. Make chapter tiles
+  as similar in area as practical across the entire globe. Book/province
+  borders follow shared tile edges, including stepped honeycomb outlines;
+  no clipped border tiles. Consequently a book's area follows its chapter
+  count, not equal continent area or page count. Keep chapter identity,
+  source bounds and hierarchy; preserve the clinical seating as closely as
+  the new capacities allow. This supersedes the conflicting area/subdivision
+  rules in 3.1 and BIBLE 3.6.4; the BIBLE is never edited. The new geometry is
+  built/tested and installed in the viewer, with the old map backed up.
 - AMENDMENT 3.4 (2026-10-23 recovery, approved by Nir): Part 3 section 4.4 permits equal chapter starts but its literal next-start-minus-one formula can produce an end before the start. Use `max(current_start, next_start - 1)`, matching the existing validator. Chapters with equal starts both include their shared page. The BIBLE is unchanged.
 - AMENDMENT 3.1 (from BIBLE part 3): continents have equal area; page-count
   proportionality applies to provinces and districts inside each continent.
@@ -298,6 +323,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DECISIONS BY HUMAN
 
+- 2026-10-23, around 23:23 Israel (user-reported), honeycomb Checkpoint 3.4: after seeing the real new globe, Nir said "it looks great, yes i am very happy with it!!!" He then requested a detailed saved handoff for DeepSeek, a short pointer in the project AGENTS.md without inflating it, and an overnight stop. This approves the honeycomb map's appearance, not an entity-registry review, Freeze or overnight execution. He intends to return with DeepSeek, hopefully tomorrow.
 - 2026-10-23, after 9b0fb23: Nir explicitly rejected "preview" as a minimal goal and the idea of a warm-up for a future smarter programmer. He instructed SMART to do substantial work on the actual 3D application and as much real implementation as it can. HANDOFF-2026-10-23-3D-RESTART.md section 13 records this scope correction. Current session remains save-only for restart; no claim that the unfinished viewer is working.
 - 2026-10-23, after 0140ecf: Nir asked what the local/free reader means in executable BIBLE terms and whether the 3D globe works/can be shown. SMART explained it was not built and began a geography-only viewer. Nir then STOPPED development, criticised the long/rapid explanations and requested a detailed text restart handoff with a short project AGENTS.md reference, explicitly no expanded global memory. Save-only checkpoint; unfinished globe must not be called working.
 - 2026-10-23, Checkpoints 3.3/3.4 (A5): after viewing the specialty map, Nir approved the seating and the displayed appearance: "i think it's ok". Scope: the 37-book clinical grouping, field names and map preview. This is not a Neo4j load or a Freeze. The pre-change configuration backup is kitchen/logs/books-before-seating-20261023T205918.json.
@@ -330,6 +356,189 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-23 -- Approved honeycomb map and overnight DeepSeek restart saved
+
+Recorded Nir's actual approval quote under DECISIONS BY HUMAN and in
+data/export/geography/build.json. Its three approval flags are now:
+geometry_review_pending=false, seating_approved=true, approved_by_human=true.
+No map regeneration or asset change was needed; the existing geometry hashes
+stay valid. The ignored construction candidate is historical and must not
+be reinstalled to record approval.
+
+Saved HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md with the exact repository/working
+tree, implemented-versus-missing data state, math/viewer evidence, backup,
+approval, current server/reader facts, intended GitHub staging list, exact
+bounded Harrison commands and human checkpoints, plus when to return to
+SMART. Replaced only the short current pointer at the top of project
+AGENTS.md; global memory and the BIBLE were not edited. Updated the current
+HONEYCOMB/VIEWER/GEOGRAPHY/INDEX-PIPELINE pointers to remove the obsolete
+pending-approval instruction.
+
+Everything is saved locally and still UNCOMMITTED at HEAD 42af00d. DeepSeek's
+first next-session task is the intended GitHub checkpoint, followed by the
+supervised reader/index trial when Nir returns. No model was loaded, no
+reader/index process was started and no Neo4j data were written during this
+save-only step. Existing viewer server was left as it was; it may need its
+normal launcher after a reboot. No overnight execution was scheduled.
+
+Save verification: handoff exists and the AGENTS.md pointer names it;
+AGENTS.md remains 177 lines (unchanged size). The approval manifest parses
+as valid JSON with the recorded quote and three approved flags. Export/site
+geography.json SHA-256 both remain a14e1a22...; honeycomb.json both remain
+a4dc2dcf.... git diff --check passes. No application test rerun was needed
+for this documentation/approval-only save.
+
+### 2026-10-23 -- Amendment 3.5: one near-equal-area honeycomb tile per chapter -- GPT 6.1 Sol
+
+Nir explicitly requested one hexagon/pentagon per chapter, interlocking whole
+edges across books, with stepped book borders and similar sizes worldwide.
+He rejected chapter-length-based area. This authorises the algorithm change;
+approval of the resulting displayed map is still pending, not assumed.
+
+Implemented honeycomb_mesh.py, honeycomb_partition.py and
+geography_honeycomb.py. The closed spherical dual has exactly 4,763 polygons:
+4,751 hexagons and 12 pentagons, 9,522 shared vertices and 14,283 edges.
+Each shared edge belongs to exactly two cells. True spherical areas sum to
+4*pi. Area coefficient of variation is 0.01404672323 (1.4047%); smallest and
+largest are 0.7220741760 and 1.1034299926 times the mean. No claim of exactly
+equal areas. No clipped, missing or extra filler tiles.
+
+Capacity-constrained geographic ownership and connectivity checks retain
+all 37 books and all 533 nonempty provinces as connected tile regions. The
+one old empty province remains, for 534 total. Stable IDs, names, chapter
+numbers, parents, page bounds/units, raster codes, colours and seat_order
+were compared before installation and are unchanged. Old parent locations
+are saved as layout anchors; repeat-build tests preserve tile assignment.
+Source PDFs/chapter lists were not read, checked or changed.
+
+Built and verified the candidate under kitchen/logs/honeycomb-candidate,
+then installed it after hash/identity/freeze checks and an old-map backup:
+`kitchen/logs/before-honeycomb-20261023T201406461287Z/` contains both old
+geography directories. Current outputs are in data/export/geography and
+site/data/geography, including shared topology in honeycomb.json. The
+2048x1024 raster has 2,097,152 assigned pixels and zero ambiguous boundary
+pixels; every tile is represented. Both globe/map use the same real raster.
+
+Installed versions checked: NumPy 2.5.3, SciPy 1.18.1, NetworkX 3.7,
+Pillow 12.3.0 and Matplotlib 3.11.2. No installs or reader/model calls.
+
+```text
+OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 TMPDIR=/tmp/opencode .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+101 tests passed (including 7 new honeycomb tests)
+VIEWER_EXPECT_HONEYCOMB=1 VIEWER_EVIDENCE_PREFIX=honeycomb- node kitchen/test_viewer_browser.mjs
+10 browser integration checks passed; actual 4,751/12 tile counts confirmed
+.venv/bin/python kitchen/load_geography.py
+Geometry: 37 books; 5334 territories
+Dry run; no database access or writes
+.venv/bin/python kitchen/check_links.py --allow-pending
+Links/assets checked: 44; broken: 0; pending medical exports: 21
+```
+
+Visually opened the candidate 2D diagnostic, actual globe, Harrison marker
+alignment and phone-size globe screenshots. Browser evidence/receipt under
+ignored kitchen/logs/honeycomb-viewer-*.png and
+honeycomb-viewer-browser-results.json. Updated wording describes one tile
+per chapter; chapter cards identify hexagon/pentagon.
+
+The loader now carries tile_sides and layout anchors into Neo4j, and refuses
+--apply while the new map awaits the existing human visual checkpoint.
+Updated LOAD query accepted by real Neo4j using EXPLAIN only. Actual query:
+`MATCH (n) RETURN labels(n) AS labels, count(*) AS count` returned
+`[{'labels': ['Meta'], 'count': 3}]`. No database data load or Freeze.
+The old rectangle CLI refuses to overwrite a honeycomb-marked directory.
+
+```text
+xdg-open "http://127.0.0.1:8765/viewer/?layout=honeycomb#/globe"
+exit 0; new real globe requested open
+```
+
+HONEYCOMB.md is the current detailed handoff. After Nir approves the
+appearance, inexpensive recording/commit/push and index execution belong
+to DeepSeek. All programming and generated map changes are saved on disk
+but remain uncommitted; do not claim a GitHub push. No global memory edit.
+
+### 2026-10-23 -- 7.3-12 actual viewer software, browser proof and DeepSeek handoff -- GPT 6.1 Sol
+
+Resumed the saved code as Nir requested. Implemented real globe/maps, four
+routes and Back, caching/stale-result handling, district picking and cards,
+entity elevator/search/cards, 2D pan/pinch/zoom and lights, 3D shells/sprites,
+glass inner shell, district-specific F/dashes/severity, tooltips/cascades,
+touch inspection/navigation, phone sheet/framing, shared wording and honest
+missing-export/WebGL states. Authored modules are under 400 lines each;
+ui.js factors the cards/wording out of app.js. Existing Three.js was reused.
+No source list, approved geography, BIBLE file or global memory changed.
+
+Added export_entities.py, export_districts.py, viewer_export.py and the
+export_viewer.py entry point: read-only Neo4j exports, two identical output
+trees, stable unchanged timestamps, quote/image provenance preserved,
+no guessed altitudes and empty-graph refusal. Wording-only export produced
+data/export/wording.json and site/data/wording.json. Added check_links.py and
+open_globe.py, which serves site/ only on loopback. Detailed handoff: VIEWER.md.
+
+Installed facts rechecked: Node v26.7.0; Python 3.13.5; Chrome 150.0.7871.181;
+Neo4j driver 6.4.0; Neo4j Kernel 2026.09.0 (Cypher 5/25). No installs.
+GitHub main matched local starting HEAD 42af00d through git ls-remote.
+
+Evidence:
+
+```text
+node --test kitchen/test_viewer.mjs
+4 passed, 0 failed
+.venv/bin/python -m unittest discover -s kitchen -p test_viewer_export.py -v
+6 passed
+node kitchen/test_viewer_browser.mjs
+10 named browser integration checks passed
+.venv/bin/python kitchen/check_links.py --allow-pending
+Links/assets checked: 43; broken: 0; pending medical exports: 21
+git diff --check
+no whitespace errors
+```
+
+The browser proof used an isolated disposable Chrome profile and Node's
+native WebSocket/CDP, with no new browser dependency. Real globe renders
+WebGL, Harrison UV/raster/marker alignment agrees, and clicking/dragging,
+specialty selection, home and malformed hashes work. Artificial fetch-only
+fixtures exercise alias search/Enter, 2D/3D actual-spot tooltips/cascades,
+Back, glass shell, 390x844 phone sheet/two-tap touch, missing exports and
+no-WebGL fallback. No uncaught JS exceptions or uncancelled network failures.
+Artificial entities were NEVER written into real site data or Neo4j.
+Screenshots visually inspected under ignored kitchen/logs/: real globe,
+Harrison alignment, synthetic map/shell/glass and phone views. Named receipt:
+kitchen/logs/viewer-browser-results.json. Physical phone/other-browser/tunnel
+and human Checkpoint 7.1 acceptance are still pending, not claimed passed.
+
+The six exporter query constants were accepted by the actual Neo4j server
+using EXPLAIN (no writes). Actual count query/output:
+
+```cypher
+MATCH (n) RETURN labels(n) AS labels, count(*) AS count
+```
+
+```text
+[{'labels': ['Meta'], 'count': 3}]
+```
+
+No model test, model load, reader/index batch, database load or Freeze was
+started. The original 88 Python tests are not claimed as globe verification.
+The 21 pending assets are search.json plus 20 district samples; strict link
+checking remains mandatory after real export. Entity HTML/reading/altitude/
+final publishing phases remain later work. UI does not fabricate those data.
+
+```text
+.venv/bin/python kitchen/open_globe.py --no-open
+http://127.0.0.1:8765/viewer/#/globe
+xdg-open "http://127.0.0.1:8765/viewer/#/globe"
+exit 0; desktop browser opening requested
+```
+
+The server remains running for Nir; PID/log are under ignored kitchen/logs.
+INDEX-PIPELINE.md now explicitly names Qwen qwen3.8:27b on Ollama and
+`.venv/bin/python kitchen/reader.py` expecting {'ok': True}. Next routine
+execution belongs to DeepSeek, with Nir supervising and reviewing each book.
+The verified software/docs remain UNCOMMITTED at this handoff (HEAD 42af00d).
+Routine staging/commit/push is explicitly handed to DeepSeek in VIEWER.md
+to follow Nir's cost instruction. Do not claim a GitHub save has happened.
 
 ### 2026-10-23 -- 8.6 correct SMART's scope to the actual viewer -- GPT 6.1 Sol
 

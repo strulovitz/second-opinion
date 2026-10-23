@@ -355,6 +355,9 @@ def main(argv=None):
             require(all(b.get("field_name") for b in books), "accepted field names are needed for final geography")
         contents = {b["book_id"]: json.loads((args.logs / f"{b['book_id']}-toc.json").read_text()) for b in books}
         out = args.out or (args.logs / "geography-draft" if args.draft else ROOT / "data/export/geography")
+        existing = out / 'build.json'
+        require(not existing.exists() or json.loads(existing.read_text()).get('layout') != 'chapter-honeycomb',
+                'Amendment 3.5 selected honeycomb tiles; use geography_honeycomb.py, not the old rectangle generator')
         print(f"Building one {W}x{H} raster from {len(books)} existing books; draft={args.draft}", flush=True)
         result = build(books, contents, draft=args.draft)
         manifest = write_outputs(result, out, args.approved)

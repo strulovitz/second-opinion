@@ -1,0 +1,48 @@
+{
+  "altitude_templates": {
+    "diseases-and-conditions": "Altitude {r}. Discussed in {n} of the {N} books. Deep means multisystem; shallow means local.",
+    "symptoms-and-signs": "Altitude {r}. Presents in {n} diseases or conditions, counted in the books read so far. Low altitude means nonspecific; high means specific.",
+    "treatments-and-drugs": "Altitude {r}. Orbit group: {heaviness_group_label} (grouping decided by the reader model for layout only). Class: {class_canonical}."
+  },
+  "f_labels": [
+    "frequency not stated in the books",
+    "very rare",
+    "rare",
+    "uncommon",
+    "common",
+    "very common"
+  ],
+  "globe_intro": "Every coloured region is one textbook. Every chapter is one honeycomb tile, with similar-sized tiles across the globe. Click a tile to see its chapter, or search a symptom, disease or treatment to open its map.",
+  "group_labels": {
+    "diseases-and-conditions": "Disease or condition",
+    "symptoms-and-signs": "Symptom or sign",
+    "treatments-and-drugs": "Treatment or drug"
+  },
+  "heaviness_labels": {
+    "biologic-chemo-radiation": "biologics, chemotherapy, radiation and hospital procedures",
+    "lifestyle": "lifestyle and diet",
+    "otc": "over-the-counter medicines",
+    "prescription": "prescription medicines and minor procedures",
+    "surgery-transplant": "surgery, devices and transplantation"
+  },
+  "legend": {
+    "blue": "forward: presents with / treated by",
+    "grey": "often mistaken for",
+    "lit": "discussed here (no relation extracted yet)",
+    "yellow": "harm: side effect / leads to"
+  },
+  "sections": {
+    "HARMS:in": "Can be caused by a treatment (side effect)",
+    "HARMS:in:CONTRAINDICATED_IN": "Treatments that must not be given in this condition",
+    "HARMS:out": "Can cause: side effects and harms",
+    "HARMS:out:CONTRAINDICATED_IN": "Must not be given to people who have",
+    "LEADS_TO:in": "Can result from",
+    "LEADS_TO:out": "If present, can lead to / raises the risk of",
+    "MISTAKEN_FOR:both": "Often mistaken for (differential diagnosis)",
+    "PRESENTS_WITH:in": "Caused by: diseases and conditions that present with this",
+    "PRESENTS_WITH:out": "You may notice: symptoms and signs of this condition",
+    "TREATED_BY:in": "Used for",
+    "TREATED_BY:out": "Treated by"
+  },
+  "severity": "serious"
+}

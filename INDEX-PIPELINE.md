@@ -1,5 +1,11 @@
 # DeepSeek handoff: index pages to the entity registry
 
+LATEST GEOMETRY: Amendment 3.5 replaced the rectangles with one whole
+honeycomb tile per chapter. Nir approved its displayed appearance on 23 Oct;
+the canonical manifest records it. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md
+first: he paused for sleep, and the next session first saves the working
+tree to GitHub. Chapter/territory IDs, hierarchy and page bounds are unchanged.
+
 ## Current assignment and boundaries
 
 The A6 generic software is delivered in programming checkpoint `41fbd27`.
@@ -24,9 +30,20 @@ and this file. Commands below run from `/home/nir/second-opinion`.
 
 Check git status/recent commits. Check Python, pdftotext, pdftoppm and the
 configured reader are available. The installed versions checked by SMART are
-in PROGRESS.md. Ask Nir to start/load his existing free reader if it is not
-loaded; do not change its model/server configuration or install anything.
-Never print .env, passwords or tokens. Scripts use reader.py and db.run.
+in PROGRESS.md. The book reader is **Qwen `qwen3.8:27b` on this laptop's
+existing Ollama server**, not another paid chat. DeepSeek can load/test it
+for Nir using the existing BIBLE helper, with Nir watching:
+
+```bash
+.venv/bin/python kitchen/reader.py
+```
+
+This loads the already-installed model on demand if needed, and should print
+`{'ok': True}`. GPU startup can take time. No model download or separate AI
+conversation is needed. If it fails, preserve the exact error and diagnose
+before starting an index batch. Do not change the model/server configuration
+or install anything. Never print .env, passwords or tokens. Scripts use
+reader.py and db.run. SMART did not run this reader test during viewer work.
 
 Metadata-only readiness (no model or database access):
 
