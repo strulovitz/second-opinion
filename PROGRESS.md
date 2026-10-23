@@ -288,6 +288,51 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- WILLIAMS-OBSTETRICS-26 read by the eyes: 68/68, 0 unresolved, 0 disagreements
+
+3,475 PDF pages ("Williams Obstetrics", 26th ed.), 12 provinces, 68
+chapters. The links give PDF pages and the pages print no folio the reader
+can see, so all 68 are "pdf-page" (the number is the PDF page) -- the
+project's rule for these books. Clean on the first pass; no tool change
+needed.
+
+    .venv/bin/python kitchen/eyes_folio.py WILLIAMS-OBSTETRICS-26 --all --scan 6
+      68/68 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/WILLIAMS-OBSTETRICS-26-toc.json  12 provinces, 68 chapters
+
+### DONE 2026-10-23 -- THE TOC LANE IS COMPLETE: all 9 remaining books read by the eyes
+
+The nine books the 22 Oct handoff listed as still to do are all done, one
+book at a time, each recorded and pushed on its own commit:
+
+    MILLER-10                  87/87    0 unresolved, 0 disagree
+    NELSON-2024               519/519   0 unresolved, 1 finding (ch506)
+    OXFORD-6                  127/127   0 unresolved, 0 disagree
+    ROCKWOOD-10                69/69    0 unresolved, 0 disagree
+    SLEISENGER-11             132/132   0 unresolved, 1 finding (ch4)
+    STAHL-2024                 61/61    0 unresolved, 0 disagree
+    WILLIAMS-ENDO-2024         48/48    0 unresolved, 0 disagree
+    WILLIAMS-HEMATOLOGY-2021  140/140   0 unresolved, 0 disagree
+    WILLIAMS-OBSTETRICS-26     68/68    0 unresolved, 0 disagree
+
+1,251 chapters read today. The three findings are TOC defects, recorded in
+their entries above and not "fixed" in the books: NELSON ch506 (contents
+2976, page 2975, plus duplicated pages in our PDF), SLEISENGER ch4
+(working contents 51, page 34) and HAZZARD ch7 (22 Oct: contents 284, page
+286).
+
+LIBRARY STATE (37 books in `kitchen/books.json`):
+
+    27 books verified by the eyes -- 24 with 0 unresolved and 0 disagree,
+       3 with one recorded contents-vs-page finding (HAZZARD-2022,
+       NELSON-2024, SLEISENGER-11), and HARRISON-22 at 503/507 with the
+       two old unresolved chapters (ch46's page is missing from our PDF;
+       ch417 still needs one look)
+    10 books accepted earlier and deliberately not tested again:
+       YOUMANS-4, MANDELL-9, ROSEN-2022, MURRAY-7, MIDDLETON-2019,
+       KRAUSE-16, SABISTON-22, CAMPBELL-2020, GOODMAN-14, ADAMS-12
+
 ### DONE 2026-10-23 -- WILLIAMS-HEMATOLOGY-2021 read by the eyes: 140/140, 0 unresolved, 0 disagreements
 
 5,052 PDF pages ("Williams Hematology", 10th ed., 2021), 13 provinces,
