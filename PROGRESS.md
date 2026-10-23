@@ -1,7 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. Generic chapter-range repair plans pass for 37/37 books; 32 tests pass. ONE switch to DeepSeek for the full supervised queue: HANDOFF-TOC-REPAIR.md. First queue work unit ADAMS-12 is `blocked` for structural review: its accepted export has SECTION provinces that the saved contents lacks, so the tool refused to flatten them. No ADAMS output changed; the queue resumes at AVERY-2021.
+Part 3 (Phase A -- Building the Skeleton) -- IN PROGRESS. In-place chapter-end repair queue FINISHED: 33 applied, 4 blocked for one review, 0 pending. 1,337 wrong/missing end pages corrected; 3 books needed nothing and wrote no file; 4 empty exports restored from the already accepted contents. 5 final pages were proved from the index; 28 remain provisional. Field-by-field checks found no change outside `page_end` and province bounds. 34 tests pass. Details: HANDOFF-TOC-REPAIR.md and TOC-REPAIR-STATUS.json.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
 
@@ -23,14 +23,14 @@ Why 37, item by item, with the human's agreement:
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
 
-**2026-10-23 generic repair: ONE model switch for the library.** CHEAP
-(DeepSeek) follows `HANDOFF-TOC-REPAIR.md`, uses the SAME generic command
-for each queued book, saves/pushes each result, and collects exceptions
-for ONE SMART review at the end. No SMART switch is needed per book.
-Book-end pauses remain in the same DeepSeek session. Range calculation
-does not require a constant PDF offset or new eyes runs; uncertain final
-boundaries use the explicitly recorded BIBLE median fallback. This does
-not complete Step A3 mapping or authorise a Freeze.
+**2026-10-23 chapter-end repair queue FINISHED.** The generic queue ran to
+"Queue finished": 33 applied, 4 blocked, 0 pending/stale. The 4 blocked
+books (CAMPBELL-2020, KRAUSE-16, MIDDLETON-2019, SABISTON-22) have a
+non-empty chapter list that differs from the accepted contents; nothing
+was rewritten and they need ONE SMART review. Return to SMART once with
+`HANDOFF-TOC-REPAIR.md` and `TOC-REPAIR-STATUS.json`. This does not
+complete Step A3 page-offset mapping, does not verify the 28 provisional
+final pages, and does not authorise a Freeze.
 
 **2026-10-23: THE TOC LANE IS COMPLETE. All 37 books have their Table of
 Contents.** Twenty-seven books are verified by the eyes (24 with 0
@@ -294,6 +294,52 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-23 -- 3.4.4 library end repair finished in one queue run -- DeepSeek (executor)
+
+Ran the corrected in-place queue over all 37 books with
+`--next --check-index --apply` until "Queue finished". Result: 33 applied,
+4 blocked, 0 pending/stale. Thirty of the 33 wrote a file: 1,337 wrong or
+missing `page_end` values corrected. ADAMS-12, GOODMAN-14 and HARRISON-22
+had nothing to fix and wrote no file.
+
+Four of the 33 had unusable exports (MANDELL-9 0 chapters, MURRAY-7 1,
+ROSEN-2022 0, YOUMANS-4 missing), so restoring them from the already
+accepted contents could not lose anything: 210/142/208/432 chapters.
+For the other 26, a field-by-field check against every backup found 0
+changes to numbers, titles, starts, PDF pages or province names; only
+`page_end` (and the province bounds derived from it) changed. FIRESTEIN-12
+also fixed 2 stale image links (ch92 02020->02019, ch115 02518->02517),
+0 issues.
+
+Five final pages were proved from the index: AVERY-2021 end 958,
+HARRISON-22 end 4000 (already correct), HAZZARD-2022 end 3784,
+ROCKWOOD-10 end 3576, WILLIAMS-OBSTETRICS-26 end 3215. The other 28 keep
+an unverified final end (kept-existing or median fallback); those remain
+provisional and do not authorize a Freeze.
+
+BLOCKED for one SMART review (non-empty chapter list differs from the
+accepted contents; nothing was rewritten):
+CAMPBELL-2020 (export 862, accepted 82), KRAUSE-16 (87 vs 93),
+MIDDLETON-2019 (22 vs 99), SABISTON-22 (124 vs 92).
+
+COMMAND:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python kitchen/toc_repair.py --summary
+```
+
+OUTPUT:
+
+```text
+Queue: 33 applied; 4 blocked; 0 pending/stale
+Final boundaries: 5 index/tail proved; 28 provisional (existing or median)
+Image issues: 0; variable-offset books preserved: 13
+```
+
+Backups: `kitchen/logs/toc-repair-backups/<BOOK>/<timestamp>/`.
+Receipts: `TOC-REPAIR-STATUS.json`. No AI/model calls, rendering, GPU,
+whole-PDF conversion, parallel or background jobs. DB: not applicable.
 
 ### DONE 2026-10-23 -- 3.4.4 in-place end repair: ADAMS-12 clean, AVERY-2021 fixed -- DeepSeek (executor)
 
