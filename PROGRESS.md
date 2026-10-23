@@ -288,6 +288,17 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- WILLIAMS-HEMATOLOGY-2021 read by the eyes: 140/140, 0 unresolved, 0 disagreements
+
+5,052 PDF pages ("Williams Hematology", 10th ed., 2021), 13 provinces,
+140 chapters. The outline gives PDF pages, so all 140 are "pdf-page" (the
+number is the PDF page). Clean on the first pass; no tool change needed.
+
+    .venv/bin/python kitchen/eyes_folio.py WILLIAMS-HEMATOLOGY-2021 --all --scan 6
+      140/140 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/WILLIAMS-HEMATOLOGY-2021-toc.json  13 provinces, 140 chapters
+
 ### DONE 2026-10-23 -- WILLIAMS-ENDO-2024 read by the eyes: 48/48, 0 unresolved, 0 disagreements
 
 2,319 PDF pages ("Williams Textbook of Endocrinology", 2024), 11 provinces,
