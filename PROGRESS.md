@@ -288,6 +288,17 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## DONE (newest first, each with evidence)
 
+### DONE 2026-10-23 -- WILLIAMS-ENDO-2024 read by the eyes: 48/48, 0 unresolved, 0 disagreements
+
+2,319 PDF pages ("Williams Textbook of Endocrinology", 2024), 11 provinces,
+48 chapters. The outline gives PDF pages, so all 48 are "pdf-page" (the
+number is the PDF page). Clean on the first pass; no tool change needed.
+
+    .venv/bin/python kitchen/eyes_folio.py WILLIAMS-ENDO-2024 --all --scan 6
+      48/48 chapters read by the eyes; 0 unresolved
+      0 disagree with the book's own contents
+    kitchen/logs/WILLIAMS-ENDO-2024-toc.json  11 provinces, 48 chapters
+
 ### DONE 2026-10-23 -- STAHL-2024 read by the eyes: 61/61, 0 unresolved, 0 disagreements
 
 605 PDF pages ("Stahl's Essential Psychopharmacology", 2024), 61 provinces,
