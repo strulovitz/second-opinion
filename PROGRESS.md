@@ -24,7 +24,7 @@ Why 37, item by item, with the human's agreement:
   The five deleted files, their sizes and their SHA-256 hashes are recorded
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
-24 OCT 2026: unchanged task for DeepSeek: the supervised Harrison index trial (HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md, INDEX-PIPELINE.md). load_geography.py will now load the Goldberg coordinates (approval recorded in data/export/geography/build.json). Do not touch site/viewer/ or the geography; BIBLE Part 7 A9 says what to run when real exports exist.
+24 OCT 2026: unchanged task for DeepSeek: the supervised Harrison index trial. FOLLOW HANDOFF-2026-10-24-DEEPSEEK.md (fresh, replaces the 23 Oct handoff). load_geography.py will now load the Goldberg coordinates (approval recorded in data/export/geography/build.json). Do not touch site/viewer/ or the geography; BIBLE Part 7 A9 says what to run when real exports exist.
 
 
 OVERNIGHT STOP: Nir approved the new globe and asked to save a detailed

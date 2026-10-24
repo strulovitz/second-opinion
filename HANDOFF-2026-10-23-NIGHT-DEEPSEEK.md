@@ -1,6 +1,8 @@
 # Overnight restart for DeepSeek -- approved honeycomb globe, 23 October 2026
 
-> **UPDATE 24 OCT 2026 (Claude Opus 5.5) -- READ THIS FIRST.** Your task is UNCHANGED:
+> **OUT OF DATE. Use HANDOFF-2026-10-24-DEEPSEEK.md instead; this file is history.**
+>
+> **UPDATE 24 OCT 2026 (Claude Opus 5.5).** Your task is UNCHANGED:
 > the supervised HARRISON-22 index trial (sections 1 and 8 below, and INDEX-PIPELINE.md).
 > What changed: the globe was rebuilt and Nir approved it again ("i am happy about
 > everything please continue"). It is now the Goldberg ball (4,812 tiles: 4,763 chapter

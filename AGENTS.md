@@ -11,11 +11,9 @@ was allowed to write in it, once ("it is NOT a rule for everybody, just a
 one time rule for you"). Every other model writes reports and decisions in
 PROGRESS.md only, and asks Nir (QUESTIONS FOR HUMAN) if the BIBLE seems wrong.
 
-NEXT SESSION (DeepSeek): unchanged project task: the supervised Harrison
-index trial (HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md, INDEX-PIPELINE.md). The
-territory IDs and page bounds did not change, so those tools still apply.
-Do NOT touch site/viewer/ or the geography files; run the viewer tests of
-BIBLE Part 7 A10 if anything near them changes.
+NEXT SESSION (DeepSeek): read and follow HANDOFF-2026-10-24-DEEPSEEK.md
+step by step (the supervised Harrison index trial). It replaces the 23 Oct
+handoff. Do NOT touch site/viewer/ or the geography files.
 SMART writes software; DeepSeek/local reader run the workflows.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
