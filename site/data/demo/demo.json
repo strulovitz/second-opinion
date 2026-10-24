@@ -1,0 +1,2390 @@
+{
+ "notice": "DEMO placeholders invented by kitchen/make_demo.py. Not from any book. Never load into Neo4j.",
+ "search": [
+  {
+   "slug": "demo-symptom-a",
+   "canonical_name": "DEMO symptom A (a common, nonspecific example)",
+   "aliases": [
+    "DEMO symptom A alias"
+   ],
+   "group": "symptoms-and-signs",
+   "altitude": 1.12,
+   "rank": null,
+   "edge_count": 3,
+   "has_text": false,
+   "demo": true
+  },
+  {
+   "slug": "demo-symptom-b",
+   "canonical_name": "DEMO symptom B (a rare, very specific example)",
+   "aliases": [
+    "DEMO symptom B alias"
+   ],
+   "group": "symptoms-and-signs",
+   "altitude": 1.44,
+   "rank": null,
+   "edge_count": 1,
+   "has_text": false,
+   "demo": true
+  },
+  {
+   "slug": "demo-disease-c",
+   "canonical_name": "DEMO disease C (a deep, multisystem example)",
+   "aliases": [
+    "DEMO disease C alias"
+   ],
+   "group": "diseases-and-conditions",
+   "altitude": 0.42,
+   "rank": null,
+   "edge_count": 6,
+   "has_text": false,
+   "demo": true
+  },
+  {
+   "slug": "demo-disease-d",
+   "canonical_name": "DEMO disease D (a local example near the crust)",
+   "aliases": [
+    "DEMO disease D alias"
+   ],
+   "group": "diseases-and-conditions",
+   "altitude": 0.93,
+   "rank": null,
+   "edge_count": 5,
+   "has_text": false,
+   "demo": true
+  },
+  {
+   "slug": "demo-treatment-e",
+   "canonical_name": "DEMO treatment E (a lifestyle example, lowest orbit)",
+   "aliases": [
+    "DEMO treatment E alias"
+   ],
+   "group": "treatments-and-drugs",
+   "altitude": 1.65,
+   "rank": null,
+   "edge_count": 1,
+   "has_text": false,
+   "demo": true
+  },
+  {
+   "slug": "demo-treatment-f",
+   "canonical_name": "DEMO treatment F (a prescription example)",
+   "aliases": [
+    "DEMO treatment F alias"
+   ],
+   "group": "treatments-and-drugs",
+   "altitude": 2.25,
+   "rank": null,
+   "edge_count": 3,
+   "has_text": false,
+   "demo": true
+  },
+  {
+   "slug": "demo-treatment-g",
+   "canonical_name": "DEMO treatment G (a surgery example, outer orbit)",
+   "aliases": [
+    "DEMO treatment G alias"
+   ],
+   "group": "treatments-and-drugs",
+   "altitude": 2.85,
+   "rank": null,
+   "edge_count": 1,
+   "has_text": false,
+   "demo": true
+  }
+ ],
+ "entities": {
+  "demo-symptom-a": {
+   "slug": "demo-symptom-a",
+   "canonical_name": "DEMO symptom A (a common, nonspecific example)",
+   "aliases": [
+    "DEMO symptom A alias"
+   ],
+   "group": "symptoms-and-signs",
+   "altitude": 1.12,
+   "altitude_status": "demo",
+   "heaviness_group": null,
+   "rank": null,
+   "ordering_value": "DEMO",
+   "books_total": "DEMO",
+   "class_canonical": null,
+   "text_status": "none",
+   "text_quote_count": 0,
+   "demo": true,
+   "lit_spots": [
+    {
+     "district_id": "C10.P13.D047",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C33.P08.D152",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C21.P10.D127",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C02.P04.D041",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C28.P08.D071",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C14.P04.D306",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    }
+   ],
+   "edges": [
+    {
+     "relation": "PRESENTS_WITH",
+     "direction": "in",
+     "subtype": null,
+     "other_slug": "demo-disease-c",
+     "other_name": "DEMO disease C (a deep, multisystem example)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 5,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C25.P12.D113",
+       "district_name": "Control of Coagulation Reactions",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C12.P02.D006",
+       "district_name": "Pituitary Physiology and Diagnostic Evaluation",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P14.D245",
+       "district_name": "Skull Lesions in Children,",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P15.D261",
+       "district_name": "Tuberculosis (Mycobacterium tuberculosis)",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C03.P11.D056",
+       "district_name": "Cortical and Brain Stem Control of Motor Function",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C28.P16.D165",
+       "district_name": "Extrapulmonary Causes of Respiratory Failure",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C15.P07.D081",
+       "district_name": "Oral Food Challenge Testing",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C36.P09.D052",
+       "district_name": "Obstetric Ultrasound",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C22.P15.D079",
+       "district_name": "Hypertension",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C08.P01.D001",
+       "district_name": "Embryology of the Kidney",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C32.P03.D029",
+       "district_name": "Anesthetic Implications of Concurrent Diseases",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C20.P03.D029",
+       "district_name": "Cytokines and Chemokines",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C01.P11.D369",
+       "district_name": "Antiphospholipid Syndrome",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C27.P04.D021",
+       "district_name": "Occupational therapy in palliative care",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "PRESENTS_WITH",
+     "direction": "in",
+     "subtype": null,
+     "other_slug": "demo-disease-d",
+     "other_name": "DEMO disease D (a local example near the crust)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 3,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C14.P02.D079",
+       "district_name": "Diverticulitis and Neutropenic Enterocolitis",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P47.D458",
+       "district_name": "Treatment of Other Intracranial Dural Arteriovenous Fistulas",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P20.D551",
+       "district_name": "Retinoblastoma",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C06.P03.D061",
+       "district_name": "Asthma and Obesity",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C29.P20.D163",
+       "district_name": "Pediatric Lower Airway Obstruction",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C18.P02.D043",
+       "district_name": "Fractures of the Distal Radius and Ulna",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "TREATED_BY",
+     "direction": "out",
+     "subtype": null,
+     "other_slug": "demo-treatment-e",
+     "other_name": "DEMO treatment E (a lifestyle example, lowest orbit)",
+     "other_group": "treatments-and-drugs",
+     "f_scale": 4,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C35.P08.D057",
+       "district_name": "The Burned Hand",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C22.P04.D021",
+       "district_name": "The Patient Perspective",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C07.P07.D075",
+       "district_name": "Hemochromatosis",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C31.P32.D031",
+       "district_name": "guanfacine",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C19.P19.D127",
+       "district_name": "Antimicrobial Drugs",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C01.P08.D311",
+       "district_name": "Approach to the Patient with Critical Illness",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C26.P03.D070",
+       "district_name": "Management of Acute Leukemias",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    }
+   ]
+  },
+  "demo-symptom-b": {
+   "slug": "demo-symptom-b",
+   "canonical_name": "DEMO symptom B (a rare, very specific example)",
+   "aliases": [
+    "DEMO symptom B alias"
+   ],
+   "group": "symptoms-and-signs",
+   "altitude": 1.44,
+   "altitude_status": "demo",
+   "heaviness_group": null,
+   "rank": null,
+   "ordering_value": "DEMO",
+   "books_total": "DEMO",
+   "class_canonical": null,
+   "text_status": "none",
+   "text_quote_count": 0,
+   "demo": true,
+   "lit_spots": [
+    {
+     "district_id": "C33.P34.D364",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C21.P17.D430",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C05.P07.D070",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C29.P08.D069",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C17.P01.D011",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C01.P02.D062",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    }
+   ],
+   "edges": [
+    {
+     "relation": "PRESENTS_WITH",
+     "direction": "in",
+     "subtype": null,
+     "other_slug": "demo-disease-c",
+     "other_name": "DEMO disease C (a deep, multisystem example)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 2,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C36.P09.D052",
+       "district_name": "Obstetric Ultrasound",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 2,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C22.P15.D079",
+       "district_name": "Hypertension",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 2,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C08.P01.D001",
+       "district_name": "Embryology of the Kidney",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 2,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C32.P03.D029",
+       "district_name": "Anesthetic Implications of Concurrent Diseases",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 2,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    }
+   ]
+  },
+  "demo-disease-c": {
+   "slug": "demo-disease-c",
+   "canonical_name": "DEMO disease C (a deep, multisystem example)",
+   "aliases": [
+    "DEMO disease C alias"
+   ],
+   "group": "diseases-and-conditions",
+   "altitude": 0.42,
+   "altitude_status": "demo",
+   "heaviness_group": null,
+   "rank": null,
+   "ordering_value": "DEMO",
+   "books_total": "DEMO",
+   "class_canonical": null,
+   "text_status": "none",
+   "text_quote_count": 0,
+   "demo": true,
+   "lit_spots": [
+    {
+     "district_id": "C21.P30.D748",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C07.P03.D039",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C30.P09.D074",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C19.P14.D092",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C01.P06.D275",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C26.P03.D034",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    }
+   ],
+   "edges": [
+    {
+     "relation": "PRESENTS_WITH",
+     "direction": "out",
+     "subtype": null,
+     "other_slug": "demo-symptom-a",
+     "other_name": "DEMO symptom A (a common, nonspecific example)",
+     "other_group": "symptoms-and-signs",
+     "f_scale": 5,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C25.P12.D113",
+       "district_name": "Control of Coagulation Reactions",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C12.P02.D006",
+       "district_name": "Pituitary Physiology and Diagnostic Evaluation",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P14.D245",
+       "district_name": "Skull Lesions in Children,",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P15.D261",
+       "district_name": "Tuberculosis (Mycobacterium tuberculosis)",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C03.P11.D056",
+       "district_name": "Cortical and Brain Stem Control of Motor Function",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C28.P16.D165",
+       "district_name": "Extrapulmonary Causes of Respiratory Failure",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C15.P07.D081",
+       "district_name": "Oral Food Challenge Testing",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C36.P09.D052",
+       "district_name": "Obstetric Ultrasound",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C22.P15.D079",
+       "district_name": "Hypertension",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C08.P01.D001",
+       "district_name": "Embryology of the Kidney",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C32.P03.D029",
+       "district_name": "Anesthetic Implications of Concurrent Diseases",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C20.P03.D029",
+       "district_name": "Cytokines and Chemokines",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C01.P11.D369",
+       "district_name": "Antiphospholipid Syndrome",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C27.P04.D021",
+       "district_name": "Occupational therapy in palliative care",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 5,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "PRESENTS_WITH",
+     "direction": "out",
+     "subtype": null,
+     "other_slug": "demo-symptom-b",
+     "other_name": "DEMO symptom B (a rare, very specific example)",
+     "other_group": "symptoms-and-signs",
+     "f_scale": 2,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C36.P09.D052",
+       "district_name": "Obstetric Ultrasound",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 2,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C22.P15.D079",
+       "district_name": "Hypertension",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 2,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C08.P01.D001",
+       "district_name": "Embryology of the Kidney",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 2,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C32.P03.D029",
+       "district_name": "Anesthetic Implications of Concurrent Diseases",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 2,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "TREATED_BY",
+     "direction": "out",
+     "subtype": null,
+     "other_slug": "demo-treatment-f",
+     "other_name": "DEMO treatment F (a prescription example)",
+     "other_group": "treatments-and-drugs",
+     "f_scale": 4,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C25.P06.D055",
+       "district_name": "Hemolytic Anemia Resulting from Immune Injury",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C11.P04.D034",
+       "district_name": "Evaluation and Treatment of Neuropathic Pain Syndromes",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P11.D187",
+       "district_name": "Skull Tumors",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P12.D173",
+       "district_name": "Complement System",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C02.P09.D077",
+       "district_name": "Pelvic girdle, hip, gluteal region and thigh",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C28.P10.D107",
+       "district_name": "Cardiac Glycoside Poisoning",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C15.P01.D023",
+       "district_name": "Systems Biology",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C35.P08.D057",
+       "district_name": "The Burned Hand",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C22.P04.D021",
+       "district_name": "The Patient Perspective",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "HARMS",
+     "direction": "in",
+     "subtype": "CONTRAINDICATED_IN",
+     "other_slug": "demo-treatment-f",
+     "other_name": "DEMO treatment F (a prescription example)",
+     "other_group": "treatments-and-drugs",
+     "f_scale": 0,
+     "severity": true,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C13.P07.D055",
+       "district_name": "Physical Activity and Calories Expended per Hour",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": true,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P32.D342",
+       "district_name": "Evaluation and Management of Athletic Injuries of the Cervical Spine",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "LEADS_TO",
+     "direction": "out",
+     "subtype": null,
+     "other_slug": "demo-disease-d",
+     "other_name": "DEMO disease D (a local example near the crust)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 0,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C34.P10.D120",
+       "district_name": "Gynecologic Surgery",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P29.D704",
+       "district_name": "Disorders of the Nails",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C07.P02.D017",
+       "district_name": "Intestinal Gas",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C30.P05.D052",
+       "district_name": "Agents Affecting Mineral Ion Homeostasis and Bone Turnover",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C19.P11.D070",
+       "district_name": "Hypertrichosis and Hirsutism",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "MISTAKEN_FOR",
+     "direction": "both",
+     "subtype": null,
+     "other_slug": "demo-disease-d",
+     "other_name": "DEMO disease D (a local example near the crust)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 3,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C23.P12.D068",
+       "district_name": "Sexually Transmitted Infections",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C09.P02.D027",
+       "district_name": "Consultation-Liaison Psychiatry and Psychosomatic Medicine",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P04.D073",
+       "district_name": "Neuropsychological Testing,",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C20.P18.D128",
+       "district_name": "Rheumatic Paraneoplastic Syndromes and Malignancies With Rheumatic Manifestations",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    }
+   ]
+  },
+  "demo-disease-d": {
+   "slug": "demo-disease-d",
+   "canonical_name": "DEMO disease D (a local example near the crust)",
+   "aliases": [
+    "DEMO disease D alias"
+   ],
+   "group": "diseases-and-conditions",
+   "altitude": 0.93,
+   "altitude_status": "demo",
+   "heaviness_group": null,
+   "rank": null,
+   "ordering_value": "DEMO",
+   "books_total": "DEMO",
+   "class_canonical": null,
+   "text_status": "none",
+   "text_quote_count": 0,
+   "demo": true,
+   "lit_spots": [
+    {
+     "district_id": "C09.P02.D049",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C33.P08.D061",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C21.P02.D029",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C01.P18.D488",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C28.P01.D013",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C14.P03.D187",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    }
+   ],
+   "edges": [
+    {
+     "relation": "PRESENTS_WITH",
+     "direction": "out",
+     "subtype": null,
+     "other_slug": "demo-symptom-a",
+     "other_name": "DEMO symptom A (a common, nonspecific example)",
+     "other_group": "symptoms-and-signs",
+     "f_scale": 3,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C14.P02.D079",
+       "district_name": "Diverticulitis and Neutropenic Enterocolitis",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P47.D458",
+       "district_name": "Treatment of Other Intracranial Dural Arteriovenous Fistulas",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P20.D551",
+       "district_name": "Retinoblastoma",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C06.P03.D061",
+       "district_name": "Asthma and Obesity",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C29.P20.D163",
+       "district_name": "Pediatric Lower Airway Obstruction",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C18.P02.D043",
+       "district_name": "Fractures of the Distal Radius and Ulna",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "TREATED_BY",
+     "direction": "out",
+     "subtype": null,
+     "other_slug": "demo-treatment-g",
+     "other_name": "DEMO treatment G (a surgery example, outer orbit)",
+     "other_group": "treatments-and-drugs",
+     "f_scale": 3,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C14.P01.D020",
+       "district_name": "Penicillins and β-Lactamase Inhibitors",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P39.D400",
+       "district_name": "Traumatic Cerebrospinal Fluid Fistulas",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P18.D480",
+       "district_name": "Cyanotic Congenital Heart Disease- Lesions Associated with Increased Pulmonary Blood Flow",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C06.P01.D004",
+       "district_name": "Airway Biology",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C29.P14.D105",
+       "district_name": "Systemic Lupus Erythematosus and the Vasculitides",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "HARMS",
+     "direction": "in",
+     "subtype": null,
+     "other_slug": "demo-treatment-f",
+     "other_name": "DEMO treatment F (a prescription example)",
+     "other_group": "treatments-and-drugs",
+     "f_scale": 1,
+     "severity": true,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C24.P04.D058",
+       "district_name": "Eye Disorders",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 1,
+       "severity": true,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C10.P08.D025",
+       "district_name": "Disorders of the Autonomic Nervous System, Respiration, and Swallowing",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 1,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P08.D130",
+       "district_name": "Deep Brain Stimulation for Obesity,",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 1,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "LEADS_TO",
+     "direction": "in",
+     "subtype": null,
+     "other_slug": "demo-disease-c",
+     "other_name": "DEMO disease C (a deep, multisystem example)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 0,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C34.P10.D120",
+       "district_name": "Gynecologic Surgery",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P29.D704",
+       "district_name": "Disorders of the Nails",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C07.P02.D017",
+       "district_name": "Intestinal Gas",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C30.P05.D052",
+       "district_name": "Agents Affecting Mineral Ion Homeostasis and Bone Turnover",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C19.P11.D070",
+       "district_name": "Hypertrichosis and Hirsutism",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "MISTAKEN_FOR",
+     "direction": "both",
+     "subtype": null,
+     "other_slug": "demo-disease-c",
+     "other_name": "DEMO disease C (a deep, multisystem example)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 3,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C23.P12.D068",
+       "district_name": "Sexually Transmitted Infections",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C09.P02.D027",
+       "district_name": "Consultation-Liaison Psychiatry and Psychosomatic Medicine",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P04.D073",
+       "district_name": "Neuropsychological Testing,",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C20.P18.D128",
+       "district_name": "Rheumatic Paraneoplastic Syndromes and Malignancies With Rheumatic Manifestations",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    }
+   ]
+  },
+  "demo-treatment-e": {
+   "slug": "demo-treatment-e",
+   "canonical_name": "DEMO treatment E (a lifestyle example, lowest orbit)",
+   "aliases": [
+    "DEMO treatment E alias"
+   ],
+   "group": "treatments-and-drugs",
+   "altitude": 1.65,
+   "altitude_status": "demo",
+   "heaviness_group": "lifestyle",
+   "rank": null,
+   "ordering_value": "DEMO",
+   "books_total": "DEMO",
+   "class_canonical": "DEMO class",
+   "text_status": "none",
+   "text_quote_count": 0,
+   "demo": true,
+   "lit_spots": [
+    {
+     "district_id": "C33.P26.D306",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C21.P16.D357",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C05.P02.D012",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C29.P02.D011",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C16.P12.D043",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C01.P01.D004",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    }
+   ],
+   "edges": [
+    {
+     "relation": "TREATED_BY",
+     "direction": "in",
+     "subtype": null,
+     "other_slug": "demo-symptom-a",
+     "other_name": "DEMO symptom A (a common, nonspecific example)",
+     "other_group": "symptoms-and-signs",
+     "f_scale": 4,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C35.P08.D057",
+       "district_name": "The Burned Hand",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C22.P04.D021",
+       "district_name": "The Patient Perspective",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C07.P07.D075",
+       "district_name": "Hemochromatosis",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C31.P32.D031",
+       "district_name": "guanfacine",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C19.P19.D127",
+       "district_name": "Antimicrobial Drugs",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C01.P08.D311",
+       "district_name": "Approach to the Patient with Critical Illness",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C26.P03.D070",
+       "district_name": "Management of Acute Leukemias",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    }
+   ]
+  },
+  "demo-treatment-f": {
+   "slug": "demo-treatment-f",
+   "canonical_name": "DEMO treatment F (a prescription example)",
+   "aliases": [
+    "DEMO treatment F alias"
+   ],
+   "group": "treatments-and-drugs",
+   "altitude": 2.25,
+   "altitude_status": "demo",
+   "heaviness_group": "prescription",
+   "rank": null,
+   "ordering_value": "DEMO",
+   "books_total": "DEMO",
+   "class_canonical": "DEMO class",
+   "text_status": "none",
+   "text_quote_count": 0,
+   "demo": true,
+   "lit_spots": [
+    {
+     "district_id": "C21.P26.D649",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C06.P03.D122",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C30.P02.D016",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C19.P05.D034",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C01.P05.D217",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C25.P12.D116",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    }
+   ],
+   "edges": [
+    {
+     "relation": "TREATED_BY",
+     "direction": "in",
+     "subtype": null,
+     "other_slug": "demo-disease-c",
+     "other_name": "DEMO disease C (a deep, multisystem example)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 4,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C25.P06.D055",
+       "district_name": "Hemolytic Anemia Resulting from Immune Injury",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C11.P04.D034",
+       "district_name": "Evaluation and Treatment of Neuropathic Pain Syndromes",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P11.D187",
+       "district_name": "Skull Tumors",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P12.D173",
+       "district_name": "Complement System",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C02.P09.D077",
+       "district_name": "Pelvic girdle, hip, gluteal region and thigh",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C28.P10.D107",
+       "district_name": "Cardiac Glycoside Poisoning",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C15.P01.D023",
+       "district_name": "Systems Biology",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C35.P08.D057",
+       "district_name": "The Burned Hand",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C22.P04.D021",
+       "district_name": "The Patient Perspective",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 4,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "HARMS",
+     "direction": "out",
+     "subtype": null,
+     "other_slug": "demo-disease-d",
+     "other_name": "DEMO disease D (a local example near the crust)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 1,
+     "severity": true,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C24.P04.D058",
+       "district_name": "Eye Disorders",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 1,
+       "severity": true,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C10.P08.D025",
+       "district_name": "Disorders of the Autonomic Nervous System, Respiration, and Swallowing",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 1,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P08.D130",
+       "district_name": "Deep Brain Stimulation for Obesity,",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 1,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    },
+    {
+     "relation": "HARMS",
+     "direction": "out",
+     "subtype": "CONTRAINDICATED_IN",
+     "other_slug": "demo-disease-c",
+     "other_name": "DEMO disease C (a deep, multisystem example)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 0,
+     "severity": true,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C13.P07.D055",
+       "district_name": "Physical Activity and Calories Expended per Hour",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": true,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P32.D342",
+       "district_name": "Evaluation and Management of Athletic Injuries of the Cervical Spine",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 0,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    }
+   ]
+  },
+  "demo-treatment-g": {
+   "slug": "demo-treatment-g",
+   "canonical_name": "DEMO treatment G (a surgery example, outer orbit)",
+   "aliases": [
+    "DEMO treatment G alias"
+   ],
+   "group": "treatments-and-drugs",
+   "altitude": 2.85,
+   "altitude_status": "demo",
+   "heaviness_group": "surgery-transplant",
+   "rank": null,
+   "ordering_value": "DEMO",
+   "books_total": "DEMO",
+   "class_canonical": "DEMO class",
+   "text_status": "none",
+   "text_quote_count": 0,
+   "demo": true,
+   "lit_spots": [
+    {
+     "district_id": "C08.P16.D074",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C33.P01.D037",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C20.P13.D092",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C01.P12.D430",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C27.P14.D082",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    },
+    {
+     "district_id": "C14.P02.D082",
+     "book_id": "DEMO",
+     "pages": [
+      0
+     ],
+     "sources": [
+      "demo"
+     ],
+     "mentions": []
+    }
+   ],
+   "edges": [
+    {
+     "relation": "TREATED_BY",
+     "direction": "in",
+     "subtype": null,
+     "other_slug": "demo-disease-d",
+     "other_name": "DEMO disease D (a local example near the crust)",
+     "other_group": "diseases-and-conditions",
+     "f_scale": 3,
+     "severity": false,
+     "numeric_pct": null,
+     "statements": [
+      {
+       "district_id": "C14.P01.D020",
+       "district_name": "Penicillins and β-Lactamase Inhibitors",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C33.P39.D400",
+       "district_name": "Traumatic Cerebrospinal Fluid Fistulas",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C21.P18.D480",
+       "district_name": "Cyanotic Congenital Heart Disease- Lesions Associated with Increased Pulmonary Blood Flow",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C06.P01.D004",
+       "district_name": "Airway Biology",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      },
+      {
+       "district_id": "C29.P14.D105",
+       "district_name": "Systemic Lupus Erythematosus and the Vasculitides",
+       "book_id": "DEMO",
+       "page_number": 0,
+       "image_file": "demo-placeholder",
+       "f_scale": 3,
+       "severity": false,
+       "frequency_phrase": "DEMO frequency phrase",
+       "numeric_pct": null,
+       "quote": "DEMO placeholder sentence. This is not from any book."
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

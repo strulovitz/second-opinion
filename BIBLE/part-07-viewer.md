@@ -14,6 +14,249 @@ PRECONDITIONS:         Part 3 geography files exist in site/data/
                        (provisional is enough).
 ================================================================================
 
+================================================================================
+CLAUDE OPUS 5.5 ADDITION BEGIN -- PART 7 (written 24 Oct 2026)
+================================================================================
+A0. HOW TO READ THIS BLOCK
+  Nir (the human) decided everything in this block on 23-24 Oct 2026, after
+  seeing it working in his browser ("i am happy about everything please
+  continue"). Nir is above the BIBLE. WHERE THIS BLOCK AND THE OLDER TEXT OF
+  PART 7 DISAGREE, THIS BLOCK WINS. The older text still governs where this
+  block is silent: the hash routes (5.1), the state object (5.2), the panel
+  cards (9), the tooltip contents (10), the elevator (11.1), the legend
+  (11.2) and the honesty messages (12).
+  Read Part 3's CLAUDE OPUS 5.5 ADDITION (the Goldberg geography) first.
+  The software is DONE and TESTED. A later model's job is to KEEP it working
+  and FEED it real data. Do not rewrite it, do not "simplify" it, do not
+  bring back anything listed in A11.
+
+A1. WHAT CHANGED (the whole list)
+  1. The geography is the Goldberg ball of Part 3 A-block: 4,812 tiles =
+     4,763 chapter hexagons + 37 book name tiles + 12 pentagon lakes.
+  2. The 3-D globe is drawn from VECTORS (site/data/geography/
+     honeycomb.json), not from continents_texture.png. Lines are drawn by
+     a shader and stay sharp at every zoom. The texture and the picking
+     raster are still written by the kitchen (old tools and Neo4j loading
+     use them), but the viewer no longer reads them. Picking is exact
+     geometry (data.js tileAt), not the raster.
+  3. Two LOOKS of the same tiles, switched by two buttons:
+       "Sand table" (default; for everyone): every book is a mountain of
+         hexagon columns, the name tile is the summit with a flag, the 12
+         lakes are water, trees on the slopes when close, cartoon clouds in
+         the symptom atmosphere and cartoon satellites on the five
+         treatment orbits.
+       "Atlas" (for experts): flat tiles, fine lines, glass layer guides.
+     The choice is remembered in localStorage key "second-opinion-look";
+     ?look=atlas in the URL forces the Atlas.
+  4. The 2-D map is the FLOWER MAP (replaces 7.1-7.2's equirectangular
+     map completely). See A7.
+  5. The future layers are built now (A6): disease shells inside a glass
+     planet, symptom "beads" in the atmosphere, treatment shells on the
+     orbits, the altitude gauge, "Look inside" (cutaway), band and orbit
+     labels.
+  6. DEMO MODE (A8): invented, clearly labelled placeholder entities that
+     show how the layers will look before any book is read.
+  7. Labels are HTML laid over the canvas (labels.js), never painted into
+     textures; labels never overlap (greedy, biggest books first).
+  8. Motion: in the Sand table only, the DECORATION moves (clouds drift,
+     satellites fly). Real lights never move. The "Motion" box and the
+     system setting prefers-reduced-motion stop it. The planet itself
+     never turns by itself (8.5 stands).
+
+A2. FILES (site/viewer/; every JS file must stay under 400 lines)
+  index.html     controls, demo banner, altitude gauge, panel (A1 ids)
+  viewer.css     all styles; the 2-D/3-D switch hides #labels and #gauge
+  app.js         router, state, panel, elevator, looks, demo switch, gauge;
+                 window.secondOpinion = {world, globe, map} is a TEST HOOK
+  ui.js          panel cards, tooltip, legend (unchanged from 23 Oct)
+  data.js        loading + cache; geography() builds world.tiles, tileOf,
+                 tileAt; flowers(book); demo switch (setDemo, isDemo)
+  geo.js         spots (spotsFor), F sizes, colours, routes, BANDS,
+                 SUBBANDS, GROUP_TINT, bandOf. The ONLY place for radii.
+  materials.js   the tile shader shared by both looks; glow shader
+  atlas.js       tileGeometry() (shared), the Atlas look, ORBIT_TILTS
+  sandtable.js   heights(), the Sand table look and its decoration
+  layers.js      entity shell + lights, inner-shell rules, cutaway
+  labels.js      book, chapter, band and orbit labels
+  globe3d.js     scene, camera, controls, picking, look switch, API
+  map2d.js       the flower map (canvas 2D), pan/zoom/pinch, picking
+  Data read (relative to site/viewer/):
+    ../data/geography/geography.json       territories (unchanged format)
+    ../data/geography/honeycomb.json       format "goldberg-honeycomb-2"
+    ../data/geography/flowers/<BOOK>.json  format "flower-map-1", 37 files
+    ../data/wording.json, ../data/search.json, ../data/entities/<slug>.json,
+    ../data/districts/<id>.json            (unchanged formats, Part 6)
+    ../data/demo/demo.json                 DEMO ONLY (A8)
+
+A3. COORDINATES (exact; both kitchen and viewer depend on them)
+  Kitchen (Python) unit vectors have z = north:
+    x = cos(lat) cos(lon), y = cos(lat) sin(lon), z = sin(lat).
+  Three.js is y-up. A Python vector (x, y, z) is drawn at (x, z, -y)
+  (data.js toThree). This equals geo.js lonLatToXYZ(lon, lat).
+  honeycomb.json: vertices_xyz and tiles[i].centre_xyz are Python frame;
+  tiles[i].vertices are indices into vertices_xyz, counter-clockwise seen
+  from outside; tiles[i].neighbors are tile indices; tiles[i].kind is
+  "district" (territory_id = the chapter), "name" (territory_id = the
+  book's continent ID) or "pole" (territory_id null, a lake).
+  Flower files: xy[i] belongs to the i-th DISTRICT of geography.json in
+  file order. Units are tile spacings (neighbouring hexagon centres are
+  1 apart), y points up. Hexagons are pointy-top: corners at 30 + 60k
+  degrees, circumradius 1/sqrt(3); neighbours at 0, 60, ..., 300 degrees.
+  In LaTeX: $\mathbf{c}_k = \mathbf{p} + \tfrac{1}{\sqrt3}(\cos(30^\circ+60^\circ k), \sin(30^\circ+60^\circ k))$.
+
+A4. THE TILE SHADER CONTRACT (materials.js)
+  Per-vertex attributes: color (linear RGB), edge (1 at the tile centre,
+  0 on the tile's outer side, -1 on column walls), tile (tile index), book
+  (book index in geography order), line (0 same Part, 1 Part border,
+  2 book border). Line widths are in screen pixels via fwidth(edge):
+  grout 1.5 px, Part border 2 px, book border 2.8 px cream (#fff8e6) on
+  each side of the shared edge. Uniforms: uLight (world direction; the
+  sun is fixed to the camera, upper left), uHover/uHoverBook (hover glow),
+  uSelected (yellow ring), uOpacity (glass; below 1 the walls are
+  discarded), uToon (Sand table 3-step light). Poles have no border line.
+  NEVER paint lines or names into a texture again.
+
+A5. THE SAND TABLE (sandtable.js), exact numbers
+  depth d of a tile = number of steps (breadth-first) from its book's
+  border inside the book; d_max = deepest tile of the book (the name tile
+  is the deepest by construction). n_b = tiles of the book.
+    relief_b = 0.022 + 0.10 * sqrt(n_b / 520)
+    height   = 0.006 + relief_b * (d / d_max)^0.9      (lakes: 0)
+  In LaTeX: $h = 0.006 + \left(0.022 + 0.10\sqrt{n_b/520}\right)(d/d_{\max})^{0.9}$.
+  Column top radius = 1 + height; walls go down to the lower neighbour.
+  Hill shading: top normal = n - 4.0 * sum over same-book neighbours of
+  unit(direction to neighbour) * (h_neighbour - h) / 0.05, normalised.
+  Colour: the chapter colour times (0.82 + 0.3 s), s = (h - 0.006) /
+  relief_b; snow (mix to white 0.55-0.95) where relief_b > 0.05 and
+  s > 0.82. Trees: every chapter tile with (index * 2654435761 mod 2^32)
+  mod 9 = 0, shown only when the camera is closer than 2.7. One flag per
+  name tile. Clouds: 44 at Fibonacci directions, radius inside 1.12-1.40.
+  Satellites: 3 on each of the 5 sub-band rings (radius = middle of the
+  sub-band, tilt ORBIT_TILTS[i]), angular speed 0.05 * (1.5 / r)^1.5 rad/s.
+  CLOUDS, SATELLITES, TREES AND FLAGS ARE DECORATION. They show where the
+  bands are. They never mean an entity and never carry data. Clouds are
+  hidden while an entity shell is open, so the lights are clear.
+
+A6. THE LAYERS (layers.js and geo.js) -- what a later model must feed
+  Radii come ONLY from geo.js BANDS / SUBBANDS (= Part 5 section 2):
+    diseases 0.30-0.98, symptoms 1.02-1.50, treatments five sub-bands
+    1.52-1.78, 1.82-2.08, 2.12-2.38, 2.42-2.68, 2.72-2.98.
+  An entity's shell radius = entity.altitude from the export, EXACTLY.
+  Its lights sit at the tile centres of their districts (world.tileOf),
+  pushed by the sunflower offset / 400 along east and north. Never invent
+  an altitude or a light; a missing altitude refuses 3-D with the honest
+  message (12). Rules by band:
+    altitude < 1  (disease): planet becomes glass (opacity 0.32 Atlas,
+                  0.30 Sand), walls/trees/flags vanish, lights on the far
+                  side of the shell are hidden.
+    altitude >= 1 (symptom, treatment): planet stays solid; a light is
+                  lifted to at least 0.004 above the mountain top under it.
+  Light pictures: drawSpot (BIBLE 7.2 rules: colour by relation, radius
+  3 + 2.2F px, F0 dashed at F3 size, red severity ring) plus a soft glow;
+  in the Sand table also a white shine (a "bead"). Sprites have
+  sizeAttenuation false (the size means F, not distance).
+  Cutaway ("Look inside"): a 90-degree wedge facing the camera is removed
+  by two clipping planes (clipIntersection = true); two half-disc caps
+  show the strata, coloured by radius, with thin lines at r = 0.30, 0.47,
+  0.64, 0.81 (Atlas: blues; Sand table: lava colours).
+  The gauge (#gauge) shows 0 (core) at the bottom to 3 (outer orbit) at
+  the top; the white marker is entity.altitude / 3 of the height.
+
+A7. THE FLOWER MAP (kitchen/flower_map.py writes, map2d.js draws)
+  Nir's rules: every book is ONE round blob, never split; books are
+  grouped in "flowers" (a centre book = pollen, globe neighbours around it
+  = petals, touching it); flowers never touch each other; a book without
+  room is a lonely pollen; the grouping may differ for every viewing
+  direction; hexagons are perfect; nothing is forced into a rectangle.
+  Algorithm, for one viewing book V (deterministic):
+   1. Azimuthal equidistant projection of the 37 name-tile directions
+      around V's name tile (theta = angle from V, bearing from north).
+   2. Books in order of theta (then book_id). An unassigned book becomes
+      a pollen with blob radius R = sqrt(n * (sqrt3/2) / pi) + 0.5; it
+      takes its unassigned globe neighbours (most shared tile edges first)
+      while the angular widths 2 asin((r - 0.2)/(R + r - 0.5)) + 0.6/(R + r - 0.5)
+      still fit in 2 pi.
+   3. On the flower's own hexagon lattice: the pollen = its n nearest
+      cells; each petal's centre sits at distance R0 + r0 - 0.1 (R0, r0 =
+      the plain blob radii, without the + 0.5) in its
+      globe direction (directions spread apart on the circle until they do
+      not overlap); petal cells are given by increasing (distance / r),
+      each petal taking exactly its chapter count.
+   4. Flowers start at their projected places times
+      sqrt(total area / pi) * 1.25 / pi, are pushed apart until the
+      smallest gap between two flowers is GAP = 3.5 tiles, then pulled
+      inward while they stay clear.
+   5. Inside a blob, chapters run clockwise from north in book order, so
+      every Part is one pie slice.
+  The 37 files are rebuilt only by kitchen/geography_goldberg.py (build,
+  then --install). A preview picture: .venv/bin/python kitchen/
+  flower_map.py --geography site/data/geography --view NELSON-2024 --out
+  /tmp/opencode/x.png.
+  The viewer: switching from 3-D to 2-D loads the file of the book at the
+  centre of the screen (globe.viewBook()). Following lights from map to
+  map keeps the same flower map. Pan, wheel, pinch, Fit as 7.3. Chapter
+  names appear above 46 px per tile.
+
+A8. DEMO MODE (kitchen/make_demo.py writes site/data/demo/demo.json)
+  Seven invented entities, slugs "demo-...", names "DEMO ...", book_id
+  "DEMO", page 0, quotes saying they are not from a book. Real district
+  tiles are used only as places. The viewer serves them only while the
+  "Demo of the future" button is on, under a yellow banner, and only for
+  slugs starting with "demo-". RULES: never load demo data into Neo4j,
+  never copy it into data/export/ or site/data/entities/, never mix it
+  into search.json. Keep the button after real data exist until Nir says
+  to remove it. To change the examples, edit make_demo.py and re-run it.
+
+A9. HOW TO CONTINUE WHEN REAL DATA ARRIVE (no viewer code change needed)
+  1. Phases B and C (Parts 4 and 5) put entities, lit spots, edges and
+     altitudes into Neo4j. The viewer must not be touched for that.
+  2. .venv/bin/python kitchen/export_viewer.py   (writes search.json,
+     entities/, districts/ into data/export/ and site/data/).
+  3. .venv/bin/python kitchen/check_links.py     (STRICT, no flag).
+  4. .venv/bin/python kitchen/open_globe.py --no-open, then
+     node kitchen/test_viewer_browser.mjs; open the screenshots in
+     kitchen/logs/opus-*.png and LOOK at them before reporting.
+  5. Real entities then appear in the elevator; their shells use their
+     altitude; the lights use their districts. Nothing else to do.
+  If the geography must ever change (a new book, a removed book): that is
+  a Part 3 A-block rebuild with Nir's approval; IDs and page bounds stay.
+
+A10. TESTS AND EVIDENCE (all must pass before any "done")
+  node --test kitchen/test_viewer.mjs                          (4 checks)
+  OPENBLAS_NUM_THREADS=2 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+      (includes kitchen/test_goldberg.py: tile counts, every chapter once,
+       books connected, hexagon regularity, every flower map: no overlap,
+       flowers never touch, every book one blob)
+  .venv/bin/python kitchen/open_globe.py --no-open
+  node kitchen/test_viewer_browser.mjs                         (8 checks)
+  .venv/bin/python kitchen/check_links.py --allow-pending      (until exports)
+  Note for models: an image-reading tool may show an OLD picture if a file
+  is overwritten under the same name; copy it to a new name before
+  looking again.
+
+A11. FORBIDDEN FOR LATER MODELS
+  - Bringing back the equirectangular 2-D map, the texture globe, the
+    orange-peel (unfolded icosahedron) map or any rectangle-shaped map.
+  - Splitting a book into pieces in any 2-D map.
+  - Force-directed or random layout computed in the browser. Flower maps
+    are precomputed and deterministic.
+  - Lines, beams or arcs between lights (Part 1 3.6 stands).
+  - Moving entity lights for animation; inventing altitudes or lights.
+  - Editing honeycomb.json, geography.json or flowers/ by hand.
+  - New JavaScript libraries or CDNs (Three.js r186 vendored only).
+  - innerHTML with data (use textContent; ui.js already does).
+  - Putting demo data anywhere except site/data/demo/.
+  - Claiming a visual change works without the browser test and a look
+    at its screenshots.
+
+A12. DEFAULTS NIR MAY OVERTURN
+  Sand table as the default look; Lloyd steps 40; GAP 3.5; the relief
+  formula; 44 clouds; 3 satellites per orbit; trees; the 90-degree
+  cutaway; decoration motion on by default.
+================================================================================
+CLAUDE OPUS 5.5 ADDITION END -- PART 7
+================================================================================
+
 0. PURPOSE AND AMENDMENTS
 --------------------------------------------------------------------------------
 0.1 Purpose

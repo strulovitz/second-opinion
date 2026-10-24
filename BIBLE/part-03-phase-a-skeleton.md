@@ -10,6 +10,89 @@ READER FOR THIS PART:  free local model (Qwen 3.8 27B Q4_K_M), TEXT mode
                        rare fallback in 7.9.
 ================================================================================
 
+================================================================================
+CLAUDE OPUS 5.5 ADDITION BEGIN -- PART 3 (written 24 Oct 2026)
+================================================================================
+B0. HOW TO READ THIS BLOCK
+  Nir decided this on 24 Oct 2026 and approved the result in his browser
+  ("i am happy about everything please continue"). It is AMENDMENT 3.6.
+  It replaces the geometry of this Part (Fibonacci continents, nested
+  Voronoi, page-weighted areas) and the 23 Oct honeycomb of Amendment 3.5
+  (HONEYCOMB.md). Everything about IDENTITY stays exactly as this Part
+  says: territory IDs, names, hierarchy, page bounds, units, raster codes,
+  colours and seat order are copied verbatim and never change. The index
+  pipeline (sections 7 onwards, INDEX-PIPELINE.md) is untouched.
+
+B1. WHY (Nir's complaint, measured)
+  The 23 Oct honeycomb was built from latitude rings, so many hexagons
+  were squeezed: the median hexagon had a corner 12 degrees off 120, the
+  worst 33 degrees, and 37.5% were more than 15 degrees off. Nir asked for
+  hexagons "as similar to each other as possible" and for clear border
+  lines between books.
+
+B2. THE GOLDBERG BALL (kitchen/goldberg_mesh.py)
+  A Goldberg polyhedron GP(m, n) lays a flat triangular lattice on each of
+  the 20 faces of an icosahedron. It has 10T + 2 cells, T = m^2 + mn + n^2:
+  12 pentagons (at the icosahedron corners) and 10T - 10 hexagons.
+  In LaTeX: $N = 10(m^2 + mn + n^2) + 2$.
+  The smallest such ball with room for 4,763 chapters plus one name tile
+  per book (37) plus the 12 pentagons is T = 481 = 16^2 + 16*9 + 9^2,
+  N = 4,812 = 4,763 + 37 + 12 exactly. (477-480 are not of the form
+  m^2 + mn + n^2.) gcd(16, 9) = 1, so no lattice point lies inside a
+  face edge.
+  Steps: lattice points of every face mapped through the flat face to the
+  sphere (gnomonic); 40 Lloyd steps on the spherical Voronoi diagram (they
+  even out the AREAS while keeping the SHAPES); the convex hull gives the
+  triangles; the dual (honeycomb_mesh.dual_from) gives one convex
+  spherical polygon per cell, corners at normalised triangle centroids.
+  Measured (honeycomb.json statistics): 4,800 hexagons + 12 pentagons;
+  side ratio min/max median 0.945, worst 0.851; corner error median
+  3.3 degrees, 95th percentile 6.8, worst 9.6; hexagon area 0.76-1.08 of
+  the mean (coefficient of variation 7.2%). Checked in test_goldberg.py.
+
+B3. WHO OWNS WHICH TILE (kitchen/geography_goldberg.py)
+  - The 12 pentagons own no chapter: they are drawn as little LAKES.
+    So every chapter tile and every name tile is a hexagon.
+  - Books: capacity-constrained transportation LP (honeycomb_partition.
+    assign) over the 4,800 hexagons, capacity = chapters + 1, targets =
+    the approved seating anchors (layout_anchor_lat/lon kept from
+    Checkpoint 3.4), then boundary exchanges until every book is one
+    connected region. Every book is connected (37/37).
+  - Name tile: the tile of the book farthest (in steps) from its border,
+    ties broken towards the book's centre, never one that would split the
+    book. The book's lat/lon (continent row) = its name tile. Clicking it
+    opens the book card.
+  - Provinces: the same LP inside the book (name tile excluded), targets =
+    the province anchors. Chapters inside a province are laid in rows about
+    one tile high (0.044 rad), west to east, in book order.
+  - District lat/lon = its tile centre; area_fraction = the tile's true
+    spherical area / 4 pi. Raster code 0 = no chapter (name tiles, lakes).
+  - 37 flower maps (Part 7 A7) are written into flowers/ by the same build.
+
+B4. COMMANDS (exact)
+  Build a candidate (never into the live folders; about one minute):
+    rm -rf kitchen/logs/goldberg-candidate
+    OPENBLAS_NUM_THREADS=2 .venv/bin/python kitchen/geography_goldberg.py
+  Look at kitchen/logs/goldberg-candidate/flowers-preview.png, then show
+  Nir the globe. Install only after Nir approves (it checks hashes,
+  identity, an unfrozen skeleton and an empty Neo4j territory set, and
+  backs up both old map folders to kitchen/logs/before-honeycomb-<time>/):
+    .venv/bin/python kitchen/geography_goldberg.py --install
+  The 24 Oct installation backup of the 23 Oct honeycomb:
+    kitchen/logs/before-honeycomb-20261024T112358007494Z/
+  Approval is recorded in data/export/geography/build.json
+  (geometry_review_pending false, approved_by_human true, approval_quote).
+  Then run the tests of Part 7 A10.
+
+B5. FORBIDDEN
+  Changing any territory ID, name or page bound; editing the geography
+  files by hand; re-running --install on an old candidate; loading Neo4j
+  territories from a map Nir has not approved; making a pentagon a chapter
+  again without Nir's decision.
+================================================================================
+CLAUDE OPUS 5.5 ADDITION END -- PART 3
+================================================================================
+
 0. PURPOSE, INPUTS, OUTPUTS, AMENDMENTS
 --------------------------------------------------------------------------------
 0.1 Purpose

@@ -105,3 +105,22 @@ export function lonLatToXYZ(lon, lat, radius = 1) {
   const la = lat * Math.PI / 180, lo = lon * Math.PI / 180;
   return [radius * Math.cos(la) * Math.cos(lo), radius * Math.sin(la), -radius * Math.cos(la) * Math.sin(lo)];
 }
+
+// ---- Opus 5.5 addition: the altitude bands (BIBLE Part 1 section 3.3, Part 5 section 2).
+// Every layer drawn above or below the surface takes its radius from here; never hard-code one.
+export const BANDS = [
+  { key: 'diseases-and-conditions', label: 'Diseases and conditions', where: 'inside the planet', min: 0.30, max: 0.98, tint: '#e0603f' },
+  { key: 'symptoms-and-signs', label: 'Symptoms and signs', where: 'the atmosphere', min: 1.02, max: 1.50, tint: '#5fc8ff' },
+  { key: 'treatments-and-drugs', label: 'Treatments and drugs', where: 'the orbits', min: 1.50, max: 3.00, tint: '#ffd36b' },
+];
+// Part 5 AMENDMENT 5.3: one orbit sub-band per heaviness group, lowest orbit first.
+export const SUBBANDS = [
+  { key: 'lifestyle', min: 1.52, max: 1.78 }, { key: 'otc', min: 1.82, max: 2.08 },
+  { key: 'prescription', min: 2.12, max: 2.38 }, { key: 'biologic-chemo-radiation', min: 2.42, max: 2.68 },
+  { key: 'surgery-transplant', min: 2.72, max: 2.98 },
+];
+export const GROUP_TINT = { 'symptoms-and-signs': '#5fc8ff', 'diseases-and-conditions': '#ff7a50', 'treatments-and-drugs': '#ffd36b' };
+export function bandOf(altitude) {
+  if (!Number.isFinite(altitude)) return null;
+  return BANDS.find(b => altitude >= b.min - 1e-9 && altitude <= b.max + 1e-9) || null;
+}

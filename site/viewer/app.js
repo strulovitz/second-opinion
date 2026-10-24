@@ -13,12 +13,21 @@ function report(error) {
   status(error.missing ? `This part of the data has not been built yet: ${error.message}. The rest of the viewer still works.` : `Could not load this view: ${error.message}`);
 }
 function openPanel(open = true) { $('panel').classList.toggle('open', open); $('btn-panel').setAttribute('aria-expanded', String(open)); }
-function showMode(next) {
+async function showMode(next) {
+  const before = mode;
   mode = next === '3d' && globe ? '3d' : '2d';
+  if (mode === '2d') {
+    // The flower map is centred on the book you were looking at on the globe
+    // (Nir, 24 Oct 2026). Following lights from map to map keeps the same centre.
+    const book = globe?.viewBook() || map.viewBook || 'HARRISON-22';
+    if (!map.viewBook || before === '3d') await map.setView(book).catch(report);
+    $('flower-note').textContent = `Flower map centred on ${world.books.find(b => b.book_id === map.viewBook)?.name || map.viewBook}`;
+  }
   $('globe').hidden = mode !== '3d'; $('map').hidden = mode !== '2d';
   $('view-3d').setAttribute('aria-pressed', String(mode === '3d'));
   $('view-2d').setAttribute('aria-pressed', String(mode === '2d'));
-  $('guides').disabled = mode !== '3d';
+  for (const id of ['guides', 'cutaway', 'motion', 'look-sand', 'look-atlas']) $(id).disabled = mode !== '3d';
+  $('flower-note').hidden = mode !== '2d';
   document.body.dataset.mode = mode;
   $('gesture-help').textContent = `${mode === '3d' ? 'Drag to rotate' : 'Drag to pan'} · Scroll or pinch to zoom · Click a chapter or light`;
   requestAnimationFrame(() => mode === '3d' ? globe.resize() : map.resize());
@@ -69,15 +78,15 @@ async function route() {
   Object.assign(state, { route: parsed.route, slug: parsed.slug || null, territoryId: parsed.territoryId || null, entity: null, hover: null });
   document.body.dataset.route = state.route; delete document.body.dataset.selected;
   touchTarget = null; hover(null); status(fallbackMessage);
-  globe?.showGlobe(); map.render(null);
+  globe?.showGlobe(); map.render(null); gauge(null);
   $('btn-back').hidden = !state.slug; $('dense-note').hidden = true;
   if (!state.slug) {
-    showMode(state.route === 'district' ? '3d' : geographyMode);
+    await showMode(state.route === 'district' ? '3d' : geographyMode);
     if (state.route === 'district') await showDistrict(state.territoryId, true);
     else intro($('info'), world, rows, wording, ledgerDate);
     return;
   }
-  showMode(state.route === 'map3d' ? '3d' : '2d');
+  await showMode(state.route === 'map3d' ? '3d' : '2d');
   $('info').replaceChildren(text('p', `Loading ${state.slug}…`)); status(`Loading ${state.slug}.json…`);
   try {
     const entity = await data.entity(state.slug); if (token !== generation) return;
@@ -89,6 +98,8 @@ async function route() {
       catch (error) { showMode('2d'); history.replaceState(null, '', mapURL(state.slug)); state.route = 'map'; report(error); }
     }
     entityCard($('info'), entity, spots, mode, wording, highlight);
+    if (entity.demo) $('info').prepend(text('p', 'DEMO placeholder: invented to show how the future layers will look. Nothing here comes from the books.', 'notice demo'));
+    gauge(entity);
     $('dense-note').hidden = spots.length <= 4000;
   } catch (error) {
     if (token !== generation) return;
@@ -127,6 +138,29 @@ function switchMode(next) {
   if (state.slug) location.hash = mapURL(state.slug, next);
   else { geographyMode = next; showMode(next); }
 }
+// The altitude gauge: where the chosen shell sits between the core (0) and the outer orbit (3).
+function gauge(entity) {
+  const node = $('gauge');
+  node.hidden = !(entity || $('guides').checked) || mode !== '3d';
+  const marker = node.querySelector('.marker');
+  marker.hidden = !entity || !Number.isFinite(entity.altitude);
+  if (entity && Number.isFinite(entity.altitude)) { marker.style.bottom = `${entity.altitude / 3 * 100}%`; marker.title = `${entity.canonical_name}: altitude ${entity.altitude.toFixed(3)}`; marker.querySelector('span').textContent = entity.canonical_name; }
+}
+function setLook(name) {
+  if (!globe) return;
+  globe.setStyle(name); localStorage.setItem('second-opinion-look', name);
+  $('look-sand').setAttribute('aria-pressed', String(name === 'sand')); $('look-atlas').setAttribute('aria-pressed', String(name === 'atlas'));
+  $('motion-label').hidden = name !== 'sand';
+}
+async function setDemoMode(on) {
+  data.setDemo(on); $('demo').setAttribute('aria-pressed', String(on)); $('demo-banner').hidden = !on;
+  document.body.dataset.demo = String(on);
+  try { rows = await data.search(); $('registry-state').textContent = `${rows.length.toLocaleString()} entities exported${on ? ' (including demo placeholders)' : ''}`; }
+  catch { rows = []; $('registry-state').textContent = 'Medical registry not exported yet'; }
+  if (on) { $('guides').checked = true; globe?.guides(true); }
+  elevator();
+  if (!on && state.slug?.startsWith('demo-')) location.hash = '/globe'; else route();
+}
 async function start() {
   world = await data.geography();
   $('counts').textContent = `${world.territories.filter(t => t.level === 'continent').length} books · ${world.territories.filter(t => t.level === 'district').length.toLocaleString()} chapter districts`;
@@ -143,11 +177,14 @@ async function start() {
   legend($('legend'), wording);
   try {
     const { createGlobe } = await import('./globe3d.js');
-    globe = await createGlobe($('globe'), world, select, hover);
+    const params = new URLSearchParams(location.search);
+    const look = params.get('look') || localStorage.getItem('second-opinion-look') || 'sand';
+    globe = await createGlobe($('globe'), world, select, hover, { style: look === 'atlas' ? 'atlas' : 'sand', wording });
+    setLook(globe.style);
     const home = world.territories.find(t => t.level === 'continent' && t.book_id === 'HARRISON-22');
     if (!home || !globe.alignment(home)) throw new Error('Globe/raster alignment check failed');
     document.body.dataset.alignment = 'passed';
-    globe.focus(home, true, 4.6);
+    globe.focus(home, true, globe.homeDistance());
   } catch (error) {
     console.error(error); globe = null; geographyMode = '2d'; $('view-3d').disabled = true;
     fallbackMessage = '3-D view is not available in this browser; showing the 2-D map.';
@@ -166,7 +203,13 @@ async function start() {
   $('zoom-in').addEventListener('click', () => mode === '3d' ? globe.zoom(0.8) : map.zoom(1.5));
   $('zoom-out').addEventListener('click', () => mode === '3d' ? globe.zoom(1.25) : map.zoom(1 / 1.5));
   $('btn-fit').addEventListener('click', () => mode === '3d' ? globe.fit() : map.fit());
-  $('guides').addEventListener('change', () => globe?.guides($('guides').checked));
+  $('guides').addEventListener('change', () => { globe?.guides($('guides').checked); gauge(state.entity); });
+  $('cutaway').addEventListener('change', () => globe?.cutaway($('cutaway').checked));
+  $('motion').checked = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('motion').addEventListener('change', () => globe?.motion($('motion').checked));
+  $('look-sand').addEventListener('click', () => setLook('sand'));
+  $('look-atlas').addEventListener('click', () => setLook('atlas'));
+  $('demo').addEventListener('click', () => setDemoMode(!data.isDemo()));
   $('btn-panel').addEventListener('click', () => openPanel(!$('panel').classList.contains('open')));
   for (const id of ['home', 'btn-back']) $(id).addEventListener('click', () => {
     geographyMode = globe ? '3d' : '2d';
@@ -181,5 +224,6 @@ async function start() {
   });
   addEventListener('hashchange', () => { route(); elevator(); });
   bookList(); elevator(); await route(); document.body.dataset.state = 'ready';
+  window.secondOpinion = { world, globe, map };   // hooks for kitchen/test_viewer_browser.mjs only
 }
 start().catch(error => { document.body.dataset.state = 'error'; status(`Could not load the viewer: ${error.message}`); console.error(error); });

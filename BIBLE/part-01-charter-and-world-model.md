@@ -4,6 +4,37 @@ PART 1 OF 13 -- CHARTER AND WORLD MODEL
 File: BIBLE/part-01-charter-and-world-model.md
 ================================================================================
 
+================================================================================
+CLAUDE OPUS 5.5 ADDITION BEGIN -- PART 1 (written 24 Oct 2026)
+================================================================================
+C0. Nir decided on 24 Oct 2026 that the BIBLE may be changed, but only
+  inside blocks marked "CLAUDE OPUS 5.5 ADDITION BEGIN / END". Inside such
+  a block the text WINS over the older text around it. Nir is above the
+  BIBLE: when he decides something new, it is written down this way.
+  The full rule, the state of the project, every amendment in force and the
+  exact next steps are in the Part 8 ADDITION block; the live website is in
+  the Part 9 ADDITION block. Read them before anything else.
+C1. World model changes (details: Part 3 and Part 7 A-blocks):
+  - 3.2: a continent (book) is a connected region of hexagon tiles on a
+    Goldberg ball, one hexagon per chapter, so a book's area follows its
+    number of chapters, not its pages. Each book has one extra NAME TILE
+    (its summit). The 12 pentagons are lakes and own no chapter.
+  - 3.1 / 4(2): the 2-D map is NOT equirectangular any more. It is the
+    FLOWER MAP: each book one round blob of perfect hexagons, the book you
+    look at in the middle with its globe neighbours as petals, separate
+    flowers not touching. The blobs are the same books in every map; the
+    grouping around them follows the viewing direction.
+  - Law 5 (rigid layout): still true for the globe, the altitudes and
+    every light. The 2-D flower grouping depends on which book you look
+    at; this is Nir's decision. Each flower map is precomputed and
+    deterministic (the same book always gives the same picture).
+  - 4(1): the globe has two looks, "Sand table" (books as mountains,
+    clouds = the symptom atmosphere, satellites = the treatment orbits)
+    and "Atlas" (flat, exact). Clouds and satellites are decoration only.
+================================================================================
+CLAUDE OPUS 5.5 ADDITION END -- PART 1
+================================================================================
+
 0. HOW TO READ THIS DOCUMENT
 --------------------------------------------------------------------------------
 

@@ -1,8 +1,21 @@
 # Second Opinion -- standing orders for the manager
 
-NEXT SESSION (DeepSeek): read `HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md`, then
-the newest PROGRESS.md. Nir approved the honeycomb globe and paused for sleep.
-The GitHub backup is done; next is the supervised Harrison index trial.
+24 OCT 2026 (Claude Opus 5.5): the map and the viewer were REBUILT and Nir
+approved them ("i am happy about everything please continue"). Before
+anything else read the "CLAUDE OPUS 5.5 ADDITION" blocks at the top of
+BIBLE parts 8, 1, 3, 7 and 9 (Part 8 first: state of the project, all
+amendments, exact next steps). They WIN over the older BIBLE text and over
+HONEYCOMB.md / VIEWER.md / the 23 Oct handoffs where those disagree.
+BIBLE EDIT RULE (Nir, 24 Oct): the BIBLE may now be changed, but ONLY inside
+blocks marked "CLAUDE OPUS 5.5 ADDITION BEGIN / END" (or a later model's
+block of the same kind, named after that model), and only to record what
+Nir decided. Never delete or rewrite the old text around a block.
+
+NEXT SESSION (DeepSeek): unchanged project task: the supervised Harrison
+index trial (HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md, INDEX-PIPELINE.md). The
+territory IDs and page bounds did not change, so those tools still apply.
+Do NOT touch site/viewer/ or the geography files; run the viewer tests of
+BIBLE Part 7 A10 if anything near them changes.
 SMART writes software; DeepSeek/local reader run the workflows.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or

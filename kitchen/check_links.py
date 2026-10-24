@@ -52,7 +52,8 @@ def main():
         check(site / "data" / name, "viewer data", name == "search.json")
     for name in ("three.module.js", "three.core.js", "OrbitControls.js", "LICENSE", "VERSION.txt"):
         check(site / "assets/three" / name, "vendored Three.js")
-    for name in ("app.js", "data.js", "geo.js", "ui.js", "globe3d.js", "map2d.js", "viewer.css"):
+    for name in ("app.js", "data.js", "geo.js", "ui.js", "globe3d.js", "map2d.js", "viewer.css",
+                 "materials.js", "atlas.js", "sandtable.js", "layers.js", "labels.js"):
         check(site / "viewer" / name, "viewer module")
     rng = random.Random(0)
     search = site / "data/search.json"
@@ -65,6 +66,9 @@ def main():
         rows = [r for r in json.loads(geography.read_text()) if r["level"] == "district"]
         if any(r.get('tile_sides') for r in rows):
             check(site / 'data/geography/honeycomb.json', 'whole-tile topology')
+        # Opus 5.5 addition (Amendment 3.6): one flower 2-D map per book.
+        for book in (r["book_id"] for r in json.loads(geography.read_text()) if r["level"] == "continent"):
+            check(site / "data/geography/flowers" / f"{book}.json", "flower map")
         for row in rng.sample(rows, min(20, len(rows))):
             check(site / "data/districts" / (row["territory_id"] + ".json"), "sample district", True)
     print(f"Links/assets checked: {checked}; broken: {len(broken)}; pending medical exports: {len(pending)}")

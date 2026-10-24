@@ -13,6 +13,173 @@ PRECONDITION:          Part 2 done (repository exists). This part
                        under the matching headings.
 ================================================================================
 
+================================================================================
+CLAUDE OPUS 5.5 ADDITION BEGIN -- PART 8 (written 24 Oct 2026)
+THE STATE OF THE PROJECT AND EVERY STANDING DECISION
+================================================================================
+D0. WHY THIS BLOCK EXISTS (Nir, 24 Oct 2026)
+  Nir: "nobody is reading (and everybody is changing) all the things except
+  the BIBLE, so every piece of important information needs to be in the
+  BIBLE". Therefore:
+  - The BIBLE is the ONLY reliable source. PROGRESS.md, AGENTS.md, the
+    HANDOFF-*.md files, HONEYCOMB.md, VIEWER.md, GEOGRAPHY.md and
+    INDEX-PIPELINE.md are LOGS. If a log disagrees with the BIBLE, the
+    BIBLE wins. If something important is only in a log, copy it into the
+    BIBLE.
+  - The BIBLE may be changed ONLY inside blocks marked
+    "<MODEL NAME> ADDITION BEGIN -- PART n" ... "ADDITION END -- PART n",
+    placed right after the part's header, recording what Nir decided and
+    what was built. Never delete or rewrite the older text around a block.
+    Inside its part, a block wins over the older text. A newer block wins
+    over an older block.
+  - AT THE END OF EVERY SESSION in which Nir decided something or something
+    important was built, the manager writes it into the BIBLE this way
+    (with the reason, exact numbers, exact commands and file names), BEFORE
+    the Git save. A session that skips this has not finished.
+
+D1. READING ORDER FOR A NEW MODEL
+  1. AGENTS.md (the 15 laws; also Part 1 section 2).
+  2. This block, then the ADDITION blocks of Parts 1, 3, 7 and 9.
+  3. The part that governs the next step (D7 says which), all of it.
+  4. Only then the newest PROGRESS.md entries, for detail.
+
+D2. WHO DOES WHAT (in force on 24 Oct 2026)
+  HUMAN: Nir. All decisions. Above the BIBLE.
+  READER (free, local): Qwen "qwen3.8:27b" on this laptop's Ollama server,
+    called only through kitchen/reader.py (test: .venv/bin/python
+    kitchen/reader.py -> {'ok': True}). It reads every page and classifies
+    every term. Never pay a cloud model for per-page or per-term work.
+  CHEAP: DeepSeek V4.1 Flash in OpenCode. Runs the book-by-book scripts,
+    one book at a time, with Nir watching.
+  SMART: Claude (Opus 5.5 / Sonnet 5.5) or GPT 6.1 Sol. Writes GENERIC
+    software only (Nir, 23 Oct: "processes that are book by book need to be
+    done by deepseek. processes that are the heavy lifting of GENERIC
+    programming need to be done by you."). Never babysits pages.
+  Working rules from Nir: one book at a time; after each book STOP and
+  report; nothing runs unattended; no parallel books; no overnight jobs; a
+  book boundary is not a model switch; return to SMART only for the Freeze
+  review or a generic software failure that DeepSeek failed twice (bring
+  the exact command, error and evidence paths).
+
+D3. HOW TO WORK WITH NIR
+  Nir is a self-described beginner and has little money. One small step at
+  a time, plain short words, explain before acting and wait for his
+  "okay" on anything new. If unsure, say "I don't know" (Law 15). Emojis
+  are wanted in CHAT replies only, never in files, commits or the BIBLE.
+  Do not reopen closed topics: the table-of-contents work and the "are the
+  PDFs complete books" question are closed (he does not want to hear about
+  them). Save to GitHub at milestones and when he asks.
+
+D4. EVERY AMENDMENT IN FORCE (short; the full texts are where named)
+  3.1 equal-area continents        SUPERSEDED by 3.6 (geometry).
+  3.2 border_geojson is null; borders come from the tiles (still true).
+  3.3 THE LIBRARY IS 37 BOOKS, NOT 42. 42 files -> 39 after removing three
+      byte-identical duplicates (Goodman & Gilman, Brenner & Rector,
+      Bailey & Love) -> 37 after Law 6 (Bailey & Love lost to Sabiston;
+      Marino's ICU Book lost to Irwin & Rippe). Records:
+      data/registry/removed-books.json (sizes, SHA-256). kitchen/books.json
+      is the single source of truth: 37 records, 130,457 pages. Wherever
+      the BIBLE says "42 books", read "the 37 books".
+  3.4 a chapter ends at max(own start, next start - 1); two chapters that
+      start on the same page both include it.
+  3.5 ring-built honeycomb (23 Oct)  SUPERSEDED by 3.6.
+  3.6 the Goldberg ball, 4,812 tiles (Part 3 ADDITION block).
+  5.3 the five treatment sub-bands 1.52-1.78, 1.82-2.08, 2.12-2.38,
+      2.42-2.68, 2.72-2.98 (Part 5 section 2; used by the viewer).
+  Part 7 ADDITION: flower 2-D map, Sand table / Atlas, layers, DEMO.
+  TERRITORY NAMES (Nir, 15 Oct): a Part/Section/Chapter name keeps BOTH
+      its number and its meaning in ONE name field, e.g. "Section V -
+      Cardiac Radiology". A part printed without a title gets a short
+      descriptive title written by the manager (name_source "written").
+      A book printed with no parts at all gets parts written for it
+      (groups of chapters with a covering title, in the style of the other
+      books), never one big group.
+
+D5. THE LIBRARY (37 books; continent ID, book ID, field, chapters)
+  C01 HARRISON-22 Internal Medicine (general) 505 | C02 GRAY-2020 Anatomy 79
+  C03 GUYTON-2026 Physiology 85 | C04 THOMPSON-2023 Genetics and Genomics 20
+  C05 BRAUNWALD-12 Cardiology 102 | C06 MURRAY-7 Respiratory Medicine 142
+  C07 SLEISENGER-11 Gastroenterology 132 | C08 BRENNER-11 Nephrology 71
+  C09 KAPLAN-11 Psychiatry 60 | C10 ADAMS-12 Neurology 49
+  C11 BENZON-2023 Pain Medicine 86 | C12 WILLIAMS-ENDO-2024 Endocrinology 48
+  C13 KRAUSE-16 Nutrition 93 | C14 MANDELL-9 Infectious Diseases 210
+  C15 MIDDLETON-2019 Allergy and Immunology 99 | C16 CAMPBELL-2020 Orthopaedic Surgery 90
+  C17 DELISA-6 Rehabilitation Medicine 62 | C18 ROCKWOOD-10 Orthopaedic Trauma 69
+  C19 BOLOGNIA-2024 Dermatology 161 | C20 FIRESTEIN-12 Rheumatology 125
+  C21 NELSON-2024 Pediatrics 519 | C22 HAZZARD-2022 Geriatric Medicine 108
+  C23 WILLIAMS-OBSTETRICS-26 Obstetrics 68 | C24 AVERY-2021 Neonatology 61
+  C25 WILLIAMS-HEMATOLOGY-2021 Hematology 140 | C26 DEVITA-12 Oncology 107
+  C27 OXFORD-6 Palliative Medicine 127 | C28 IRWIN-RIPPE-2023 Critical Care 215
+  C29 ROSEN-2022 Emergency Medicine 208 | C30 GOODMAN-14 Pharmacology 78
+  C31 STAHL-2024 Psychopharmacology 61 | C32 MILLER-10 Anesthesiology 87
+  C33 YOUMANS-4 Neurosurgery 432 | C34 SABISTON-22 Surgery 92
+  C35 GREEN-HAND-2021 Hand Surgery 60 | C36 BRANT-5 Radiology 83
+  C37 ROBBINS-10 Pathology 29
+  Totals: 37 continents, 534 provinces (C10.P02 is an empty heading kept
+  with zero area), 4,763 chapter districts. The seating (which book sits
+  next to which) was approved by Nir on 23 Oct ("i think it's ok").
+  TABLES OF CONTENTS: COMPLETE (23 Oct). 27 books were checked page by
+  page by the free reader (kitchen/eyes_folio.py): 24 clean, 3 with one
+  recorded contents-vs-page finding each (HAZZARD-2022 ch7; NELSON-2024
+  ch506, contents 2976 vs page 2975, duplicated pages in the PDF;
+  SLEISENGER-11 ch4, contents 51 vs page 34). 10 books were accepted
+  earlier without that check: YOUMANS-4, MANDELL-9, ROSEN-2022, MURRAY-7,
+  MIDDLETON-2019, KRAUSE-16, SABISTON-22, CAMPBELL-2020 (rebuilt from its
+  90 PDF chapter bookmarks), GOODMAN-14, ADAMS-12. CLOSED: do not reopen.
+
+D6. THE SYSTEMS ON 24 OCT 2026
+  Laptop (the KITCHEN): Debian 13, RTX 5090. Repository ~/second-opinion =
+  https://github.com/strulovitz/second-opinion (public, branch main).
+  Neo4j 2026.09.0 running; schema applied; only 3 Meta nodes;
+  skeleton_frozen = "false"; no territories or entities loaded yet.
+  Credentials only in kitchen/.env (gitignored; never print, copy or log).
+  Python .venv 3.13.5; Node v26.7.0; Google Chrome 150; Three.js r186
+  vendored. The PDFs live in kitchen/books/ and are never committed.
+  Done: Phase A steps A0-A5 (books, duplicates, contents, page mapping,
+  geography and seating), the Goldberg map (approved 24 Oct), the viewer
+  (approved 24 Oct), the index-to-registry software (A6, tested on
+  synthetic data and one real Harrison index page, PDF 4044).
+  Not done: every medical datum. There are no entities, edges or
+  altitudes yet; the viewer shows only the clearly labelled DEMO.
+
+D7. WHAT COMES NEXT, IN ORDER (CHEAP + READER, Nir watching)
+  Governing text: Part 3 sections 7-9. From ~/second-opinion:
+  1. .venv/bin/python kitchen/reader.py                         {'ok': True}
+  2. .venv/bin/python kitchen/index_pipeline.py HARRISON-22 --plan --limit 1
+  3. .venv/bin/python kitchen/load_geography.py          (dry run), then
+     .venv/bin/python kitchen/load_geography.py --apply  expect 37 books and
+     5,334 territories (37 + 534 + 4,763). It loads the approved Goldberg
+     coordinates; build.json records Nir's approval.
+  4. Bounded trial, then look at the result WITH Nir:
+     .venv/bin/python kitchen/index_parse.py HARRISON-22 --limit 1
+     .venv/bin/python kitchen/index_classify.py HARRISON-22 --limit 1
+     (one new index page; one batch of 25 terms). Harrison's index is PDF
+     pages 4044-4273.
+  5. .venv/bin/python kitchen/index_pipeline.py HARRISON-22
+     .venv/bin/python kitchen/review_sample.py HARRISON-22
+     Show kitchen/logs/HARRISON-22-review.md to Nir (Checkpoint 3.5).
+  6. Only after Nir approves, with his actual words:
+     .venv/bin/python kitchen/review_sample.py HARRISON-22 --approve "<his words>"
+  7. The other 36 books, alphabetically, the same way, one at a time, each
+     after the previous review is approved. For a book whose index is
+     confirmed unusable, the --fallback route (Part 3 section 3.7.9).
+     25 index ranges are configured; 12 are unset: find them with the
+     reader, do not guess.
+  8. After all reviews (Checkpoint 3.6): SMART for the entity-resolution
+     and Freeze A review. Then Part 4 (reading pipeline, Phase B), Part 5
+     (altitudes), Part 6 (pages), Part 9 (publishing). When the exports
+     exist, Part 7 ADDITION A9 says how the viewer gets them (no code
+     change).
+
+D8. SAVING
+  Commit messages start with the BIBLE section, e.g. "3.6 ...", "7.3 ...".
+  Never commit PDFs, page images, transcripts, reader answers, .env,
+  kitchen/logs/ or screenshots. Stage only the files you changed; show
+  Nir what will be sent and how many files.
+================================================================================
+CLAUDE OPUS 5.5 ADDITION END -- PART 8
+================================================================================
+
 0. PURPOSE
 --------------------------------------------------------------------------------
   The manager is honest but not brilliant, works in short sessions

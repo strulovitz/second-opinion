@@ -8,43 +8,51 @@
   "continents": 37,
   "provinces": 534,
   "districts": 4763,
-  "district_area_sum": 1.0000000000000004,
+  "district_area_sum": 0.990952119777894,
   "warnings": [
     "C10.P02: existing empty heading retained with zero area"
   ],
   "files": {
-    "continents_texture.png": "fd50ee22be21c002b2b211b51c8c77ad44e9d954aca6dab26126fc7b370471c0",
-    "continents_texture_2k.png": "1d9aa49930a25f61fb8f8dfb38e9e532c0a88866796e2fb5d7ca831c90c66a91",
-    "district_raster.npy": "f55aeb49a7495f1e8c6f41e6e43e343861d385c92d0f073067ba9f6c03425c8a",
-    "district_raster.png": "0ce4fa3e009c5585d8c2351d6ab04329ebdf734dd897bf17c0dbd1dd0e6fffeb",
+    "continents_texture.png": "280639ea6f2871c87aaabf9066abb9094e3c19d7849882aefc091d021454ad43",
+    "continents_texture_2k.png": "5dab65e3a8a16b3462ff1b6afac82ad0ccb04cde53b07e8e761092a93f79ab1c",
+    "district_raster.npy": "63a4185786a97e68ffc51c36e7a78d6fad538e665426a480f1d39768f13c684b",
+    "district_raster.png": "0dcafa89275aa29314d8faeb96340a679705a50aa89ce8cfa7b73c40280db4e3",
     "districts_lookup.json": "2a81f714a1a6e86e8732a33e1b9e732f53f3c089c189170da17d3a1118506b12",
-    "geography.json": "a14e1a22122815bca9404cdb685077375be64108719aed7d7152f41cf8ce5a55",
-    "honeycomb.json": "a4dc2dcf50a634769733aa8da51e22424b194ea0556972b212653dee0a5c8850",
-    "seating-preview.png": "bd7768d445e78f974c5873cc9beef6c4837ac8686da909d53fa8c7e0bfd08b7a",
+    "geography.json": "5b45c79342aa4f107dccdfe6964a7c4209b2abc24e2ae72bbd80e385f773d9f3",
+    "seating-preview.png": "fa242a623afb00f9e1b5c2aab9d8292e5ee7b0a8b9231d7e02179382f915c777",
     "seating-proposal.json": "d5409f8d019da3745ac2e7f07b6dbe34d6478f072424e4633db816ba5563f8e3",
-    "territories.csv": "cb16fdc5b484c5a7472823a27971db755bdab21e3234f4df695d7c9df5562194"
+    "territories.csv": "d4ca1c862112b0a67972ac8d714c0fb5542ab9b1d0a5c74be37ecb34c6d3157b",
+    "honeycomb.json": "a0f05d643fd08c9f8ce8f6ec16c3e264bd36bad908ed2fd5a7f1eea5e3f4325d"
   },
-  "layout": "chapter-honeycomb",
-  "amendment": "3.5",
+  "layout": "goldberg-honeycomb",
+  "amendment": "3.6",
   "geometry_review_pending": false,
-  "human_approval": {
-    "date": "2026-10-23",
-    "name": "Nir",
-    "quote": "it looks great, yes i am very happy with it!!!"
-  },
   "honeycomb": {
-    "tiles": 4763,
-    "hexagons": 4751,
+    "hexagons": 4800,
     "pentagons": 12,
-    "spherical_area_cv": 0.014046723231960259,
-    "area_min_over_mean": 0.7220741760412693,
-    "area_max_over_mean": 1.1034299925946307,
+    "side_ratio_median": 0.944713728802113,
+    "side_ratio_worst": 0.8512573208101569,
+    "corner_error_deg_median": 3.320255002066183,
+    "corner_error_deg_p95": 6.8480023674371155,
+    "corner_error_deg_worst": 9.5515314524161,
+    "hexagon_area_min_over_mean": 0.763743173145088,
+    "hexagon_area_max_over_mean": 1.0841983777507302,
+    "hexagon_area_cv": 0.07212705750144006,
+    "cells": 4812,
+    "chapter_tiles": 4763,
+    "name_tiles": 37,
+    "poles": 12,
+    "goldberg": [
+      16,
+      9
+    ],
+    "lloyd_steps": 40,
     "raster_boundary_ties": 0,
     "connected_books": 37,
-    "connected_nonempty_provinces": 533,
-    "whole_shared_edges": true,
-    "one_tile_per_chapter": true,
-    "amendment": "3.5"
+    "amendment": "3.6"
   },
-  "source_sha256": "6e0b310e965fa634052df51f162e8560e5f049f4e666fdd2ad35dcd13cf6a9a5"
+  "source_sha256": "a14e1a22122815bca9404cdb685077375be64108719aed7d7152f41cf8ce5a55",
+  "approval_date": "2026-10-24",
+  "approval_quote": "i am happy about everything please continue",
+  "approval_note": "Nir approved the Goldberg ball, the 37 name tiles, the 12 lakes, the 2-D flower maps and both 3-D looks after seeing them in his browser (Amendment 3.6, Claude Opus 5.5)."
 }

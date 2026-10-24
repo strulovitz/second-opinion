@@ -23,13 +23,31 @@
       <div id="controls">
         <button id="home">Home</button>
         <button id="btn-back" hidden>Back to globe</button>
-        <button id="view-3d" aria-pressed="true">3D globe</button>
-        <button id="view-2d" aria-pressed="false">2D map</button>
+        <span class="group" role="group" aria-label="View">
+          <button id="view-3d" aria-pressed="true">3D globe</button>
+          <button id="view-2d" aria-pressed="false">2D flowers</button>
+        </span>
+        <span class="group" role="group" aria-label="Look of the globe">
+          <button id="look-sand" aria-pressed="true" title="Books are mountains; clouds and satellites show the layers">Sand table</button>
+          <button id="look-atlas" aria-pressed="false" title="Flat tiles and fine lines, for reading exact places">Atlas</button>
+        </span>
         <button id="zoom-in" aria-label="Zoom in">+</button>
         <button id="zoom-out" aria-label="Zoom out">−</button>
         <button id="btn-fit">Fit</button>
-        <label><input type="checkbox" id="guides"> Altitude guides</label>
+        <label><input type="checkbox" id="guides"> Show the layers</label>
+        <label><input type="checkbox" id="cutaway"> Look inside</label>
+        <label id="motion-label"><input type="checkbox" id="motion"> Motion</label>
+        <button id="demo" aria-pressed="false" title="Invented placeholder examples that show how the future layers will look">Demo of the future</button>
       </div>
+      <div id="demo-banner" hidden role="note"><strong>DEMO</strong> — invented examples that only show how the future layers will look. Nothing in the demo comes from the books.</div>
+      <div id="gauge" hidden aria-label="Altitude gauge">
+        <div class="band treatments" title="Treatments: the orbits, 1.50 to 3.00"></div>
+        <div class="band symptoms" title="Symptoms: the atmosphere, 1.02 to 1.50"></div>
+        <div class="band surface" title="The surface: the map of the books, 1.00"></div>
+        <div class="band diseases" title="Diseases: inside the planet, 0.30 to 0.98"></div>
+        <div class="marker" hidden><span></span></div>
+      </div>
+      <p id="flower-note" hidden></p>
       <p id="status" role="status">Loading your world…</p>
       <details id="legend"><summary>Legend</summary></details>
       <p id="dense-note" hidden>Zoom in to see all mentions.</p>

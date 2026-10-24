@@ -1,5 +1,12 @@
 # Actual viewer software and DeepSeek handoff -- 23 October 2026
 
+> **SUPERSEDED ON 24 OCT 2026 (Claude Opus 5.5, approved by Nir).** The map is now the
+> Goldberg ball (Amendment 3.6) and the viewer has the Sand table / Atlas looks, the flower
+> 2-D map, the future layers and DEMO mode. The exact, binding description is in the
+> "CLAUDE OPUS 5.5 ADDITION" blocks at the top of BIBLE parts 1, 3 and 7. Where this file
+> disagrees with those blocks, the blocks win. This file is kept as history.
+
+
 LATEST GEOGRAPHY: Nir requested and authorised one near-equal-size chapter
 tile, mostly hexagons with pentagons. That implementation is now built/tested/
 opened and Nir has approved its appearance. Read the current overnight

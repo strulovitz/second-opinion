@@ -1,5 +1,12 @@
 # Geography generator
 
+> **SUPERSEDED ON 24 OCT 2026 (Claude Opus 5.5, approved by Nir).** The map is now the
+> Goldberg ball (Amendment 3.6) and the viewer has the Sand table / Atlas looks, the flower
+> 2-D map, the future layers and DEMO mode. The exact, binding description is in the
+> "CLAUDE OPUS 5.5 ADDITION" blocks at the top of BIBLE parts 1, 3 and 7. Where this file
+> disagrees with those blocks, the blocks win. This file is kept as history.
+
+
 CURRENT: Amendment 3.5 supersedes the rectangular/page-weighted layout below.
 Read HONEYCOMB.md: one whole near-equal-area tile per chapter, 4,751 hexagons
 and 12 pentagons. The new map is installed in the actual viewer and Nir has

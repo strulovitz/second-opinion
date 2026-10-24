@@ -1,6 +1,8 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+24 OCT 2026 (Claude Opus 5.5, SMART): MAP AND VIEWER REBUILT AND APPROVED BY NIR ("i am happy about everything please continue"). Amendment 3.6: the Goldberg ball GP(16,9), 4,812 tiles = 4,763 chapter hexagons + 37 book name tiles + 12 pentagon lakes, installed in data/export/geography/ and site/data/geography/ with 37 flower 2-D maps (flowers/). New viewer: two looks (Sand table default, Atlas), flower 2-D map, future layers (shells, beads, orbits, gauge, cutaway), DEMO mode. The BIBLE now carries CLAUDE OPUS 5.5 ADDITION blocks in parts 1, 3, 7, 8 and 9 (Part 8 = the whole project state, all amendments, next steps; Part 9 = the live website); they win over older text and over every log file. Territory IDs and page bounds unchanged; Neo4j unchanged (no territories yet). Next project step unchanged: the supervised Harrison index trial with DeepSeek.
+
 PAUSED FOR THE NIGHT AT NIR'S REQUEST (23 Oct, around 23:23 Israel as reported by him). HONEYCOMB GLOBE APPROVED: "it looks great, yes i am very happy with it!!!" The canonical manifest records Checkpoint 3.4 approval. At his further explicit request, the full viewer/honeycomb/approval/handoff checkpoint was COMMITTED AND PUSHED to GitHub as 726d5c4 before sleep. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md next session; its first project task is now the supervised Harrison trial. The actual viewer has 4,751 hexagons and 12 pentagons, 37 connected books and 533 connected nonempty provinces plus the existing empty heading, and the unchanged 4,763 chapter IDs/page bounds. Last actual Neo4j check: three Meta nodes only. No reader/index job, book check or database data load was started.
 
 DONE in part 3 so far: Step A0 (book intake), Step A1 (duplicate detection AND the human's decision -- the 5 redundant PDFs were deleted, leaving **37 books**), and the locator for Step A2 (TOC and Index page ranges).
@@ -22,6 +24,8 @@ Why 37, item by item, with the human's agreement:
   The five deleted files, their sizes and their SHA-256 hashes are recorded
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
+24 OCT 2026: unchanged task for DeepSeek: the supervised Harrison index trial (HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md, INDEX-PIPELINE.md). load_geography.py will now load the Goldberg coordinates (approval recorded in data/export/geography/build.json). Do not touch site/viewer/ or the geography; BIBLE Part 7 A9 says what to run when real exports exist.
+
 
 OVERNIGHT STOP: Nir approved the new globe and asked to save a detailed
 DeepSeek handoff and a short project AGENTS.md pointer, then stop for sleep.
@@ -199,6 +203,10 @@ handle /2nd-opinion/* {
 - [resolved 2026-10-23 recovery] Part 3 section 4.4, HARRISON-22 exporter defects: the 21 chapter-range mismatches and two stale image references were repaired using saved evidence; index start PDF 4044 was confirmed directly. The final verifier reports zero range/image warnings for all 505 chapters. Status remains accepted pending human review. Other books are not claimed repaired; the no-reader tool stops on missing evidence, irregular offsets or an unconfirmed index boundary. Exact commands and output are under DONE.
 
 ## AMENDMENTS DECLARED BY THE MANAGER
+- AMENDMENT 3.6 (24 Oct 2026, decided and approved by Nir; Claude Opus 5.5): Goldberg geography. Full text: BIBLE/part-03-phase-a-skeleton.md, CLAUDE OPUS 5.5 ADDITION block. Replaces Amendment 3.5's ring-built honeycomb.
+- PART 7 ADDITION (24 Oct 2026, Nir): flower 2-D map instead of equirectangular, vector 3-D globe with Sand table and Atlas looks, future layers, DEMO mode. Full text: BIBLE/part-07-viewer.md, CLAUDE OPUS 5.5 ADDITION block.
+- BIBLE EDIT RULE (24 Oct 2026, Nir): the BIBLE may be changed only inside "CLAUDE OPUS 5.5 ADDITION BEGIN / END" blocks recording Nir's decisions (BIBLE part 1 block C0).
+
 - AMENDMENT 3.5 (2026-10-23, explicitly requested by Nir): replace the
   page-weighted rectangular subdivision with one whole spherical tile per
   chapter, mostly hexagons with pentagons where needed. Make chapter tiles
@@ -322,6 +330,13 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 ```
 
 ## DECISIONS BY HUMAN
+- 2026-10-24 (Nir, to Claude Opus 5.5): hexagons must be as similar as possible and books need a clear border line -> Goldberg ball accepted, with 4,812 tiles: the 12 pentagons become lakes and every book gets one name tile ("Yes, 12 + 37 name tiles").
+- 2026-10-24: orange-peel (unfolded icosahedron) 2-D map shown and REJECTED by Nir ("i do not like this peel idea at all"). Never bring it back.
+- 2026-10-24: Nir's FLOWER 2-D map: each book one round blob, never split; centre book with neighbour petals; flowers not touching; grouping may change with the viewing angle; hexagon/pentagon shapes need not match between views. Approved after seeing two previews ("the 2D images look great!!! i like the flowers A LOT"). Centred on the book being looked at: accepted.
+- 2026-10-24: Nir is above the BIBLE; the BIBLE may be changed inside CLAUDE OPUS 5.5 ADDITION blocks, written in great detail for later models.
+- 2026-10-24: two 3-D looks: a "sand table" (mountains, cartoon clouds, cartoon satellites) for laymen, possibly the default, and a precise one for experts; build both beautifully. Lighting/shading allowed. DEMO placeholders allowed, clearly labelled, never in the database ("Yes, demo button + banner").
+- 2026-10-24: Nir saw the finished viewer and approved everything: "i am happy about everything please continue".
+
 
 - 2026-10-23, immediately after the overnight handoff: Nir explicitly asked "can we save to github now please? in case something happens to this pc?" This authorises tonight's commit/push instead of leaving that routine save to DeepSeek tomorrow. The completed implementation, approved geography and detailed handoff were pushed as 726d5c4; no reader/index workflow was started.
 - 2026-10-23, around 23:23 Israel (user-reported), honeycomb Checkpoint 3.4: after seeing the real new globe, Nir said "it looks great, yes i am very happy with it!!!" He then requested a detailed saved handoff for DeepSeek, a short pointer in the project AGENTS.md without inflating it, and an overnight stop. This approves the honeycomb map's appearance, not an entity-registry review, Freeze or overnight execution. He intends to return with DeepSeek, hopefully tomorrow.
@@ -357,6 +372,18 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### DONE 2026-10-24 (later) -- BIBLE made self-sufficient; live website path verified
+Nir: "nobody is reading ... all the things except the BIBLE". Added CLAUDE OPUS 5.5 ADDITION blocks to BIBLE Part 8 (state of the project, all amendments, library table, systems, exact next steps, saving rules, the rule that every session must write Nir's decisions into the BIBLE) and Part 9 (the live website as it really works). Live path: ~/strulovitz-website/exports/2nd-opinion -> ~/second-opinion/site (symlink), served by Caddy :8081. Verified: `systemctl --user start site-caddy.service`; `VIEWER_URL=http://127.0.0.1:8081/2nd-opinion/viewer/ node kitchen/test_viewer_browser.mjs` -> 8 browser checks passed; service stopped again. strulovitz-website: sites-on now pulls/clones ~/second-opinion and makes the link if missing; README section; "Open the living globe" link on site/second-opinion.html; local export rebuilt as v2026-10-24-a.
+
+### DONE 2026-10-24 -- Claude Opus 5.5: Goldberg geography, flower maps, new viewer (Nir approved)
+Measured problem: the 23 Oct honeycomb's hexagons had median corner error 12.0 deg, worst 32.7 deg, 37.5% above 15 deg (/tmp script on site/data/geography/honeycomb.json).
+New files: kitchen/goldberg_mesh.py, kitchen/geography_goldberg.py, kitchen/flower_map.py, kitchen/make_demo.py, kitchen/test_goldberg.py; site/viewer/materials.js, atlas.js, sandtable.js, layers.js, labels.js; rewritten site/viewer/data.js, globe3d.js, map2d.js, kitchen/test_viewer_browser.mjs; edited app.js, geo.js, index.html, viewer.css, kitchen/honeycomb_mesh.py (dual_from split out), kitchen/geography_honeycomb.py (install(layout=...)), kitchen/check_links.py, kitchen/prompts/wording.json (globe_intro).
+Build/install: `OPENBLAS_NUM_THREADS=2 .venv/bin/python kitchen/geography_goldberg.py` then `--install` -> "Installed the tested honeycomb candidate. Old map backup: kitchen/logs/before-honeycomb-20261024T112358007494Z" and "Installed the 37 flower maps". Neo4j unchanged and not frozen.
+Statistics (honeycomb.json): 4,800 hexagons + 12 pentagons, side ratio median 0.945 / worst 0.851, corner error median 3.32 / p95 6.85 / worst 9.55 deg, hexagon area 0.764-1.084 of mean, 37/37 books connected, 0 raster ties.
+Tests: `node --test kitchen/test_viewer.mjs` 4 pass; `python -m unittest discover -s kitchen -p 'test_*.py'` 106 pass (101 old + 5 new in test_goldberg.py); `node kitchen/test_viewer_browser.mjs` 8 browser checks pass (globe start/alignment, both looks, globe tile click, flower map click, DEMO shells + 2-D cascade, cutaway, phone layout, no-WebGL fallback); `check_links.py --allow-pending` 86 checked, 0 broken, 21 pending medical exports. Screenshots kitchen/logs/opus-*.png were opened and inspected.
+Demo: `kitchen/make_demo.py` -> site/data/demo/demo.json, 7 invented DEMO entities; never in Neo4j or data/export.
+
 
 ### 2026-10-23 -- User-requested GitHub backup completed before sleep
 

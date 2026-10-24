@@ -12,7 +12,7 @@
     "common",
     "very common"
   ],
-  "globe_intro": "Every coloured region is one textbook. Every chapter is one honeycomb tile, with similar-sized tiles across the globe. Click a tile to see its chapter, or search a symptom, disease or treatment to open its map.",
+  "globe_intro": "Every coloured region is one textbook; every hexagon is one of its chapters. The 12 small blue lakes are the only five-sided tiles and hold no chapter. Each book's name sits on its own name tile. Sand table shows the books as mountains, with clouds for the symptoms and satellites for the treatments; Atlas shows the same tiles flat and exact. 2D flowers lays the books out flat around the one you are looking at. Click a tile to see its chapter, or search a symptom, disease or treatment to open its map.",
   "group_labels": {
     "diseases-and-conditions": "Disease or condition",
     "symptoms-and-signs": "Symptom or sign",

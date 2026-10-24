@@ -136,6 +136,11 @@ def triangular_mesh(count):
 
 def dual_mesh(count):
     points, faces, plan = triangular_mesh(count)
+    return dual_from(points, faces, plan)
+
+
+def dual_from(points, faces, plan=None):
+    """Dual polygons of a closed outward triangulation (shared by the Goldberg mesh)."""
     vertices = points[faces].sum(axis=1)
     vertices /= np.linalg.norm(vertices, axis=1)[:, None]
     incident, adjacent = [[] for _ in points], [set() for _ in points]

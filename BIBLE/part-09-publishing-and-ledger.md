@@ -16,6 +16,54 @@ PRECONDITIONS:         Parts 2-8 installed. At least: Freeze A done,
                        exists.
 ================================================================================
 
+================================================================================
+CLAUDE OPUS 5.5 ADDITION BEGIN -- PART 9 (written 24 Oct 2026)
+THE LIVE WEBSITE, AS IT REALLY WORKS
+================================================================================
+E1. WHERE IT IS
+  Public: https://www.strulovitz.org/2nd-opinion/          (project home)
+          https://www.strulovitz.org/2nd-opinion/viewer/   (the globe)
+  The main site's page https://www.strulovitz.org/second-opinion.html has
+  an "Open the living globe" link to the viewer (added 24 Oct 2026 in the
+  strulovitz-website repository, file site/second-opinion.html).
+E2. HOW IT IS SERVED (no upload, no copy, no build for Second Opinion)
+  The websites are served from Nir's own computer by Caddy (port 8081 for
+  strulovitz.org, root ~/strulovitz-website/exports) through a Cloudflare
+  Tunnel. ~/strulovitz-website/exports/2nd-opinion is a SYMBOLIC LINK to
+  ~/second-opinion/site. So the live Second Opinion is EXACTLY the files in
+  that computer's ~/second-opinion/site folder, the moment they are saved.
+  Nir starts and stops hosting with the desktop icons "Websites ON" and
+  "Websites OFF" (strulovitz-website: hosting/bin/sites-on, sites-off).
+  sites-on (since 24 Oct 2026) also runs "git pull --ff-only" in
+  ~/second-opinion (or clones https://github.com/strulovitz/second-opinion
+  if it is missing) and creates the exports/2nd-opinion link if it is
+  missing. So the hosting computer always shows the newest PUSHED version.
+  Never host from the laptop and the Linux Mint desktop at the same time.
+  The tunnel token is a private file outside GitHub: never read, copy,
+  print or commit it.
+E3. HOW TO PUBLISH A CHANGE
+  1. Make and test the change (Part 7 ADDITION A10).
+  2. Commit and push ~/second-opinion to GitHub (show Nir the file list).
+  3. If the hosting computer is the laptop, it is already live. If it is
+     the desktop, Nir presses "Websites OFF" then "Websites ON" there
+     (that pulls), or runs: cd ~/second-opinion && git pull --ff-only
+  4. Check: open https://www.strulovitz.org/2nd-opinion/viewer/ ; a
+     visitor whose browser kept an old copy presses Ctrl+Shift+R once.
+E4. LOCAL PREVIEW THROUGH THE REAL SERVER (without going public)
+    systemctl --user start site-caddy.service
+    VIEWER_URL=http://127.0.0.1:8081/2nd-opinion/viewer/ node kitchen/test_viewer_browser.mjs
+    systemctl --user stop site-caddy.service
+  On 24 Oct 2026 all 8 browser checks passed this way (JavaScript is sent
+  as text/javascript and JSON as application/json, as the viewer needs).
+E5. WHAT THE PUBLIC SEES ON 24 OCT 2026
+  The real map of the 37 books (Sand table and Atlas looks, 2-D flowers)
+  and the DEMO switch, whose invented examples are labelled under a yellow
+  banner. No medical data yet. The one disclaimer (Law 12) is at the bottom
+  of site/index.html only.
+================================================================================
+CLAUDE OPUS 5.5 ADDITION END -- PART 9
+================================================================================
+
 0. PURPOSE AND AMENDMENTS
 --------------------------------------------------------------------------------
 0.1 Purpose

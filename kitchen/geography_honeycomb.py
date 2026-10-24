@@ -128,11 +128,11 @@ def build(source, width=geo.W, height=geo.H):
     return result, topology
 
 
-def install(candidate, source, run, root=ROOT):
+def install(candidate, source, run, root=ROOT, layout='chapter-honeycomb'):
     """Back up both old maps before installing the tested, unfrozen candidate."""
     candidate = Path(candidate)
     manifest = json.loads((candidate / 'build.json').read_text())
-    require(manifest.get('layout') == 'chapter-honeycomb', 'not a honeycomb candidate')
+    require(manifest.get('layout') == layout, f'not a {layout} candidate')
     for name, digest in manifest['files'].items():
         require(hashlib.sha256((candidate / name).read_bytes()).hexdigest() == digest, f'candidate hash changed: {name}')
     require(hashlib.sha256(source.read_bytes()).hexdigest() == manifest['source_sha256'], 'source geography changed while building')

@@ -1,5 +1,12 @@
 # One chapter, one honeycomb tile -- Amendment 3.5
 
+> **SUPERSEDED ON 24 OCT 2026 (Claude Opus 5.5, approved by Nir).** The map is now the
+> Goldberg ball (Amendment 3.6) and the viewer has the Sand table / Atlas looks, the flower
+> 2-D map, the future layers and DEMO mode. The exact, binding description is in the
+> "CLAUDE OPUS 5.5 ADDITION" blocks at the top of BIBLE parts 1, 3 and 7. Where this file
+> disagrees with those blocks, the blocks win. This file is kept as history.
+
+
 OVERNIGHT RESTART: read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md first. Nir
 approved the displayed globe on 23 Oct: "it looks great, yes i am very happy
 with it!!!" Approval is recorded in the canonical manifest and PROGRESS.md.
