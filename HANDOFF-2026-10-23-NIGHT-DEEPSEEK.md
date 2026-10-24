@@ -1,5 +1,17 @@
 # Overnight restart for DeepSeek -- approved honeycomb globe, 23 October 2026
 
+> **UPDATE 24 OCT 2026 (Claude Opus 5.5) -- READ THIS FIRST.** Your task is UNCHANGED:
+> the supervised HARRISON-22 index trial (sections 1 and 8 below, and INDEX-PIPELINE.md).
+> What changed: the globe was rebuilt and Nir approved it again ("i am happy about
+> everything please continue"). It is now the Goldberg ball (4,812 tiles: 4,763 chapter
+> hexagons + 37 book name tiles + 12 lakes) with a new viewer. Territory IDs, names and
+> page bounds did NOT change, so every index tool still works. Ignore the old honeycomb
+> numbers and viewer test commands in sections 3-7 (4,751 hexagons, hashes,
+> VIEWER_EXPECT_HONEYCOMB); do not check, rebuild or "fix" the map or the viewer.
+> The exact next commands are in BIBLE/part-08-manager-operating-protocol.md, block
+> "CLAUDE OPUS 5.5 ADDITION", section D7. DO NOT EDIT THE BIBLE (only Claude Opus 5.5
+> was allowed, once); write your reports in PROGRESS.md.
+
 LATEST UPDATE: Nir asked for the GitHub backup immediately before sleep.
 The entire implementation, approved map and detailed handoff were committed
 and successfully pushed to origin/main as 726d5c4. This documentation
