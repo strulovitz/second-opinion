@@ -25,7 +25,10 @@ E1. WHERE IT IS
           https://www.strulovitz.org/2nd-opinion/viewer/   (the globe)
   The main site's page https://www.strulovitz.org/second-opinion.html has
   an "Open the living globe" link to the viewer (added 24 Oct 2026 in the
-  strulovitz-website repository, file site/second-opinion.html).
+  strulovitz-website repository, file site/second-opinion.html). On Nir's
+  request (24 Oct 2026) that page NO LONGER contains a copy of the BIBLE
+  text; it links to https://github.com/strulovitz/second-opinion/tree/
+  main/BIBLE instead. Never paste the BIBLE into a public page again.
 E2. HOW IT IS SERVED (no upload, no copy, no build for Second Opinion)
   The websites are served from Nir's own computer by Caddy (port 8081 for
   strulovitz.org, root ~/strulovitz-website/exports) through a Cloudflare

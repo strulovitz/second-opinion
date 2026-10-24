@@ -159,8 +159,41 @@ A6. THE LAYERS (layers.js and geo.js) -- what a later model must feed
   by two clipping planes (clipIntersection = true); two half-disc caps
   show the strata, coloured by radius, with thin lines at r = 0.30, 0.47,
   0.64, 0.81 (Atlas: blues; Sand table: lava colours).
-  The gauge (#gauge) shows 0 (core) at the bottom to 3 (outer orbit) at
-  the top; the white marker is entity.altitude / 3 of the height.
+
+A6b. THE ALTITUDE GAUGE (the tall "thermometer" on the right of the globe)
+  What it is: a ruler of HEIGHT for the whole world, the picture of the
+  elevator of Part 1 section 3.3. Bottom = radius 0 (the centre of the
+  planet, the "healthy body"); top = radius 3.00 (the outermost orbit).
+  Its coloured stripes, from the bottom up, are the bands:
+    0.00-0.30  dark orange   the core; no entity lives here
+    0.30-1.00  orange        diseases and conditions, inside the planet
+                             (deep = touches many fields, near the crust =
+                             local)
+    1.00       cream line    the surface: the map of the 37 books
+    1.00-1.50  blue          symptoms and signs, the atmosphere (low =
+                             nonspecific, high = specific)
+    1.50-3.00  gold          treatments and drugs, the orbits (lifestyle
+                             lowest, surgery and transplantation highest)
+  Each stripe's height is proportional to its radius range, so the scale is
+  linear in radius. Hovering a stripe shows its name and range.
+  When an entity is open, a white bar with the entity's name marks ITS
+  altitude, e.g. a disease at 0.42 sits low in the orange; a treatment at
+  2.25 sits in the middle of the gold. That is how a layman sees "how deep
+  or how high" the thing he searched lives, and why its shell in the 3-D
+  view is inside the planet, in the air or out among the satellites.
+  When it is shown: only in the 3-D view, and only while "Show the layers"
+  is ticked or an entity is open. It is hidden in the 2-D flower map.
+  Code: index.html (#gauge: four stripe divs, the 0-0.30 core is the
+  ::after of #gauge in viewer.css, and .marker); viewer.css (flex ratios
+  1.5 : 0.5 : 3px line : 0.7 : 0.3, matching 1.50-3.00, 1.00-1.50, 1.00,
+  0.30-1.00, 0-0.30); app.js function gauge(entity): marker bottom =
+  entity.altitude / 3 * 100 %, marker text = canonical_name.
+  For later models: real entities need NOTHING new; the marker follows the
+  exported altitude. Never move the marker by hand or give it a made-up
+  value. If the band limits ever change (Part 5), the CSS flex ratios
+  must be changed to match by the model Nir names (they are written in
+  the CSS, not computed). The five treatment sub-bands are not drawn on
+  the gauge; they are drawn in 3-D as the five satellite orbits.
 
 A7. THE FLOWER MAP (kitchen/flower_map.py writes, map2d.js draws)
   Nir's rules: every book is ONE round blob, never split; books are

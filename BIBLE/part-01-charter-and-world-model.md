@@ -7,13 +7,21 @@ File: BIBLE/part-01-charter-and-world-model.md
 ================================================================================
 CLAUDE OPUS 5.5 ADDITION BEGIN -- PART 1 (written 24 Oct 2026)
 ================================================================================
-C0. Nir decided on 24 Oct 2026 that the BIBLE may be changed, but only
-  inside blocks marked "CLAUDE OPUS 5.5 ADDITION BEGIN / END". Inside such
-  a block the text WINS over the older text around it. Nir is above the
-  BIBLE: when he decides something new, it is written down this way.
-  The full rule, the state of the project, every amendment in force and the
-  exact next steps are in the Part 8 ADDITION block; the live website is in
-  the Part 9 ADDITION block. Read them before anything else.
+C0. On 24 Oct 2026 Nir allowed ONE model, Claude Opus 5.5, ONE time, to
+  write into the BIBLE, inside blocks marked "CLAUDE OPUS 5.5 ADDITION
+  BEGIN / END". Inside such a block the text WINS over the older text
+  around it. Nir is above the BIBLE.
+  THIS PERMISSION WAS FOR CLAUDE OPUS 5.5 ONLY. NO OTHER MODEL MAY EDIT
+  THE BIBLE: not add, not change, not delete, not "fix", not add its own
+  block (Nir, 24 Oct 2026: "it is NOT a rule for everybody, just a one time
+  rule for you ... i do not want them to write anything in the bible").
+  Later models write their reports and Nir's decisions in PROGRESS.md
+  only. If a later model thinks the BIBLE is wrong or out of date, it
+  writes the question under QUESTIONS FOR HUMAN in PROGRESS.md and asks
+  Nir; it does not touch the BIBLE.
+  The state of the project, every amendment in force and the exact next
+  steps are in the Part 8 ADDITION block; the live website is in the
+  Part 9 ADDITION block. Read them before anything else.
 C1. World model changes (details: Part 3 and Part 7 A-blocks):
   - 3.2: a continent (book) is a connected region of hexagon tiles on a
     Goldberg ball, one hexagon per chapter, so a book's area follows its

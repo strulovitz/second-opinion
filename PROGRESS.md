@@ -205,7 +205,7 @@ handle /2nd-opinion/* {
 ## AMENDMENTS DECLARED BY THE MANAGER
 - AMENDMENT 3.6 (24 Oct 2026, decided and approved by Nir; Claude Opus 5.5): Goldberg geography. Full text: BIBLE/part-03-phase-a-skeleton.md, CLAUDE OPUS 5.5 ADDITION block. Replaces Amendment 3.5's ring-built honeycomb.
 - PART 7 ADDITION (24 Oct 2026, Nir): flower 2-D map instead of equirectangular, vector 3-D globe with Sand table and Atlas looks, future layers, DEMO mode. Full text: BIBLE/part-07-viewer.md, CLAUDE OPUS 5.5 ADDITION block.
-- BIBLE EDIT RULE (24 Oct 2026, Nir): the BIBLE may be changed only inside "CLAUDE OPUS 5.5 ADDITION BEGIN / END" blocks recording Nir's decisions (BIBLE part 1 block C0).
+- BIBLE EDIT RULE (24 Oct 2026, Nir, corrected the same day): ONLY Claude Opus 5.5 was allowed, one time, to write into the BIBLE, inside "CLAUDE OPUS 5.5 ADDITION BEGIN / END" blocks. NO OTHER MODEL MAY EDIT THE BIBLE ("it is NOT a rule for everybody, just a one time rule for you ... i do not want them to write anything in the bible"). Later models record everything here in PROGRESS.md.
 
 - AMENDMENT 3.5 (2026-10-23, explicitly requested by Nir): replace the
   page-weighted rectangular subdivision with one whole spherical tile per
@@ -334,6 +334,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-24: orange-peel (unfolded icosahedron) 2-D map shown and REJECTED by Nir ("i do not like this peel idea at all"). Never bring it back.
 - 2026-10-24: Nir's FLOWER 2-D map: each book one round blob, never split; centre book with neighbour petals; flowers not touching; grouping may change with the viewing angle; hexagon/pentagon shapes need not match between views. Approved after seeing two previews ("the 2D images look great!!! i like the flowers A LOT"). Centred on the book being looked at: accepted.
 - 2026-10-24: Nir is above the BIBLE; the BIBLE may be changed inside CLAUDE OPUS 5.5 ADDITION blocks, written in great detail for later models.
+- 2026-10-24 (later): Nir corrected: writing into the BIBLE was a ONE-TIME permission for Claude Opus 5.5 only; later models must not write anything in the BIBLE. He also asked to remove the copy of the old BIBLE from https://www.strulovitz.org/second-opinion.html ("it's enough that we have it in github"): done, the page now links to the BIBLE folder on GitHub. He asked what the gauge on the right of the globe is: explained, and documented in BIBLE Part 7 ADDITION A6b.
 - 2026-10-24: two 3-D looks: a "sand table" (mountains, cartoon clouds, cartoon satellites) for laymen, possibly the default, and a precise one for experts; build both beautifully. Lighting/shading allowed. DEMO placeholders allowed, clearly labelled, never in the database ("Yes, demo button + banner").
 - 2026-10-24: Nir saw the finished viewer and approved everything: "i am happy about everything please continue".
 

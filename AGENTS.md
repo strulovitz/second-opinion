@@ -6,10 +6,10 @@ anything else read the "CLAUDE OPUS 5.5 ADDITION" blocks at the top of
 BIBLE parts 8, 1, 3, 7 and 9 (Part 8 first: state of the project, all
 amendments, exact next steps). They WIN over the older BIBLE text and over
 HONEYCOMB.md / VIEWER.md / the 23 Oct handoffs where those disagree.
-BIBLE EDIT RULE (Nir, 24 Oct): the BIBLE may now be changed, but ONLY inside
-blocks marked "CLAUDE OPUS 5.5 ADDITION BEGIN / END" (or a later model's
-block of the same kind, named after that model), and only to record what
-Nir decided. Never delete or rewrite the old text around a block.
+BIBLE EDIT RULE (Nir, 24 Oct): DO NOT EDIT THE BIBLE. Only Claude Opus 5.5
+was allowed to write in it, once ("it is NOT a rule for everybody, just a
+one time rule for you"). Every other model writes reports and decisions in
+PROGRESS.md only, and asks Nir (QUESTIONS FOR HUMAN) if the BIBLE seems wrong.
 
 NEXT SESSION (DeepSeek): unchanged project task: the supervised Harrison
 index trial (HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md, INDEX-PIPELINE.md). The

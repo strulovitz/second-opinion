@@ -19,23 +19,24 @@ THE STATE OF THE PROJECT AND EVERY STANDING DECISION
 ================================================================================
 D0. WHY THIS BLOCK EXISTS (Nir, 24 Oct 2026)
   Nir: "nobody is reading (and everybody is changing) all the things except
-  the BIBLE, so every piece of important information needs to be in the
-  BIBLE". Therefore:
+  the BIBLE". So Claude Opus 5.5 wrote everything important about the
+  project into these ADDITION blocks, once. Therefore:
   - The BIBLE is the ONLY reliable source. PROGRESS.md, AGENTS.md, the
     HANDOFF-*.md files, HONEYCOMB.md, VIEWER.md, GEOGRAPHY.md and
     INDEX-PIPELINE.md are LOGS. If a log disagrees with the BIBLE, the
-    BIBLE wins. If something important is only in a log, copy it into the
-    BIBLE.
-  - The BIBLE may be changed ONLY inside blocks marked
-    "<MODEL NAME> ADDITION BEGIN -- PART n" ... "ADDITION END -- PART n",
-    placed right after the part's header, recording what Nir decided and
-    what was built. Never delete or rewrite the older text around a block.
-    Inside its part, a block wins over the older text. A newer block wins
-    over an older block.
-  - AT THE END OF EVERY SESSION in which Nir decided something or something
-    important was built, the manager writes it into the BIBLE this way
-    (with the reason, exact numbers, exact commands and file names), BEFORE
-    the Git save. A session that skips this has not finished.
+    BIBLE wins.
+  - Inside its part, a CLAUDE OPUS 5.5 ADDITION block wins over the older
+    text of that part. The older text still applies where the block is
+    silent.
+  - NOBODY ELSE MAY EDIT THE BIBLE. The permission to write in it was a
+    one-time permission for Claude Opus 5.5 only (Nir: "it is NOT a rule
+    for everybody, just a one time rule for you ... i do not want them to
+    write anything in the bible"). Every later model: do not add, change,
+    delete or "fix" anything in BIBLE/, and do not add a block of your
+    own. Write your reports, evidence and Nir's new decisions in
+    PROGRESS.md (under DONE and DECISIONS BY HUMAN). If you believe the
+    BIBLE is wrong, write the question under QUESTIONS FOR HUMAN and ask
+    Nir. Only Nir can allow a BIBLE change, and only for a model he names.
 
 D1. READING ORDER FOR A NEW MODEL
   1. AGENTS.md (the 15 laws; also Part 1 section 2).
