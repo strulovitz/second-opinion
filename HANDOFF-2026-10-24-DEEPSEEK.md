@@ -12,6 +12,21 @@ Nir the review. Then stop.
 
 ## 0. Rules you must obey (read twice)
 
+**RULE ZERO -- NIR'S HARD LIMIT (24 Oct 2026, his words: "i never approved
+for qwen to go on thousands of pages per book, in ANY phase, NEVER EVER ...
+not months, never months").**
+- Qwen is NEVER run over thousands of pages of a book. This job uses Qwen
+  only on Harrison's back-of-book INDEX (230 pages of about 4,300) and on
+  the index terms, 25 at a time. Nothing else.
+- Before the full run you MEASURE the trial, compute the total time in
+  HOURS and show it to Nir (step 5b). You start the full run only if Nir
+  says okay to that number.
+- Anything that would take weeks or months is forbidden. If the estimate
+  is too long for Nir, STOP: the answer is a faster plain-code method
+  written by SMART, never "let it run".
+- Never start "Phase B" / BIBLE Part 4 (reading the chapter pages). It is
+  forbidden until SMART writes a new fast plan and Nir approves it.
+
 1. **Do NOT edit anything in `BIBLE/`.** Not one character. Only Claude
    Opus 5.5 was allowed to write there, once. You write your notes only in
    `PROGRESS.md`.
@@ -123,9 +138,12 @@ Tell Nir: "Now the reader reads ONE index page, and then sorts ONE batch
 of 25 terms. Then we look at the result together."
 
 ```bash
-.venv/bin/python kitchen/index_parse.py HARRISON-22 --limit 1
-.venv/bin/python kitchen/index_classify.py HARRISON-22 --limit 1
+time .venv/bin/python kitchen/index_parse.py HARRISON-22 --limit 1
+time .venv/bin/python kitchen/index_classify.py HARRISON-22 --limit 1
 ```
+
+Write down the two "real" times that `time` prints (seconds for one page,
+seconds for one batch of 25 terms).
 
 `--limit 1` means one NEW page / one NEW batch. Then show Nir, in plain
 words, what came out (the newest files about HARRISON-22 in `kitchen/logs/`).
@@ -140,13 +158,29 @@ Check only the STRUCTURE, not medicine:
 If Nir is not happy, STOP and write what he said in PROGRESS.md.
 Do not hand-edit any JSON to make it look right.
 
+### 5b. The time estimate (MANDATORY before step 6)
+
+Compute and tell Nir, in hours:
+- parse time = (seconds for one page) x 229 remaining index pages
+- classify time = (seconds for one batch) x (number of index terms / 25).
+  The number of terms per page: count the entries in the newest
+  `kitchen/logs/HARRISON-22-index-<page>.json`; estimate the total as
+  (entries on that page) x 230.
+- total = parse time + classify time, in hours (round up).
+
+Say it plainly, for example: "The whole Harrison index would take about
+N hours of Qwen time. Is that okay?" If Nir says it is too long, STOP,
+write the numbers in PROGRESS.md and tell him SMART can write a faster
+plain-code index reader. Do NOT start step 6 without his okay to the
+number.
+
 ---
 
-## 6. The full Harrison index, then the review (only after Nir says okay)
+## 6. The full Harrison index, then the review (only after Nir says okay to the 5b estimate)
 
-Tell Nir: "The trial looks fine. Now the reader goes through all 230 index
-pages of Harrison. This takes a long time; you can watch the progress. It
-can be stopped and started again without losing work."
+Tell Nir: "The trial looks fine. Now the reader goes through the other 229
+index pages of Harrison (about N hours, as measured). You can watch the
+progress. It can be stopped and started again without losing work."
 
 ```bash
 .venv/bin/python kitchen/index_pipeline.py HARRISON-22

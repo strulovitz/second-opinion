@@ -14,6 +14,44 @@ PRECONDITION:          Freeze A done (Part 3 section 11). Entities are
                        terms go to Quarantine.
 ================================================================================
 
+================================================================================
+CLAUDE OPUS 5.5 ADDITION BEGIN -- PART 4 (written 24 Oct 2026)
+================================================================================
+F0. STOP. THIS PART MAY NOT BE RUN AS WRITTEN.
+  Section 0.1 below says "Read every page of every accepted book" with the
+  free reader, and section 2 plans every chapter page of every book (more
+  than 100,000 pages; months of computer time). NIR NEVER APPROVED THIS
+  AND FORBIDS IT, in every phase:
+  NIR'S HARD LIMIT ON THE READER (Nir, 24 Oct 2026, in capitals):
+    "i never approved for qwen to go on thousands of pages per book, in ANY
+    phase, NEVER EVER ... not months, never months."
+    - The free reader (Qwen) must NEVER be planned or run over thousands of
+      pages of a book, in ANY phase. Plain code does everything code can do
+      (pdftotext text, regular expressions, page-number arithmetic, exact
+      name matching); Qwen is used only for the small remainder that code
+      cannot do.
+    - Before ANY Qwen job: run a tiny trial, MEASURE the seconds it took,
+      compute the total time of the whole job, and show Nir that number in
+      hours. Start it only if Nir says okay. A job, a book or a phase that
+      would take MONTHS is forbidden. The project must finish in days.
+    - If an estimate is too long, STOP and ask Nir; the answer is a faster
+      plain-code method written by SMART, never "let it run for weeks".
+
+F1. What this means for Phase B (the medical facts):
+  - No script of this Part (P-B0, P-B0f, P-B1, P-B2 or any other) may be
+    started over a whole book.
+  - Before Phase B, SMART writes a NEW plan for Nir: plain code finds the
+    places that matter (for example only the sentences that contain at
+    least two names from the frozen registry), Qwen reads only those, a
+    trial on a few pages measures the speed, and the plan states the total
+    time for all 37 books in hours or days. Nothing starts before Nir
+    approves that plan in writing (recorded in PROGRESS.md).
+  - The rest of this Part (provenance, quotes, F-scale, quarantine, the
+    ledger) stays valid for whatever the new plan produces.
+================================================================================
+CLAUDE OPUS 5.5 ADDITION END -- PART 4
+================================================================================
+
 0. PURPOSE, INPUTS, OUTPUTS, AMENDMENTS
 --------------------------------------------------------------------------------
 0.1 Purpose

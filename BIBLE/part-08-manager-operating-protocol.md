@@ -48,8 +48,9 @@ D2. WHO DOES WHAT (in force on 24 Oct 2026)
   HUMAN: Nir. All decisions. Above the BIBLE.
   READER (free, local): Qwen "qwen3.8:27b" on this laptop's Ollama server,
     called only through kitchen/reader.py (test: .venv/bin/python
-    kitchen/reader.py -> {'ok': True}). It reads every page and classifies
-    every term. Never pay a cloud model for per-page or per-term work.
+    kitchen/reader.py -> {'ok': True}). It is used ONLY for small,
+    measured jobs that plain code cannot do (see D2b). Never pay a cloud
+    model for that work either.
   CHEAP: DeepSeek V4.1 Flash in OpenCode. Runs the book-by-book scripts,
     one book at a time, with Nir watching.
   SMART: Claude (Opus 5.5 / Sonnet 5.5) or GPT 6.1 Sol. Writes GENERIC
@@ -61,6 +62,21 @@ D2. WHO DOES WHAT (in force on 24 Oct 2026)
   book boundary is not a model switch; return to SMART only for the Freeze
   review or a generic software failure that DeepSeek failed twice (bring
   the exact command, error and evidence paths).
+
+D2b. NIR'S HARD LIMIT ON THE READER (Nir, 24 Oct 2026, in capitals):
+  "i never approved for qwen to go on thousands of pages per book, in ANY
+  phase, NEVER EVER ... not months, never months."
+  - The free reader (Qwen) must NEVER be planned or run over thousands of
+    pages of a book, in ANY phase. Plain code does everything code can do
+    (pdftotext text, regular expressions, page-number arithmetic, exact
+    name matching); Qwen is used only for the small remainder that code
+    cannot do.
+  - Before ANY Qwen job: run a tiny trial, MEASURE the seconds it took,
+    compute the total time of the whole job, and show Nir that number in
+    hours. Start it only if Nir says okay. A job, a book or a phase that
+    would take MONTHS is forbidden. The project must finish in days.
+  - If an estimate is too long, STOP and ask Nir; the answer is a faster
+    plain-code method written by SMART, never "let it run for weeks".
 
 D3. HOW TO WORK WITH NIR
   Nir is a self-described beginner and has little money. One small step at
@@ -167,8 +183,13 @@ D7. WHAT COMES NEXT, IN ORDER (CHEAP + READER, Nir watching)
      25 index ranges are configured; 12 are unset: find them with the
      reader, do not guess.
   8. After all reviews (Checkpoint 3.6): SMART for the entity-resolution
-     and Freeze A review. Then Part 4 (reading pipeline, Phase B), Part 5
-     (altitudes), Part 6 (pages), Part 9 (publishing). When the exports
+     and Freeze A review. Then the medical facts (Phase B). WARNING:
+     Part 4 as Fable wrote it says the reader reads EVERY chapter page of
+     every book; Nir never approved that and FORBIDS it (D2b; Part 4
+     ADDITION block). Phase B may not start until SMART has written a new,
+     fast plan (plain code first, Qwen only on a small measured part) with
+     a total time estimate in hours or days, and Nir has approved it. Then
+     Part 5 (altitudes), Part 6 (pages), Part 9 (publishing). When the exports
      exist, Part 7 ADDITION A9 says how the viewer gets them (no code
      change).
 

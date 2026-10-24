@@ -11,6 +11,12 @@ was allowed to write in it, once ("it is NOT a rule for everybody, just a
 one time rule for you"). Every other model writes reports and decisions in
 PROGRESS.md only, and asks Nir (QUESTIONS FOR HUMAN) if the BIBLE seems wrong.
 
+NIR'S HARD LIMIT (24 Oct 2026): Qwen is NEVER run over thousands of pages of
+a book, in ANY phase. Measure every reader job on a tiny trial first, show
+Nir the total in HOURS, start only with his okay; nothing may take months.
+Wherever Law 14 or the BIBLE says the reader reads "every page", that is
+CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
+
 NEXT SESSION (DeepSeek): read and follow HANDOFF-2026-10-24-DEEPSEEK.md
 step by step (the supervised Harrison index trial). It replaces the 23 Oct
 handoff. Do NOT touch site/viewer/ or the geography files.

@@ -330,6 +330,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 ```
 
 ## DECISIONS BY HUMAN
+- 2026-10-24 (evening), NIR'S HARD LIMIT, in his words: "i never approved for qwen to go on thousands of pages per book, in ANY phase, NEVER EVER ... not months, never months." Qwen must never be run over thousands of pages of a book; every reader job is measured on a trial and its total shown to Nir in hours before it starts; nothing may take months. BIBLE Part 4's "read every page" plan is CANCELLED (BIBLE Part 4 ADDITION F0, Part 8 ADDITION D2b, Part 1 C0). Claude Opus 5.5 had wrongly repeated "it reads every page" in Part 8 D2 earlier the same day; corrected.
 - 2026-10-24 (Nir, to Claude Opus 5.5): hexagons must be as similar as possible and books need a clear border line -> Goldberg ball accepted, with 4,812 tiles: the 12 pentagons become lakes and every book gets one name tile ("Yes, 12 + 37 name tiles").
 - 2026-10-24: orange-peel (unfolded icosahedron) 2-D map shown and REJECTED by Nir ("i do not like this peel idea at all"). Never bring it back.
 - 2026-10-24: Nir's FLOWER 2-D map: each book one round blob, never split; centre book with neighbour petals; flowers not touching; grouping may change with the viewing angle; hexagon/pentagon shapes need not match between views. Approved after seeing two previews ("the 2D images look great!!! i like the flowers A LOT"). Centred on the book being looked at: accepted.

@@ -19,6 +19,11 @@ C0. On 24 Oct 2026 Nir allowed ONE model, Claude Opus 5.5, ONE time, to
   only. If a later model thinks the BIBLE is wrong or out of date, it
   writes the question under QUESTIONS FOR HUMAN in PROGRESS.md and asks
   Nir; it does not touch the BIBLE.
+  NIR'S HARD LIMIT: the free reader (Qwen) is NEVER run over thousands of
+  pages of a book, in ANY phase; every reader job is measured first and
+  shown to Nir in hours; nothing may take months (Part 8 ADDITION D2b,
+  Part 4 ADDITION F0). Where older text (Law 14, section 8 tiers, Part 4)
+  says the reader reads "every page", that is CANCELLED.
   The state of the project, every amendment in force and the exact next
   steps are in the Part 8 ADDITION block; the live website is in the
   Part 9 ADDITION block. Read them before anything else.
