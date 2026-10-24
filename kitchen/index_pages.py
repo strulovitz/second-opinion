@@ -45,17 +45,24 @@ def ground_entries(answer, text, page, image):
             require(i == 0, "CONTINUED must be the first entry")
             starts.append(0)
             continue
-        match = re.search(literal_pattern(row["headword"]), text[cursor:])
+        pattern = (r"(?m)^[^\S\r\n]*(" + literal_pattern(row["headword"])
+                   + r")(?=$|[\s,.;:])")
+        match = re.search(pattern, text[cursor:])
         require(match is not None, f"headword absent from source: {row['headword']}")
-        starts.append(cursor + match.start())
-        cursor += match.end()
+        starts.append(cursor + match.start(1))
+        cursor += match.end(1)
     result = []
     for i, row in enumerate(entries):
         block = text[starts[i]:starts[i + 1] if i + 1 < len(starts) else len(text)].strip()
         row = copy.deepcopy(row)
         for sub in row["subentries"]:
+            require(isinstance(sub, dict) and set(sub) == {"text", "pages"},
+                    f"subentry must have only text and pages; nested/unexpected fields "
+                    f"would lose references (PDF {page}, headword={row['headword']!r})")
             require(isinstance(sub["text"], str) and sub["text"].strip()
-                    and re.search(literal_pattern(sub["text"]), block), "subentry absent from its source block")
+                    and re.search(literal_pattern(sub["text"]), block),
+                    f"subentry absent from its source block (PDF {page}, "
+                    f"headword={row['headword']!r}, subentry={sub['text']!r})")
             require(isinstance(sub["pages"], list), "invalid subentry refs")
         for refs in [row["pages"], *(s["pages"] for s in row["subentries"])]:
             for ref in refs:

@@ -1,6 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+24 OCT 2026 (GPT 6.1 Sol, later): PAUSED FOR THE NIGHT AT NIR'S REQUEST. Qwen-based Harrison first-page parsing repaired and verified on PDF 4044, following Nir's explicit rejection of replacing the reader. Three bounded calls to the SAME qwen3.8:27b model; final call 84.555 s, 75 main entries, 112 flat subentries, all 278 original page-reference tokens retained. Successful exact Qwen response cached through the production parser (1/230 pages; incomplete). No classification, entity resolution or full-book run yet. Full-job hours remain unmeasured. Nir explicitly authorised saving the repair and detailed restart handoff to GitHub; this checkpoint contains them. Read HANDOFF-2026-10-24-QWEN-REPAIR.md next session; verify the push via remote tracking. No overnight work.
 24 OCT 2026 (Claude Opus 5.5, SMART): MAP AND VIEWER REBUILT AND APPROVED BY NIR ("i am happy about everything please continue"). Amendment 3.6: the Goldberg ball GP(16,9), 4,812 tiles = 4,763 chapter hexagons + 37 book name tiles + 12 pentagon lakes, installed in data/export/geography/ and site/data/geography/ with 37 flower 2-D maps (flowers/). New viewer: two looks (Sand table default, Atlas), flower 2-D map, future layers (shells, beads, orbits, gauge, cutaway), DEMO mode. The BIBLE now carries CLAUDE OPUS 5.5 ADDITION blocks in parts 1, 3, 7, 8 and 9 (Part 8 = the whole project state, all amendments, next steps; Part 9 = the live website); they win over older text and over every log file. Territory IDs and page bounds unchanged; Neo4j unchanged (no territories yet). Next project step unchanged: the supervised Harrison index trial with DeepSeek.
 
 PAUSED FOR THE NIGHT AT NIR'S REQUEST (23 Oct, around 23:23 Israel as reported by him). HONEYCOMB GLOBE APPROVED: "it looks great, yes i am very happy with it!!!" The canonical manifest records Checkpoint 3.4 approval. At his further explicit request, the full viewer/honeycomb/approval/handoff checkpoint was COMMITTED AND PUSHED to GitHub as 726d5c4 before sleep. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md next session; its first project task is now the supervised Harrison trial. The actual viewer has 4,751 hexagons and 12 pentagons, 37 connected books and 533 connected nonempty provinces plus the existing empty heading, and the unchanged 4,763 chapter IDs/page bounds. Last actual Neo4j check: three Meta nodes only. No reader/index job, book check or database data load was started.
@@ -24,6 +25,7 @@ Why 37, item by item, with the human's agreement:
   The five deleted files, their sizes and their SHA-256 hashes are recorded
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
+24 OCT 2026 (after the SMART repair): STOP UNTIL NIR RETURNS. Read HANDOFF-2026-10-24-QWEN-REPAIR.md; the short project AGENTS.md pointer names it. Next reader trial, only with his okay: ONE classification batch of 25 terms from the cached Harrison page, timed and reviewed. Parsing-only extrapolation: about 5.4 hours for 230 pages, not a whole-workflow estimate; 70 classification terms on the sampled page, no classification cache yet. A later full-pipeline extraction cache-key mismatch was found by read-only preflight and remains to be reconciled before a full run (see BLOCKED/handoff section 8). No further reader job tonight.
 24 OCT 2026: unchanged task for DeepSeek: the supervised Harrison index trial. FOLLOW HANDOFF-2026-10-24-DEEPSEEK.md (fresh, replaces the 23 Oct handoff). load_geography.py will now load the Goldberg coordinates (approval recorded in data/export/geography/build.json). Do not touch site/viewer/ or the geography; BIBLE Part 7 A9 says what to run when real exports exist.
 
 
@@ -127,6 +129,8 @@ need their own checks. Every citation depends on correct page units.
 
 ## QUESTIONS FOR HUMAN
 
+- [declined 2026-10-24, Nir] The proposed plain-code index-parser prototype is withdrawn. Nir: "i want you to make experiments with Qwen, this exact model, and find out what is wrong" and "try to fix the problem not throw away our main tool." SMART investigates and repairs the existing Qwen workflow using small, bounded experiments; Nir can relay questions to Google or another model if needed. No full-book run is authorised.
+
 - [answered 2026-10-23] SMART review, Part 3 sections 4.2-4.6: Campbell repair approved: "ok please repair with minimum money". Nir then stopped SMART and assigned the repair to DeepSeek, asking for an explanation-only handoff rather than unfinished code. The book remains unchanged.
 - [answered 2026-10-23 recovery] Part 3 section 4.4: HARRISON-22 chapters 45 and 46 both start on printed page 291. The literal next-start-minus-one rule made ch45 end at 290. May the exporter use `max(current_start, next_start - 1)` so both chapters include the shared page? Nir answered "Yes, please continue" to this rule, fixing the exporter, checking Harrison only and writing the DeepSeek handoff. See AMENDMENT 3.4.
 
@@ -199,6 +203,8 @@ handle /2nd-opinion/* {
 **Awaiting the human's yes. Nothing has been changed on the web server.**
 
 ## BLOCKED
+- [open for a later full run, 2026-10-24 save-only preflight] The old HARRISON-22 PDF 4044 extraction receipt's key differs from what current default extraction would compute from Context identity/PDF/page/layout=False/columns=False. No extraction or Qwen call was run during this check, and the cause was not investigated. The actual source PDF/text/image checks pass in the successful parser cache; the next classification trial can use that cache without extraction. Before a full pipeline, preserve evidence and diagnose/reconcile the receipt mismatch with Nir rather than deleting the successful parse, editing hashes or weakening provenance. See HANDOFF-2026-10-24-QWEN-REPAIR.md section 8.
+- [resolved for first-page trial 2026-10-24, GPT 6.1 Sol] The earlier Harrison parse blocker below is repaired and tested using the same Qwen model. Captured evidence showed token-limit truncation with hidden reasoning, a non-verbatim combined See-also subentry phrase, and nested subentries that the old checker would accept while dropping six child references. Index parsing now explicitly disables reasoning for its own requests only, requests compact flat verbatim JSON, rejects unhandled nested fields and saves rejected parsed answers. The reader rejects token-limit-truncated responses. A separate reproduced headword-boundary validator defect is repaired. Final live trial: 84.555 s; all 278 source reference tokens retained; production cache 1/230 pages. This resolves neither the full-book workflow nor its total time; no full run is authorised. Earlier open entry is preserved as history.
 - [open 2026-10-24, DeepSeek] HARRISON-22 index trial blocked on the first index page (PDF 4044). Reader test returned `{'ok': True}`. Geography loaded into Neo4j: 37 books, 5,334 territories (37 continents + 534 provinces + 4,763 districts). `.venv/bin/python kitchen/index_parse.py HARRISON-22 --limit 1` failed with `ValueError: reader failed validation twice: The previous answer failed validation: subentry absent from its source block. Fix it using only the source.` (7m02.840s). Re-run after warming qwen3.8:27b (17.4 GB confirmed in VRAM): same error, 7m08.312s. `index_classify.py --limit 1` then stopped with FileNotFoundError on the missing `HARRISON-22-index-entries.json` (a consequence of the parse failure; classify was never timed). 230 pages x about 7 minutes projects to about 27 hours, over Nir's hard limit. No code, BIBLE, map or viewer file changed. Full hand-off: `HANDOFF-TO-SMART-2026-10-24-HARRISON-INDEX.md`. Same generic error twice, so SMART (GPT 6.1 Sol) is needed.
 - [resolved 2026-10-23] SMART review: CAMPBELL-2020's 82-chapter list was replaced from the PDF's 90 chapter bookmarks under 19 Parts; verified against each destination page; see DONE. The other three rebuilt books (KRAUSE-16, MIDDLETON-2019, SABISTON-22) still need a physical-book check before they can be called correct.
 - [resolved 2026-10-23 recovery] Part 3 section 4.4, HARRISON-22 exporter defects: the 21 chapter-range mismatches and two stale image references were repaired using saved evidence; index start PDF 4044 was confirmed directly. The final verifier reports zero range/image warnings for all 505 chapters. Status remains accepted pending human review. Other books are not claimed repaired; the no-reader tool stops on missing evidence, irregular offsets or an unconfirmed index boundary. Exact commands and output are under DONE.
@@ -331,6 +337,8 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 ```
 
 ## DECISIONS BY HUMAN
+- 2026-10-24, after the successful Qwen repair: Nir requested "please save a detailed description in a text file and push to github" and "please make a pointer refer to it from agents.md (do not inflate your memory please)"; he said "we will continue tomorrow please". Scope: save the tested repair, detailed handoff and short project pointer, push, then stop for the night. No additional reader trial or full-book run is authorised tonight; global memory is not expanded.
+- 2026-10-24, Nir to GPT 6.1 Sol: keep Qwen as the main tool; investigate the existing failure with this exact model rather than replace the parser with a plain-code workflow. First diagnostic: one original-prompt request on Harrison index PDF 4044, unchanged model/settings, saving the complete local response and reporting the exact rejected entry; one attempt and a 300-second request timeout. All reader answers stay ignored and local.
 - 2026-10-24 (evening), NIR'S HARD LIMIT, in his words: "i never approved for qwen to go on thousands of pages per book, in ANY phase, NEVER EVER ... not months, never months." Qwen must never be run over thousands of pages of a book; every reader job is measured on a trial and its total shown to Nir in hours before it starts; nothing may take months. BIBLE Part 4's "read every page" plan is CANCELLED (BIBLE Part 4 ADDITION F0, Part 8 ADDITION D2b, Part 1 C0). Claude Opus 5.5 had wrongly repeated "it reads every page" in Part 8 D2 earlier the same day; corrected.
 - 2026-10-24 (Nir, to Claude Opus 5.5): hexagons must be as similar as possible and books need a clear border line -> Goldberg ball accepted, with 4,812 tiles: the 12 pentagons become lakes and every book gets one name tile ("Yes, 12 + 37 name tiles").
 - 2026-10-24: orange-peel (unfolded icosahedron) 2-D map shown and REJECTED by Nir ("i do not like this peel idea at all"). Never bring it back.
@@ -363,6 +371,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-24, GPT 6.1 Sol: at clean a464c7a, read DeepSeek's Harrison index handoff, project rules, current ledger, index software/docs and governing BIBLE additions/section 3.7. Read-only generic parser diagnosis, no Qwen or database calls. Versions checked: Python 3.13.5, git 2.47.3, pdftotext 25.03.0, pypdf 6.20.1.
 - 2026-10-23, GPT 6.1 Sol: restarted at clean a816e30 for A6 generic index-to-registry programming (BIBLE 3.7.2-3.7.10). Read the approved geography handoff, current pointers and existing db/reader/slug/schema helpers. Versions: Python 3.13.5, neo4j driver 6.4.0, requests 2.34.2, rapidfuzz 3.14.6, pypdf 6.20.1, pdftotext 25.03.0, git 2.47.3, gh 2.97.0. No library run; existing geography and completed book lists are inputs.
 - 2026-10-23, DeepSeek V4.1 Flash: A5 approval. Prepared the clinical grouping proposal from existing metadata, generated the specialty preview, obtained Nir's approval, recorded the approved grouping in books.json (with backup), generated and verified data/export/geography and site/data/geography. No contents re-read, model call, Neo4j load or service change.
 - 2026-10-23, GPT 6.1 Sol: at clean cf9fd27, cancelled the attempted return to contents work following Nir's explicit correction. Started BIBLE 3.6 geography programming. No geography implementation exists yet. Checked Python 3.13.5, numpy 2.5.3, Pillow 12.3.0, matplotlib 3.11.2, networkx 3.7, git 2.47.3 and gh 2.97.0.
@@ -375,6 +384,152 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-24 -- Qwen repair restart checkpoint prepared at Nir's request
+
+Saved `HANDOFF-2026-10-24-QWEN-REPAIR.md` with exact experiments, evidence
+paths, code/test changes, successful cached first page, unmeasured stages,
+bounded next trial and the save-only extraction-key preflight finding.
+Replaced the outdated three-line next-session pointer in project AGENTS.md
+with a three-line pointer to this handoff; no global memory edit.
+Updated CURRENT PHASE/NEXT STEP for Nir's overnight stop. The earlier DONE
+entry's uncommitted status was its state at the time, not this new checkpoint.
+
+Read-only local inventory: parsed_pages=1/230, entries=75,
+classification_terms=70, classified cache absent; current default
+extraction-key match=false. No Qwen/database calls or cache changes in the
+save-only check. Full repair verification remains 112 tests passing,
+recorded below; no software changed after those checks.
+
+The intended GitHub checkpoint contains 11 files: seven repair/diagnostic/
+test Python files, INDEX-PIPELINE.md, PROGRESS.md, the short AGENTS.md
+pointer and the new handoff. No BIBLE, map/viewer, PDF, local reader result
+or secret file is included. Commit/push verification is the final save
+step; nothing runs overnight after it.
+
+### 2026-10-24 -- Same-model Qwen experiments and first-page repair verified
+
+Nir rejected replacing Qwen and explicitly requested experiments with the
+same model. Implemented `kitchen/index_diagnose.py`: one call only, request
+timeout capped at 300 s, no automatic retry, full raw request/response
+saved locally before parsing. It uses the existing `reader.ask` helper;
+it makes no database queries or production-cache writes. Only the model
+request is recorded, never environment contents, credentials or headers.
+
+Three experiments, SAME `qwen3.8:27b`, SAME cached Harrison PDF 4044 text:
+
+1. `.venv/bin/python kitchen/index_diagnose.py HARRISON-22 --page 4044 --timeout 300`
+   Original prompt/settings: 234.460 s (HTTP 231.432 s), 3,265 input /
+   12,000 completion tokens, finish_reason=length. Raw response contained
+   19,159 hidden reasoning characters in the `reasoning` field and an
+   unfinished JSON answer. Its 47 complete prefix entries were inspected
+   diagnostically only, never accepted as a page. Exact grounding failure:
+   parent `Abacavir`, subentry
+   `DIHS. See also Drug-induced hypersensitivity syndrome (DIHS)`.
+   That phrase combines source words across intervening page references,
+   so the old verbatim check correctly rejects it. No standalone-A entry
+   occurred; the old handoff's hypothesis was not established.
+   Local evidence: `kitchen/logs/HARRISON-22-index-diagnostic-4044-20261024T150407006980Z.json`.
+2. Same command plus `--no-reasoning`, original prompt otherwise unchanged:
+   162.030 s, 3,267 input / 9,297 completion tokens, finish_reason=stop,
+   zero reasoning characters. Qwen returned 75 main entries and ALL 278
+   original reference tokens. However, it nested two Abacavir subentries.
+   The old checker accepted this schema extension, but the assembler would
+   silently lose six child references (419 twice, 428f once, 1603 twice,
+   1585 once). This was not a medically wrong answer; our format contract
+   and validation were insufficient.
+   Local evidence: `kitchen/logs/HARRISON-22-index-diagnostic-4044-20261024T150851262203Z.json`.
+3. Same no-reasoning command with the repaired prompt:
+   84.555 s, 3,416 input / 4,671 completion tokens, finish_reason=stop,
+   zero reasoning characters. Result: 75 main entries, 112 flat subentries,
+   all 278 source reference tokens; no missing/extra tokens in a structural
+   multiset comparison of this sampled page. Grounding and the actual
+   production assembler pass. Expanded numeric references: 280; reference
+   accounting: online-only=9, non-integer-or-malformed=1 (video suffix),
+   outside-districts=0, mapping-unresolved=0.
+   Local evidence: `kitchen/logs/HARRISON-22-index-diagnostic-4044-20261024T151351817100Z.json`.
+
+Targeted changes:
+- `index_prompts.py`: compact JSON, exact contiguous subentry labels,
+  no appended See-also targets, explicit flat parent/child entries with all
+  references, skip explanatory preamble/alphabet headings.
+- `index_parse.py`: `no_reasoning=True` on INDEX PARSE calls only; a new
+  cache version binds this behaviour. Reasoning settings for other reader
+  jobs and the protected .env are unchanged. Validation-rejected parsed
+  answers are saved under unique local names, not discarded.
+- `index_pages.py`: identify the exact rejected phrase/parent; reject
+  nested/unhandled subentry fields rather than lose their references;
+  find headwords at line starts rather than in earlier entries' prose.
+  The latter fixes the independently reproduced Alpha/Beta validator bug.
+- `reader.py`: refuse finish_reason=length even when the truncated content
+  happens to contain extractable JSON; do not silently accept partial work.
+- Regression tests cover nested-reference loss, flat preservation, exact
+  error details, rejected-answer retention, request-local reasoning flags,
+  token-limit rejection and the headword-boundary bug.
+
+Verification:
+`OPENBLAS_NUM_THREADS=2 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'`
+-> 112 tests pass in 1.926 s. `git diff --check` passes.
+
+To avoid repeating a successful Qwen call, replayed the EXACT saved third
+response through `index_parse.parse()` with `--limit 1` and a wrapper
+asserting identical model, prompt, source text, input identity, token budget
+and no-reasoning setting. No generated entry was hand-edited. Production
+parser rechecks PDF/text/image provenance and all source grounding:
+
+```text
+HARRISON-22 parse: new_pages=1; parsed_pages=1; entries=75; complete=False;
+online-only=9; non-integer-or-malformed=1; outside-districts=0; mapping-unresolved=0
+New model calls: 0; database calls: 0; source pages parsed: 1/230
+```
+
+Saved normal ignored `HARRISON-22-index-4044.json` and
+`HARRISON-22-index-entries.json`; the next classification trial can reuse
+them. This proves the repaired first-page trial, not all 230 index pages.
+At 84.555 s/page, parsing alone projects to 5.4 h; classification and
+resolution remain unmeasured. No full-book run, other book, database write,
+BIBLE edit, map/viewer change, install or paid external-model call occurred.
+Implementation/docs remain local and uncommitted pending GitHub saving.
+
+### 2026-10-24 -- SMART read-only index diagnosis; repair not yet implemented
+
+Reproduced a real validator defect without Qwen. `ground_entries()` in
+`kitchen/index_pages.py` searches for the next headword anywhere after the
+previous match, including inside the previous entry's own subentry. With
+synthetic source `Alpha, 1\n  related to Beta, 2\nBeta, 3\n`, a correct
+two-entry answer (Alpha has subentry `related to Beta`, page 2; Beta has
+page 3) is rejected with exactly `subentry absent from its source block`:
+the first Beta mention incorrectly cuts Alpha's block in half.
+This proves a generic code defect, NOT the cause of Harrison's specific
+failure. The original rejected reader answers were not saved, so that
+cause remains unknown; the handoff's standalone-A explanation is unproven.
+
+Inspected only the existing Harrison pilot text and a read-only layout
+extraction of the same PDF page, not another book or chapter audit:
+
+```text
+pdftotext -f 4044 -l 4044 -bbox-layout "<existing Harrison PDF>" -
+Text lines: 206; word boxes: 875
+Most common line-start coordinates (PDF points, count):
+240.5:38, 63.5:34, 417.5:32, 54.0:27, 408.0:27, 231.0:26
+```
+
+The PDF retains three column-start positions (54, 231, 408) and repeated
+9.5-point indents that the cached default plain text does not preserve.
+This supports trying a small layout-aware plain-code parser first, with
+explicit stops on ambiguity and exact source references. It does not prove
+that all Harrison pages, other books, or the complete workflow are solved.
+
+Timing correction to the preceding handoff: approximately seven minutes
+measured TWO failed reader/validation attempts, not a successful single-pass
+page. The 27-hour extrapolation is a failed-retry scenario, not a measured
+completion estimate or a numerical hard limit set by Nir. Classification
+and resolution time are still unknown. Full-job hours must be measured
+and approved before execution.
+
+No software, PDF, index cache, database, BIBLE, geography or viewer change;
+only this ledger records the diagnosis. Requested approval above for a
+one-page plain-code prototype, not a full book run.
 
 ### DONE 2026-10-24 (later) -- BIBLE made self-sufficient; live website path verified
 Nir: "nobody is reading ... all the things except the BIBLE". Added CLAUDE OPUS 5.5 ADDITION blocks to BIBLE Part 8 (state of the project, all amendments, library table, systems, exact next steps, saving rules, the rule that every session must write Nir's decisions into the BIBLE) and Part 9 (the live website as it really works). Live path: ~/strulovitz-website/exports/2nd-opinion -> ~/second-opinion/site (symlink), served by Caddy :8081. Verified: `systemctl --user start site-caddy.service`; `VIEWER_URL=http://127.0.0.1:8081/2nd-opinion/viewer/ node kitchen/test_viewer_browser.mjs` -> 8 browser checks passed; service stopped again. strulovitz-website: sites-on now pulls/clones ~/second-opinion and makes the link if missing; README section; "Open the living globe" link on site/second-opinion.html; local export rebuilt as v2026-10-24-a.

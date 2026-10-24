@@ -58,7 +58,10 @@ def ask(system, user, images=None, max_tokens=6000, temperature=0.0,
         try:
             r = requests.post(url, json=body, timeout=timeout)
             r.raise_for_status()
-            text = _strip_think(r.json()["choices"][0]["message"]["content"])
+            choice = r.json()["choices"][0]
+            if choice.get("finish_reason") == "length":
+                raise ValueError("reader output truncated at token limit (finish_reason=length)")
+            text = _strip_think(choice["message"]["content"])
             if not expect_json:
                 return text
             return json.loads(_extract_json(text))
@@ -69,4 +72,3 @@ def ask(system, user, images=None, max_tokens=6000, temperature=0.0,
 
 if __name__ == "__main__":
     print(ask("Answer in JSON.", 'Return {"ok": true}'))
-

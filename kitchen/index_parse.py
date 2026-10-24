@@ -3,6 +3,7 @@
 
 import hashlib
 import json
+from datetime import datetime, timezone
 
 from index_common import (Context, arguments, ask_checked, cli, fingerprint,
                           lock, reader_access, require, save)
@@ -27,7 +28,7 @@ def parse(ctx, ask, model, vision_model):
         image = ctx.image(page)
         require(image.is_file() and hashlib.sha256(image.read_bytes()).hexdigest() == source["image_hash"], "index image changed")
         needs_ocr = len(text.strip()) < 30
-        key = fingerprint(["index-parse-v1", source, ctx.identity, PARSE, OCR if needs_ocr else None, model,
+        key = fingerprint(["index-parse-v2-no-reasoning", source, ctx.identity, PARSE, OCR if needs_ocr else None, model,
                            vision_model if needs_ocr else None])
         path = ctx.path(f"index-{page}.json")
         if path.exists():
@@ -47,14 +48,21 @@ def parse(ctx, ask, model, vision_model):
                     require(isinstance(text, str) and text.strip(), "empty reader transcription")
                     save(ocr_path, {"key": key, "text": text, "model": vision_model})
             def validator(result):
-                entries = ground_entries(result, text, page, str(image))
-                require(entries or len(text.strip()) < 30, "reader returned no entries from a nonempty page")
-                if entries and entries[0]["headword"] == "CONTINUED":
-                    previous = next((row for batch in reversed(cached) for row in reversed(batch)
-                                     if row["headword"] != "CONTINUED"), None)
-                    require(previous is not None and not previous.get("see"), "orphan CONTINUED entry; this page must contain its main headword")
-                return entries
-            entries = ask_checked(ask, PARSE, text, validator, max_tokens=12000)
+                try:
+                    entries = ground_entries(result, text, page, str(image))
+                    require(entries or len(text.strip()) < 30, "reader returned no entries from a nonempty page")
+                    if entries and entries[0]["headword"] == "CONTINUED":
+                        previous = next((row for batch in reversed(cached) for row in reversed(batch)
+                                         if row["headword"] != "CONTINUED"), None)
+                        require(previous is not None and not previous.get("see"), "orphan CONTINUED entry; this page must contain its main headword")
+                    return entries
+                except (ValueError, KeyError, TypeError) as exc:
+                    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+                    save(ctx.path(f"index-{page}-rejected-{stamp}.json"),
+                         {"key": key, "reader_model": model, "answer": result,
+                          "error": f"{type(exc).__name__}: {exc}"})
+                    raise
+            entries = ask_checked(ask, PARSE, text, validator, max_tokens=12000, no_reasoning=True)
             record = {"key": key, "reader_model": model, "entries": entries}
             save(path, record)
             newly += 1

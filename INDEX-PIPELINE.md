@@ -1,5 +1,44 @@
 # DeepSeek handoff: index pages to the entity registry
 
+## 24 Oct SMART repair: Qwen first-page trial now passes
+
+Nir explicitly required keeping the SAME `qwen3.8:27b` reader and repairing
+the existing workflow. Three bounded experiments and their exact local
+evidence paths are in the newest PROGRESS.md DONE entry. Final Harrison
+PDF 4044 trial: 84.555 seconds, 75 main entries, 112 flat subentries, all
+278 original page-reference tokens retained. The actual production parser
+has cached that exact successful Qwen response: 1/230 pages, incomplete.
+Geography was already loaded by DeepSeek; do not repeat that step.
+
+`index_parse.py` now requests compact verbatim flat JSON and disables hidden
+reasoning for index parsing only. Other reader jobs keep their existing
+settings. Rejected parsed answers are saved locally, nested fields are
+rejected rather than silently losing references, and length-truncated
+responses are errors. No model/global configuration was changed.
+
+Next, WITH Nir's okay, time ONE classification batch using the cached page:
+
+```bash
+time .venv/bin/python kitchen/index_classify.py HARRISON-22 --limit 1
+```
+
+Classify time is still unknown. The measured first-page parsing rate alone
+projects to about 5.4 hours for 230 pages; it is not a full-workflow estimate.
+Show Nir measured total hours before any full book run. Current repair work
+does not authorise that run or another book. A repeat parse with `--limit 1`
+means one NEW page, not another call on the successful cached page.
+
+For a bounded diagnostic ONLY when needed (not a routine rerun):
+
+```bash
+.venv/bin/python kitchen/index_diagnose.py HARRISON-22 --page 4044 --timeout 300 --no-reasoning
+```
+
+This makes one Qwen request and saves its full raw response locally. It
+does not populate normal parse caches or touch Neo4j. Omit --no-reasoning
+only for an explicitly agreed comparison experiment. The older readiness
+and trial status statements below describe the pre-repair checkpoint.
+
 LATEST GEOMETRY: Amendment 3.5 replaced the rectangles with one whole
 honeycomb tile per chapter. Nir approved its displayed appearance on 23 Oct;
 the canonical manifest records it. Read HANDOFF-2026-10-23-NIGHT-DEEPSEEK.md

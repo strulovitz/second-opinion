@@ -91,6 +91,36 @@ class ReferenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "invented candidate"):
             validate_resolution({"decision": "SAME", "candidate_slug": "not-real", "confidence": 1, "reason": "same"}, [])
 
+    def test_nested_subentries_cannot_silently_lose_child_references(self):
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
+               "subentries": [{"text": "effects", "pages": [],
+                               "subentries": [{"text": "detail", "pages": ["12"]}]}]}
+        with self.assertRaisesRegex(ValueError, "nested/unexpected fields"):
+            ground_entries({"entries": [row]}, "Alpha\n effects\n  detail, 12\n", 3, "3.png")
+
+    def test_next_headword_mentioned_in_a_subentry_does_not_cut_parent_block(self):
+        rows = [{"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["1"],
+                 "subentries": [{"text": "related to Beta", "pages": ["2"]}]},
+                {"headword": "Beta", "display": "Beta", "see": None,
+                 "pages": ["3"], "subentries": []}]
+        result = ground_entries({"entries": rows},
+                                "Alpha, 1\n  related to Beta, 2\nBeta, 3\n", 3, "3.png")
+        self.assertEqual(result[0]["quote"], "Alpha, 1\n  related to Beta, 2")
+        self.assertEqual(result[1]["quote"], "Beta, 3")
+
+    def test_flat_parent_and_children_preserve_all_source_references(self):
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
+               "subentries": [{"text": "effects", "pages": []},
+                              {"text": "detail", "pages": ["12"]}]}
+        result = ground_entries({"entries": [row]}, "Alpha\n effects\n  detail, 12\n", 3, "3.png")
+        self.assertEqual(result[0]["subentries"][1]["pages"], ["12"])
+
+    def test_subentry_error_identifies_exact_rejected_phrase_and_parent(self):
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
+               "subentries": [{"text": "detail. See also Other", "pages": ["12"]}]}
+        with self.assertRaisesRegex(ValueError, "headword='Alpha', subentry='detail. See also Other'"):
+            ground_entries({"entries": [row]}, "Alpha\n detail, 12. See also Other\n", 3, "3.png")
+
 
 class PipelineTests(unittest.TestCase):
     def setUp(self):
@@ -194,6 +224,12 @@ class PipelineTests(unittest.TestCase):
         with self.quiet():
             result = index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
         self.assertEqual(self.reader.call_count, 2)
+        self.assertTrue(all(call.kwargs["no_reasoning"] for call in self.reader.call_args_list))
+        rejected = list(self.logs.glob("HARRISON-22-index-3-rejected-*.json"))
+        self.assertEqual(len(rejected), 1)
+        evidence = json.loads(rejected[0].read_text())
+        self.assertEqual(evidence["answer"]["entries"][0]["pages"], ["99"])
+        self.assertIn("reference absent from source", evidence["error"])
         self.assertFalse(result["complete"])
         self.reader.reset_mock()
         with self.quiet():

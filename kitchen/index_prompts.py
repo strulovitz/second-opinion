@@ -1,7 +1,7 @@
 """BIBLE 3.7 reader prompts. All term interpretation is by the free reader."""
 
 PARSE = """You parse one page of a medical textbook's back-of-book INDEX into
-JSON. Output ONLY JSON. Schema:
+JSON. Output ONLY compact JSON (no indentation or commentary). Schema:
 {"entries":[{"headword":"<main term exactly as printed, including inverted
 comma form>","display":"<same term in natural word order; if not inverted,
 same as headword>","see":"<target of See X, else null>","pages":["<every
@@ -14,6 +14,15 @@ letter. SUB-entries are indented or begin with a lowercase word or 'in',
 If the page begins in the middle of a main entry, output that first partial
 entry with headword CONTINUED. 'See also' is not a See alias: leave see null.
 Do not put subentry page refs in the main entry's own pages list.
+Use exactly this schema. Each subentry has ONLY text and pages; never nest
+another subentries list inside it. For deeper indentation, keep the parent
+label as a subentry with its own refs (or []), then its children as separate
+subentries immediately after it, in source order. Keep ALL children's refs.
+Each subentry text MUST be one contiguous verbatim phrase in the source,
+allowing only line-break whitespace. Do not combine phrases across page
+references or append a See/See also target to the subentry text. Copy the
+label before those references instead. Do not rewrite or paraphrase it.
+Skip the index's explanatory preamble and standalone alphabet headings.
 Prose, contents, glossaries, references and chapter outlines are not a
 back-of-book index. Return an empty entries list if this is not an index page.
 """
