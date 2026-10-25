@@ -5,6 +5,23 @@ For: DeepSeek, including a free Flash variant if Nir chooses it, operating
 the existing scripts with the free local Qwen reader and Nir watching.
 Repository: `/home/nir/second-opinion`, GitHub `strulovitz/second-opinion`.
 
+## Latest update: free-cloud trial, 25 October 2026
+
+Read PROGRESS.md's newest CURRENT PHASE / NEXT STEP and DONE FIRST. Nir then
+asked for a free cloud model to be tested as a drop-in reader, without changing
+scripts. The identical saved Qwen page request, changing only the model in the
+JSON body, was sent once to free DeepSeek Flash (OpenCode cloud) and once to
+free Gemma 4 31B (OpenRouter). BOTH returned HTTP 429 usage/rate-limit errors;
+neither returned an answer. Scripts and six production cache/evidence files
+were unchanged. No Qwen rerun, classification or full-book job occurred.
+
+STOP and report that blocker; ask Nir whether to retry a selected free route
+later or continue Qwen. Do not automatically run section 5 below, loop retries,
+switch production models, or choose a paid route. Earlier "next classification"
+instructions below describe the workflow BEFORE this new comparison request.
+The comparison is not a model-quality result. Details/error evidence paths and
+the authenticated OpenRouter transport limitation are in the newest DONE.
+
 ## 1. Read this first
 
 The globe is approved. Both software blockers encountered on Harrison's first

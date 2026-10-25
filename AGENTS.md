@@ -17,10 +17,9 @@ Nir the total in HOURS, start only with his okay; nothing may take months.
 Wherever Law 14 or the BIBLE says the reader reads "every page", that is
 CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
-NEXT SESSION: read HANDOFF-2026-10-25-DEEPSEEK.md (current state, repaired
-software, exact next trial, timing, SMART-switch gates and Opus's verbatim
-handoff). Repair/handoff are in the checkpoint containing this pointer.
-One batch only with Nir's okay; verify normal Git status/tracking on restart.
+NEXT SESSION: read PROGRESS.md's newest free-cloud-trial state and the latest
+update in HANDOFF-2026-10-25-DEEPSEEK.md. Both free routes refused with HTTP 429;
+ask Nir before retrying or resuming Qwen. Scripts/caches unchanged; no full run.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

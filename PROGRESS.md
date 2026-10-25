@@ -1,6 +1,7 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+25 OCT 2026 (free-cloud trial, GPT 6.1 Sol): Nir requested testing a free cloud model as a drop-in reader, keeping scripts unchanged. Tried the saved Harrison PDF 4044 text with the EXACT successful Qwen request body except model: free DeepSeek Flash through OpenCode returned HTTP 429 FreeUsageLimitError; free Gemma 4 31B through OpenRouter returned HTTP 429 upstream shared-pool rate limit. One request per route, no retry, no model answer or quality/speed comparison obtained. All six production evidence/cache hashes unchanged; zero Python/configuration file edits and no new Qwen/database call. See newest DONE. Do not start a full run or silently switch the production reader.
 25 OCT 2026 (GitHub backup checkpoint): Nir requested completing the save now after the handoff. This checkpoint includes the tested extraction repair, five regression tests, complete DeepSeek handoff with verbatim Opus text, short AGENTS.md pointer and ledger. Verify HEAD/origin/main on restart rather than repeating the save; older local/uncommitted notes below record the pre-save state. Next reader step remains one classification batch only with Nir's okay.
 25 OCT 2026 (handoff follow-up, GPT 6.1 Sol): Nir requested a detailed DeepSeek handoff containing Opus's original instructions verbatim, the repairs/current state, plain-language roles, timing and the exact return-to-SMART gates. Read HANDOFF-2026-10-25-DEEPSEEK.md; AGENTS.md points there. Repair and handoff remain local/uncommitted. No additional reader/database job or software change in this documentation follow-up.
 25 OCT 2026 (GPT 6.1 Sol): EXTRACTION-KEY BLOCKER REPAIRED with Nir's okay. The extraction cache now keys new receipts to PDF/page/extraction flags/recipe, not the globe. Harrison PDF 4044's original receipt, text, image, successful Qwen parse and assembled entries were preserved byte-for-byte; a separate verified reconciliation proof allows the old receipt. Production cache validation passes, the successful parse key remains current, and 117 tests pass. No Qwen or database calls. Software/docs are saved locally, not committed or pushed in this session. Next is still DeepSeek's ONE timed classification batch of 25 terms, only after explaining it and getting Nir's okay. See newest DONE below.
@@ -28,6 +29,7 @@ Why 37, item by item, with the human's agreement:
   The five deleted files, their sizes and their SHA-256 hashes are recorded
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
+25 OCT 2026 (free-cloud trial): STOP after the two provider refusals. Ask Nir whether to retry a chosen free route later or continue the existing Qwen workflow; do not retry in a loop or choose a paid route. A successful page-parse comparison must precede any claimed drop-in suitability. Classification remains untested for both workflows; no long process is authorised. Read the newest DONE and the cloud-trial update at the top of HANDOFF-2026-10-25-DEEPSEEK.md before its earlier classification instructions.
 25 OCT 2026 (GitHub backup checkpoint): Read HANDOFF-2026-10-25-DEEPSEEK.md; verify normal Git status/tracking. Do not ask for the same backup again if the checkpoint is already pushed. Next task is unchanged: explain and request ONE bounded classification batch, then report timings before any larger job.
 25 OCT 2026 (handoff follow-up): DeepSeek reads HANDOFF-2026-10-25-DEEPSEEK.md and follows its CURRENT steps, not the historical verbatim appendix from the beginning. Next: explain and ask for ONE five-minute-bounded classification batch; measure it; report sample-based hours and unmeasured resolution time before seeking any larger run. At Checkpoint 3.6 (all 37 registry reviews approved), request SMART for entity-resolution/Freeze review; Phase B separately requires SMART's new fast plan and Nir's approval. Stop earlier for a genuine generic software failure or a duration Nir rejects.
 25 OCT 2026: Return to DeepSeek; the extraction mismatch is resolved (newest DONE). Do not rerun the repair, extraction, parsing or geography loading as a warm-up. With Nir's fresh okay: ONE timed classification batch from the existing cache, `time .venv/bin/python kitchen/index_classify.py HARRISON-22 --limit 1`, foreground and five-minute bounded as described in HANDOFF-2026-10-24-QWEN-REPAIR.md section 7. No classification has run yet. Show the measured hours before asking for any full-book run; parsing alone projects to about 5.4 h, classification/resolution remain unmeasured. The repair is local; request Nir's permission before a GitHub commit/push. The older handoffs' extraction-blocker instructions are superseded by today's DONE entry.
@@ -209,6 +211,7 @@ handle /2nd-opinion/* {
 **Awaiting the human's yes. Nothing has been changed on the web server.**
 
 ## BLOCKED
+- [open 2026-10-25, free-cloud comparison] Free DeepSeek cloud trial: HTTP 429 FreeUsageLimitError. Alternative free OpenRouter Gemma route: HTTP 429 upstream shared-pool rate limit. Neither returned an answer, so neither can be scored for parsing accuracy, throughput or classification. Actual provider error evidence is saved locally; see newest DONE. Existing successful Qwen parse and extraction repair remain valid.
 - [resolved 2026-10-25, GPT 6.1 Sol; original 24 Oct preflight retained below] New versioned extraction keys exclude geography. Explicit one-page reconciliation proved the legacy key against the original saved geography and verified PDF local identity, text/image hashes and page/image binding. Original receipt and reader caches unchanged; separate source-check.json proof; production validator accepts it; 117 tests pass. See newest DONE. Original finding: The old HARRISON-22 PDF 4044 extraction receipt's key differs from what current default extraction would compute from Context identity/PDF/page/layout=False/columns=False. No extraction or Qwen call was run during this check, and the cause was not investigated. The actual source PDF/text/image checks pass in the successful parser cache; the next classification trial can use that cache without extraction. Before a full pipeline, preserve evidence and diagnose/reconcile the receipt mismatch with Nir rather than deleting the successful parse, editing hashes or weakening provenance. See HANDOFF-2026-10-24-QWEN-REPAIR.md section 8.
 - [resolved for first-page trial 2026-10-24, GPT 6.1 Sol] The earlier Harrison parse blocker below is repaired and tested using the same Qwen model. Captured evidence showed token-limit truncation with hidden reasoning, a non-verbatim combined See-also subentry phrase, and nested subentries that the old checker would accept while dropping six child references. Index parsing now explicitly disables reasoning for its own requests only, requests compact flat verbatim JSON, rejects unhandled nested fields and saves rejected parsed answers. The reader rejects token-limit-truncated responses. A separate reproduced headword-boundary validator defect is repaired. Final live trial: 84.555 s; all 278 source reference tokens retained; production cache 1/230 pages. This resolves neither the full-book workflow nor its total time; no full run is authorised. Earlier open entry is preserved as history.
 - [open 2026-10-24, DeepSeek] HARRISON-22 index trial blocked on the first index page (PDF 4044). Reader test returned `{'ok': True}`. Geography loaded into Neo4j: 37 books, 5,334 territories (37 continents + 534 provinces + 4,763 districts). `.venv/bin/python kitchen/index_parse.py HARRISON-22 --limit 1` failed with `ValueError: reader failed validation twice: The previous answer failed validation: subentry absent from its source block. Fix it using only the source.` (7m02.840s). Re-run after warming qwen3.8:27b (17.4 GB confirmed in VRAM): same error, 7m08.312s. `index_classify.py --limit 1` then stopped with FileNotFoundError on the missing `HARRISON-22-index-entries.json` (a consequence of the parse failure; classify was never timed). 230 pages x about 7 minutes projects to about 27 hours, over Nir's hard limit. No code, BIBLE, map or viewer file changed. Full hand-off: `HANDOFF-TO-SMART-2026-10-24-HARRISON-INDEX.md`. Same generic error twice, so SMART (GPT 6.1 Sol) is needed.
@@ -343,6 +346,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 ```
 
 ## DECISIONS BY HUMAN
+- 2026-10-25, free-cloud comparison: Nir requested "try to use deepseek (and test in the same way, now, before we start the long process) as a drop-in replacement for exactly what qwen did. do not change the scripts, just use another model, a cloud model, instead of local model, both of them are free, no money." This explicitly permits the bounded cloud-reader comparison despite the older local-Qwen-only default. He had also said that if free DeepSeek is unavailable there are several other free models. Scope: one existing page, unchanged prompts/validation/scripts, free routes only; not a production switch or full-book permission.
 - 2026-10-25, after the completed handoff: Nir objected to repeated "not pushed" messages and the cost of more back-and-forth: "why all the time \"not pushed\" why all the time wasting more money". Interpreted in context as a request to complete the GitHub backup now; save the five intended repair/handoff files and verify the remote without another approval turn.
 - 2026-10-25, handoff follow-up: Nir requested "a detailed handoff to DeepSeek" including what Opus told him "verbatim", the repair, all needed information, a short agents.md pointer, simple roles/model-choice/time explanations and when to switch back to SMART. He cannot scroll/read a whole chat screen; keep the chat explanation very short and store detail in the file. This requests documentation only, not a new reader trial or a GitHub push.
 - 2026-10-25, Nir to GPT 6.1 Sol: asked to read Opus's and DeepSeek's handoffs, protect the approved globe work and repair the defect with minimum damage and cost. After the explanation of the map-dependent extraction cache and a proposed focused repair preserving the original evidence/Qwen answer with code-only checks, Nir approved: "ok thank you and try not to waste a lot of money please, thank you". Scope: this software repair and verification; no new reader trial or full-book run was requested.
@@ -394,6 +398,69 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-25 -- Unchanged-reader free-cloud trial: two provider refusals
+
+Nir authorised testing a free cloud reader now, without script changes.
+Used the SAME Harrison index PDF 4044 text, PARSE prompt, temperature,
+token budget (12000), reasoning_effort=none, no-think tag and context option
+as the successful Qwen diagnostic. Each outgoing JSON body was asserted
+equal to the successful Qwen request after removing ONLY the model field.
+Used existing reader.ask(), ground_entries()/assemble() planned validation,
+300-second request timeout, retries=1. No retries or prompt changes.
+
+Execution was through temporary inline Python probes, not new/edited scripts.
+Process-only environment overrides selected the endpoint/model; capture wrappers
+retained raw responses in ignored logs. The OpenRouter request used the stored
+credential internally through a temporary transport wrapper; no key, header or
+environment content was displayed/saved. reader.py itself currently has NO
+Authorization-header support; a successful authenticated OpenRouter probe would
+therefore not alone prove a persistent configuration-only production switch.
+
+COMMANDS / METHOD:
+`opencode models opencode --verbose` identified DeepSeek's free cloud endpoint;
+public OpenRouter model metadata listed no free DeepSeek route and listed free
+Gemma 4 31B. Python invoked the existing helper exactly as:
+`reader.ask(PARSE, text, max_tokens=12000, retries=1, timeout=300, no_reasoning=True)`.
+No source-code modifications or medical term interpretation by the paid manager.
+Versions checked: OpenCode 1.19.0, Python 3.13.5 (git 2.47.3 already checked).
+
+OUTPUT:
+```text
+DeepSeek model: deepseek-v4.1-flash-free
+Endpoint: https://opencode.ai/inference/openai/v1/chat/completions
+Elapsed including reader error handling: 3.599 s
+HTTP status: 429
+Error type: FreeUsageLimitError; message: Free usage limit reached
+Request identical to Qwen except model: True
+Production evidence/cache hashes unchanged: True
+
+Alternative model: google/gemma-4-31b-it:free
+Endpoint: https://openrouter.ai/api/v1/chat/completions
+Elapsed including reader error handling: 3.547 s
+HTTP status: 429
+Provider: Google AI Studio
+Limit source: upstream_provider_shared_pool
+Message: model temporarily rate-limited upstream
+Request identical to Qwen except model: True
+Production evidence/cache hashes unchanged: True
+```
+These are refusal-response times, NOT model inference speeds. Neither response
+contained an answer or token usage; no accuracy comparison is possible. Qwen's
+84.555 s remains the only successful measured page parse. No conclusion that
+Qwen is better, or that a free cloud model cannot do the work, is justified.
+No paid reader endpoint, new Qwen job, classification or database query was run.
+
+LOCAL EVIDENCE (ignored, never commit):
+- `kitchen/logs/HARRISON-22-cloud-reader-trial-4044-20261025T112423237010Z.json`
+- `kitchen/logs/HARRISON-22-cloud-reader-trial-4044-20261025T112521965423Z.json`
+Each records request/response and before/after SHA256 for source receipt, text,
+saved Qwen parse, assembled entries, reconciliation proof and source image.
+FILES: PROGRESS.md, current handoff's latest-state notice, short AGENTS.md
+pointer only. Source scripts/configuration and all production caches unchanged.
+Existing 117-test code result stands; no new source changes require retesting.
+Next decision belongs to Nir: later free-route retry or the existing Qwen path.
+No automatic retry, paid fallback, production switch or book run is authorised.
 
 ### 2026-10-25 -- Repair and complete handoff GitHub backup checkpoint
 
