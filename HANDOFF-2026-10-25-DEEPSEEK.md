@@ -5,6 +5,17 @@ For: DeepSeek, including a free Flash variant if Nir chooses it, operating
 the existing scripts with the free local Qwen reader and Nir watching.
 Repository: `/home/nir/second-opinion`, GitHub `strulovitz/second-opinion`.
 
+## Nir's correction: manual model switch -- CURRENT TASK
+
+Read `HANDOFF-2026-10-25-MANUAL-MODEL-COMPARISON.md` FIRST. Nir switches the
+model HIMSELF inside this OpenCode conversation. The selected free model then
+does the one saved-page parsing task ITSELF and checks it against Qwen's saved
+answer with existing code. GPT must not call a cloud API or launch a model for
+him. The API refusals below came from GPT's misunderstanding; they are not the
+comparison Nir intended and do not block the manual-switch trial. Earlier
+classification/full-workflow instructions remain paused until that trial and
+Nir's decision. Return to GPT afterward with the saved comparison files.
+
 ## Latest update: free-cloud trial, 25 October 2026
 
 Read PROGRESS.md's newest CURRENT PHASE / NEXT STEP and DONE FIRST. Nir then

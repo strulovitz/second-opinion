@@ -17,9 +17,9 @@ Nir the total in HOURS, start only with his okay; nothing may take months.
 Wherever Law 14 or the BIBLE says the reader reads "every page", that is
 CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
-NEXT SESSION: read PROGRESS.md's newest free-cloud-trial state and the latest
-update in HANDOFF-2026-10-25-DEEPSEEK.md. Both free routes refused with HTTP 429;
-ask Nir before retrying or resuming Qwen. Scripts/caches unchanged; no full run.
+NEXT SESSION: read HANDOFF-2026-10-25-MANUAL-MODEL-COMPARISON.md. NIR switches
+the model HIMSELF; the selected free model does ONE saved-page task itself.
+No model/API calls by GPT. Preserve scripts/caches; report, then return to GPT.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general
