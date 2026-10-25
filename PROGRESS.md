@@ -1,6 +1,9 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+25 OCT 2026 (GitHub backup checkpoint): Nir requested completing the save now after the handoff. This checkpoint includes the tested extraction repair, five regression tests, complete DeepSeek handoff with verbatim Opus text, short AGENTS.md pointer and ledger. Verify HEAD/origin/main on restart rather than repeating the save; older local/uncommitted notes below record the pre-save state. Next reader step remains one classification batch only with Nir's okay.
+25 OCT 2026 (handoff follow-up, GPT 6.1 Sol): Nir requested a detailed DeepSeek handoff containing Opus's original instructions verbatim, the repairs/current state, plain-language roles, timing and the exact return-to-SMART gates. Read HANDOFF-2026-10-25-DEEPSEEK.md; AGENTS.md points there. Repair and handoff remain local/uncommitted. No additional reader/database job or software change in this documentation follow-up.
+25 OCT 2026 (GPT 6.1 Sol): EXTRACTION-KEY BLOCKER REPAIRED with Nir's okay. The extraction cache now keys new receipts to PDF/page/extraction flags/recipe, not the globe. Harrison PDF 4044's original receipt, text, image, successful Qwen parse and assembled entries were preserved byte-for-byte; a separate verified reconciliation proof allows the old receipt. Production cache validation passes, the successful parse key remains current, and 117 tests pass. No Qwen or database calls. Software/docs are saved locally, not committed or pushed in this session. Next is still DeepSeek's ONE timed classification batch of 25 terms, only after explaining it and getting Nir's okay. See newest DONE below.
 24 OCT 2026 (GPT 6.1 Sol, later): PAUSED FOR THE NIGHT AT NIR'S REQUEST. Qwen-based Harrison first-page parsing repaired and verified on PDF 4044, following Nir's explicit rejection of replacing the reader. Three bounded calls to the SAME qwen3.8:27b model; final call 84.555 s, 75 main entries, 112 flat subentries, all 278 original page-reference tokens retained. Successful exact Qwen response cached through the production parser (1/230 pages; incomplete). No classification, entity resolution or full-book run yet. Full-job hours remain unmeasured. Nir explicitly authorised saving the repair and detailed restart handoff to GitHub; this checkpoint contains them. Read HANDOFF-2026-10-24-QWEN-REPAIR.md next session; verify the push via remote tracking. No overnight work.
 24 OCT 2026 (Claude Opus 5.5, SMART): MAP AND VIEWER REBUILT AND APPROVED BY NIR ("i am happy about everything please continue"). Amendment 3.6: the Goldberg ball GP(16,9), 4,812 tiles = 4,763 chapter hexagons + 37 book name tiles + 12 pentagon lakes, installed in data/export/geography/ and site/data/geography/ with 37 flower 2-D maps (flowers/). New viewer: two looks (Sand table default, Atlas), flower 2-D map, future layers (shells, beads, orbits, gauge, cutaway), DEMO mode. The BIBLE now carries CLAUDE OPUS 5.5 ADDITION blocks in parts 1, 3, 7, 8 and 9 (Part 8 = the whole project state, all amendments, next steps; Part 9 = the live website); they win over older text and over every log file. Territory IDs and page bounds unchanged; Neo4j unchanged (no territories yet). Next project step unchanged: the supervised Harrison index trial with DeepSeek.
 
@@ -25,6 +28,9 @@ Why 37, item by item, with the human's agreement:
   The five deleted files, their sizes and their SHA-256 hashes are recorded
   forever in data/registry/removed-books.json. Nothing was silently dropped.
 ## NEXT STEP
+25 OCT 2026 (GitHub backup checkpoint): Read HANDOFF-2026-10-25-DEEPSEEK.md; verify normal Git status/tracking. Do not ask for the same backup again if the checkpoint is already pushed. Next task is unchanged: explain and request ONE bounded classification batch, then report timings before any larger job.
+25 OCT 2026 (handoff follow-up): DeepSeek reads HANDOFF-2026-10-25-DEEPSEEK.md and follows its CURRENT steps, not the historical verbatim appendix from the beginning. Next: explain and ask for ONE five-minute-bounded classification batch; measure it; report sample-based hours and unmeasured resolution time before seeking any larger run. At Checkpoint 3.6 (all 37 registry reviews approved), request SMART for entity-resolution/Freeze review; Phase B separately requires SMART's new fast plan and Nir's approval. Stop earlier for a genuine generic software failure or a duration Nir rejects.
+25 OCT 2026: Return to DeepSeek; the extraction mismatch is resolved (newest DONE). Do not rerun the repair, extraction, parsing or geography loading as a warm-up. With Nir's fresh okay: ONE timed classification batch from the existing cache, `time .venv/bin/python kitchen/index_classify.py HARRISON-22 --limit 1`, foreground and five-minute bounded as described in HANDOFF-2026-10-24-QWEN-REPAIR.md section 7. No classification has run yet. Show the measured hours before asking for any full-book run; parsing alone projects to about 5.4 h, classification/resolution remain unmeasured. The repair is local; request Nir's permission before a GitHub commit/push. The older handoffs' extraction-blocker instructions are superseded by today's DONE entry.
 24 OCT 2026 (after the SMART repair): STOP UNTIL NIR RETURNS. Read HANDOFF-2026-10-24-QWEN-REPAIR.md; the short project AGENTS.md pointer names it. Next reader trial, only with his okay: ONE classification batch of 25 terms from the cached Harrison page, timed and reviewed. Parsing-only extrapolation: about 5.4 hours for 230 pages, not a whole-workflow estimate; 70 classification terms on the sampled page, no classification cache yet. A later full-pipeline extraction cache-key mismatch was found by read-only preflight and remains to be reconciled before a full run (see BLOCKED/handoff section 8). No further reader job tonight.
 24 OCT 2026: unchanged task for DeepSeek: the supervised Harrison index trial. FOLLOW HANDOFF-2026-10-24-DEEPSEEK.md (fresh, replaces the 23 Oct handoff). load_geography.py will now load the Goldberg coordinates (approval recorded in data/export/geography/build.json). Do not touch site/viewer/ or the geography; BIBLE Part 7 A9 says what to run when real exports exist.
 
@@ -203,7 +209,7 @@ handle /2nd-opinion/* {
 **Awaiting the human's yes. Nothing has been changed on the web server.**
 
 ## BLOCKED
-- [open for a later full run, 2026-10-24 save-only preflight] The old HARRISON-22 PDF 4044 extraction receipt's key differs from what current default extraction would compute from Context identity/PDF/page/layout=False/columns=False. No extraction or Qwen call was run during this check, and the cause was not investigated. The actual source PDF/text/image checks pass in the successful parser cache; the next classification trial can use that cache without extraction. Before a full pipeline, preserve evidence and diagnose/reconcile the receipt mismatch with Nir rather than deleting the successful parse, editing hashes or weakening provenance. See HANDOFF-2026-10-24-QWEN-REPAIR.md section 8.
+- [resolved 2026-10-25, GPT 6.1 Sol; original 24 Oct preflight retained below] New versioned extraction keys exclude geography. Explicit one-page reconciliation proved the legacy key against the original saved geography and verified PDF local identity, text/image hashes and page/image binding. Original receipt and reader caches unchanged; separate source-check.json proof; production validator accepts it; 117 tests pass. See newest DONE. Original finding: The old HARRISON-22 PDF 4044 extraction receipt's key differs from what current default extraction would compute from Context identity/PDF/page/layout=False/columns=False. No extraction or Qwen call was run during this check, and the cause was not investigated. The actual source PDF/text/image checks pass in the successful parser cache; the next classification trial can use that cache without extraction. Before a full pipeline, preserve evidence and diagnose/reconcile the receipt mismatch with Nir rather than deleting the successful parse, editing hashes or weakening provenance. See HANDOFF-2026-10-24-QWEN-REPAIR.md section 8.
 - [resolved for first-page trial 2026-10-24, GPT 6.1 Sol] The earlier Harrison parse blocker below is repaired and tested using the same Qwen model. Captured evidence showed token-limit truncation with hidden reasoning, a non-verbatim combined See-also subentry phrase, and nested subentries that the old checker would accept while dropping six child references. Index parsing now explicitly disables reasoning for its own requests only, requests compact flat verbatim JSON, rejects unhandled nested fields and saves rejected parsed answers. The reader rejects token-limit-truncated responses. A separate reproduced headword-boundary validator defect is repaired. Final live trial: 84.555 s; all 278 source reference tokens retained; production cache 1/230 pages. This resolves neither the full-book workflow nor its total time; no full run is authorised. Earlier open entry is preserved as history.
 - [open 2026-10-24, DeepSeek] HARRISON-22 index trial blocked on the first index page (PDF 4044). Reader test returned `{'ok': True}`. Geography loaded into Neo4j: 37 books, 5,334 territories (37 continents + 534 provinces + 4,763 districts). `.venv/bin/python kitchen/index_parse.py HARRISON-22 --limit 1` failed with `ValueError: reader failed validation twice: The previous answer failed validation: subentry absent from its source block. Fix it using only the source.` (7m02.840s). Re-run after warming qwen3.8:27b (17.4 GB confirmed in VRAM): same error, 7m08.312s. `index_classify.py --limit 1` then stopped with FileNotFoundError on the missing `HARRISON-22-index-entries.json` (a consequence of the parse failure; classify was never timed). 230 pages x about 7 minutes projects to about 27 hours, over Nir's hard limit. No code, BIBLE, map or viewer file changed. Full hand-off: `HANDOFF-TO-SMART-2026-10-24-HARRISON-INDEX.md`. Same generic error twice, so SMART (GPT 6.1 Sol) is needed.
 - [resolved 2026-10-23] SMART review: CAMPBELL-2020's 82-chapter list was replaced from the PDF's 90 chapter bookmarks under 19 Parts; verified against each destination page; see DONE. The other three rebuilt books (KRAUSE-16, MIDDLETON-2019, SABISTON-22) still need a physical-book check before they can be called correct.
@@ -337,6 +343,9 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 ```
 
 ## DECISIONS BY HUMAN
+- 2026-10-25, after the completed handoff: Nir objected to repeated "not pushed" messages and the cost of more back-and-forth: "why all the time \"not pushed\" why all the time wasting more money". Interpreted in context as a request to complete the GitHub backup now; save the five intended repair/handoff files and verify the remote without another approval turn.
+- 2026-10-25, handoff follow-up: Nir requested "a detailed handoff to DeepSeek" including what Opus told him "verbatim", the repair, all needed information, a short agents.md pointer, simple roles/model-choice/time explanations and when to switch back to SMART. He cannot scroll/read a whole chat screen; keep the chat explanation very short and store detail in the file. This requests documentation only, not a new reader trial or a GitHub push.
+- 2026-10-25, Nir to GPT 6.1 Sol: asked to read Opus's and DeepSeek's handoffs, protect the approved globe work and repair the defect with minimum damage and cost. After the explanation of the map-dependent extraction cache and a proposed focused repair preserving the original evidence/Qwen answer with code-only checks, Nir approved: "ok thank you and try not to waste a lot of money please, thank you". Scope: this software repair and verification; no new reader trial or full-book run was requested.
 - 2026-10-24, after the successful Qwen repair: Nir requested "please save a detailed description in a text file and push to github" and "please make a pointer refer to it from agents.md (do not inflate your memory please)"; he said "we will continue tomorrow please". Scope: save the tested repair, detailed handoff and short project pointer, push, then stop for the night. No additional reader trial or full-book run is authorised tonight; global memory is not expanded.
 - 2026-10-24, Nir to GPT 6.1 Sol: keep Qwen as the main tool; investigate the existing failure with this exact model rather than replace the parser with a plain-code workflow. First diagnostic: one original-prompt request on Harrison index PDF 4044, unchanged model/settings, saving the complete local response and reporting the exact rejected entry; one attempt and a 300-second request timeout. All reader answers stay ignored and local.
 - 2026-10-24 (evening), NIR'S HARD LIMIT, in his words: "i never approved for qwen to go on thousands of pages per book, in ANY phase, NEVER EVER ... not months, never months." Qwen must never be run over thousands of pages of a book; every reader job is measured on a trial and its total shown to Nir in hours before it starts; nothing may take months. BIBLE Part 4's "read every page" plan is CANCELLED (BIBLE Part 4 ADDITION F0, Part 8 ADDITION D2b, Part 1 C0). Claude Opus 5.5 had wrongly repeated "it reads every page" in Part 8 D2 earlier the same day; corrected.
@@ -371,6 +380,7 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 
 ## SESSIONS
 
+- 2026-10-25, GPT 6.1 Sol: started at clean b6efc25; GitHub main independently checked with `git ls-remote origin refs/heads/main` and matched local HEAD. Read current project rules, governing BIBLE additions/sections 3.7-3.9, Opus's handoff and DeepSeek's 25 Oct mismatch handoff. Reproduced the old geography's exact key and verified unchanged source evidence/current parser key. Versions checked: git 2.47.3, Python 3.13.5. Focused software repair with five synthetic regression tests; no model or database calls.
 - 2026-10-24, GPT 6.1 Sol: at clean a464c7a, read DeepSeek's Harrison index handoff, project rules, current ledger, index software/docs and governing BIBLE additions/section 3.7. Read-only generic parser diagnosis, no Qwen or database calls. Versions checked: Python 3.13.5, git 2.47.3, pdftotext 25.03.0, pypdf 6.20.1.
 - 2026-10-23, GPT 6.1 Sol: restarted at clean a816e30 for A6 generic index-to-registry programming (BIBLE 3.7.2-3.7.10). Read the approved geography handoff, current pointers and existing db/reader/slug/schema helpers. Versions: Python 3.13.5, neo4j driver 6.4.0, requests 2.34.2, rapidfuzz 3.14.6, pypdf 6.20.1, pdftotext 25.03.0, git 2.47.3, gh 2.97.0. No library run; existing geography and completed book lists are inputs.
 - 2026-10-23, DeepSeek V4.1 Flash: A5 approval. Prepared the clinical grouping proposal from existing metadata, generated the specialty preview, obtained Nir's approval, recorded the approved grouping in books.json (with backup), generated and verified data/export/geography and site/data/geography. No contents re-read, model call, Neo4j load or service change.
@@ -384,6 +394,112 @@ $ .venv/bin/pip freeze > kitchen/requirements.txt   # 20 packages
 - 2026-10-23 14:43 +03:00, GPT 6.1 Sol: Part 3 section 3.3, HARRISON-22 acceptance record; scoped human approval recorded above.
 
 ## DONE (newest first, each with evidence)
+
+### 2026-10-25 -- Repair and complete handoff GitHub backup checkpoint
+
+Nir requested completing the backup. The checkpoint contains exactly:
+AGENTS.md, PROGRESS.md, HANDOFF-2026-10-25-DEEPSEEK.md,
+kitchen/index_extract.py, kitchen/test_index_pipeline.py.
+Inspected status/diff/recent commits before staging; checked whitespace and
+the verbatim Opus copy. Existing verification: 117 tests pass. No code changed
+after those tests. The checkpoint's commit/push is verified against remote
+main before reporting success in chat. No cached evidence or secret is staged.
+Earlier "local/uncommitted" entries are historical, not a request to save again.
+
+### 2026-10-25 -- Complete DeepSeek handoff and short pointer
+
+At Nir's request, created `HANDOFF-2026-10-25-DEEPSEEK.md`: current workflow,
+known local changes, both software repairs and evidence, preserved caches,
+one-batch classification command/five-minute bound, honest timing formulas,
+operator versus Qwen roles, later book reviews, exact SMART-switch gates,
+and the FULL original `HANDOFF-2026-10-24-DEEPSEEK.md` embedded verbatim.
+The original is clearly marked historical; completed steps must not be rerun.
+`AGENTS.md` has a three-line pointer to the new file. Global memory unchanged.
+
+COMMANDS / OUTPUT: Python compared the embedded text with the original source
+byte-for-byte; they match. Checked referenced files exist and `git diff --check`.
+No new software tests are needed for documentation; existing 117-test repair
+result stands. No reader or database calls. FILES: new handoff, project
+AGENTS.md pointer and this ledger. COMMIT: none; all five checkpoint files
+(including the two already-tested Python changes) remain local/uncommitted.
+
+### 2026-10-25 -- Map-independent extraction receipts; successful Qwen cache preserved
+
+Nir approved the focused repair: "ok thank you and try not to waste a lot of money please, thank you".
+Cause independently reproduced: the old receipt key matches exactly when the
+23 Oct original geography is substituted; current geography causes the mismatch.
+PDF local identity and saved text/image hashes match, and the 24 Oct successful
+Qwen parse is already bound to the current Goldberg Context identity.
+
+Repair decision (narrow extraction key plus a separate legacy proof):
+1. New receipt format `index-extract-v2` keys extraction to local PDF identity,
+   PDF page, layout/columns flags and `pdftotext-v1` recipe. Geography is not
+   an extraction input. The recipe marker is not a newly claimed measurement
+   of the historical executable version. Existing PDF stat/path identity is
+   deliberately kept strict; moving/copying a PDF still requires investigation.
+2. No legacy key or source record was re-stamped or reinterpreted. The explicit
+   `--reconcile-page` / `--previous-geography` path proves the ORIGINAL key using
+   the current book record, saved historical geography, PDF identity, page,
+   flags and original recipe. It verifies source text/image hashes and recorded
+   page/image path, then adds a separate `index-extraction-reconciliation-v1`
+   proof bound to the unchanged receipt and the new extraction key. No deletion,
+   re-extraction, Qwen replay or new reader answer. Conflicting proofs are refused.
+3. This proof and new receipts survive later map-only changes. Parser/assembled
+   entry/classification/review identities remain strict and unchanged; a FUTURE
+   map rebuild may still invalidate those downstream caches/approvals under their
+   existing rules. This repair does not silently approve or migrate them. Today's
+   parsed/assembled identities are already current, so no change to Context,
+   execution_guard or Checkpoint 3.5 approval hashing is needed for today's run.
+4. Zero Qwen calls were needed. The original 84.555 s successful answer is kept.
+
+COMMANDS:
+```bash
+.venv/bin/python kitchen/index_extract.py HARRISON-22 --reconcile-page 4044 --previous-geography kitchen/logs/before-honeycomb-20261023T201406461287Z/export-geography/geography.json
+.venv/bin/python kitchen/index_pipeline.py HARRISON-22 --plan --limit 1
+OPENBLAS_NUM_THREADS=2 .venv/bin/python -m unittest discover -s kitchen -p 'test_*.py'
+git diff --check
+```
+The reconciliation CLI was invoked via `index_extract.main([...])` inside a
+verification probe that captured before/after file SHA256 values and then ran
+the same `cached_source()` validator used by production extraction. No extract
+loop, new page, parser execution, classification or database access was run.
+
+OUTPUT:
+```text
+Reconciled index PDF 4044; original receipt/text/image/reader caches unchanged
+Current map: extraction receipt accepted by production cache validator
+PDF local identity unchanged: True
+All five original evidence/cache file hashes unchanged: True
+Successful Qwen parse key still valid: True
+Assembled entries current: True
+Pages parsed / expected: 1 / 230
+Plan: extract/parse/classify/resolve each report PDF 4044-4273, 230 pages, 505 districts, limit=1, read-only
+Ran 117 tests in 2.087s -- OK
+git diff --check: passed
+```
+Preserved SHA256 (identical before and after):
+```text
+HARRISON-22-index-4044-source.json 0e9862a898d31fd26daaa645fc84847265ac8eda92b0ae98456b5251c1f79c60
+HARRISON-22-index-4044.txt 777019139e9fdc37542ad89e91ec122d578681e69b3ed43b95c07dd1e68f1e32
+HARRISON-22-index-4044.json ff5442eeed8b6ab45454f5a0175f1c34dcaf1bd9a56510da59f9d62c496e60d7
+HARRISON-22-index-entries.json 35be2c4157334258658c6048e3f3b626de2716878e96b58f0a7d31bd39b12df4
+page-4044.png ecde66d1f6f5037c961c38a5607ee2168f8043da4b6a260d2ca943292e56c89f
+```
+
+FILES: `kitchen/index_extract.py` (all key/validation/reconciliation logic stays
+in this one script, under 200 lines), `kitchen/test_index_pipeline.py` (five
+synthetic tests: map-only changes, flags/source tampering, proven legacy
+reconciliation with cache preservation, invalid history/page/mode rejection,
+paired CLI arguments), `PROGRESS.md` and the short project `AGENTS.md` pointer.
+New LOCAL-ONLY proof: `kitchen/logs/HARRISON-22-index-4044-source-check.json`
+(ignored by git). No BIBLE, globe/viewer, geography, books.json, reader settings,
+secret files or Neo4j data changed.
+
+COMMIT: not created or pushed in this session; GitHub save awaits Nir's request.
+The four listed tracked files are intentional local changes for the next model.
+Next: DeepSeek explains and requests ONE timed classification batch of 25 terms
+from the existing 70-term cache, five-minute bound, human watching (24 Oct Qwen
+handoff section 7). Full-book scope/time approval remains outstanding.
 
 ### 2026-10-24 -- Qwen repair restart checkpoint prepared at Nir's request
 

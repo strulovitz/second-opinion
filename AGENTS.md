@@ -17,12 +17,10 @@ Nir the total in HOURS, start only with his okay; nothing may take months.
 Wherever Law 14 or the BIBLE says the reader reads "every page", that is
 CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
-NEXT SESSION (25 Oct 2026): SMART reads
-HANDOFF-TO-SMART-2026-10-25-EXTRACTION-KEY.md first; it proves the Harrison
-index extraction-key mismatch and lists the repair options for Nir. The 24 Oct
-Qwen repair passed and its first page is cached. Older Harrison failure
-handoffs are history. SMART writes software; DeepSeek/local reader run the
-workflows.
+NEXT SESSION: read HANDOFF-2026-10-25-DEEPSEEK.md (current state, repaired
+software, exact next trial, timing, SMART-switch gates and Opus's verbatim
+handoff). Repair/handoff are in the checkpoint containing this pointer.
+One batch only with Nir's okay; verify normal Git status/tracking on restart.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

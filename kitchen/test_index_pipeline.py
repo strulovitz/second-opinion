@@ -192,6 +192,96 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(calls.call_count, 2)
         self.assertTrue(self.ctx.path("index-4-source.json").exists())
 
+    def test_extraction_survives_map_changes_but_rejects_changed_flags(self):
+        with patch.object(index_extract.subprocess, "run", return_value=SimpleNamespace(stdout="Alpha, 2\n")), self.quiet():
+            index_extract.extract(self.ctx)
+        self.geography.write_text(json.dumps([d | {"lat": 42, "colour_hex": "#123456"} for d in self.districts]))
+        changed = Context(self.args)
+        self.assertNotEqual(changed.identity, self.ctx.identity)
+        with patch.object(index_extract.subprocess, "run") as process, self.quiet():
+            index_extract.extract(changed)
+            for layout, columns in ((True, False), (False, True)):
+                with self.assertRaisesRegex(ValueError, "stale extraction"):
+                    index_extract.cached_source(changed, 3, pdf_identity(self.pdf), layout, columns)
+        process.assert_not_called()
+
+    def legacy_source(self):
+        text = "Alpha, 2\nIndex source footer information\n"
+        self.source(3, text)
+        path = self.ctx.path("index-3-source.json")
+        saved = json.loads(path.read_text()) | {
+            "key": fingerprint([self.ctx.identity, pdf_identity(self.pdf), 3, False, False, "pdftotext-v1"]),
+            "source_index_pdf": 3, "image_file": str(self.ctx.image(3))}
+        save(path, saved)
+        previous = self.root / "previous-geography.json"
+        previous.write_bytes(self.geography.read_bytes())
+        self.geography.write_text(json.dumps([d | {"lat": 42} for d in self.districts]))
+        self.ctx = Context(self.args)
+        return previous
+
+    def test_legacy_reconciliation_keeps_receipt_and_successful_reader_cache(self):
+        previous = self.legacy_source()
+        self.args.limit = 1
+        self.reader.return_value = {"entries": [{"headword": "Alpha", "display": "Alpha", "see": None,
+                                                "pages": ["2"], "subentries": []}]}
+        with self.quiet():
+            index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
+        paths = [self.ctx.path(s) for s in ("index-3.txt", "index-3-source.json", "index-3.json", "index-entries.json")]
+        before = {p: p.read_bytes() for p in paths}
+        self.reader.reset_mock()
+        with self.assertRaisesRegex(ValueError, "stale extraction"):
+            index_extract.cached_source(self.ctx, 3, pdf_identity(self.pdf))
+        with patch.object(index_extract.subprocess, "run") as process, self.quiet():
+            index_extract.reconcile(self.ctx, 3, previous)
+            index_extract.reconcile(self.ctx, 3, previous)  # Idempotent, no receipt re-stamp.
+            index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
+        process.assert_not_called()
+        self.reader.assert_not_called()
+        self.assertEqual(before, {p: p.read_bytes() for p in paths})
+        # A later map change still accepts extraction; downstream identity remains strict.
+        self.geography.write_text(json.dumps([d | {"lat": -20} for d in self.districts]))
+        later = Context(self.args)
+        index_extract.cached_source(later, 3, pdf_identity(self.pdf))
+        with self.assertRaisesRegex(ValueError, "stale parsed page"):
+            index_parse.parse(later, self.reader, "fixture-reader", "fixture-vision")
+
+    def test_reconciliation_requires_exact_historical_key_page_and_flags(self):
+        previous = self.legacy_source()
+        with self.assertRaisesRegex(ValueError, "does not reproduce"):
+            index_extract.reconcile(self.ctx, 3, self.geography)
+        for layout, columns in ((True, False), (False, True)):
+            with self.assertRaisesRegex(ValueError, "does not reproduce"):
+                index_extract.reconcile(self.ctx, 3, previous, layout, columns)
+        with self.assertRaisesRegex(ValueError, "outside the configured index"):
+            index_extract.reconcile(self.ctx, 2, previous)
+        self.assertFalse(self.ctx.path("index-3-source-check.json").exists())
+
+    def test_reconciled_source_rejects_changed_evidence_or_receipt(self):
+        previous = self.legacy_source()
+        with self.quiet():
+            index_extract.reconcile(self.ctx, 3, previous)
+        paths = [self.ctx.path("index-3.txt"), self.ctx.image(3), self.ctx.path("index-3-source.json")]
+        for path in paths:
+            original = path.read_bytes()
+            with self.subTest(path=path.name):
+                if path.suffix == ".json":
+                    save(path, json.loads(original) | {"key": "changed"})
+                else:
+                    path.write_bytes(b"changed evidence")
+                with self.assertRaises(ValueError):
+                    index_extract.cached_source(self.ctx, 3, pdf_identity(self.pdf))
+                path.write_bytes(original)
+        identity = pdf_identity(self.pdf)
+        with self.assertRaisesRegex(ValueError, "changed PDF"):
+            index_extract.cached_source(self.ctx, 3, identity | {"size": identity["size"] + 1})
+        with self.assertRaisesRegex(ValueError, "stale extraction"):
+            index_extract.cached_source(self.ctx, 3, identity, layout=True)
+
+    def test_reconciliation_cli_requires_both_arguments(self):
+        for extra in (["--reconcile-page", "3"], ["--previous-geography", str(self.geography)]):
+            with self.assertRaisesRegex(ValueError, "must be supplied together"):
+                index_extract.main(["HARRISON-22", *extra])
+
     def test_continuation_keeps_the_actual_proving_page_and_raw_line(self):
         first = ground_entries({"entries": [{"headword": "Alpha", "display": "Alpha", "see": None,
                     "pages": ["2"], "subentries": []}]}, "Alpha, 2", 3, "3.png")
