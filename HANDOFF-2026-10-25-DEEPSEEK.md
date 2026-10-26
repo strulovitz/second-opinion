@@ -1,11 +1,56 @@
 # DeepSeek restart handoff -- 25 October 2026
 
+LATEST: [paused until next month at Nir's request](HANDOFF-2026-10-26-PAUSED-UNTIL-NOVEMBER.md).
+Read that handoff first; the run reached 54 accepted pages and a partial 4098.
+Do not execute historical restart instructions until Nir explicitly returns.
+
+26 OCTOBER UPDATE: read HANDOFF-2026-10-26-DEEPSEEK.md FIRST. Nir approved
+the long parse+classify job; it stopped early. GPT repaired unfinished JSON,
+physical column order and missing-reference validation. Three pages are now
+verified/cached (4044-4046), with the 25 original classifications unchanged.
+The next new page is 4047. This file's pending-approval/one-page status is
+historical. NIR switches back to DeepSeek HIMSELF; GPT does not run the job.
+
 From: GPT 6.1 Sol (SMART), at Nir's explicit request.
 For: DeepSeek, including a free Flash variant if Nir chooses it, operating
 the existing scripts with the free local Qwen reader and Nir watching.
 Repository: `/home/nir/second-opinion`, GitHub `strulovitz/second-opinion`.
 
-## Nir's correction: manual model switch -- CURRENT TASK
+## CURRENT DECISION -- resume the original local Qwen workflow, 25 October 2026
+
+LATEST STATUS -- CLASSIFICATION TRIAL COMPLETE, independently audited by GPT:
+Nir approved the section 5 command; DeepSeek ran it once, 51.220 s, and saved
+25 of the 70 expected terms. Exact coverage, current cache keys and production
+validation pass; original source files are unchanged. DO NOT rerun this trial.
+The next decision is Nir's approval of Harrison parse+classify ONLY, estimated
+14.53 h remaining from the one-page/one-batch sample, with supervised,
+resumable work. Matching/database/review time is unmeasured; stop to measure
+matching before requesting that further run. Read the newest PROGRESS.md audit.
+Nir may ask GPT for review whenever he wants; section 9's scheduled switches
+are not restrictions on his choice. No larger reader job is approved yet.
+
+LATEST ROUTING (Nir's explicit correction): Nir switches to FREE DEEPSEEK
+HIMSELF in this OpenCode conversation and gives it this file. DeepSeek is the
+operator running the existing scripts; LOCAL QWEN is the reader doing the
+actual parsing/classification/matching. GPT stops after handing over this path
+and does not run the book steps or automatically switch/call a cloud model.
+This is the original operator/reader arrangement, not another comparison.
+
+Nir decided: "ok try to do everything with Qwen like we planned from the start".
+Qwen remains the actual reader for page parsing, term classification and
+ambiguous matching. The cloud-reader comparison is CLOSED; keep its evidence
+as history, not as an instruction to run more tests or switch readers.
+
+Resume the original workflow described in sections 1-6 below. Harrison PDF
+4044 is successfully parsed and cached, and ONE classification batch of 25
+saved terms is complete. Section 5 preserves its completed procedure; it is
+not an instruction to repeat it. No new classification job or whole-book
+approval is implied by this handoff. No repeated parse/warm-up/comparison as a restart
+ritual. Existing operator and SMART roles remain as assigned in the BIBLE;
+DeepSeek supervising scripts is separate from the rejected cloud-reader role.
+The immediately following comparison notices are historical and superseded.
+
+## Historical correction: manual model switch -- no longer the current task
 
 Read `HANDOFF-2026-10-25-MANUAL-MODEL-COMPARISON.md` FIRST. Nir switches the
 model HIMSELF inside this OpenCode conversation. The selected free model then
@@ -37,8 +82,8 @@ the authenticated OpenRouter transport limitation are in the newest DONE.
 
 The globe is approved. Both software blockers encountered on Harrison's first
 index page are repaired. That page and its successful Qwen answer are saved.
-The NEXT task is just ONE classification batch of 25 terms from that cache,
-timed and bounded, after explaining it and getting Nir's okay.
+The classification trial from that cache is also complete (25 terms, 51.220 s).
+See CURRENT DECISION for the next scope/time approval; do not repeat section 5.
 
 Do not execute the older Opus instructions from the beginning. Their FULL
 original text is copied verbatim in section 11 because Nir requested it.
@@ -104,8 +149,9 @@ As of this handoff:
   online-only=9, non-integer-or-malformed=1, outside-districts=0,
   mapping-unresolved=0. These are structural counts, not a full-book review.
 - The existing page yields 70 classification terms after normal alias and
-  deduplication handling. No classification has run; no classified.jsonl existed
-  at the last check. No entity-resolution/full-book execution is claimed.
+  deduplication handling. The approved classification trial saved 25/70 terms
+  in classified.jsonl; 45 remain unclassified. No entity-resolution/full-book
+  execution is claimed. The trial and its recorded time passed GPT's audit.
 
 How to read the Opus steps copied in section 11:
 - Step 1 (starting-point check): still appropriate. Section 7 lists the five
@@ -206,9 +252,10 @@ HARRISON-22-index-entries.json 35be2c4157334258658c6048e3f3b626de2716878e96b58f0
 page-4044.png ecde66d1f6f5037c961c38a5607ee2168f8043da4b6a260d2ca943292e56c89f
 ```
 
-## 5. Exact next step: one classification batch, not a book run
+## 5. Completed classification trial -- procedure preserved for reference
 
-All commands below are from `/home/nir/second-opinion`.
+This trial is DONE; do not rerun it on restart. All commands below were from
+`/home/nir/second-opinion`. The actual next approval is in CURRENT DECISION.
 
 1. Check `git status --short` and recent commits. Recognise the intended local
    changes in section 7; do not discard or overwrite them.
@@ -248,7 +295,9 @@ What is actually measured:
 - The successful Harrison first index-page parse: 84.555 seconds.
 - 1/230 index pages parsed. 229 remain.
 - That sample produces 70 classification terms, not 75 terms after filtering.
-- Classification and resolution have NOT yet been timed.
+- Classification: ONE batch of 25 terms completed in 51.220 s wall time.
+  Model loading/retries were not separately measured. 25/70 terms are saved.
+- Resolution has NOT yet been timed.
 
 Parsing-only sample estimate:
 `229 * 84.555 / 3600 = about 5.38 hours remaining`.

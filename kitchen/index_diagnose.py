@@ -9,7 +9,9 @@ from unittest.mock import patch
 
 from index_common import Context, arguments, cli, fingerprint, require, save
 from index_pages import ground_entries
+from index_order import reading_text
 from index_prompts import PARSE
+from index_schema import PARSE_SCHEMA
 from toc_evidence import pdf_identity
 
 
@@ -19,10 +21,22 @@ def main(argv=None):
     parser.add_argument("--timeout", type=int, default=300)
     parser.add_argument("--no-reasoning", action="store_true",
                         help="explicit experiment only; otherwise retain current reader settings")
+    parser.add_argument("--allow-reasoning", action="store_true",
+                        help="explicit hard-page experiment; mutually exclusive with --no-reasoning")
+    parser.add_argument("--json-output", action="store_true",
+                        help="use the index parser's constrained JSON output mode")
+    parser.add_argument("--ordered-text", action="store_true",
+                         help="derive the physical column order, preserving source receipts")
+    parser.add_argument("--structured-output", action="store_true",
+                        help="constrain generation to the full index answer schema")
+    parser.add_argument("--temperature", type=float, default=0.0)
+    parser.add_argument("--top-p", type=float)
+    parser.add_argument("--presence-penalty", type=float)
     args = parser.parse_args(argv)
     ctx = Context(args)
     require(args.limit == 0 and not args.fallback and not args.plan,
-            "diagnostic uses exactly one --page, not pipeline limits/fallback/plans")
+             "diagnostic uses exactly one --page, not pipeline limits/fallback/plans")
+    require(not (args.no_reasoning and args.allow_reasoning), "choose one reasoning mode")
     require(args.page in ctx.pages, "page must be inside this book's configured index")
     require(0 < args.timeout <= 300, "diagnostic timeout must be between 1 and 300 seconds")
     ctx.execution_guard()
@@ -34,6 +48,9 @@ def main(argv=None):
     require(hashlib.sha256(image.read_bytes()).hexdigest() == source["image_hash"],
             "changed source image")
     require(len(text.strip()) >= 30, "this diagnostic requires an existing text-layer page")
+    order_key = None
+    if args.ordered_text:
+        text, order_key = reading_text(ctx, args.page, source, text)
 
     import reader
     from db import _driver, env
@@ -43,7 +60,10 @@ def main(argv=None):
     path = ctx.path(f"index-diagnostic-{args.page}-{stamp}.json")
     record = {"book_id": ctx.bid, "page": args.page, "source": source,
               "input_identity": ctx.identity, "prompt_hash": fingerprint(PARSE),
-              "explicit_no_reasoning": args.no_reasoning, "requests": []}
+              "explicit_no_reasoning": args.no_reasoning,
+               "json_output": args.json_output, "reading_order_key": order_key, "requests": []}
+    record["response_schema"] = PARSE_SCHEMA if args.structured_output else None
+    record["explicit_allow_reasoning"] = args.allow_reasoning
     post = reader.requests.post
 
     def capture(url, **kwargs):
@@ -77,7 +97,11 @@ def main(argv=None):
         with patch.object(reader.requests, "post", capture):
             answer = reader.ask(PARSE, text, max_tokens=12000, retries=1,
                                 timeout=args.timeout,
-                                no_reasoning=True if args.no_reasoning else None)
+                                no_reasoning=False if args.allow_reasoning else True if args.no_reasoning else None,
+                                json_output=args.json_output,
+                                response_schema=PARSE_SCHEMA if args.structured_output else None,
+                                temperature=args.temperature, top_p=args.top_p,
+                                presence_penalty=args.presence_penalty)
         record["answer"] = answer
         try:
             entries = ground_entries(answer, text, args.page, str(image))

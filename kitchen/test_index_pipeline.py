@@ -20,7 +20,7 @@ import index_fallback
 import index_parse
 import index_resolve
 from index_common import Context, fingerprint, save, validate_classification
-from index_pages import assemble, expand_reference, ground_entries, map_page
+from index_pages import assemble, expand_reference, ground_entries, map_page, source_references
 from index_registry import CATALOG, Registry, validate_resolution
 from test_toc_tools import make_pdf
 from toc_evidence import pdf_identity
@@ -115,11 +115,151 @@ class ReferenceTests(unittest.TestCase):
         result = ground_entries({"entries": [row]}, "Alpha\n effects\n  detail, 12\n", 3, "3.png")
         self.assertEqual(result[0]["subentries"][1]["pages"], ["12"])
 
+    def test_subentry_see_tail_with_page_refs_keeps_only_the_label(self):
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
+               "subentries": [{"text": "detail. See also Other", "pages": ["12"]}]}
+        result = ground_entries({"entries": [row]}, "Alpha\n detail, 12. See also Other\n", 3, "3.png")
+        self.assertEqual(result[0]["subentries"][0], {"text": "detail", "pages": ["12"]})
+
     def test_subentry_error_identifies_exact_rejected_phrase_and_parent(self):
         row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
                "subentries": [{"text": "detail. See also Other", "pages": ["12"]}]}
         with self.assertRaisesRegex(ValueError, "headword='Alpha', subentry='detail. See also Other'"):
-            ground_entries({"entries": [row]}, "Alpha\n detail, 12. See also Other\n", 3, "3.png")
+            ground_entries({"entries": [row]}, "Alpha\n detail, 12. See also Elsewhere\n", 3, "3.png")
+
+    def test_omitted_main_entries_subentries_and_duplicate_refs_are_rejected(self):
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["2"], "subentries": []}
+        for text, answer in [("Alpha, 2\n detail, 12\n", [row]),
+                             ("Alpha, 2\nBeta, 12\n", [row]),
+                             ("Alpha, 2\n", [row | {"pages": ["2", "2"]}])]:
+            with self.assertRaisesRegex(ValueError, "index references incomplete"):
+                ground_entries({"entries": answer}, text, 3, "3.png")
+        self.assertEqual(dict(source_references("Acid alpha-1,4 glucosidase deficiency, 3354t,\n 3363, A4\nI-2\n")),
+                         {"3354t": 1, "3363": 1, "A4": 1})
+        self.assertEqual(dict(source_references("“Alpha coma,” 191\n")), {"191": 1})
+        self.assertEqual(dict(source_references("Vitamin B12, 191\n")), {"191": 1})
+
+    def test_superscript_label_prefix_is_not_required_as_a_page_reference(self):
+        text = ("Alpha, 895\n"
+                "   diagnosis of\n"
+                "      PYP scan, 2023\n"
+                "      99m\n"
+                "        technetium pyrophosphate scan, A9\n")
+        self.assertEqual(dict(source_references(text)), {"895": 1, "2023": 1, "99m": 1, "A9": 1})
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["895"],
+               "subentries": [{"text": "PYP scan", "pages": ["2023"]},
+                              {"text": "99m", "pages": []},
+                              {"text": "technetium pyrophosphate scan", "pages": ["A9"]}]}
+        result = ground_entries({"entries": [row]}, text, 3, '3.png')
+        self.assertEqual(result[0]["quote"], text.strip())
+        wrapped = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["895"],
+                   "subentries": [{"text": "diagnosis of", "pages": []},
+                                  {"text": "99m technetium pyrophosphate scan", "pages": ["A9"]},
+                                  {"text": "PYP scan", "pages": ["2023"]}]}
+        self.assertEqual(len(ground_entries({"entries": [wrapped]}, text, 3, '3.png')), 1)
+
+    def test_wrapped_reference_continuation_is_still_required(self):
+        text = "Alpha, 3404,\n 3405\n  detail, 12\n"
+        self.assertEqual(dict(source_references(text)), {"3404": 1, "3405": 1, "12": 1})
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["3404"],
+               "subentries": [{"text": "detail", "pages": ["12"]}]}
+        with self.assertRaisesRegex(ValueError, "index references incomplete"):
+            ground_entries({"entries": [row]}, text, 3, '3.png')
+
+    def test_subentry_see_also_tail_after_references_is_dropped(self):
+        text = ("Anemia, 443\n"
+                "   diagnosis of, 444\n"
+                "      peripheral blood smear, 445\u2013447, 445\u2013447f,\n"
+                "             447t. See also Peripheral blood smear\n")
+        merged = {"headword": "Anemia", "display": "Anemia", "see": None, "pages": ["443"],
+                  "subentries": [{"text": "diagnosis of", "pages": ["444"]},
+                                 {"text": "peripheral blood smear. See also Peripheral blood smear",
+                                  "pages": ["445\u2013447", "445\u2013447f", "447t"]}]}
+        result = ground_entries({"entries": [merged]}, text, 3, '3.png')
+        self.assertEqual(result[0]["subentries"][1],
+                         {"text": "peripheral blood smear", "pages": ["445\u2013447", "445\u2013447f", "447t"]})
+        invented = {"headword": "Anemia", "display": "Anemia", "see": None, "pages": ["443"],
+                    "subentries": [{"text": "peripheral blood smear. See also Bone marrow",
+                                    "pages": ["445\u2013447", "445\u2013447f", "447t"]}]}
+        with self.assertRaisesRegex(ValueError, "subentry absent from its source block"):
+            ground_entries({"entries": [invented]}, text, 3, '3.png')
+
+    def test_reference_with_see_tail_in_pages_keeps_the_numbers(self):
+        text = ("Critically ill patient\n"
+                "   DVT in, 2297. See also Deep venous thrombosis\n"
+                "             (DVT)\n"
+                "   neurologic disorders in, 2342, 2343t. See also\n"
+                "             Coma\n")
+        row = {"headword": "Critically ill patient", "display": "Critically ill patient",
+               "see": None, "pages": [],
+               "subentries": [{"text": "DVT in", "pages": ["2297. See also Deep venous thrombosis (DVT)"]},
+                              {"text": "neurologic disorders in", "pages": ["2342, 2343t. See also Coma"]}]}
+        result = ground_entries({"entries": [row]}, text, 3, "3.png")
+        self.assertEqual(result[0]["subentries"][0], {"text": "DVT in", "pages": ["2297"]})
+        self.assertEqual(result[0]["subentries"][1], {"text": "neurologic disorders in", "pages": ["2342", "2343t"]})
+
+    def test_page_reference_left_in_subentry_text_moves_to_pages(self):
+        text = "Cardiac arrhythmias\n   in pregnancy, 3900\n   respiratory sinus, A8\n"
+        row = {"headword": "Cardiac arrhythmias", "display": "Cardiac arrhythmias",
+               "see": None, "pages": [],
+               "subentries": [{"text": "in pregnancy", "pages": ["3900"]},
+                              {"text": "respiratory sinus, A8", "pages": []}]}
+        result = ground_entries({"entries": [row]}, text, 3, "3.png")
+        self.assertEqual(result[0]["subentries"][1], {"text": "respiratory sinus", "pages": ["A8"]})
+
+    def test_entry_named_like_a_page_reference_keeps_its_label(self):
+        text = "C1 inhibitor deficiency, 2790t, 2807\nC1q, 2786f, 2790t, 3395\n"
+        self.assertEqual(dict(source_references(text)),
+                         {"2790t": 2, "2807": 1, "2786f": 1, "3395": 1})
+        rows = [{"headword": "C1 inhibitor deficiency", "display": "C1 inhibitor deficiency",
+                 "see": None, "pages": ["2790t", "2807"], "subentries": []},
+                {"headword": "C1q", "display": "C1q", "see": None,
+                 "pages": ["2786f", "2790t", "3395"], "subentries": []}]
+        self.assertEqual(len(ground_entries({"entries": rows}, text, 3, "3.png")), 2)
+
+    def test_packed_page_references_are_split_only_when_all_parts_are_valid(self):
+        row = {"headword": "Alpha", "display": "Alpha", "see": None,
+               "pages": ["1951\u20131954, 1952\u20131953f, 1954t"], "subentries": []}
+        result = ground_entries({"entries": [row]}, "Alpha, 1951\u20131954, 1952\u20131953f, 1954t\n", 3, "3.png")
+        self.assertEqual(result[0]["pages"], ["1951\u20131954", "1952\u20131953f", "1954t"])
+        dotted = {"headword": "Alpha", "display": "Alpha", "see": None,
+                  "pages": ["24t."], "subentries": []}
+        self.assertEqual(ground_entries({"entries": [dotted]}, "Alpha, 24t\n", 3, "3.png")[0]["pages"], ["24t"])
+        bad = {"headword": "Alpha", "display": "Alpha", "see": None,
+               "pages": ["1951, See Beta"], "subentries": []}
+        with self.assertRaisesRegex(ValueError, "not a page reference"):
+            ground_entries({"entries": [bad]}, "Alpha, 1951\n", 3, "3.png")
+
+    def test_see_target_in_pages_is_rejected_with_instruction(self):
+        text = "Alpha\n   abuse of. See Beta\n   effects, 12\n"
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
+               "subentries": [{"text": "abuse of", "pages": ["See Beta"]},
+                              {"text": "effects", "pages": ["12"]}]}
+        with self.assertRaisesRegex(ValueError, "not a page reference"):
+            ground_entries({"entries": [row]}, text, 3, '3.png')
+        fixed = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
+                 "subentries": [{"text": "abuse of. See Beta", "pages": []},
+                                {"text": "effects", "pages": ["12"]}]}
+        self.assertEqual(len(ground_entries({"entries": [fixed]}, text, 3, '3.png')), 1)
+
+    def test_headword_wrapped_after_slash_is_grounded(self):
+        text = ("Amyotrophic lateral sclerosis (ALS)/parkinsonian/\n"
+                "             dementia complex of Guam, 3485\n")
+        row = {"headword": "Amyotrophic lateral sclerosis (ALS)/parkinsonian/dementia complex of Guam",
+               "display": "Amyotrophic lateral sclerosis (ALS)/parkinsonian/dementia complex of Guam",
+               "see": None, "pages": ["3485"], "subentries": []}
+        result = ground_entries({"entries": [row]}, text, 3, '3.png')
+        self.assertEqual(result[0]["quote"], text.strip())
+
+    def test_wrapped_page_ranges_are_counted_and_grounded_without_changing_quotes(self):
+        for dash in ('-', '–', '—'):
+            text = f'Alpha, 195t, 3404, 3479{dash}\n 3480, 3941\n'
+            refs = ['195t', '3404', f'3479{dash}3480', '3941']
+            self.assertEqual(dict(source_references(text)), dict.fromkeys(refs, 1))
+            row = {"headword": "Alpha", "display": "Alpha", "see": None,
+                   "pages": refs, "subentries": []}
+            result = ground_entries({"entries": [row]}, text, 3, '3.png')
+            self.assertEqual(result[0]['quote'], text.strip())
 
 
 class PipelineTests(unittest.TestCase):
@@ -148,6 +288,10 @@ class PipelineTests(unittest.TestCase):
         self.patch = patch.object(index_common, "ROOT", self.root)
         self.patch.start()
         self.addCleanup(self.patch.stop)
+        ordering = patch.object(index_parse, "reading_text", side_effect=lambda ctx, page, source, text:
+                                (text, fingerprint([source, text])))
+        ordering.start()
+        self.addCleanup(ordering.stop)
         self.args = SimpleNamespace(book="HARRISON-22", books=self.books, geography=self.geography, logs=self.logs,
                                     limit=0, plan=False)
         self.ctx = Context(self.args)
@@ -315,12 +459,104 @@ class PipelineTests(unittest.TestCase):
             result = index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
         self.assertEqual(self.reader.call_count, 2)
         self.assertTrue(all(call.kwargs["no_reasoning"] for call in self.reader.call_args_list))
+        self.assertTrue(all(call.kwargs["response_schema"] for call in self.reader.call_args_list))
         rejected = list(self.logs.glob("HARRISON-22-index-3-rejected-*.json"))
         self.assertEqual(len(rejected), 1)
         evidence = json.loads(rejected[0].read_text())
         self.assertEqual(evidence["answer"]["entries"][0]["pages"], ["99"])
         self.assertIn("reference absent from source", evidence["error"])
         self.assertFalse(result["complete"])
+        self.reader.reset_mock()
+        with self.quiet():
+            index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
+        self.reader.assert_not_called()
+
+    def test_legacy_parse_cache_is_preserved_but_changed_model_is_rejected(self):
+        text = "Alpha, 2\nIndex source footer information\n"
+        self.source(3, text)
+        self.args.limit = 1
+        source = json.loads(self.ctx.path("index-3-source.json").read_text())
+        key = fingerprint(["index-parse-v2-no-reasoning", source, self.ctx.identity,
+                           index_parse.PARSE, None, "fixture-reader", None])
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["2"], "subentries": []}
+        path = self.ctx.path("index-3.json")
+        save(path, {"key": key, "reader_model": "fixture-reader",
+                    "entries": ground_entries({"entries": [row]}, text, 3, str(self.ctx.image(3)))})
+        before = path.read_bytes()
+        with self.quiet():
+            result = index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
+        self.reader.assert_not_called()
+        self.assertEqual(result["pages_parsed"], 1)
+        self.assertEqual(path.read_bytes(), before)
+        with self.assertRaisesRegex(ValueError, "stale parsed page"):
+            index_parse.parse(self.ctx, self.reader, "different-model", "fixture-vision")
+
+    def test_parse_saves_malformed_raw_responses_before_retry_and_cache(self):
+        import reader
+        text = "Alpha, 2\nIndex source footer information\n"
+        self.source(3, text)
+        self.args.limit = 1
+        valid = {"entries": [{"headword": "Alpha", "display": "Alpha", "see": None,
+                              "pages": ["2"], "subentries": []}]}
+        broken = '{"entries":[{"headword":"Alpha"}'
+        replies = []
+        for content in (broken, json.dumps(valid)):
+            response = Mock()
+            response.json.return_value = {"choices": [{"finish_reason": "stop", "message": {"content": content}}]}
+            replies.append(response)
+        with patch.object(reader, "env", lambda key, default=None: {
+                "READER_BASE_URL": "http://127.0.0.1:11434/v1", "READER_MODEL": "fixture-reader"}.get(key, default)), \
+             patch.object(reader.requests, "post", side_effect=replies), \
+             patch.object(reader.time, "sleep"), self.quiet():
+            index_parse.parse(self.ctx, reader.ask, "fixture-reader", "fixture-vision")
+        evidence = [json.loads(p.read_text()) for p in sorted(self.logs.glob("*-response-*.json"))]
+        self.assertEqual(len(evidence), 2)
+        self.assertEqual(evidence[0]["response"]["choices"][0]["message"]["content"], broken)
+        self.assertTrue(all(e["request"]["response_format"]["type"] == "json_schema" for e in evidence))
+        saved = json.loads(self.ctx.path("index-3.json").read_text())
+        self.assertEqual(saved["output_format"], "json_schema")
+        self.assertEqual(saved["entries"][0]["pages"], ["2"])
+
+    def test_v3_schema_less_page_cache_is_revalidated_and_preserved(self):
+        text = "Alpha, 2\nIndex source footer information\n"
+        self.source(3, text)
+        self.args.limit = 1
+        source = json.loads(self.ctx.path("index-3-source.json").read_text())
+        order_key = fingerprint([source, text])
+        key = fingerprint(["index-parse-v3-json-object", source, self.ctx.identity,
+                           index_parse.PARSE, None, "fixture-reader", None, order_key])
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["2"], "subentries": []}
+        path = self.ctx.path("index-3.json")
+        save(path, {"key": key, "reader_model": "fixture-reader", "output_format": "json_object",
+                    "reading_order_key": order_key,
+                    "entries": ground_entries({"entries": [row]}, text, 3, str(self.ctx.image(3)))})
+        before = path.read_bytes()
+        with self.quiet():
+            index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
+        self.reader.assert_not_called()
+        self.assertEqual(path.read_bytes(), before)
+
+    def test_successful_page_assembly_survives_failure_on_following_page(self):
+        self.source(3, "Alpha, 2\nIndex source footer information\n")
+        self.source(4, "Beta, 12\nIndex source footer information\n")
+        self.reader.side_effect = lambda prompt, text, **kw: {"entries": [{
+            "headword": "Alpha", "display": "Alpha", "see": None,
+            "pages": ["2"], "subentries": []}]} if text.startswith('Alpha') else {"entries": []}
+        with self.quiet(), self.assertRaises(ValueError):
+            index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
+        saved = json.loads(self.ctx.path("index-entries.json").read_text())
+        self.assertEqual(saved["pages_parsed"], 1)
+        self.assertEqual(saved["entries"][0]["headword"], "Alpha")
+        self.assertFalse(saved["complete"])
+
+    def test_cached_ocr_parse_is_checked_against_its_saved_transcription(self):
+        self.source(3, "")
+        self.args.limit = 1
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["2"], "subentries": []}
+        self.reader.side_effect = ["Alpha, 2\nIndex source footer information\n", {"entries": [row]}]
+        with self.quiet():
+            index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")
+        self.assertEqual(self.reader.call_count, 2)
         self.reader.reset_mock()
         with self.quiet():
             index_parse.parse(self.ctx, self.reader, "fixture-reader", "fixture-vision")

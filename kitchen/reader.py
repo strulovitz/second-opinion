@@ -16,7 +16,11 @@ def _extract_json(text):
     return text[start:end + 1]
 
 def ask(system, user, images=None, max_tokens=6000, temperature=0.0,
-        expect_json=True, retries=3, timeout=3600, no_reasoning=None):
+        expect_json=True, retries=3, timeout=3600, no_reasoning=None,
+        json_output=False, on_response=None, response_schema=None,
+        top_p=None, presence_penalty=None):
+    if (json_output or response_schema is not None) and not expect_json:
+        raise ValueError("JSON output mode requires expect_json=True")
     url = env("READER_BASE_URL").rstrip("/") + "/chat/completions"
     no_think = env("READER_NO_THINK_TAG", "")
     if no_think:
@@ -33,6 +37,10 @@ def ask(system, user, images=None, max_tokens=6000, temperature=0.0,
         "temperature": temperature,
         "max_tokens": max_tokens,
     }
+    if top_p is not None:
+        body["top_p"] = top_p
+    if presence_penalty is not None:
+        body["presence_penalty"] = presence_penalty
     # DEVIATION from the BIBLE's verbatim reader.py, recorded in PROGRESS.md:
     # Ollama silently truncates to its default 4096-token window unless the
     # window is set in the request. A Table of Contents is up to ~100,000
@@ -53,12 +61,23 @@ def ask(system, user, images=None, max_tokens=6000, temperature=0.0,
         no_reasoning = env("READER_NO_REASONING", "") == "1"
     if no_reasoning:
         body["reasoning_effort"] = "none"
+    # Opt-in syntax constraint; other reader tasks keep their current settings.
+    if response_schema is not None:
+        body["response_format"] = {"type": "json_schema", "json_schema": {
+            "name": "reader_response", "strict": True, "schema": response_schema}}
+    elif json_output:
+        body["response_format"] = {"type": "json_object"}
     last_error = None
     for attempt in range(retries):
         try:
             r = requests.post(url, json=body, timeout=timeout)
             r.raise_for_status()
-            choice = r.json()["choices"][0]
+            response = r.json()
+            # Capture only the request body and completion, never URL/headers or
+            # environment. Run before decoding content, including malformed JSON.
+            if on_response is not None:
+                on_response({"request": body, "response": response})
+            choice = response["choices"][0]
             if choice.get("finish_reason") == "length":
                 raise ValueError("reader output truncated at token limit (finish_reason=length)")
             text = _strip_think(choice["message"]["content"])

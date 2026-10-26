@@ -17,9 +17,17 @@ Nir the total in HOURS, start only with his okay; nothing may take months.
 Wherever Law 14 or the BIBLE says the reader reads "every page", that is
 CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
-NEXT SESSION: read HANDOFF-2026-10-25-MANUAL-MODEL-COMPARISON.md. NIR switches
-the model HIMSELF; the selected free model does ONE saved-page task itself.
-No model/API calls by GPT. Preserve scripts/caches; report, then return to GPT.
+PAUSED AT NIR'S REQUEST (26 Oct 2026): no more AI spending this month.
+Do not restart until Nir returns next month and explicitly says continue.
+NEXT SESSION: [November restart handoff](https://github.com/strulovitz/second-opinion/blob/main/HANDOFF-2026-10-26-PAUSED-UNTIL-NOVEMBER.md)
+(local: HANDOFF-2026-10-26-PAUSED-UNTIL-NOVEMBER.md), then newest PROGRESS.md.
+Harrison: 54/230 pages accepted (4044-4097); next PDF 4098 has 89/91 pieces
+cached, next piece 90. Assembly: 3262 entries; 3044 current terms; 25 saved
+classifications current/unchanged. Partial caches and PDFs are LOCAL, ignored
+by Git. Latest 149 tests pass; offline pause audit agrees with saved progress.
+Keep local Qwen; NIR chooses/switches the operator model himself. Eventual
+scope is parse then classify only, visible foreground chunks with time reports;
+matching/review is later. Read the handoff's normalization/review notes first.
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or
   EMA or WHO lists, no Wikipedia, no drug databases, no "general

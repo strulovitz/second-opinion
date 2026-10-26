@@ -1,5 +1,35 @@
 # DeepSeek handoff: index pages to the entity registry
 
+## Current restart -- 26 October 2026
+
+LATEST: PAUSED at Nir's request until next month (AI budget). Read
+[HANDOFF-2026-10-26-PAUSED-UNTIL-NOVEMBER.md](HANDOFF-2026-10-26-PAUSED-UNTIL-NOVEMBER.md)
+before the older instructions below. 54/230 pages accepted (4044-4097);
+4098 has 89/91 pieces cached, next 90; 3262 entries, 3044 current terms,
+25 current saved classifications. 149 tests pass. No automatic restart;
+Nir must return and explicitly say continue. New normalization behavior and
+review notes are in that handoff; private reading caches remain local.
+
+AFTERNOON UPDATE: the latest block in HANDOFF-2026-10-26-DEEPSEEK.md wins.
+The 4052 stop is repaired. Nine pages (4044-4052) are accepted; next is 4053.
+New full-schema answers have strict shape checks. Failed pages fall back to
+one main-entry block per request, with long entries split at complete source
+reference runs and genuine continuations merged/revalidated on the full page.
+Wrapped numeric ranges now count/match correctly: 4052 retains all 303 tokens,
+not the earlier incorrect 301 count. Old eight page caches and 25 saved
+classifications are unchanged. New pages checkpoint the assembly immediately.
+Read the new handoff's timing cautions before resuming; 137 tests pass.
+
+Read HANDOFF-2026-10-26-DEEPSEEK.md first. Nir approved Harrison parsing and
+classification only. GPT repaired unfinished JSON, scrambled physical column
+order and the old checker's failure to reject omitted references. The current
+saved prefix is 3/230 pages, with all 905 source reference tokens retained;
+25 classifications remain unchanged/current. Resume at PDF 4047 with DeepSeek
+operating local Qwen in supervised foreground chunks and reporting progress.
+New source-order evidence is separate; original extraction receipts remain
+unchanged. New parse completions are saved before JSON decoding. The older
+trial/approval/geometry status below is historical, not a restart checklist.
+
 ## 24 Oct SMART repair: Qwen first-page trial now passes
 
 Nir explicitly required keeping the SAME `qwen3.8:27b` reader and repairing

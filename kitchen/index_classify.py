@@ -2,6 +2,7 @@
 """BIBLE 3.7.4: classify 25 main index terms per free-reader batch."""
 
 import json
+import time
 
 from index_common import (Context, arguments, ask_checked, classification_terms,
                           cli, fingerprint, lock, reader_access, require, rows,
@@ -10,6 +11,7 @@ from index_prompts import CLASSIFY
 
 
 def classify(ctx, ask, model):
+    started = time.monotonic()
     parsed = json.loads(ctx.path("index-entries.json").read_text())
     require(parsed["input_identity"] == ctx.identity, "parsed entries belong to changed inputs")
     terms = classification_terms(parsed["entries"], ctx.districts)
@@ -31,7 +33,13 @@ def classify(ctx, ask, model):
                             "input_identity": ctx.identity, "prompt_hash": fingerprint(CLASSIFY)} for row in result)
         save_rows(path, saved)
         count += 1
-        print(f"  classified {min(offset + 25, len(pending))}/{len(pending)} new terms", flush=True)
+        completed = min(offset + 25, len(pending))
+        elapsed = time.monotonic() - started
+        left = (len(pending) - completed) * elapsed / completed
+        print(f"  classified {completed}/{len(pending)} new terms; "
+              f"current saved={len(terms) - len(pending) + completed}/{len(terms)}; "
+              f"command elapsed={elapsed / 60:.1f} min; estimated CLASSIFY left={left / 3600:.2f} h "
+              "at this command's pace", flush=True)
         if ctx.args.limit and count >= ctx.args.limit:
             break
     ctx.summary("classify", new_batches=count, expected_terms=len(terms), saved_records=len(saved))
