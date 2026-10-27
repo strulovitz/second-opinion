@@ -1,6 +1,68 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+27 OCT 2026 (LATEST: NIR AUTHORIZED THE HYBRID PLAN -- QWEN NORMALLY,
+OPERATOR VISION FOR FAILING PAGES): The $14.5-hour parse+classify job is
+running again in supervised foreground chunks. Accepted prefix is now 94/230
+pages (PDF 4044-4137), 6009 entries; next page is 4138. 156 tests pass. Code
+changes are uncommitted. Checker/grounding fixes made in response to real
+rejections, each with a regression test:
+(1) a quoted headword ("Deprescribing,") now grounds with its opening quote;
+(2) ASCII vs typographic apostrophes match for grounding only (Crohn's);
+(3) a year range inside a title (Dietary Guidelines for Americans, 2020-2025)
+is no longer demanded as a page reference when the grounded label contains it;
+(4) a main headword must match at the line margin, so a wrapped See target
+that starts with the next headword no longer cuts the parent block early;
+(5) a decreasing printed range (the book itself prints "3968-3919" for
+Electrocorticography on 4112) is recorded as non-integer-or-malformed
+instead of crashing the whole run; it is not silently corrected;
+(6) superscript mass numbers split by extraction (153 + Sm-EDTMP) are joined
+in the grounded subentry as printed; (7) a wrapped reference range keeps no
+layout whitespace inside the token; (8) a printed concatenated page token
+(525f505f) is kept as malformed rather than rejected; (9) a number inside a
+wrapped chemical name (acid alpha-1,4) is not counted as a page reference;
+(10) a line wrapping an open parenthesis no longer yields trailing-number
+false references.
+
+HYBRID RULE NOW IN FORCE. Qwen still reads normal pages. parse_fragments now
+REFUSES a page whose new column starts at the left margin with a lowercase
+line after an indented line (the page-4105 shape) and says "this page must be
+hand-read from the page image". Such pages are read by the operator (DeepSeek
+with the page image) and saved through the normal grounded page record, with
+reader_model recording that it was an operator hand-read; provenance, quotes,
+keys and the reference census are unchanged. Page 4105 was completed this way:
+column 1 continues "Diabetes mellitus (DM), treatment and management of",
+column 3 is all Diarrhea subentries; the saved Diarrhea entry has 71
+subentries and the assembly merges the opening CONTINUED block into the
+Diabetes mellitus (DM) entry. Evidence of the failed Qwen attempts is kept:
+HARRISON-22-index-4105-STALE-structure-20261027.json and the -stale-20261027
+/ -stale-planner-20261027 fragment records. Small reader slips on individual
+fragments (duplicate ref, superscript, See tail) were corrected per fragment
+with the raw responses retained. Page 4132 was also hand-read: it is one long Glucocorticoid(s) continuation
+across all three columns; the saved Glucocorticoid(s) entry has 166
+subentries and the opening CONTINUED block merges into the previous page.
+No commit or push yet. Classification has not started.
+
+RESUME 28 OCT 2026 (Nir stops here for today). First run the read-only progress
+helper, then one supervised foreground chunk in
+`/home/nir/second-opinion`:
+
+    .venv/bin/python kitchen/logs/HARRISON-22-pause-progress-20261026.py
+    time timeout --signal=INT --kill-after=10s 900s .venv/bin/python -u kitchen/index_parse.py HARRISON-22 --limit 3
+
+Expected saved prefix: 94/230, 6009 entries, next fresh PDF 4138. Treat the
+helper's numbers as authoritative if they differ. If a page stops with
+"this page must be hand-read from the page image", read that page's three
+columns (use crops from kitchen/pages/HARRISON-22/page-<n>.png) and build the
+entries JSON, then save it with:
+
+    .venv/bin/python kitchen/index_manual_page.py HARRISON-22 <page> <entries.json>
+
+The helper grounds every label and reference, writes the ordinary page record,
+and refuses to overwrite an existing record without --force. Keep the failed
+Qwen evidence (rejected/response files) untouched. Do not hand-edit an already
+saved page to get a pass. Parsing is the only active stage; the classification
+stage starts only after parsed_pages=230 and complete=True.
 26 OCT 2026 (LATEST: PAUSED UNTIL NEXT MONTH AT NIR'S REQUEST): Nir cannot
 spend more on AI this month; he asked for a detailed handoff, GitHub push and
 AGENTS.md link. Book job explicitly interrupted/stopped around 17:41 +02:00.

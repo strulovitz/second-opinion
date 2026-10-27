@@ -56,6 +56,13 @@ def printed_label(line):
 
 
 def parse_fragments(ctx, ask, text, page, image, parent_key):
+    lines = text.splitlines()
+    for i in range(2, len(lines)):
+        if (lines[i].strip() and not lines[i - 1].strip()
+                and lines[i - 2][:1].isspace() and lines[i][:1].islower()
+                and lines[i][:1].isascii()):
+            require(False, f"PDF {page}: a new column continues an open entry; this page "
+                           "must be hand-read from the page image, not guessed from fragments")
     parts = fragments(text)
     require(len(parts) > 1, "page cannot be split safely; preserve response for SMART diagnosis")
     plan = {"format": FORMAT, "parent_key": parent_key,

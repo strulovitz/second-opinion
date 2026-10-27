@@ -39,6 +39,16 @@ class FragmentTests(unittest.TestCase):
         parts = fragments(text, target=4)
         self.assertEqual([(p['start_line'], p['end_line']) for p in parts], [(0, 4), (4, 6), (6, 7)])
 
+    def test_column_continuation_page_is_held_for_human_vision(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ctx = Mock()
+            ctx.path.side_effect = lambda suffix: Path(directory) / suffix
+            text = 'Alpha, 1\n detail, 2\n\nafter cholecystectomy, 3\n'
+            ask = Mock()
+            with self.assertRaisesRegex(ValueError, "hand-read"):
+                parse_fragments(ctx, ask, text, 3, '3.png', 'parent-key')
+            ask.assert_not_called()
+
     def test_misread_continuation_is_reported_before_reference_errors(self):
         with tempfile.TemporaryDirectory() as directory:
             ctx = Mock()

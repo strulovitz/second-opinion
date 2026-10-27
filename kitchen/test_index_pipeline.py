@@ -72,8 +72,8 @@ class ReferenceTests(unittest.TestCase):
         self.assertEqual(expand_reference("1-31"), ([1, 31], None))
         self.assertEqual(expand_reference("e12"), ([], "online-only"))
         self.assertEqual(expand_reference("4536.e5"), ([], "non-integer-or-malformed"))
-        with self.assertRaises(ValueError):
-            expand_reference("900-800")
+        self.assertEqual(expand_reference("900-800"), ([], "non-integer-or-malformed"))
+        self.assertEqual(expand_reference("3968\u20133919"), ([], "non-integer-or-malformed"))
 
     def test_reader_cannot_invent_headwords_subentries_or_refs(self):
         row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": ["12"], "subentries": []}
@@ -82,6 +82,53 @@ class ReferenceTests(unittest.TestCase):
                     row | {"subentries": [{"text": "Invented", "pages": []}]}):
             with self.assertRaises(ValueError):
                 ground_entries({"entries": [bad]}, "Alpha, 12\n", 3, "3.png")
+
+    def test_quoted_headword_keeps_the_source_quote_and_references(self):
+        row = {"headword": "Deprescribing", "display": "Deprescribing", "see": None,
+               "pages": ["3885", "3888f"], "subentries": []}
+        result = ground_entries({"entries": [row]},
+                                "\u201cDeprescribing,\u201d 3885, 3888f\n", 4103, "page-4103.png")[0]
+        self.assertEqual(result["headword"], "Deprescribing")
+        self.assertEqual(result["pages"], ["3885", "3888f"])
+        self.assertEqual(result["quote"], "\u201cDeprescribing,\u201d 3885, 3888f")
+
+    def test_ascii_apostrophe_grounds_against_printed_apostrophe(self):
+        row = {"headword": "in Crohn's disease", "display": "in Crohn's disease", "see": None,
+               "pages": ["2557"], "subentries": []}
+        result = ground_entries({"entries": [row]},
+                                "in Crohn\u2019s disease, 2557\n", 4105, "page-4105.png")[0]
+        self.assertEqual(result["quote"], "in Crohn\u2019s disease, 2557")
+        self.assertEqual(result["pages"], ["2557"])
+
+    def test_year_range_inside_a_title_is_not_a_missing_page_reference(self):
+        text = "Dietary Guidelines for Americans, 2020\u20132025, 10t,\n11, 2142\n"
+        row = {"headword": "Dietary Guidelines for Americans, 2020\u20132025",
+               "display": "Dietary Guidelines for Americans, 2020\u20132025",
+               "see": None, "pages": ["10t", "11", "2142"], "subentries": []}
+        result = ground_entries({"entries": [row]}, text, 3, "3.png")[0]
+        self.assertEqual(result["pages"], ["10t", "11", "2142"])
+
+    def test_range_wrapped_after_a_dash_is_stored_without_the_layout_break(self):
+        text = "Alpha\n epidemiology of, 1458\u2013\n             1459\n"
+        row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
+               "subentries": [{"text": "epidemiology of", "pages": ["1458\u2013 1459"]}]}
+        result = ground_entries({"entries": [row]}, text, 3, "3.png")[0]
+        self.assertEqual(result["subentries"][0]["pages"], ["1458\u20131459"])
+
+    def test_printed_concatenated_refs_are_kept_as_malformed(self):
+        text = "Alpha, 525, 525f505f\n"
+        row = {"headword": "Alpha", "display": "Alpha", "see": None,
+               "pages": ["525", "525f505f"], "subentries": []}
+        result = ground_entries({"entries": [row]}, text, 3, "3.png")[0]
+        self.assertEqual(result["pages"], ["525", "525f505f"])
+        self.assertEqual(expand_reference("525f505f"), ([], "non-integer-or-malformed"))
+
+    def test_number_inside_a_wrapped_chemical_name_is_not_a_reference(self):
+        text = ("Alpha\n type II (Pompe disease, acid \u03b1-1,4\n"
+                " glucosidase deficiency), 3354t, 3357,\n")
+        self.assertNotIn("4", source_references(text))
+        self.assertEqual(source_references(text)["3354t"], 1)
+        self.assertEqual(source_references(text)["3357"], 1)
 
     def test_invalid_classifier_and_resolution_answers_cannot_enter_registry(self):
         terms = [{"display": "Alpha"}]

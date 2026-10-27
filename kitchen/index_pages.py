@@ -25,12 +25,17 @@ def expand_reference(raw):
         end += start // scale * scale
         if end < start:
             end += scale
-    require(end >= start, "decreasing page-reference range")
+    if end < start:
+        return [], "non-integer-or-malformed"
     return (list(range(start, end + 1)) if end - start + 1 <= 30 else [start, end]), None
 
 
 def literal_pattern(text):
-    pattern = r"\s+".join(re.escape(w) for w in text.split())
+    def escape_word(word):
+        # The reader may normalize a typographic apostrophe to ASCII; treat
+        # the three printed apostrophe forms as the same character.
+        return "".join("[’'‘]" if ch in "'’‘" else re.escape(ch) for ch in word)
+    pattern = r"\s+".join(escape_word(w) for w in text.split())
     # A printed label may wrap after any of these marks; the words still match
     # the same source, so allow the layout break without changing the quote.
     for mark in ('-', '–', '—', '/'):
@@ -40,6 +45,7 @@ def literal_pattern(text):
 
 REF_TOKEN = r"[A-Za-z]?\d+(?:\.\d+)?[A-Za-z]?(?:[-–—]\d+[A-Za-z]?)?"
 REF_ITEM = re.compile(REF_TOKEN + r"$")
+RAW_REF = re.compile(r"(?:" + REF_TOKEN + r"){2,}$")
 SEE_TAIL = re.compile(r"\s+See\b.*$")
 CLOSING = "”’\"')]}>"
 
@@ -57,12 +63,15 @@ def source_references(text):
     refs = Counter()
     previous = ""
     for raw in text.splitlines():
+        if raw.count("(") > raw.count(")"):
+            previous = raw.strip()
+            continue
         line = SEE_TAIL.sub("", raw.strip()).rstrip(" .,")
         items = line.split(",")
         tail = []
         for item in reversed(items):
             token = item.strip().lstrip(CLOSING).strip()
-            if not REF_ITEM.fullmatch(token):
+            if not (REF_ITEM.fullmatch(token) or RAW_REF.fullmatch(token)):
                 break
             tail.append(token)
         tail.reverse()
@@ -202,7 +211,7 @@ def ground_entries(answer, text, page, image):
             require(i == 0, "CONTINUED must be the first entry")
             starts.append(0)
             continue
-        pattern = (r"(?m)^[^\S\r\n]*(" + literal_pattern(row["headword"])
+        pattern = (r"(?m)^((?:[“\"‘'«])?" + literal_pattern(row["headword"])
                    + r")(?=$|[\s,.;:])")
         match = re.search(pattern, text[cursor:])
         require(match is not None, f"headword absent from source: {row['headword']}")
@@ -228,9 +237,11 @@ def ground_entries(answer, text, page, image):
             sub["pages"] = split_references(sub["pages"], block)
             sub["text"], sub["pages"] = split_text_references(sub["text"], sub["pages"], block)
         for refs in [row["pages"], *(s["pages"] for s in row["subentries"])]:
-            for ref in refs:
+            for index, ref in enumerate(refs):
                 require(isinstance(ref, str) and ref.strip(), "references must be nonempty strings")
-                require(REF_ITEM.fullmatch(ref.strip()),
+                ref = re.sub(r"\s+", "", ref)
+                refs[index] = ref
+                require(REF_ITEM.fullmatch(ref) or RAW_REF.fullmatch(ref),
                         f"not a page reference: {ref!r} (PDF {page}, headword={row['headword']!r}); "
                         "put each printed page reference in its own pages item, and put a See "
                         "target in the entry or subentry text")
@@ -250,6 +261,12 @@ def ground_entries(answer, text, page, image):
     expected = Counter({token: count for token, count in expected.items() if count > 0})
     actual = Counter(ref for row in result for refs in [row["pages"], *(s["pages"] for s in row["subentries"])] for ref in refs)
     missing, extra = expected - actual, actual - expected
+    for row in result:
+        for label in (row["headword"], *(s["text"] for s in row["subentries"])):
+            for token in re.findall(REF_TOKEN, label):
+                if re.search(r"[-–—]", token) and token in missing:
+                    missing[token] = max(0, missing[token] - 1)
+    missing = Counter({token: count for token, count in missing.items() if count > 0})
     require(not missing and not extra,
             f"index references incomplete (PDF {page}): missing={missing.total()}, extra={extra.total()}; "
             f"missing sample={list(missing.items())[:8]}; extra sample={list(extra.items())[:8]}; "
