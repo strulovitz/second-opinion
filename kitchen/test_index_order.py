@@ -35,6 +35,21 @@ class ColumnOrderTests(unittest.TestCase):
             column_text(xml([(20, 170, 20, 'Alpha, 1'), (20, 570, 25, 'Heading'),
                              (210, 360, 60, 'Beta, 2')]), 'Alpha, 1\nHeading\nBeta, 2')
 
+    def test_running_header_on_a_body_line_does_not_indent_the_column(self):
+        page = ('<html xmlns="http://www.w3.org/1999/xhtml"><page width="600" height="800">'
+                '<flow><block xMin="20" xMax="170" yMin="20" yMax="70">'
+                '<line xMin="20" yMin="20">'
+                '<word xMin="20">I-102</word><word xMin="60">High-frequency</word>'
+                '<word xMin="60">ventilation,</word><word xMin="60">2303t.</word>'
+                '<word xMin="60">See</word><word xMin="60">also</word></line>'
+                '<line xMin="80" yMin="40"><word>Mechanical</word><word>ventilation</word></line>'
+                '<line xMin="60" yMin="60"><word>Highly</word><word>active</word></line>'
+                '</block></flow></page></html>')
+        raw = 'I-102 High-frequency ventilation, 2303t. See also\nMechanical ventilation\nHighly active\n'
+        text, _ = column_text(page, raw)
+        self.assertEqual(text, 'High-frequency ventilation, 2303t. See also\n'
+                               '       Mechanical ventilation\nHighly active\n')
+
     def test_discretionary_line_hyphen_is_preserved_in_ordered_evidence(self):
         text, _ = column_text(xml([(20, 170, 20, 'Non-ST-'), (20, 170, 40, 'segment, 1')]),
                               'Non-STsegment, 1')

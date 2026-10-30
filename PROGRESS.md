@@ -1,7 +1,48 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-27 OCT 2026 (LATEST: NIR AUTHORIZED THE HYBRID PLAN -- QWEN NORMALLY,
+30 OCT 2026 (LATEST: SUPERVISED LONG RUN; 130/230 PAGES, 8,055 ENTRIES): Nir
+asked DeepSeek to resume and then to keep working in long supervised chunks,
+not ask every few pages. Parse resumed from the saved 94/230 prefix. Now
+130/230 pages (PDF 4044-4173), 8,055 entries, next fresh page 4174, 100
+pages left. Git code changes are UNCOMMITTED. 164 tests pass. Evidence is
+local/gitignored.
+  Hand-read pages (operator vision + kitchen/index_manual_page.py):
+  4145 (43 entries; Hepatitis See-also entries corrected to see=null after
+  the first save, old record archived as
+  HARRISON-22-index-4145-before-seealso-fix-20261030.json) and 4146
+  (CONTINUED HIV infection, 21 entries), 4170 (CONTINUED Liver
+  disease/failure, 42 entries), 4172 (Lung cancer column continuation, 26
+  entries). Each grounded against the ordered page text; all reference
+  tokens retained.
+  Page 4141 was repaired by a checker fix (page reference and See tail in
+  one subentry text). Page 4149 keeps the book's printed typo "3756tl" and
+  records it as non-integer-or-malformed, never corrected.
+  Per-fragment operator corrections with raw rejected answers retained:
+  4163 fragment 69 (See-alias headword split; corrected), 4173 fragments 16
+  (label "177-Lutetium PSM-617" split) and 18 (superscript "177" mass number
+  dropped from the headword).
+  Generic fixes, each with a regression test:
+  (1) split_text_references now moves a whole list of page numbers left in a
+  subentry text (was moving only the last one) and handles a following See
+  tail; (2) index_order no longer lets a running header sharing a body line
+  (the "I-102"/"I-129" shape) indent a whole column; recipe is now
+  pdftotext-bbox-layout-columns-v2 and older cached pages keep their own
+  recorded recipe; (3) a printed reference with a stray trailing letter
+  ("3756tl") is counted as a sealed malformed reference instead of crashing
+  or being corrected; (4) parse_fragments refuses pages that begin inside an
+  open entry (first line indented, or a lowercase continuation word such as
+  "in"/"with") and says hand-read -- real lowercase headwords (hMPV) still
+  parse; (5) the fragment planner keeps a bare superscript mass-number line
+  ("177") together with the label that follows it instead of splitting them.
+  Measured pace: fresh 3-page chunks took ~7-11 min; resumed/short pages
+  faster. At the last fresh-page pace the remaining parse projects to about
+  7.5 h, classification still additional. No classification run yet.
+  PROGRESS RULE: after an automatic stop, fix the demonstrated defect or
+  correct one fragment (raw answers kept), rerun that page, then continue.
+  Do not hand-edit a saved page to get a pass. Do not re-read accepted
+  pages.
+27 OCT 2026 (NIR AUTHORIZED THE HYBRID PLAN -- QWEN NORMALLY,
 OPERATOR VISION FOR FAILING PAGES): The $14.5-hour parse+classify job is
 running again in supervised foreground chunks. Accepted prefix is now 94/230
 pages (PDF 4044-4137), 6009 entries; next page is 4138. 156 tests pass. Code

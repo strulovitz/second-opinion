@@ -11,6 +11,7 @@ from toc_evidence import pdf_identity
 
 NS = {"x": "http://www.w3.org/1999/xhtml"}
 FURNITURE = re.compile(r"(?:index|[IVXLCDM]+-\d+)", re.I)
+FURNITURE_PREFIX = re.compile(r"^[IVXLCDM]+-\d+\s+", re.I)
 
 
 def inventory(text):
@@ -21,7 +22,8 @@ def inventory(text):
     # layout-only differences; a lost, duplicated or substituted character
     # still fails. Keep the physical spelling in the reader input and quote.
     text = re.sub(r"(?<=[A-Za-z])-\s*\n\s*(?=[A-Za-z])", "", text)
-    text = "\n".join(line for line in text.splitlines() if not FURNITURE.fullmatch(line.strip()))
+    text = "\n".join(FURNITURE_PREFIX.sub("", line) for line in text.splitlines()
+                     if not FURNITURE.fullmatch(line.strip()))
     return Counter(char for char in text if not char.isspace())
 
 
@@ -34,10 +36,26 @@ def column_text(xml, original):
     page = ET.fromstring(xml).find(".//x:page", NS)
     require(page is not None, "missing bbox page")
     blocks = []
+
+    def line_text(line):
+        """Keep a running index header out of the column margin.
+
+        Poppler sometimes puts the page label (``I-102``) in the same line as
+        the first body words. Its x would set the whole column's left edge and
+        falsely indent every entry, so measure that line from the first real
+        word. Only a leading Roman-numeral page label is removed; the text
+        inventory removes the same prefix from the plain extraction.
+        """
+        words = line.findall("x:word", NS)
+        texts = [word.text or "" for word in words]
+        x = float(line.attrib["xMin"])
+        if len(words) > 1 and FURNITURE_PREFIX.fullmatch(texts[0] + " "):
+            x = float(words[1].attrib["xMin"])
+            texts = texts[1:]
+        return x, float(line.attrib["yMin"]), " ".join(texts)
+
     for block in page.findall(".//x:block", NS):
-        lines = [(float(line.attrib["xMin"]), float(line.attrib["yMin"]),
-                  " ".join(word.text or "" for word in line.findall("x:word", NS)))
-                 for line in block.findall("x:line", NS)]
+        lines = [line_text(line) for line in block.findall("x:line", NS)]
         label = " ".join(line[2] for line in lines)
         if not label.strip() or FURNITURE.fullmatch(label.strip()):
             continue
@@ -50,18 +68,22 @@ def column_text(xml, original):
     top, bottom = min(b["yMin"] for b in body), max(b["yMax"] for b in body)
     require(all(b["yMax"] <= top or b["yMin"] >= bottom for b in wide),
             "ambiguous spanning bbox block; inspect column evidence")
+    def body_left(block):
+        return min(line[0] for line in block["lines"])
+
     columns = []
-    for block in sorted(body, key=lambda b: (b["xMin"], b["yMin"])):
-        matches = [c for c in columns if min(c["right"], block["xMax"]) - max(c["left"], block["xMin"])
-                   > .5 * min(c["right"] - c["left"], block["xMax"] - block["xMin"])]
+    for block in sorted(body, key=lambda b: (body_left(b), b["yMin"])):
+        left = body_left(block)
+        matches = [c for c in columns if min(c["right"], block["xMax"]) - max(c["left"], left)
+                   > .5 * min(c["right"] - c["left"], block["xMax"] - left)]
         require(len(matches) <= 1, "bbox block crosses columns")
         if matches:
             column = matches[0]
-            column["left"] = min(column["left"], block["xMin"])
+            column["left"] = min(column["left"], left)
             column["right"] = max(column["right"], block["xMax"])
             column["lines"].extend(block["lines"])
         else:
-            columns.append({"left": block["xMin"], "right": block["xMax"], "lines": list(block["lines"])})
+            columns.append({"left": left, "right": block["xMax"], "lines": list(block["lines"])})
     columns.sort(key=lambda c: c["left"])
     require(all(a["right"] <= b["left"] for a, b in zip(columns, columns[1:])), "overlapping bbox columns")
 
@@ -79,12 +101,19 @@ def column_text(xml, original):
 
 
 def reading_text(ctx, page, source, original):
+    recipe = "pdftotext-bbox-layout-columns-v2"
     identity = {"format": "index-reading-order-v1", "source_hash": fingerprint(source),
-                "recipe": "pdftotext-bbox-layout-columns-v1"}
+                "recipe": recipe}
     path = ctx.path(f"index-{page}-ordered.json")
     if path.exists():
         saved = json.loads(path.read_text())
+        # Older pages keep the recipe they were derived with; its own recorded
+        # identity and key still have to verify, so the evidence cannot drift.
+        identity = {"format": saved.get("format"), "source_hash": saved.get("source_hash"),
+                    "recipe": saved.get("recipe")}
         require(all(saved.get(k) == v for k, v in identity.items()), "stale ordered index text")
+        require(saved.get("format") == "index-reading-order-v1"
+                and saved.get("source_hash") == fingerprint(source), "stale ordered index text")
         require(saved["key"] == fingerprint(identity | {"text": saved["text"], "columns": saved["columns"]}),
                 "ordered index evidence changed")
         require(inventory(saved["text"]) == inventory(original), "ordered/source text inventory differs")

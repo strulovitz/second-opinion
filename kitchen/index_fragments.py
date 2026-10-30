@@ -12,6 +12,12 @@ from index_prompts import PARSE
 from index_schema import PARSE_CONTROLS, PARSE_SCHEMA, check_shape
 
 FORMAT = "index-fragments-v4-single-entry"
+# A page whose first line is a lowercase qualifier is a continuation of the
+# entry opened on the previous page. Real headwords may start lowercase too
+# (hMPV, hMG), so only the index's own subentry words count as the signal.
+CONTINUATION_START = re.compile(
+    r"^(?:in|with|for|and|of|due to|during|after|before|by|from|to|as|at|on|"
+    r"vs\.?|versus|or|including|without)\b")
 FRAGMENT_NOTE = ("\nThis input is a contiguous fragment of one index page. "
                  "If its first line is indented, use CONTINUED as its first headword, "
                  "even if those words look like a term. This fragment has exactly one main "
@@ -20,14 +26,33 @@ FRAGMENT_SCHEMA = copy.deepcopy(PARSE_SCHEMA)
 FRAGMENT_SCHEMA["properties"]["entries"].update(minItems=1, maxItems=1)
 
 
+def label_prefix_line(lines, i):
+    """True when a bare number line is a superscript mass number on the next label."""
+    line, token = lines[i], lines[i].strip()
+    if not REF_ITEM.fullmatch(token):
+        return False
+    previous = next((row for row in reversed(lines[:i]) if row.strip()), "")
+    if previous.rstrip().endswith(","):
+        return False
+    following = next((row for row in lines[i + 1:] if row.strip()), "")
+    if not following or len(following) - len(following.lstrip(" ")) <= len(line) - len(line.lstrip(" ")):
+        return False
+    following = SEE_TAIL.sub("", following.strip()).rstrip(" .,")
+    return not all(REF_ITEM.fullmatch(item.strip().lstrip(CLOSING).strip())
+                   for item in following.split(","))
+
+
 def fragments(text, target=24):
     """Cut after complete reference runs, never inside a wrapped label/list."""
     lines = text.splitlines(keepends=True)
-    boundaries = [i for i in range(1, len(lines))
+    prefixes = [i for i in range(1, len(lines)) if label_prefix_line(lines, i)]
+    boundaries = prefixes + [i for i in range(1, len(lines))
                   if source_references(lines[i - 1]) and not lines[i - 1].rstrip().endswith(',')
                   and lines[i].strip()
                   and (not lines[i][0].isspace() or source_references(lines[i]))
+                  and not label_prefix_line(lines, i - 1)
                   and not is_reference_line(lines[i], ''.join(lines[:i]))]
+    boundaries.sort()
     boundaries.append(len(lines))
     result, start = [], 0
     while start < len(lines):
@@ -38,7 +63,8 @@ def fragments(text, target=24):
         next_main = next((i for i in range(start + 1, len(lines))
                           if lines[i].strip() and not lines[i][0].isspace()
                           and len(lines[i].strip()) > 1
-                          and not is_reference_line(lines[i], ''.join(lines[:i]))
+                          and (not is_reference_line(lines[i], ''.join(lines[:i]))
+                               or label_prefix_line(lines, i))
                           and any(len(line.strip()) > 1 for line in lines[start:i])), len(lines))
         end = min(end, next_main)
         result.append({"start_line": start, "end_line": end, "text": ''.join(lines[start:end])})
@@ -57,6 +83,10 @@ def printed_label(line):
 
 def parse_fragments(ctx, ask, text, page, image, parent_key):
     lines = text.splitlines()
+    first = next((line for line in lines if line.strip()), "")
+    if first[:1].isspace() or CONTINUATION_START.match(first):
+        require(False, f"PDF {page}: the page begins inside an open entry; this page "
+                       "must be hand-read from the page image, not guessed from fragments")
     for i in range(2, len(lines)):
         if (lines[i].strip() and not lines[i - 1].strip()
                 and lines[i - 2][:1].isspace() and lines[i][:1].islower()

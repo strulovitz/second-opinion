@@ -17,16 +17,18 @@ Nir the total in HOURS, start only with his okay; nothing may take months.
 Wherever Law 14 or the BIBLE says the reader reads "every page", that is
 CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
-RESUMING 28 OCT 2026 AT NIR'S REQUEST (updated 27 Oct 2026): the November
-pause is over. Read the newest PROGRESS.md block first. Harrison: 94/230 pages
-accepted (PDF 4044-4137), 6009 entries; next fresh page is 4138. 156 tests
-pass. Qwen reads normal pages; a page whose new column continues an open entry
-is REFUSED by parse_fragments and must be hand-read from the page image with
-kitchen/index_manual_page.py (operator vision), never guessed. Page 4105 and
-4132 were completed that way. Continue in visible foreground chunks with time
-reports, then classify; stop after each book/stage for Nir. Partial caches,
-PDFs and hand-reads are LOCAL, ignored by Git. Keep local Qwen; NIR chooses the
-operator model himself. The 26 Oct November-pause handoff is historical.
+RESUMING 30 OCT 2026 (updated 30 Oct 2026): read the newest PROGRESS.md block
+first. Harrison: 130/230 pages accepted (PDF 4044-4173), 8,055 entries; next
+fresh page is 4174; 100 pages left. 164 tests pass. Code changes are
+UNCOMMITTED. Qwen reads normal pages; pages that continue an open entry are
+REFUSED by parse_fragments and must be hand-read from the page image with
+kitchen/index_manual_page.py (operator vision), never guessed. Hand-read so
+far: 4105, 4132, 4145, 4146, 4170, 4172. Per-fragment operator corrections
+with the raw rejected answers kept: 4163 frag 69, 4173 frags 16 and 18.
+Continue in long visible foreground chunks (Nir asked not to be asked every
+few pages), report pages/time, then classify; stop after each book/stage for
+Nir. Partial caches, PDFs and hand-reads are LOCAL, ignored by Git. Keep local
+Qwen; NIR chooses the operator model himself.
 
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or

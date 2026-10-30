@@ -254,6 +254,47 @@ class ReferenceTests(unittest.TestCase):
         result = ground_entries({"entries": [row]}, text, 3, "3.png")
         self.assertEqual(result[0]["subentries"][1], {"text": "respiratory sinus", "pages": ["A8"]})
 
+    def test_many_page_references_before_see_tail_all_move_to_pages(self):
+        text = ("HIV infection\n"
+                "   PCP, 1585, 1593t, 1595f, 1596, 1730\u20131731,\n"
+                "          1734, 1734t. See also Pneumocystis\n"
+                "          pneumonia (PCP)\n")
+        row = {"headword": "HIV infection", "display": "HIV infection", "see": None, "pages": [],
+               "subentries": [{"text": "PCP, 1585, 1593t, 1595f, 1596, 1730\u20131731, 1734, 1734t. "
+                                        "See also Pneumocystis pneumonia (PCP)", "pages": []}]}
+        result = ground_entries({"entries": [row]}, text, 3, "3.png")
+        self.assertEqual(result[0]["subentries"][0],
+                         {"text": "PCP",
+                          "pages": ["1585", "1593t", "1595f", "1596", "1730\u20131731", "1734", "1734t"]})
+
+    def test_page_reference_before_see_tail_moves_from_text_to_pages(self):
+        text = ("Heparin, 946\n"
+                "   vs. low-molecular-weight heparin, 948t.\n"
+                "             See also Low-molecular-weight\n"
+                "             heparin (LMWH)\n")
+        row = {"headword": "Heparin", "display": "Heparin", "see": None, "pages": ["946"],
+               "subentries": [{"text": "vs. low-molecular-weight heparin, 948t. "
+                                        "See also Low-molecular-weight heparin (LMWH)",
+                                "pages": []}]}
+        result = ground_entries({"entries": [row]}, text, 3, "3.png")
+        self.assertEqual(result[0]["subentries"][0],
+                         {"text": "vs. low-molecular-weight heparin", "pages": ["948t"]})
+
+    def test_printed_stray_letter_reference_is_kept_and_recorded_malformed(self):
+        text = ("Hyperbaric oxygen therapy, 3761\n"
+                "   for high-altitude illness, 3756\u20133757, 3756tl,\n"
+                "             3758\n")
+        self.assertEqual(dict(source_references(text)),
+                         {"3761": 1, "3756\u20133757": 1, "3756tl": 1, "3758": 1})
+        self.assertEqual(expand_reference("3756tl"), ([], "non-integer-or-malformed"))
+        row = {"headword": "Hyperbaric oxygen therapy", "display": "Hyperbaric oxygen therapy",
+               "see": None, "pages": ["3761"],
+               "subentries": [{"text": "for high-altitude illness",
+                               "pages": ["3756\u20133757", "3756tl", "3758"]}]}
+        result = ground_entries({"entries": [row]}, text, 3, "3.png")
+        self.assertEqual(result[0]["subentries"][0]["pages"],
+                         ["3756\u20133757", "3756tl", "3758"])
+
     def test_entry_named_like_a_page_reference_keeps_its_label(self):
         text = "C1 inhibitor deficiency, 2790t, 2807\nC1q, 2786f, 2790t, 3395\n"
         self.assertEqual(dict(source_references(text)),

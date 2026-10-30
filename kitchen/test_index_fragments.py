@@ -16,6 +16,14 @@ def entry(headword, pages=None, subs=None):
 
 
 class FragmentTests(unittest.TestCase):
+    def test_superscript_mass_number_starts_the_next_label(self):
+        text = 'LUTS. See Lower urinary tract symptoms (LUTS)\n177\n  Lu-vipivotide tetraxetan, 571t\nLycopene, 2612\n'
+        parts = fragments(text, target=24)
+        self.assertEqual([p['text'] for p in parts],
+                         ['LUTS. See Lower urinary tract symptoms (LUTS)\n',
+                          '177\n  Lu-vipivotide tetraxetan, 571t\n',
+                          'Lycopene, 2612\n'])
+
     def test_stray_top_level_entry_is_not_silently_discarded(self):
         with self.assertRaisesRegex(ValueError, 'stray top-level'):
             check_shape({"entries": [entry('Alpha')], **entry('Beta', ['2'])})
@@ -48,6 +56,36 @@ class FragmentTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "hand-read"):
                 parse_fragments(ctx, ask, text, 3, '3.png', 'parent-key')
             ask.assert_not_called()
+
+    def test_page_starting_mid_entry_is_held_for_human_vision(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ctx = Mock()
+            ctx.path.side_effect = lambda suffix: Path(directory) / suffix
+            text = 'in injection drug users, 3692\nKIRs with, 2772t\n'
+            ask = Mock()
+            with self.assertRaisesRegex(ValueError, "hand-read"):
+                parse_fragments(ctx, ask, text, 3, '3.png', 'parent-key')
+            ask.assert_not_called()
+
+    def test_page_starting_with_an_indented_subentry_is_held_for_human_vision(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ctx = Mock()
+            ctx.path.side_effect = lambda suffix: Path(directory) / suffix
+            text = '   AKI, 2374\n   ascites, 328\n'
+            ask = Mock()
+            with self.assertRaisesRegex(ValueError, "hand-read"):
+                parse_fragments(ctx, ask, text, 3, '3.png', 'parent-key')
+            ask.assert_not_called()
+
+    def test_lowercase_real_headword_is_not_a_continuation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ctx = Mock()
+            ctx.path.side_effect = lambda suffix: Path(directory) / suffix
+            text = 'hMPV (human metapneumovirus), 253\nHoarseness, 294\n'
+            ask = Mock(side_effect=[{'entries': [entry('hMPV (human metapneumovirus)', ['253'])]},
+                                    {'entries': [entry('Hoarseness', ['294'])]}])
+            result = parse_fragments(ctx, ask, text, 3, '3.png', 'parent-key')
+            self.assertEqual([r['headword'] for r in result], ['hMPV (human metapneumovirus)', 'Hoarseness'])
 
     def test_misread_continuation_is_reported_before_reference_errors(self):
         with tempfile.TemporaryDirectory() as directory:

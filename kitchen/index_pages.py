@@ -46,6 +46,14 @@ def literal_pattern(text):
 REF_TOKEN = r"[A-Za-z]?\d+(?:\.\d+)?[A-Za-z]?(?:[-–—]\d+[A-Za-z]?)?"
 REF_ITEM = re.compile(REF_TOKEN + r"$")
 RAW_REF = re.compile(r"(?:" + REF_TOKEN + r"){2,}$")
+# The book sometimes prints a page reference with a stray trailing letter
+# ("3756tl"). Keep it as printed; it is counted here and recorded as
+# non-integer-or-malformed downstream, never silently corrected.
+MESSY_REF = re.compile(r"(?:" + REF_TOKEN + r")[a-z]+$")
+
+
+def is_reference(token):
+    return bool(REF_ITEM.fullmatch(token) or RAW_REF.fullmatch(token) or MESSY_REF.fullmatch(token))
 SEE_TAIL = re.compile(r"\s+See\b.*$")
 CLOSING = "”’\"')]}>"
 
@@ -71,7 +79,7 @@ def source_references(text):
         tail = []
         for item in reversed(items):
             token = item.strip().lstrip(CLOSING).strip()
-            if not (REF_ITEM.fullmatch(token) or RAW_REF.fullmatch(token)):
+            if not is_reference(token):
                 break
             tail.append(token)
         tail.reverse()
@@ -88,7 +96,7 @@ def is_reference_line(line, before=""):
     """True when the whole line is a reference run rather than a labelled entry."""
     items = [item.strip().lstrip(CLOSING).strip()
              for item in SEE_TAIL.sub("", line.strip()).rstrip(" .,").split(",")]
-    if not all(REF_ITEM.fullmatch(item) for item in items):
+    if not all(is_reference(item) for item in items):
         return False
     return before.rstrip().endswith(",") or len(items) == 1
 
@@ -153,17 +161,23 @@ def subentry_hint(text, block):
 
 
 TEXT_WITH_REFERENCES = re.compile(
-    r"^(.+),\s*(" + REF_TOKEN + r"(?:\s*,\s*" + REF_TOKEN + r")*)$")
+    r"^(.+?),\s*(" + REF_TOKEN + r"(?:\s*,\s*" + REF_TOKEN + r")*)$")
 
 
 def split_text_references(text, pages, block):
     """Move a page-reference tail the reader left in a label into pages.
 
     Only when pages is empty, the tail is entirely page references, and the
-    remaining label is itself verbatim source text.
+    remaining label is itself verbatim source text. A printed ``See`` tail may
+    follow those references; it is dropped only when both the label and the
+    target are verbatim source text, matching canonical_subentry.
     """
     if pages:
         return text, pages
+    see = SEE_SUBENTRY.fullmatch(text.strip())
+    if see and (re.search(literal_pattern(see.group("label").rstrip(" .,")), block)
+                and re.search(literal_pattern(see.group("target")), block)):
+        text = see.group("label")
     parts = TEXT_WITH_REFERENCES.fullmatch(text.strip())
     if not parts or not re.search(literal_pattern(parts.group(1).strip()), block):
         return text, pages
@@ -189,9 +203,9 @@ def split_references(refs, block=""):
         if text.endswith("."):
             text = text[:-1].rstrip()
         parts = [part.strip() for part in text.split(",")]
-        if len(parts) > 1 and all(REF_ITEM.fullmatch(part) for part in parts):
+        if len(parts) > 1 and all(is_reference(part) for part in parts):
             result.extend(parts)
-        elif REF_ITEM.fullmatch(text):
+        elif is_reference(text):
             result.append(text)
         else:
             result.append(ref)
@@ -241,7 +255,7 @@ def ground_entries(answer, text, page, image):
                 require(isinstance(ref, str) and ref.strip(), "references must be nonempty strings")
                 ref = re.sub(r"\s+", "", ref)
                 refs[index] = ref
-                require(REF_ITEM.fullmatch(ref) or RAW_REF.fullmatch(ref),
+                require(is_reference(ref),
                         f"not a page reference: {ref!r} (PDF {page}, headword={row['headword']!r}); "
                         "put each printed page reference in its own pages item, and put a See "
                         "target in the entry or subentry text")
