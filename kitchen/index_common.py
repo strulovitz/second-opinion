@@ -160,9 +160,31 @@ def classification_terms(entries, districts):
     return [t | {"subentries": t["subentries"][:6], "context_districts": t["context_districts"][:5]} for t in terms.values()]
 
 
+def classification_display_key(text):
+    """Compare a reader display with printed text: apostrophe form and spacing."""
+    return " ".join(text.translate(str.maketrans({"’": "'", "‘": "'", "`": "'"})).split())
+
+
 def validate_classification(result, terms):
     result = result["results"]
-    require(len(result) == len(terms) and {r["display"] for r in result} == {t["display"] for t in terms}, "missing, duplicate or invented classification terms")
+    require(len(result) == len(terms), "missing, duplicate or invented classification terms")
+    # The reader may normalize a typographic apostrophe to ASCII (Pfeiffer’s ->
+    # Pfeiffer's). Match on that form, then store the exact printed display so
+    # the row still keys to its term. No normalization collisions exist in the
+    # parsed book; refuse rather than guess if a future book creates one.
+    canonical = {}
+    for term in terms:
+        key = classification_display_key(term["display"])
+        require(key not in canonical, "classification displays collide after normalization")
+        canonical[key] = term["display"]
+    seen = set()
+    for row in result:
+        key = classification_display_key(row["display"])
+        require(key in canonical and key not in seen,
+                "missing, duplicate or invented classification terms")
+        row["display"] = canonical[key]
+        seen.add(key)
+    require(len(seen) == len(canonical), "missing, duplicate or invented classification terms")
     for row in result:
         require(row["group"] in GROUPS + ("not-an-entity",), "invalid group")
         require(type(row["confidence"]) in (int, float) and 0 <= row["confidence"] <= 1, "invalid confidence")

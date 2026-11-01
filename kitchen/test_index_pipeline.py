@@ -138,6 +138,17 @@ class ReferenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "invented candidate"):
             validate_resolution({"decision": "SAME", "candidate_slug": "not-real", "confidence": 1, "reason": "same"}, [])
 
+    def test_classifier_ascii_apostrophe_matches_printed_display(self):
+        terms = [{"display": "Pfeiffer’s syndrome"}]
+        rows = validate_classification({"results": [
+            {"display": "Pfeiffer's syndrome", "group": "diseases-and-conditions",
+             "confidence": 1, "reason": "congenital syndrome"}]}, terms)
+        self.assertEqual(rows[0]["display"], "Pfeiffer’s syndrome")
+        with self.assertRaisesRegex(ValueError, "missing, duplicate or invented"):
+            validate_classification({"results": [
+                {"display": "Pfeiffer's", "group": "diseases-and-conditions",
+                 "confidence": 1, "reason": "x"}]}, terms)
+
     def test_nested_subentries_cannot_silently_lose_child_references(self):
         row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
                "subentries": [{"text": "effects", "pages": [],
