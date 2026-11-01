@@ -18,22 +18,24 @@ Wherever Law 14 or the BIBLE says the reader reads "every page", that is
 CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
 RESUMING 1 NOV 2026 (updated 1 Nov 2026): read the newest PROGRESS.md block
-first. Harrison: 188/230 pages accepted (PDF 4044-4231), 11,815 entries;
-next fresh page is 4232; 42 pages left. 167 tests pass. Qwen reads normal
-pages; pages that continue an open entry are REFUSED by parse_fragments and
-must be hand-read from the page image with kitchen/index_manual_page.py
-(operator vision), never guessed. Hand-read so far: 4105, 4132, 4145, 4146,
-4170, 4172, 4174, 4190, 4208, 4210, 4214 (old 4214 record kept as
-...-4214-before-wrapfix-20261101.json). Per-fragment operator corrections
-with the raw rejected answers kept (see the 1 Nov PROGRESS block). Two
-generic fixes were committed on 1 Nov: (a) source_references ignores a
-trailing running index folio (I-141 shape) for the page census only, so
-fragment plans stay valid; (b) the bbox/source inventory dehyphenates after
-Unicode letters AND digits (metallo-β-, SMARCB1-). Continue in long visible
-foreground chunks (Nir asked not to be asked every few pages), report
-pages/time, then classify; stop after each book/stage for Nir. Partial
-caches, PDFs and hand-reads are LOCAL, ignored by Git. Keep local Qwen; NIR
-chooses the operator model himself.
+first. Harrison INDEX PARSE IS COMPLETE: 230/230 pages accepted (PDF 4044-4273),
+14,840 entries, complete=True. 167 tests pass. Classification has NOT been
+started: 13,878 terms, 25 already classified, 13,853 pending. Next step is
+supervised classification only after Nir says so (see PROGRESS.md); do not run
+the unrestricted pipeline. Qwen reads normal pages; pages that continue an
+open entry are REFUSED by parse_fragments and must be hand-read from the page
+image with kitchen/index_manual_page.py (operator vision), never guessed.
+Hand-read so far: 4105, 4132, 4145, 4146, 4170, 4172, 4174, 4190, 4208, 4210,
+4214 (old 4214 record kept as ...-4214-before-wrapfix-20261101.json), 4242,
+4244, 4256, 4262, 4264, 4266, 4268. Per-fragment operator corrections with the
+raw rejected answers kept are listed in the 1 Nov PROGRESS blocks. Two generic
+fixes were committed on 1 Nov: (a) source_references ignores a trailing
+running index folio (I-141 shape) for the page census only, so fragment plans
+stay valid; (b) the bbox/source inventory dehyphenates after Unicode letters
+AND digits (metallo-β-, SMARCB1-). Continue in long visible foreground chunks
+(Nir asked not to be asked every few pages), report pages/time, then classify;
+stop after each book/stage for Nir. Partial caches, PDFs and hand-reads are
+LOCAL, ignored by Git. Keep local Qwen; NIR chooses the operator model himself.
 
 
   LAW 1. EVERYTHING COMES FROM THE 42 BOOKS. No open datasets, no FDA or

@@ -1,7 +1,40 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-1 NOV 2026 (LATEST: SUPERVISED LONG RUN; 188/230 PAGES, 11,815 ENTRIES):
+1 NOV 2026 (LATEST: HARRISON-22 INDEX PARSE COMPLETE, 230/230, 14,840 ENTRIES):
+The parse stage is FINISHED. parsed_pages=230, complete=True, 14,840 entries.
+reference_counts: online-only=2280, non-integer-or-malformed=75,
+outside-districts=0, mapping-unresolved=0. 167 tests pass.
+  Classification has NOT been started. 13,878 current terms; 25 already
+  classified from the old trial; 13,853 pending. The old classification trial
+  pace was 51.22 s per 25 terms, which would imply roughly 7.9 h for 13,853
+  terms, but that is an OLD extrapolation and must be re-measured on the first
+  supervised batch. Next step (only on Nir's instruction):
+    time timeout --signal=INT --kill-after=10s 900s .venv/bin/python -u kitchen/index_classify.py HARRISON-22 --limit 5
+  (--limit here means batches of up to 25 terms). Stop after classification
+  and report; matching, database resolution, registry approval and another
+  book require their own next steps.
+  Resume check:
+    .venv/bin/python kitchen/logs/HARRISON-22-pause-progress-20261026.py
+  Expected: pages=230/230, left=0, complete=True, entries=14840.
+
+  Hand-read pages added after the 4231 checkpoint (operator vision +
+  kitchen/index_manual_page.py): 4242 (continuation of Smoking, 85 entries),
+  4244 (Spironolactone, 68), 4256 (Tick-borne diseases, 98), 4262
+  (Tubulointerstitial diseases, 84), 4264 (Urinary tract infections (UTIs),
+  59), 4266 (Varicella (chickenpox), 69), 4268 (Ventricular tachycardia (VT),
+  83). Each grounded against the ordered page text.
+
+  Per-fragment operator corrections after the 4231 checkpoint (raw rejected
+  answers kept): 4234 frag 87 (congenital Rubella refs, folio I-191 glued as
+  "3904I-191"); 4235 frag 42 (superscript "153 Samarium therapy"); 4241 frag
+  72 ("153 Sm-EDTMP"); 4247 frags 8 and 9 ("90 Strontium exposure",
+  "89 Strontium therapy"); 4263 frag 30 (reader truncated 3665 to 366);
+  4269 frags 35-37 and 39-40 (Vitamin B1/B2/B3/B6/B12 See aliases, verbatim
+  subscript spacing kept); 4273 frags 8 and 30 ("90 Y-DOTA-TOC",
+  "90 Yttrium").
+
+1 NOV 2026 (SUPERVISED LONG RUN; 188/230 PAGES, 11,815 ENTRIES): Nir
 DeepSeek resumed from the saved 130/230 prefix and worked in long supervised
 foreground chunks. Now 188/230 pages (PDF 4044-4231), 11,815 entries, next
 fresh page 4232, 42 pages left. 167 tests pass. No classification run yet.
