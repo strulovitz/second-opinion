@@ -21,7 +21,9 @@ def inventory(text):
     # "B 1 ,", "(Raw)," -> "(R aw ),") that plain text keeps joined. Those are
     # layout-only differences; a lost, duplicated or substituted character
     # still fails. Keep the physical spelling in the reader input and quote.
-    text = re.sub(r"(?<=[A-Za-z])-\s*\n\s*(?=[A-Za-z])", "", text)
+    # Poppler's plain output dehyphenates after any letter or digit, including
+    # Greek (metallo-β-lactamases) and gene names (SMARCB1-deficient).
+    text = re.sub(r"(?<=[^\W_])-\s*\n\s*(?=[^\W\d_])", "", text)
     text = "\n".join(FURNITURE_PREFIX.sub("", line) for line in text.splitlines()
                      if not FURNITURE.fullmatch(line.strip()))
     return Counter(char for char in text if not char.isspace())

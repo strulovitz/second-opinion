@@ -55,6 +55,19 @@ class ColumnOrderTests(unittest.TestCase):
                               'Non-STsegment, 1')
         self.assertEqual(text, 'Non-ST-\nsegment, 1\n')
 
+    def test_unicode_letter_line_hyphen_is_not_a_content_change(self):
+        text, _ = column_text(xml([(20, 170, 20, 'New Delhi metallo-β-'),
+                                   (20, 170, 40, 'lactamases), 1181')]),
+                              'New Delhi metallo-βlactamases), 1181')
+        self.assertEqual(text, 'New Delhi metallo-β-\nlactamases), 1181\n')
+
+    def test_digit_letter_line_hyphen_is_not_a_content_change(self):
+        text, _ = column_text(
+            xml([(20, 170, 20, 'Renal medullary carcinoma (SMARCB1-'),
+                 (20, 170, 40, 'deficient), 687–688')]),
+            'Renal medullary carcinoma (SMARCB1deficient), 687–688')
+        self.assertEqual(text, 'Renal medullary carcinoma (SMARCB1-\ndeficient), 687–688\n')
+
     def test_bbox_subscript_spacing_is_not_a_content_change(self):
         text, _ = column_text(xml([(20, 170, 20, 'Aflatoxin B 1 , 660'),
                                    (20, 170, 40, 'Airway resistance (R aw ), 270')]),

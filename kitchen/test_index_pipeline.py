@@ -213,6 +213,31 @@ class ReferenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "index references incomplete"):
             ground_entries({"entries": [row]}, text, 3, '3.png')
 
+    def test_running_folio_at_line_tail_is_layout_not_a_reference(self):
+        text = ("Mitral regurgitation, 2052\n"
+                "   echocardiography, 1892–1893, 1892f, 2053, I-141\n"
+                "          2054f, 2859v\n")
+        # Fragment planning keeps its historical counting (default), so an
+        # already-saved fragment plan for this page stays valid.
+        self.assertEqual(dict(source_references(text)), {"2052": 1, "2859v": 1})
+        # The page census must not lose the real references behind the folio.
+        self.assertEqual(dict(source_references(text, ignore_running_folio=True)),
+                         {"2052": 1, "1892–1893": 1, "1892f": 1, "2053": 1,
+                          "2054f": 1, "2859v": 1})
+        base = {"headword": "Mitral regurgitation", "display": "Mitral regurgitation",
+                "see": None, "pages": ["2052"]}
+        good = base | {"subentries": [{"text": "echocardiography",
+                                       "pages": ["1892–1893", "1892f", "2053",
+                                                 "2054f", "2859v"]}]}
+        bad = base | {"subentries": [{"text": "echocardiography",
+                                      "pages": ["1892–1893", "1892f", "2053",
+                                                "I-141", "2054f", "2859v"]}]}
+        with self.assertRaisesRegex(ValueError, "not a page reference"):
+            ground_entries({"entries": [bad]}, text, 4184, '4184.png')
+        self.assertEqual(ground_entries({"entries": [good]}, text, 4184, '4184.png')
+                         [0]["subentries"][0]["pages"],
+                         ["1892–1893", "1892f", "2053", "2054f", "2859v"])
+
     def test_subentry_see_also_tail_after_references_is_dropped(self):
         text = ("Anemia, 443\n"
                 "   diagnosis of, 444\n"

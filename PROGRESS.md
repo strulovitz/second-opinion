@@ -1,7 +1,63 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-30 OCT 2026 (LATEST: SUPERVISED LONG RUN; 130/230 PAGES, 8,055 ENTRIES): Nir
+1 NOV 2026 (LATEST: SUPERVISED LONG RUN; 188/230 PAGES, 11,815 ENTRIES):
+DeepSeek resumed from the saved 130/230 prefix and worked in long supervised
+foreground chunks. Now 188/230 pages (PDF 4044-4231), 11,815 entries, next
+fresh page 4232, 42 pages left. 167 tests pass. No classification run yet.
+Evidence is local/gitignored. Resume with:
+  .venv/bin/python kitchen/logs/HARRISON-22-pause-progress-20261026.py
+Expected: pages=188/230, entries=11815, next fresh page 4232.
+
+  Hand-read pages (operator vision + kitchen/index_manual_page.py):
+  4174 (continuation of Lymphoid malignancies, 73 entries), 4190
+  (continuation of Myocardial infarction (MI), 45 entries), 4208
+  (continuation of d-Penicillamine, 39 entries), 4210 (continuation of
+  Peripheral neuropathy, 63 entries), 4214 (continuation of Plasmodium
+  spp., 75 entries). Each grounded against the ordered page text; all
+  reference tokens retained.
+  A 4214 wrap error was caught and re-read: the headword
+  "PLCgamma-associated antibody deficiency and immune dysregulation
+  (PLAID, APLAID)" had been split into a subentry. The old record is kept
+  as HARRISON-22-index-4214-before-wrapfix-20261101.json; the corrected
+  record was written with --force after grounding. Other hand-reads were
+  audited for the same split pattern and were clean.
+
+  Two generic code defects found and fixed, each with a regression test:
+  (1) index_pages.source_references now ignores a running index folio at a
+  line tail (the "..., 2053, I-141" and "... 66f I-169" shapes) when
+  building the PAGE CENSUS only (new ignore_running_folio flag, used by
+  ground_entries). Keeping a trailing comma preserves a following wrapped
+  reference line. Fragment planning keeps the old counting, so already
+  saved fragment plans stay valid. Real references are never dropped.
+  (2) index_order.inventory now removes a layout line-end hyphen after any
+  Unicode letter OR digit, matching Poppler's plain-output dehyphenation
+  (metallo-beta-lactamases, SMARCB1-deficient). The ordered text keeps the
+  physical hyphen.
+  Tests: 167 pass (was 164).
+
+  Per-fragment operator corrections (raw rejected answers kept as
+  -rejected-... files): 4177 frag 79 (comma headword "Mechanoreceptors, in
+  lung"); 4184 frag 47 (running folio I-141, real refs kept); 4191 frag 24
+  (superscript "13 N-ammonia"); 4196 frag 63 (running folio I-153); 4197
+  frags 30 ("NO SPECS mnemonic, in Graves' disease"), 35 (wrapped "NOTES
+  (natural orifice transluminal endoscopic) surgery"), 92 ("Nurse-like
+  cell, in CLL"); 4198 frag 31 (wrapped OSAHS headword, page 2277);
+  4203 frags 47 (lowercase headword p24), 51 (superscript "P 50"), 55
+  (headword p62), 56 (headword p63), 59-61 (p190/p210/p230 BCR:ACBL1,
+  kept verbatim); 4212 frags 65 (running folio I-169), 79 (quoted
+  "Picture frame" vertebra); 4229 frag 30 (quoted "Red tide,").
+
+  Measured pace on this machine: fresh pages ~2-3.5 min, some
+  fragment-heavy pages up to ~9 min. Remaining 42 pages are roughly 2-3
+  hours of parsing. Classification is a separate stage and has NOT been
+  started; measure it after parsed_pages=230.
+  PROGRESS RULE: after an automatic stop, fix the demonstrated defect or
+  correct one fragment (raw answers kept), rerun that page, then continue.
+  Do not hand-edit a saved page to get a pass. Do not re-read accepted
+  pages unless a QC audit finds a specific split/omission.
+
+30 OCT 2026 (LATEST AT THE TIME: SUPERVISED LONG RUN; 130/230 PAGES, 8,055 ENTRIES): Nir
 asked DeepSeek to resume and then to keep working in long supervised chunks,
 not ask every few pages. Parse resumed from the saved 94/230 prefix. Now
 130/230 pages (PDF 4044-4173), 8,055 entries, next fresh page 4174, 100

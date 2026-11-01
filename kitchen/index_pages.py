@@ -58,12 +58,17 @@ SEE_TAIL = re.compile(r"\s+See\b.*$")
 CLOSING = "”’\"')]}>"
 
 
-def source_references(text):
+def source_references(text, ignore_running_folio=False):
     """Literal reference runs at line tails, not numbers inside term labels.
 
     A headword may itself end with punctuation inside closing quotes or
     brackets (``“Alpha coma,” 191``), so the tail is parsed from the right and
     stops at the first comma-separated item that is not a page reference.
+
+    ``ignore_running_folio`` removes an index running folio printed at the tail
+    of a line (``..., 2053, I-141``). It is layout, not a page reference. The
+    comma is kept so a following wrapped reference line is still recognised.
+    Fragment planning must keep the default so existing saved plans stay valid.
     """
     # A printed range may wrap after any of the three dash forms. Join that
     # layout break for counting only; retain the source text and quote intact.
@@ -71,6 +76,9 @@ def source_references(text):
     refs = Counter()
     previous = ""
     for raw in text.splitlines():
+        if ignore_running_folio:
+            raw = re.sub(r",\s*I-\d+\s*$", ",", raw)
+            raw = re.sub(r"\s+I-\d+\s*$", "", raw)
         if raw.count("(") > raw.count(")"):
             previous = raw.strip()
             continue
@@ -269,7 +277,7 @@ def ground_entries(answer, text, page, image):
         result.append(row)
     # A source-present subset is not a complete page. Check the whole page,
     # including an accidentally omitted first/last main entry.
-    expected = source_references(text)
+    expected = source_references(text, ignore_running_folio=True)
     for token, count in wrapped_label_references(text).items():
         expected[token] -= count
     expected = Counter({token: count for token, count in expected.items() if count > 0})
