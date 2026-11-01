@@ -19,11 +19,12 @@ CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
 RESUMING 1 NOV 2026 (updated 1 Nov 2026): read the newest PROGRESS.md block
 first. Harrison INDEX PARSE IS COMPLETE: 230/230 pages accepted (PDF 4044-4273),
-14,840 entries, complete=True. 168 tests pass. Classification is IN PROGRESS
-and paused: 600/13,878 terms saved, 13,278 pending; measured ~2.2 s/term
-(~8 h left). Resume only after Nir says so (see PROGRESS.md); do not run the
-unrestricted pipeline. A classifier fix matches an apostrophe-normalized
-reader display to the exact printed display (Pfeiffer’s vs Pfeiffer's). Qwen reads normal pages; pages that continue an
+14,840 entries, complete=True. 169 tests pass. Classification is IN PROGRESS
+and paused: 2,200/13,878 terms saved, 11,678 pending; measured ~2.2-2.7 s/term
+(roughly 8-9 h left). Resume only after Nir says so (see PROGRESS.md); do not
+run the unrestricted pipeline. Classifier fixes: quote-normalized reader
+displays are matched to the printed display, and a batch that the reader
+drops a term from is split into halves and retried. Qwen reads normal pages; pages that continue an
 open entry are REFUSED by parse_fragments and must be hand-read from the page
 image with kitchen/index_manual_page.py (operator vision), never guessed.
 Hand-read so far: 4105, 4132, 4145, 4146, 4170, 4172, 4174, 4190, 4208, 4210,

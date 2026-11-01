@@ -139,15 +139,20 @@ class ReferenceTests(unittest.TestCase):
             validate_resolution({"decision": "SAME", "candidate_slug": "not-real", "confidence": 1, "reason": "same"}, [])
 
     def test_classifier_ascii_apostrophe_matches_printed_display(self):
-        terms = [{"display": "Pfeiffer’s syndrome"}]
+        terms = [{"display": "Pfeiffer’s syndrome"}, {"display": "“Bad news” situation"}]
         rows = validate_classification({"results": [
             {"display": "Pfeiffer's syndrome", "group": "diseases-and-conditions",
-             "confidence": 1, "reason": "congenital syndrome"}]}, terms)
-        self.assertEqual(rows[0]["display"], "Pfeiffer’s syndrome")
+             "confidence": 1, "reason": "congenital syndrome"},
+            {"display": '"Bad news" situation', "group": "symptoms-and-signs",
+             "confidence": 1, "reason": "communication context"}]}, terms)
+        self.assertEqual([r["display"] for r in rows],
+                         ["Pfeiffer’s syndrome", "“Bad news” situation"])
         with self.assertRaisesRegex(ValueError, "missing, duplicate or invented"):
             validate_classification({"results": [
                 {"display": "Pfeiffer's", "group": "diseases-and-conditions",
-                 "confidence": 1, "reason": "x"}]}, terms)
+                 "confidence": 1, "reason": "x"},
+                {"display": "“Bad news” situation", "group": "symptoms-and-signs",
+                 "confidence": 1, "reason": "y"}]}, terms)
 
     def test_nested_subentries_cannot_silently_lose_child_references(self):
         row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
@@ -698,6 +703,27 @@ class PipelineTests(unittest.TestCase):
         with self.quiet():
             index_classify.classify(self.ctx, self.reader, "fixture-reader")
         self.reader.assert_not_called()
+
+    def test_classification_splits_a_batch_when_reader_drops_a_term(self):
+        parsed = self.parsed()
+        for i in range(26):
+            parsed["entries"].append(parsed["entries"][0] | {"display": f"Term {i}"})
+        save(self.ctx.path("index-entries.json"), parsed)
+        self.reader.reset_mock()
+
+        def drops_one_from_a_large_batch(prompt, payload, **kwargs):
+            terms = [{"display": t["display"]} for t in json.loads(payload)]
+            if len(terms) > 12:
+                terms = terms[:-1]
+            return {"results": [{"display": t["display"], "group": "diseases-and-conditions",
+                                 "confidence": 1.0, "reason": "synthetic fixture"} for t in terms]}
+
+        self.reader.side_effect = drops_one_from_a_large_batch
+        with self.quiet():
+            index_classify.classify(self.ctx, self.reader, "fixture-reader")
+        records = [json.loads(line) for line in
+                   self.ctx.path("classified.jsonl").read_text().splitlines() if line.strip()]
+        self.assertEqual(len(records), 28)
 
     def test_resolution_recovers_after_db_commit_before_local_receipt(self):
         self.parsed()

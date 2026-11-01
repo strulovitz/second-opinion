@@ -6,25 +6,30 @@ The parse stage is FINISHED. parsed_pages=230, complete=True, 14,840 entries.
 reference_counts: online-only=2280, non-integer-or-malformed=75,
 outside-districts=0, mapping-unresolved=0. 167 tests passed at parse time.
   Classification is IN PROGRESS and has been paused for Nir's decision.
-  Saved: 600/13,878 terms (25 old trial + 575 new). Pending: 13,278.
-  MEASURED pace: 500 new terms in 18.1 min (~2.2 s/term). The remaining 13,278
-  terms therefore project to about 8.0 h. This is measured, not the old
-  51.22 s/batch trial. Resume in supervised foreground batches:
+  Saved: 2,200/13,878 terms. Pending: 11,678.
+  MEASURED pace: normal 500-term chunks take 18-22 min, but batches that need
+  the split fallback take longer. Overall observed ~2.2-2.7 s/term, so the
+  remaining 11,678 terms project to roughly 8-9 h. This is measured, not the
+  old 51.22 s/batch trial. Resume in supervised foreground batches:
     time timeout --signal=INT --kill-after=10s 1700s .venv/bin/python -u kitchen/index_classify.py HARRISON-22 --limit 20
   (--limit counts batches of up to 25 terms; --limit 20 = 500 terms). Stop after
   classification and report; matching, database resolution, registry approval
   and another book require their own next steps.
-  Classifier defect fixed on 1 Nov: the local reader may normalize a
-  typographic apostrophe to ASCII (Pfeiffer’s -> Pfeiffer's), and the exact
-  display-set check then failed. validate_classification now matches on the
-  apostrophe-normalized form and rewrites the row display to the exact printed
-  display before keying it. 385 displays contain a curly apostrophe and there
-  are no normalization collisions in this book. Regression test added; 168
-  tests pass. No classification keys changed, so all saved rows remain valid.
+  Classifier fixes on 1 Nov (no classification keys changed, so saved rows
+  stay valid; 169 tests pass):
+  (1) validate_classification matches a reader display that normalizes
+  typographic quotes to ASCII (Pfeiffer’s -> Pfeiffer's, “Bad news” ->
+  "Bad news") and rewrites the row to the exact printed display before keying
+  it. 385 displays contain a curly apostrophe and 36 a curly double quote;
+  there are no normalization collisions in this book.
+  (2) The local reader sometimes drops one term from a full 25-term batch and
+  does so deterministically for that batch, although it handles the term in a
+  smaller group. classify_batch keeps the normal 25-term batch and falls back
+  to halves (recursively, depth 4) only when validation fails. Test added.
   Resume check:
     .venv/bin/python kitchen/logs/HARRISON-22-pause-progress-20261026.py
   Expected: pages=230/230, left=0, complete=True, entries=14840,
-  saved_current=600, pending_prefix=13278.
+  saved_current=2200, pending_prefix=11678.
 
   Hand-read pages added after the 4231 checkpoint (operator vision +
   kitchen/index_manual_page.py): 4242 (continuation of Smoking, 85 entries),

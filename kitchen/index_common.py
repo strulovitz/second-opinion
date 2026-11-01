@@ -161,8 +161,15 @@ def classification_terms(entries, districts):
 
 
 def classification_display_key(text):
-    """Compare a reader display with printed text: apostrophe form and spacing."""
-    return " ".join(text.translate(str.maketrans({"’": "'", "‘": "'", "`": "'"})).split())
+    """Compare a reader display with printed text: quote form and spacing.
+
+    The local reader normalizes typographic quotes to ASCII (Pfeiffer’s ->
+    Pfeiffer's, “Bad news” -> "Bad news"). Match on that form; the caller
+    restores the exact printed display before keying the row.
+    """
+    table = str.maketrans({"’": "'", "‘": "'", "`": "'",
+                           "“": '"', "”": '"', "„": '"', "‟": '"'})
+    return " ".join(text.translate(table).split())
 
 
 def validate_classification(result, terms):

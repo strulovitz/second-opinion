@@ -10,6 +10,27 @@ from index_common import (Context, arguments, ask_checked, classification_terms,
 from index_prompts import CLASSIFY
 
 
+def classify_batch(ask, batch, depth=0):
+    """Classify one batch, splitting it if the reader drops or invents terms.
+
+    The local reader occasionally omits one term from a full 25-term batch and
+    does so deterministically for that batch, although it handles the term in
+    smaller groups. Retrying the whole batch cannot recover it, so keep the
+    normal 25-term batch and fall back to halves only when validation fails.
+    """
+    payload = [term for _, term in batch]
+    try:
+        return ask_checked(ask, CLASSIFY, payload,
+                           lambda answer: validate_classification(answer, payload),
+                           max_tokens=6000)
+    except ValueError:
+        if len(batch) <= 1 or depth >= 4:
+            raise
+        middle = len(batch) // 2
+        return (classify_batch(ask, batch[:middle], depth + 1)
+                + classify_batch(ask, batch[middle:], depth + 1))
+
+
 def classify(ctx, ask, model):
     started = time.monotonic()
     parsed = json.loads(ctx.path("index-entries.json").read_text())
@@ -26,8 +47,7 @@ def classify(ctx, ask, model):
     count = 0
     for offset in range(0, len(pending), 25):
         batch = pending[offset:offset + 25]
-        payload = [term for _, term in batch]
-        result = ask_checked(ask, CLASSIFY, payload, lambda answer: validate_classification(answer, payload), max_tokens=6000)
+        result = classify_batch(ask, batch)
         keyed = {term["display"]: key for key, term in batch}
         saved.extend(row | {"key": keyed[row["display"]], "reader_model": model,
                             "input_identity": ctx.identity, "prompt_hash": fingerprint(CLASSIFY)} for row in result)
