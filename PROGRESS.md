@@ -1,7 +1,30 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-1 NOV 2026 (LATEST: HARRISON-22 CLASSIFICATION IN PROGRESS; PARSE COMPLETE):
+2 NOV 2026 (LATEST: HARRISON-22 CLASSIFICATION PAUSED AT NIR'S REQUEST):
+Nir asked to save the place and pause the project for a moment. The
+classification job was stopped cleanly (SIGINT; both the timeout wrapper and
+the Python process are gone). Exact saved position, verified after stopping:
+  parse: parsed_pages=230/230, complete=True, entries=14,840
+  classification: saved_current=3,700 / 13,878 terms; pending=10,178
+  reference_counts: online-only=2280, non-integer-or-malformed=75,
+    outside-districts=0, mapping-unresolved=0
+This continuation added 1,500 new classified terms in three completed
+500-term chunks (19.1, 17.1 and 17.5 minutes; ~2.2 s/term). A fourth chunk
+was interrupted by the pause request before it completed, so it saved
+nothing; do not count it. Remaining classification projects to roughly
+5.9-6.1 h at the measured pace, but this is an extrapolation, not a promise.
+Next term to classify is the first pending term after the saved 3,700.
+Resume command (after Nir says continue):
+  time timeout --signal=INT --kill-after=10s 1700s .venv/bin/python -u kitchen/index_classify.py HARRISON-22 --limit 20
+Resume check:
+  .venv/bin/python kitchen/logs/HARRISON-22-pause-progress-20261026.py
+Expected: pages=230/230, left=0, complete=True, entries=14840,
+saved_current=3700, pending_prefix=10178.
+Do not start matching, database resolution, registry approval, another book
+or Phase B. This is a human pause, not a validation failure.
+
+1 NOV 2026 (HISTORY: HARRISON-22 CLASSIFICATION IN PROGRESS; PARSE COMPLETE):
 The parse stage is FINISHED. parsed_pages=230, complete=True, 14,840 entries.
 reference_counts: online-only=2280, non-integer-or-malformed=75,
 outside-districts=0, mapping-unresolved=0. 167 tests passed at parse time.
