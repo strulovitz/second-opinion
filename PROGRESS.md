@@ -1,7 +1,34 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-2 NOV 2026 (LATEST: HARRISON-22 CLASSIFICATION PAUSED AT NIR'S REQUEST):
+2 NOV 2026 (LATEST: HARRISON-22 CLASSIFICATION COMPLETE):
+Classification is FINISHED. saved_current=13,878 / 13,878 terms; pending=0.
+Parse remains complete: parsed_pages=230/230, entries=14,840.
+reference_counts: online-only=2280, non-integer-or-malformed=75,
+outside-districts=0, mapping-unresolved=0.
+  Group counts (from kitchen/logs/HARRISON-22-classified.jsonl):
+    not-an-entity=5,432
+    diseases-and-conditions=4,899
+    treatments-and-drugs=2,806
+    symptoms-and-signs=741
+  Every row has a unique key (13,878 unique) and there are no duplicate
+  displays. 170 tests pass.
+  This run continued from the 3,700-term pause and added 10,178 terms in
+  supervised foreground chunks. Measured pace about 2.0-2.4 s/term.
+  One real defect was found and fixed: the printed index typo
+  "neutral Glycosphingolipodoses" was being silently "corrected" by the
+  reader to "Glycosphingolipidoses". validate_classification now names the
+  missing and unexpected displays in its retry feedback, so the reader can
+  copy the printed spelling verbatim; a regression test was added. The
+  book's typo is preserved, per Law 3.
+  STOP HERE. Matching, database resolution, registry approval, another book
+  and Phase B are separate next steps and were NOT started.
+  Verify with:
+    .venv/bin/python kitchen/logs/HARRISON-22-pause-progress-20261026.py
+  Expected: pages=230/230, left=0, complete=True, entries=14840,
+  saved_current=13878, pending_prefix=0.
+
+2 NOV 2026 (HISTORY: HARRISON-22 CLASSIFICATION PAUSED AT NIR'S REQUEST):
 Nir asked to save the place and pause the project for a moment. The
 classification job was stopped cleanly (SIGINT; both the timeout wrapper and
 the Python process are gone). Exact saved position, verified after stopping:

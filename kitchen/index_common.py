@@ -185,13 +185,20 @@ def validate_classification(result, terms):
         require(key not in canonical, "classification displays collide after normalization")
         canonical[key] = term["display"]
     seen = set()
+    unexpected = []
     for row in result:
         key = classification_display_key(row["display"])
-        require(key in canonical and key not in seen,
-                "missing, duplicate or invented classification terms")
+        if key not in canonical:
+            unexpected.append(row["display"])
+            continue
+        require(key not in seen,
+                f"missing, duplicate or invented classification terms: duplicate {row['display']!r}")
         row["display"] = canonical[key]
         seen.add(key)
-    require(len(seen) == len(canonical), "missing, duplicate or invented classification terms")
+    missing = [canonical[k] for k in canonical if k not in seen]
+    require(not unexpected and not missing,
+            "missing, duplicate or invented classification terms; "
+            f"missing={missing}; unexpected={unexpected}")
     for row in result:
         require(row["group"] in GROUPS + ("not-an-entity",), "invalid group")
         require(type(row["confidence"]) in (int, float) and 0 <= row["confidence"] <= 1, "invalid confidence")

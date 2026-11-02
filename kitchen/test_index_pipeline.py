@@ -154,6 +154,17 @@ class ReferenceTests(unittest.TestCase):
                 {"display": "“Bad news” situation", "group": "symptoms-and-signs",
                  "confidence": 1, "reason": "y"}]}, terms)
 
+    def test_classifier_error_names_the_mismatched_display(self):
+        terms = [{"display": "neutral Glycosphingolipodoses"}]
+        with self.assertRaises(ValueError) as caught:
+            validate_classification({"results": [
+                {"display": "neutral Glycosphingolipidoses",
+                 "group": "diseases-and-conditions",
+                 "confidence": 1, "reason": "x"}]}, terms)
+        message = str(caught.exception)
+        self.assertIn("neutral Glycosphingolipodoses", message)
+        self.assertIn("neutral Glycosphingolipidoses", message)
+
     def test_nested_subentries_cannot_silently_lose_child_references(self):
         row = {"headword": "Alpha", "display": "Alpha", "see": None, "pages": [],
                "subentries": [{"text": "effects", "pages": [],

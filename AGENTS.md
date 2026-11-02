@@ -18,11 +18,14 @@ Wherever Law 14 or the BIBLE says the reader reads "every page", that is
 CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
 RESUMING 2 NOV 2026 (updated 2 Nov 2026): read the newest PROGRESS.md block
-first. Harrison INDEX PARSE IS COMPLETE: 230/230 pages accepted (PDF 4044-4273),
-14,840 entries, complete=True. 169 tests pass. Classification is IN PROGRESS
-and PAUSED AT NIR'S REQUEST: 3,700/13,878 terms saved, 10,178 pending; measured
-~2.2 s/term (roughly 6 h left). Resume only after Nir says so (see
-PROGRESS.md); do not run the unrestricted pipeline. Classifier fixes: quote-normalized reader
+first. Harrison INDEX PARSE AND CLASSIFICATION ARE COMPLETE: 230/230 pages
+accepted (PDF 4044-4273), 14,840 entries, complete=True; classification
+13,878/13,878 terms saved, pending=0 (not-an-entity=5,432,
+diseases-and-conditions=4,899, treatments-and-drugs=2,806,
+symptoms-and-signs=741). 170 tests pass. STOP after classification and report.
+Matching, database resolution, registry approval, another book and Phase B are
+separate next steps and require Nir's explicit instruction; do not run the
+unrestricted pipeline. Classifier fixes: quote-normalized reader
 displays are matched to the printed display, and a batch that the reader
 drops a term from is split into halves and retried. Qwen reads normal pages; pages that continue an
 open entry are REFUSED by parse_fragments and must be hand-read from the page
