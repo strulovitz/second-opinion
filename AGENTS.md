@@ -17,15 +17,20 @@ Nir the total in HOURS, start only with his okay; nothing may take months.
 Wherever Law 14 or the BIBLE says the reader reads "every page", that is
 CANCELLED (BIBLE Part 8 ADDITION D2b, Part 4 ADDITION F0).
 
-RESUMING 2 NOV 2026 (updated 2 Nov 2026): read the newest PROGRESS.md block
-first. Harrison INDEX PARSE AND CLASSIFICATION ARE COMPLETE: 230/230 pages
-accepted (PDF 4044-4273), 14,840 entries, complete=True; classification
-13,878/13,878 terms saved, pending=0 (not-an-entity=5,432,
-diseases-and-conditions=4,899, treatments-and-drugs=2,806,
-symptoms-and-signs=741). 170 tests pass. STOP after classification and report.
-Matching, database resolution, registry approval, another book and Phase B are
-separate next steps and require Nir's explicit instruction; do not run the
-unrestricted pipeline. Classifier fixes: quote-normalized reader
+RESUMING 3 NOV 2026 (updated 2 Nov 2026 night): read the newest PROGRESS.md
+block and HANDOFF-2026-11-02-NIGHT.md first. Harrison INDEX PARSE AND
+CLASSIFICATION ARE COMPLETE: 230/230 pages accepted (PDF 4044-4273), 14,840
+entries, complete=True; classification 13,878/13,878 terms saved, pending=0
+(not-an-entity=5,432, diseases-and-conditions=4,899,
+treatments-and-drugs=2,806, symptoms-and-signs=741). 170 tests pass.
+Matching/entity resolution has STARTED: 50/13,922 non-see entries resolved,
+28 entities and 109 lit spots in Neo4j. Measured pace: ~0.7 s/entry plus
+~3.2 s per reader call, ~24% of entries need Qwen; remaining projects to
+roughly 5-8 h (likely 6-7 h). BIBLE 3.7.8's "0 resolution calls (first book)"
+is wrong in practice. Resume with the exact command in the night handoff;
+STOP after matching and report. Registry review, database approval, another
+book and Phase B are separate next steps and require Nir's explicit
+instruction; do not run the unrestricted pipeline. Classifier fixes: quote-normalized reader
 displays are matched to the printed display, and a batch that the reader
 drops a term from is split into halves and retried. Qwen reads normal pages; pages that continue an
 open entry are REFUSED by parse_fragments and must be hand-read from the page

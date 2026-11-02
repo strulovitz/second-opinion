@@ -1,7 +1,45 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-2 NOV 2026 (LATEST: HARRISON-22 CLASSIFICATION COMPLETE):
+2 NOV 2026 (LATEST: MATCHING TRIAL MEASURED; PAUSED FOR THE NIGHT):
+Classification remains COMPLETE: saved_current=13,878/13,878, pending=0.
+Parse remains complete: parsed_pages=230/230, entries=14,840.
+  Matching/entity resolution has STARTED with two measured 25-entry trials.
+  Saved position: 50 / 13,922 non-see entries resolved (the trial wrote real
+  data, it was not a dry run). Neo4j now holds 28 entities
+  (diseases-and-conditions=16, treatments-and-drugs=9,
+  symptoms-and-signs=3) and 109 DISCUSSED_IN lit spots.
+  Trial outcomes for the 50 entries: new-no-candidates=12, new-reader=11,
+  not-an-entity=21, group-conflict=5, reader-merge=1.
+  MEASURED PACE (this machine, local Qwen already loaded):
+    first 25 entries: 29.9 s, 4 reader calls
+    next 25 entries: 42.7 s, 8 reader calls
+    => about 0.7 s/entry fixed cost plus about 3.2 s per reader call;
+       about 24% of entries needed a reader call.
+  PROJECTION for the remaining 13,872 entries: roughly 5-8 hours, most
+  likely about 6-7 hours. This is measured from 50 entries, not a promise.
+  IMPORTANT CORRECTION: BIBLE 3.7.8 says "about 0 resolution calls (first
+  book)". That is NOT true in practice: the registry grows within the book
+  and similar terms (AA amyloidosis vs AApoA1 amyloidosis) trigger Qwen
+  SAME/NEW calls. Do not repeat the earlier 20-60 minute estimate.
+  RESUME COMMAND (supervised foreground chunks; --limit counts new entries):
+    time timeout --signal=INT --kill-after=10s 1700s .venv/bin/python -u kitchen/index_resolve.py HARRISON-22 --limit 25
+  The script skips the 50 already-resolved entries and continues at the 51st
+  non-see entry. It is idempotent and resumable.
+  VERIFY:
+    .venv/bin/python kitchen/logs/HARRISON-22-pause-progress-20261026.py
+    .venv/bin/python - <<'PY'
+    import json
+    rows=[json.loads(l) for l in open('kitchen/logs/HARRISON-22-resolved.jsonl') if l.strip()]
+    print(len(rows), sum(r.get('lit_spots',0) for r in rows))
+    PY
+  Expected: 50 resolved rows and 109 lit spots; Neo4j 28 entities.
+  STOP after matching and report; registry review, Neo4j approval, another
+  book and Phase B are separate next steps and were NOT started.
+  170 tests pass. The book status is still geography-done; finish_book only
+  runs when all non-see entries are resolved.
+
+2 NOV 2026 (HISTORY: HARRISON-22 CLASSIFICATION COMPLETE):
 Classification is FINISHED. saved_current=13,878 / 13,878 terms; pending=0.
 Parse remains complete: parsed_pages=230/230, entries=14,840.
 reference_counts: online-only=2280, non-integer-or-malformed=75,
