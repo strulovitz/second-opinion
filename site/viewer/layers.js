@@ -91,15 +91,54 @@ export function createLayers(scene, world) {
     },
     show(entity, spots, heightOf) {
       this.clear(); active = entity;
+      const buildColumns = (spots, heightOf) => {
+        const tops = new Map(), pos = [], col = [], HEIGHT = 0.13;
+        const neon = hex => { const c = new THREE.Color(hex), h = {}; c.getHSL(h); return c.setHSL(h.h, 1, 0.62); };
+        const centre = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3();
+        const tri = (p, q, r, colour) => { for (const v of [p, q, r]) { pos.push(v.x, v.y, v.z); col.push(colour.r, colour.g, colour.b); } };
+        for (const spot of spots) {
+          if (!spot.lit || tops.has(spot.district_id)) continue;
+          const tile = world.tileOf.get(spot.district_id);
+          if (!tile) continue;
+          const bottom = heightOf(tile), top = Math.max(bottom, 1) + HEIGHT;
+          tops.set(spot.district_id, top);
+          const colour = neon(world.books[tile.book]?.colour_hex || '#ffffff'), dark = colour.clone().multiplyScalar(0.55);
+          centre.fromArray(tile.centre).normalize();
+          const k = tile.vertices.length;
+          for (let i = 0; i < k; i++) {
+            a.fromArray(world.vertices[tile.vertices[i]]).normalize();
+            b.fromArray(world.vertices[tile.vertices[(i + 1) % k]]).normalize();
+            tri(centre.clone().multiplyScalar(top), a.clone().multiplyScalar(top), b.clone().multiplyScalar(top), colour);
+            const a0 = a.clone().multiplyScalar(bottom - 0.01), b0 = b.clone().multiplyScalar(bottom - 0.01);
+            const a1 = a.clone().multiplyScalar(top), b1 = b.clone().multiplyScalar(top);
+            tri(a0, b0, b1, dark); tri(a0, b1, a1, dark);
+          }
+        }
+        if (pos.length) {
+          const g = new THREE.BufferGeometry();
+          g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+          g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+          g.computeVertexNormals();
+          const mesh = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ vertexColors: true, emissive: 0x303030 }));
+          mesh.renderOrder = 4; shell.add(mesh);
+        }
+        return tops;
+      };
       const tint = GROUP_TINT[entity.group] || '#ffffff';
-      const sphere = new THREE.Mesh(new THREE.SphereGeometry(entity.altitude, 96, 64), glowMaterial(tint, { power: 2.2, strength: 0.7, opacity: 0.55, side: THREE.DoubleSide, additive: true }));
-      shell.add(sphere);
+      if (!entity.noShell) {
+        const sphere = new THREE.Mesh(new THREE.SphereGeometry(entity.altitude, 96, 64), glowMaterial(tint, { power: 2.2, strength: 0.7, opacity: 0.55, side: THREE.DoubleSide, additive: true }));
+        shell.add(sphere);
+      }
+      // Nir, 3 Nov 2026: every chapter that discusses the entity sticks out of the planet as a
+      // tall neon column in its book's colour (Giant's Causeway), so one glance shows them all.
+      const columnTop = buildColumns(spots, heightOf);
       for (const spot of spots) {
         const tile = world.tileOf.get(spot.district_id);
         const n = new THREE.Vector3(...(tile ? tile.centre : [1, 0, 0])).normalize();
         const up = Math.abs(n.y) < 0.95 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
         const east = new THREE.Vector3().crossVectors(up, n).normalize(), north = new THREE.Vector3().crossVectors(n, east);
-        const r = entity.altitude >= 1 ? Math.max(entity.altitude, heightOf(tile) + 0.004) : entity.altitude;
+        const lifted = columnTop.get(spot.district_id);
+        const r = lifted ? lifted + 0.004 : entity.altitude >= 1 ? Math.max(entity.altitude, heightOf(tile) + 0.004) : entity.altitude;
         const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture(spot, false), sizeAttenuation: false, depthWrite: false, transparent: true }));
         sprite.position.copy(n).multiplyScalar(r).addScaledVector(east, spot.offset[0] / 400).addScaledVector(north, -spot.offset[1] / 400);
         sprite.userData = { spot, tile }; sprite.renderOrder = 5; shell.add(sprite); sprites.push(sprite);

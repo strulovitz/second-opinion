@@ -187,7 +187,9 @@ export async function createGlobe(canvas, world, select, hover, { style = 'sand'
       layers.clear(); current.setGlass(false); controls.minDistance = 1.18; requestRender();
     },
     showShell(entity, spots) {
-      if (!Number.isFinite(entity.altitude) || entity.altitude <= 0 || entity.altitude > 3) throw new Error('This entity has no valid exported altitude yet');
+      // Part 0 (3 Nov 2026): no altitude yet means the entity lives on the surface; the lit
+      // chapters are shown as columns. The glowing shell appears only once an altitude exists.
+      if (!Number.isFinite(entity.altitude) || entity.altitude <= 0 || entity.altitude > 3) entity = { ...entity, altitude: 1, noShell: true };
       layers.show(entity, spots, t => (t ? current.top(t) : 1));
       const rect = canvas.getBoundingClientRect(); layers.resize(rect.height, camera.fov);
       current.setGlass(entity.altitude < 1);
