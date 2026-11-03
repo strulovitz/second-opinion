@@ -1,6 +1,10 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+3 NOV 2026 NIGHT: restart point is HANDOFF-2026-11-03-EVENING.md. Viewer
+columns, persistent columns, chapter cards, generic 2D map, ranked search
+all live; 35,845 entities, 1,821,171 lit spots. Next: stage 4 ingestion.
+
 3 NOV 2026 EVENING (LATEST: STAGES 1-3 OF PART 0 DONE FOR THE WHOLE LIBRARY):
 speed_text.py: 37 books, 135,325 pages to kitchen/logs/library.sqlite with
 FTS5 in about 6 minutes (8 jobs). speed_index.py: code parser; 16 books have
