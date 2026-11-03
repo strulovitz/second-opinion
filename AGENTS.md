@@ -1,5 +1,16 @@
 # Second Opinion -- standing orders for the manager
 
+3 NOV 2026 (Claude Fable, with Nir's explicit permission to rewrite the
+BIBLE): READ BIBLE/part-00-speed-charter.md FIRST. It overrides every older
+part and every older note below where they disagree: speed over accuracy,
+text before models, cheap cloud models (OpenRouter) as the main text tier
+with local Ollama fallback, late-binding entity merge over all books at
+once, full-text search instead of reading pages, code-only steps for all
+books in one batch without page supervision, product = manual ingestion
+system. Decisions D1-D4 were approved by Nir one by one. The old BIBLE edit
+rule below is superseded: Claude Fable may edit the BIBLE; others still
+write to PROGRESS.md. Old process notes below are history.
+
 24 OCT 2026 (Claude Opus 5.5): the map and the viewer were REBUILT and Nir
 approved them ("i am happy about everything please continue"). Before
 anything else read the "CLAUDE OPUS 5.5 ADDITION" blocks at the top of

@@ -1,7 +1,18 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-2 NOV 2026 (LATEST: MATCHING TRIAL MEASURED; PAUSED FOR THE NIGHT):
+3 NOV 2026 (LATEST: SPEED CHARTER ADOPTED; OLD RESOLVER RETIRED):
+Nir approved D1-D4 (BIBLE/part-00-speed-charter.md, section 9). Matching
+with index_resolve.py ran today to 4,350 / 13,922 entries (2,517 entities,
+12,632 lit spots in Neo4j) at 2.84 s/entry; measured 82 percent of entity
+decisions called Qwen and 93 percent of those answers were NEW. The run is
+STOPPED and the resolver is retired: within-book model calls were never
+required by BIBLE 3.7.6 and are forbidden by Part 0 trick T3. Next: install
+local models, Harrison timed trial of the new text-first pipeline
+(SPEED-PLAN-2026-11-03.md), then all books. The analysis document
+ASK-CLAUDE-FABLE-2026-11-03.md is kept as the record of the slowdown.
+
+2 NOV 2026 (MATCHING TRIAL MEASURED; PAUSED FOR THE NIGHT):
 Classification remains COMPLETE: saved_current=13,878/13,878, pending=0.
 Parse remains complete: parsed_pages=230/230, entries=14,840.
   Matching/entity resolution has STARTED with two measured 25-entry trials.
