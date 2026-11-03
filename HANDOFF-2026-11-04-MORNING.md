@@ -1,6 +1,6 @@
 # HANDOFF 2026-11-04 MORNING -- Claude Opus 5.5 restart point
 
-FIRST: NEXT-SESSION-PROMPT.md is the work order. This file is background.
+FIRST: NEXT-SESSION-PROMPT-2026-11-04.md is the work order. This file is background.
 
 
 Read first: BIBLE/part-00-speed-charter.md (rules; sections 10-11 = next

@@ -1,6 +1,6 @@
 # Second Opinion -- standing orders for the manager
 
-4 NOV 2026: FIRST READ AND FOLLOW NEXT-SESSION-PROMPT.md (work order to
+4 NOV 2026: FIRST READ AND FOLLOW NEXT-SESSION-PROMPT-2026-11-04.md (work order to
 finish the product: blue/yellow edges from the books, then the article
 reader with edges, prices and approvals). Then BIBLE/part-00-speed-charter.md.
 
