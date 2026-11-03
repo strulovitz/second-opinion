@@ -26,3 +26,4 @@ data/export/geography/seating-proposal.json
 data/export/geography/territories.csv
 .DS_Store
 Thumbs.db
+kitchen/logs/library.sqlite
