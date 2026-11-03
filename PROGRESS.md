@@ -1,6 +1,9 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+4 NOV 2026: work order = NEXT-SESSION-PROMPT.md (edges first: zero edges
+exist; then the article reader). Steps A-E are ticked here as they finish.
+
 3 NOV 2026 LATE (2): BRANT-5 index links restored from the publisher EPUB
 Nir downloaded (kept as kitchen/books/BRANT-5-print-markers.epub). The EPUB
 carries print page markers (1,722 pages); kitchen/epub_folios.py matches the

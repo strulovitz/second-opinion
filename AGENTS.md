@@ -1,5 +1,10 @@
 # Second Opinion -- standing orders for the manager
 
+4 NOV 2026: FIRST READ AND FOLLOW NEXT-SESSION-PROMPT.md (work order to
+finish the product: blue/yellow edges from the books, then the article
+reader with edges, prices and approvals). Then BIBLE/part-00-speed-charter.md.
+
+
 3 NOV 2026 (Claude Fable, with Nir's explicit permission to rewrite the
 BIBLE): READ BIBLE/part-00-speed-charter.md FIRST. It overrides every older
 part and every older note below where they disagree: speed over accuracy,
