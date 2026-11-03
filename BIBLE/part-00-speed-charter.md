@@ -142,3 +142,101 @@ Written: 3 November 2026 by Claude Fable, at Nir's explicit request and with
   Also: cheap cloud models become the main text tier (section 3); 2D map
   redesigned, 3D kept (section 6).
 ================================================================================
+
+================================================================================
+10. STAGE 4 DESIGN -- THE INGESTION SYSTEM (written 3 Nov 2026 by Claude
+    Fable for Claude Opus 5.5 to implement; the thinking is done, follow it)
+================================================================================
+10.1 Purpose. Nir drops material into the system; a cheap model reads each
+     item ONCE and files its core claims onto the entities; the entity card
+     shows them under the heading "Second opinion". No live lookups. Nir is
+     responsible for truth and selection; the card says so in one line.
+
+10.2 Inputs. Folder kitchen/inbox/ (gitignored). Accepted: .pdf, .txt, .md,
+     .html, .url (one URL per line is NOT fetched automatically; Nir saves
+     the page himself). Pasted text: Nir saves it as inbox/paste-<topic>.txt.
+     Each file is identified by sha256; a file already ingested is skipped.
+     Optional sidecar inbox/<name>.meta.json: {"title","origin","year","url"}.
+
+10.3 Text. pdftotext (reading order) for PDF; html stripped with the
+     standard library; others read as UTF-8. Chunk at about 12,000 characters
+     on paragraph boundaries. Items over 30 chunks: ingest the first 30 and
+     record "truncated". No vision model; a PDF with no text layer is
+     reported, not OCR'd, unless Nir asks.
+
+10.4 The worker (kitchen/worker.py, model-agnostic, Part 0 section 3).
+     ask(system, user, schema=None, max_tokens=2000) -> dict.
+     Providers in order from kitchen/.env (never printed):
+       OPENROUTER_API_KEY, OPENROUTER_MODELS="model-a,model-b,..." (cheap
+       Flash-class models; the implementer lists
+       https://openrouter.ai/api/v1/models, filters by price under about
+       0.5 dollars per million output tokens, shows Nir three candidates,
+       Nir picks the order), then local Ollama qwen3:8b as last resort.
+     Rules: temperature 0, JSON response_format where supported, strict
+     schema check, one retry with the validation error appended, failover
+     to the next provider on 429/5xx/timeout/invalid JSON twice. Thread pool
+     of 8 for independent chunks. Every call logs provider, model, tokens
+     in/out and the price from the response "usage" to
+     kitchen/logs/worker-cost.jsonl; ingest.py prints the running total.
+
+10.5 Reading prompt (one call per chunk). System: "You extract medical
+     claims from a document for a second-opinion library. Output ONLY JSON:
+     {"title":str,"origin":str (country or institution if stated else
+     null),"year":int|null,"kind":"study|review|news|official|price-list|
+     other","summary":str (max 60 words),"claims":[{"text":str (max 35
+     words, one claim),"type":"treatment|side-effect|price|availability|
+     mechanism|epidemiology|diagnosis|other","entities":[str...] (diseases,
+     drugs, symptoms named in the claim, canonical English names),
+     "quote":str (verbatim from the text, max 30 words),"strength":
+     "trial|observational|review|case|opinion|official"}]}. Report only what
+     the text says; do not add outside knowledge; at most 25 claims per
+     chunk." User: the chunk, prefixed with "Document: <file name>".
+     Chunks of one item are merged: title/origin/year from the first chunk
+     that has them, claims concatenated, duplicate claim texts dropped.
+
+10.6 Linking claims to entities (code first, model never):
+     for each entity name in a claim: norm() key (speed_entities.norm) ->
+     exact entity; else bge-m3 embedding nearest entity name with cosine
+     >= 0.88 (any group); else create a new Entity with created_from=
+     "source", group by nearest labelled neighbour (speed_entities logic),
+     flagged needs_review=true. Keep the embedding matrix of all entity
+     names cached in kitchen/logs/entity-embeddings.npy (rebuilt when
+     speed_entities.py runs).
+
+10.7 Storage. SQLite library.sqlite tables sources(id sha, file, title,
+     origin, year, kind, summary, added, truncated) and claims(id, source_id,
+     text, type, quote, strength, entity_slugs JSON). Neo4j, bulk UNWIND:
+     (:Source {id,title,origin,year,kind,summary,file}) and
+     (:Claim {id,text,type,quote,strength})-[:FROM]->(:Source),
+     (:Claim)-[:ABOUT]->(:Entity). Ingest is idempotent per source id.
+
+10.8 Export and viewer (simplest thing that works). speed_export.py adds
+     to each entity JSON "second_opinion": [{"source":{title,origin,year,
+     kind,file},"claims":[{text,type,quote,strength}]}] and writes
+     site/data/sources.json (list of all sources with claim counts).
+     ui.js entityCard: after the lights paragraph, if second_opinion is
+     non-empty, an h3 "Second opinion" with one bullet per claim: the claim
+     text, then small text "<type> - <strength> - <origin> <year>", then the
+     quote in italics; a one-line notice: "Added by the site owner from
+     sources outside the Western textbooks; judge for yourself." On the
+     globe, an entity with second-opinion claims gets a gold ring on its
+     search result ("N second opinions") -- nothing more in 3D for now.
+
+10.9 Command. kitchen/ingest.py [--all | files...] [--dry-run]. Prints per
+     file: chunks, claims, linked entities, new entities, cost. Dry run
+     shows the extracted JSON without writing. Then run speed_export.py.
+
+10.10 Budget. Expect roughly 10-20k tokens per article chunk pair; at Flash
+     prices a 20-page article costs cents. If a run exceeds 2 dollars,
+     stop and tell Nir.
+
+11. SMALL TRIAGE ITEMS (do each in under 15 minutes or drop it)
+11.1 Page offsets for the 10 books without one: first try
+     kitchen/logs/<BOOK>-eyes.json / -vis-links.json from the TOC lane (they
+     record the PDF image where each chapter opener was found; offset =
+     image - page_start, take the mode). If absent, loosen page_offsets()
+     thresholds (votes >= 2). If still nothing, record "no offset" and move on.
+11.2 Junk names in speed_entities.py: also drop names containing curly
+     quotes, names ending in a single stray letter after a comma (OCR
+     tails like ", Z" or ", l"), and names whose key is a single stopword.
+11.3 Stale tests (flower map, resolver) are deleted or skipped, not fixed.

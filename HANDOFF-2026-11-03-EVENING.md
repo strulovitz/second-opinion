@@ -1,4 +1,12 @@
-# HANDOFF 2026-11-03 EVENING -- Claude Fable to Claude Fable (restart point)
+# HANDOFF 2026-11-03 EVENING -- Claude Fable to Claude Opus 5.5 (restart point)
+
+Dear Opus: Nir switches to you for cost reasons. The design thinking for the
+next stage is finished and written down in BIBLE/part-00-speed-charter.md
+section 10 (ingestion system) and section 11 (small triage). Implement it
+as written; do not redesign. Where it says "ask Nir", ask him with a short
+plain-language question and pros/cons, one question at a time. He uses
+lots of emojis in chat and likes them back; none in files. He cannot
+scroll in OpenCode: keep replies short.
 
 Read in this order, nothing else unless needed:
 1. BIBLE/part-00-speed-charter.md (the rules; overrides every older part)
