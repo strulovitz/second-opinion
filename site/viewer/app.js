@@ -1,7 +1,7 @@
-import * as data from './data.js?v=91504f1-202611031531';
-import { createMap } from './map2d.js?v=91504f1-202611031531';
-import { normalize, parseRoute, spotsFor } from './geo.js?v=91504f1-202611031531';
-import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=91504f1-202611031531';
+import * as data from './data.js?v=4e6e2ff-202611031538';
+import { createMap } from './map2d.js?v=4e6e2ff-202611031538';
+import { normalize, parseRoute, spotsFor } from './geo.js?v=4e6e2ff-202611031538';
+import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=4e6e2ff-202611031538';
 
 const $ = id => document.getElementById(id);
 const state = { route: 'globe', slug: null, entity: null, territoryId: null, hover: null, group: groups[0], query: '' };
@@ -19,9 +19,10 @@ async function showMode(next) {
   if (mode === '2d') {
     // The flower map is centred on the book you were looking at on the globe
     // (Nir, 24 Oct 2026). Following lights from map to map keeps the same centre.
-    const book = globe?.viewBook() || map.viewBook || 'HARRISON-22';
-    if (!map.viewBook || before === '3d') await map.setView(book).catch(report);
-    $('flower-note').textContent = `Flower map centred on ${world.books.find(b => b.book_id === map.viewBook)?.name || map.viewBook}`;
+    // Part 0 (3 Nov 2026): the 2-D map is centred on the point you were looking at on the globe.
+    if (before === '3d' && globe?.viewDirection) await map.setView(globe.viewDirection()).catch(report);
+    else if (!map.viewBook) await map.setView('HARRISON-22').catch(report);
+    $('flower-note').textContent = `Map centred on ${world.books.find(b => b.book_id === map.viewBook)?.name || map.viewBook} · drag to move the centre anywhere`;
   }
   $('globe').hidden = mode !== '3d'; $('map').hidden = mode !== '2d';
   $('view-3d').setAttribute('aria-pressed', String(mode === '3d'));
@@ -188,7 +189,7 @@ async function start() {
   } catch (error) { console.error(error); }
   legend($('legend'), wording);
   try {
-    const { createGlobe } = await import('./globe3d.js?v=91504f1-202611031531');
+    const { createGlobe } = await import('./globe3d.js?v=4e6e2ff-202611031538');
     const params = new URLSearchParams(location.search);
     const look = params.get('look') || localStorage.getItem('second-opinion-look') || 'sand';
     globe = await createGlobe($('globe'), world, select, hover, { style: look === 'atlas' ? 'atlas' : 'sand', wording });

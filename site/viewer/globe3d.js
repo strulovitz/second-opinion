@@ -6,11 +6,11 @@
 // The planet never turns by itself; only the camera moves (BIBLE 8.5).
 import * as THREE from 'three';
 import { OrbitControls } from '../assets/three/OrbitControls.js';
-import { lonLatToXYZ } from './geo.js?v=91504f1-202611031531';
-import { buildAtlas } from './atlas.js?v=91504f1-202611031531';
-import { buildSandTable } from './sandtable.js?v=91504f1-202611031531';
-import { createLayers } from './layers.js?v=91504f1-202611031531';
-import { createLabels } from './labels.js?v=91504f1-202611031531';
+import { lonLatToXYZ } from './geo.js?v=4e6e2ff-202611031538';
+import { buildAtlas } from './atlas.js?v=4e6e2ff-202611031538';
+import { buildSandTable } from './sandtable.js?v=4e6e2ff-202611031538';
+import { createLayers } from './layers.js?v=4e6e2ff-202611031538';
+import { createLabels } from './labels.js?v=4e6e2ff-202611031538';
 
 function stars(count, seed) {
   let s = seed; const rand = () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
@@ -203,6 +203,7 @@ export async function createGlobe(canvas, world, select, hover, { style = 'sand'
     cutaway(on) { cut = on; const planes = layers.cutaway(on, camera); current.setClipping(planes); requestRender(); },
     motion(on) { motion = on; requestRender(); },
     // The book you are looking at: the 2-D flower map is centred on it.
+    viewDirection() { return camera.position.clone().normalize().toArray(); },
     viewBook() {
       const tile = world.tileAt(camera.position.clone().normalize().toArray());
       if (tile && tile.book >= 0) return world.books[tile.book].book_id;

@@ -1,180 +1,201 @@
-// Opus 5.5 rewrite of the 2-D map: Nir's FLOWER MAP (24 Oct 2026; replaces the
-// equirectangular texture of BIBLE Part 7 section 7). Each book is one round blob of
-// perfect hexagons; the book you were looking at sits in the middle with its globe
-// neighbours as petals; flowers never touch. The layouts are computed once in the
-// kitchen (kitchen/flower_map.py) and read from site/data/geography/flowers/<BOOK>.json,
-// so the same book always gives exactly the same picture.
-import { radiusPx, drawSpot } from './geo.js?v=91504f1-202611031531';
-import * as data from './data.js?v=91504f1-202611031531';
+// Part 0 section 6 (Claude Fable, 3 Nov 2026): the 2-D map is ONE generic projection,
+// the same code for every point on the planet. It replaces the "flower" map.
+//   Projection: Lambert azimuthal equal-area, centred on the point you were looking at
+//   (the globe camera direction, or the chosen book). Areas are true everywhere, there
+//   are no stretched poles, and dragging simply moves the centre: any place on the
+//   globe can be the middle of the map. Same tiles as the globe (honeycomb.json), so a
+//   click means the same chapter in both views.
+import { radiusPx, drawSpot } from './geo.js?v=4e6e2ff-202611031538';
 
-const SQRT3 = Math.sqrt(3);
-const HEX = Array.from({ length: 6 }, (_, i) => { const a = Math.PI / 180 * (60 * i + 30); return [Math.cos(a) / SQRT3, Math.sin(a) / SQRT3]; });
+const LIMIT = Math.PI * 0.62;                         // how far from the centre tiles are still drawn (radians)
+const neon = hex => { const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  const max = Math.max(r, g, b, 1); return `rgb(${Math.min(255, Math.round(r / max * 255 * 0.5 + 128 * (r === max)))},${Math.min(255, Math.round(g / max * 255 * 0.5 + 128 * (g === max)))},${Math.min(255, Math.round(b / max * 255 * 0.5 + 128 * (b === max)))})`; };
 
 export async function createMap(canvas, world, select, hover) {
   const context = canvas.getContext('2d');
-  let width = 1, height = 1, fitScale = 1, scale = 1, tx = 0, ty = 0;
-  let layout = null, spots = [], placed = [], highlighted = null, hoverDistrict = null, start = null, gesture = false;
-  let byColour = new Map(), borders = [], grid = new Map();
+  let width = 1, height = 1, scale = 1, fitScale = 1;
+  let centre = [1, 0, 0], east = [0, 0, 1], north = [0, 1, 0];
+  let spots = [], placed = [], highlighted = null, hoverTile = null, start = null, gesture = false, viewBook = null;
   const pointers = new Map();
-  const xy = i => layout.xy[i];
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const unit = v => { const l = Math.hypot(...v) || 1; return [v[0] / l, v[1] / l, v[2] / l]; };
 
-  function prepare(next) {
-    layout = next; byColour = new Map(); borders = []; grid = new Map();
-    const key = (x, y) => `${Math.round(x * 20)},${Math.round(y * 20)}`, at = new Map();
-    world.districts.forEach((d, i) => { const [x, y] = xy(i); at.set(key(x, y), d.book_id); });
-    world.districts.forEach((d, i) => {
-      const [x, y] = xy(i);
-      if (!byColour.has(d.colour_hex)) byColour.set(d.colour_hex, []);
-      byColour.get(d.colour_hex).push(i);
-      const cell = `${Math.floor(x)},${Math.floor(y)}`;
-      if (!grid.has(cell)) grid.set(cell, []); grid.get(cell).push(i);
-      for (let k = 0; k < 6; k++) {
-        const a = Math.PI / 3 * k, nx = x + Math.cos(a), ny = y + Math.sin(a);
-        if (at.get(key(nx, ny)) !== d.book_id) borders.push([x, y, a]);
-      }
-    });
+  // Book borders: tile edges whose neighbour belongs to another book (computed once).
+  const borders = [];
+  for (const t of world.tiles) {
+    for (const n of t.neighbors) {
+      const o = world.tiles[n]; if (o.index < t.index || o.book === t.book) continue;
+      const shared = t.vertices.filter(v => o.vertices.includes(v));
+      if (shared.length === 2) borders.push(shared);
+    }
   }
-  const sx = x => tx + x * scale, sy = y => ty - y * scale;   // layout y points up
-  function hexPath(path, x, y, shrink = 1) {
-    const cx = sx(x), cy = sy(y);
-    path.moveTo(cx + HEX[0][0] * scale * shrink, cy - HEX[0][1] * scale * shrink);
-    for (let k = 1; k < 6; k++) path.lineTo(cx + HEX[k][0] * scale * shrink, cy - HEX[k][1] * scale * shrink);
-    path.closePath();
+  const nameTiles = world.tiles.filter(t => t.kind === 'name');
+
+  function setCentre(p) {
+    centre = unit(p);
+    const up = Math.abs(centre[1]) < 0.95 ? [0, 1, 0] : [1, 0, 0];
+    east = unit(cross(up, centre)); north = unit(cross(centre, east));
+    const tile = world.tileAt(centre);
+    viewBook = tile && tile.book >= 0 ? world.books[tile.book].book_id : viewBook;
+  }
+  // Lambert azimuthal equal-area, forward and inverse (unit sphere, map units, centre = 0,0).
+  function project(p) {
+    const c = dot(centre, p); if (c < -0.999) return null;
+    const k = Math.sqrt(2 / (1 + c));
+    return [k * dot(p, east), k * dot(p, north), Math.acos(Math.max(-1, Math.min(1, c)))];
+  }
+  function unproject(x, y) {
+    const rho = Math.hypot(x, y); if (rho > 2) return null;
+    const c = 2 * Math.asin(rho / 2), s = Math.sin(c), cc = Math.cos(c);
+    const ex = rho ? x / rho : 0, ey = rho ? y / rho : 0;
+    return unit([0, 1, 2].map(i => cc * centre[i] + s * (ex * east[i] + ey * north[i])));
+  }
+  const sx = x => width / 2 + x * scale, sy = y => height / 2 - y * scale;
+  const screenToSphere = (X, Y) => unproject((X - width / 2) / scale, (height / 2 - Y) / scale);
+
+  function tilePath(path, t) {
+    const pts = [];
+    for (const v of t.vertices) { const q = project(world.vertices[v]); if (!q || q[2] > LIMIT + 0.2) return false; pts.push(q); }
+    path.moveTo(sx(pts[0][0]), sy(pts[0][1]));
+    for (let i = 1; i < pts.length; i++) path.lineTo(sx(pts[i][0]), sy(pts[i][1]));
+    path.closePath(); return true;
   }
   function draw() {
     if (canvas.hidden) return;
     context.clearRect(0, 0, width, height);
-    if (!layout) return;
-    for (const [colour, list] of byColour) {
-      const path = new Path2D(); for (const i of list) hexPath(path, ...xy(i));
-      context.fillStyle = colour; context.fill(path);
+    // the planet's disc
+    context.fillStyle = 'rgba(12,18,36,.9)'; context.beginPath(); context.arc(width / 2, height / 2, 2 * scale, 0, Math.PI * 2); context.fill();
+    const byColour = new Map(), visible = [];
+    for (const t of world.tiles) {
+      const c = dot(centre, t.centre); if (c < Math.cos(LIMIT)) continue;
+      visible.push(t);
+      const colour = t.kind === 'pole' ? '#16304a' : t.book >= 0 ? world.books[t.book].colour_hex : '#333333';
+      if (!byColour.has(colour)) byColour.set(colour, new Path2D());
+      tilePath(byColour.get(colour), t);
     }
-    if (scale > 5) {
-      const grout = new Path2D(); for (let i = 0; i < world.districts.length; i++) hexPath(grout, ...xy(i));
-      context.strokeStyle = 'rgba(10,14,28,.35)'; context.lineWidth = Math.min(1.2, scale / 20); context.stroke(grout);
+    for (const [colour, path] of byColour) { context.fillStyle = colour; context.fill(path); }
+    if (scale > 120) {                                   // tile grout when zoomed in
+      const grout = new Path2D(); for (const t of visible) tilePath(grout, t);
+      context.strokeStyle = 'rgba(10,14,28,.35)'; context.lineWidth = 1; context.stroke(grout);
     }
-    const edge = new Path2D(), half = 0.5 / SQRT3;
-    for (const [x, y, a] of borders) {
-      const mx = x + Math.cos(a) / 2, my = y + Math.sin(a) / 2, px = -Math.sin(a) * half, py = Math.cos(a) * half;
-      edge.moveTo(sx(mx - px), sy(my - py)); edge.lineTo(sx(mx + px), sy(my + py));
+    const edge = new Path2D();
+    for (const [a, b] of borders) {
+      const p = project(world.vertices[a]), q = project(world.vertices[b]);
+      if (!p || !q || p[2] > LIMIT || q[2] > LIMIT) continue;
+      edge.moveTo(sx(p[0]), sy(p[1])); edge.lineTo(sx(q[0]), sy(q[1]));
     }
-    context.strokeStyle = '#fbf6e6'; context.lineWidth = Math.max(1.2, Math.min(3, scale / 9)); context.lineCap = 'round'; context.stroke(edge);
-    if (hoverDistrict != null) {
-      const p = new Path2D(); hexPath(p, ...xy(hoverDistrict)); context.fillStyle = 'rgba(255,255,255,.45)'; context.fill(p);
+    context.strokeStyle = '#fbf6e6'; context.lineWidth = Math.max(1, Math.min(3, scale / 250)); context.lineCap = 'round'; context.stroke(edge);
+    // lit chapters: the whole tile glows in its book's neon colour (the 2-D twin of the 3-D columns)
+    const litTiles = new Map();
+    for (const s of spots) if (s.lit) { const t = world.tileOf.get(s.district_id); if (t) litTiles.set(t.index, t); }
+    for (const t of litTiles.values()) {
+      const p = new Path2D(); if (!tilePath(p, t)) continue;
+      context.fillStyle = neon(world.books[t.book]?.colour_hex || '#ffffff'); context.fill(p);
+      context.strokeStyle = '#ffffff'; context.lineWidth = 1.5; context.stroke(p);
     }
-    if (scale > 46) {                                    // chapter names when you zoom in
-      context.font = `${Math.min(11, scale / 6)}px system-ui, sans-serif`; context.textAlign = 'center'; context.textBaseline = 'middle';
-      context.fillStyle = 'rgba(15,18,30,.85)';
-      for (let i = 0; i < world.districts.length; i++) {
-        const [x, y] = xy(i), cx = sx(x), cy = sy(y);
-        if (cx < -scale || cy < -scale || cx > width + scale || cy > height + scale) continue;
-        const name = world.districts[i].name;
-        context.fillText(name.length > 14 ? `${name.slice(0, 13)}…` : name, cx, cy, scale * 0.9);
+    if (hoverTile) { const p = new Path2D(); if (tilePath(p, hoverTile)) { context.fillStyle = 'rgba(255,255,255,.45)'; context.fill(p); } }
+    if (scale > 900) {                                   // chapter names when zoomed in
+      context.font = '11px system-ui, sans-serif'; context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillStyle = 'rgba(15,18,30,.85)';
+      for (const t of visible) {
+        if (!t.territory) continue; const q = project(t.centre); const name = t.territory.name;
+        context.fillText(name.length > 14 ? `${name.slice(0, 13)}…` : name, sx(q[0]), sy(q[1]), scale * 0.03);
       }
     }
     context.textAlign = 'center'; context.textBaseline = 'middle';
-    for (const book of world.books) {
-      const p = layout.books[book.book_id]; if (!p) continue;
-      const size = Math.max(10, Math.min(18, scale * 0.9));
-      context.font = `600 ${size}px system-ui, sans-serif`;
-      const w = context.measureText(book.name).width + 12;
-      context.fillStyle = 'rgba(8,12,24,.72)';
-      context.beginPath(); context.roundRect(sx(p[0]) - w / 2, sy(p[1]) - size * 0.8, w, size * 1.6, size * 0.8); context.fill();
-      context.fillStyle = '#ffffff'; context.fillText(book.name, sx(p[0]), sy(p[1]) + 1);
+    for (const t of nameTiles) {
+      const q = project(t.centre); if (!q || q[2] > LIMIT * 0.85) continue;
+      const book = world.books[t.book]; if (!book) continue;
+      const size = 13; context.font = `600 ${size}px system-ui, sans-serif`;
+      const w = context.measureText(book.name).width + 12, X = sx(q[0]), Y = sy(q[1]);
+      context.fillStyle = 'rgba(8,12,24,.72)'; context.beginPath(); context.roundRect(X - w / 2, Y - size * 0.8, w, size * 1.6, size * 0.8); context.fill();
+      context.fillStyle = '#ffffff'; context.fillText(book.name, X, Y + 1);
     }
     placed = [];
     for (const spot of spots) {
-      const i = world.districtIndex.get(spot.district_id); if (i == null) continue;
-      const [x, y] = xy(i), cx = sx(x) + spot.offset[0], cy = sy(y) + spot.offset[1];
+      const t = world.tileOf.get(spot.district_id); if (!t) continue;
+      const q = project(t.centre); if (!q || q[2] > LIMIT) continue;
+      const cx = sx(q[0]) + spot.offset[0], cy = sy(q[1]) + spot.offset[1];
       if (cx < -40 || cy < -40 || cx > width + 40 || cy > height + 40) continue;
       drawSpot(context, spot, cx, cy, highlighted === spot || highlighted === spot.other_slug);
       placed.push({ x: cx, y: cy, spot, radius: spot.lit ? 8 : radiusPx(spot.f) + 6 });
     }
   }
-  function fit() {
-    if (!layout) return;
-    scale = fitScale; tx = (width - layout.width * scale) / 2; ty = (height + layout.height * scale) / 2; draw();
-  }
+  function fit() { scale = fitScale; draw(); }
   function resize() {
-    const rect = canvas.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    const atFit = Math.abs(scale - fitScale) < 1e-6;
-    const ratio = Math.min(devicePixelRatio, 2), oldFit = fitScale;
-    const cx = (width / 2 - tx) / scale, cy = (ty - height / 2) / scale;
+    const rect = canvas.getBoundingClientRect(); if (!rect.width || !rect.height) return;
+    const ratio = window.devicePixelRatio || 1, atFit = scale === fitScale;
     width = rect.width; height = rect.height;
     canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    fitScale = layout ? Math.min(width / layout.width, height / layout.height) * 0.96 : 1;
-    if (atFit || !layout) fit();
-    else { scale = Math.max(fitScale, Math.min(fitScale * 20, scale / oldFit * fitScale)); tx = width / 2 - cx * scale; ty = height / 2 + cy * scale; draw(); }
+    fitScale = Math.min(width, height) / 2 / 1.72;     // the drawn disc (about 112 degrees) fills the view
+    if (atFit) scale = fitScale; else scale = Math.max(fitScale * 0.8, Math.min(fitScale * 40, scale));
+    draw();
   }
   const point = event => { const r = canvas.getBoundingClientRect(); return { x: event.clientX - r.left, y: event.clientY - r.top }; };
-  function districtAt(x, y) {
-    const lx = (x - tx) / scale, ly = (ty - y) / scale;
-    let best = null, distance = 0.58;
-    for (let gx = Math.floor(lx) - 1; gx <= Math.floor(lx) + 1; gx++) for (let gy = Math.floor(ly) - 1; gy <= Math.floor(ly) + 1; gy++) {
-      for (const i of grid.get(`${gx},${gy}`) || []) { const [px, py] = xy(i), d = Math.hypot(px - lx, py - ly); if (d < distance) { distance = d; best = i; } }
-    }
-    return best;
-  }
   function hit(event) {
     const { x, y } = point(event);
-    let best = null, distance = Infinity;
-    for (const item of placed) { const d = Math.hypot(x - item.x, y - item.y); if (d <= item.radius && d < distance) { best = item.spot; distance = d; } }
-    if (best) return { value: best, index: world.districtIndex.get(best.district_id) };
-    if (!layout) return { value: null, index: null };
-    const i = districtAt(x, y);
-    return { value: i == null ? null : world.districts[i], index: i };
+    let best = null, bd = Infinity;
+    for (const item of placed) { const d = Math.hypot(item.x - x, item.y - y); if (d <= item.radius && d < bd) { bd = d; best = item.spot; } }
+    if (best) return { value: best, tile: world.tileOf.get(best.district_id) };
+    const p = screenToSphere(x, y); if (!p || Math.acos(Math.max(-1, Math.min(1, dot(p, centre)))) > LIMIT) return { value: null, tile: null };
+    const tile = world.tileAt(p);
+    if (!tile || tile.kind === 'pole') return { value: null, tile: null };
+    return { value: world.territoryOfTile(tile), tile };
   }
   function zoom(factor, x = width / 2, y = height / 2) {
-    const next = Math.max(fitScale, Math.min(fitScale * 20, scale * factor));
-    tx = x - (x - tx) * next / scale; ty = y - (y - ty) * next / scale; scale = next; draw();
+    const before = screenToSphere(x, y);
+    scale = Math.max(fitScale * 0.8, Math.min(fitScale * 40, scale * factor));
+    if (before) {                                        // keep the point under the cursor fixed
+      const q = project(before); if (q) panBy(sx(q[0]) - x, sy(q[1]) - y);
+    }
+    draw();
   }
-  canvas.addEventListener('wheel', event => { event.preventDefault(); const p = point(event); zoom(event.deltaY < 0 ? 1.15 : 1 / 1.15, p.x, p.y); }, { passive: false });
+  function panBy(dx, dy) {                              // move the centre so the map slides by (dx, dy) pixels
+    const p = screenToSphere(width / 2 + dx, height / 2 + dy); if (p) setCentre(p);
+  }
+  canvas.addEventListener('wheel', event => { event.preventDefault(); zoom(event.deltaY < 0 ? 1.2 : 1 / 1.2, ...Object.values(point(event))); }, { passive: false });
   canvas.addEventListener('pointerdown', event => {
     canvas.setPointerCapture(event.pointerId); pointers.set(event.pointerId, point(event));
-    gesture = pointers.size > 1; start = gesture ? null : { ...point(event), time: performance.now(), moved: false };
-    hover(null);
+    start = { ...point(event), moved: false, pinch: pointers.size === 2 ? [...pointers.values()] : null }; gesture = false;
   });
   canvas.addEventListener('pointermove', event => {
-    const next = point(event), old = pointers.get(event.pointerId);
-    if (!old) {
-      const h = hit(event); hoverDistrict = h.index; highlighted = h.value?.other_slug ? h.value : null;
-      canvas.style.cursor = h.value?.other_slug ? 'pointer' : 'grab'; draw(); hover(h.value, event); return;
+    const p = point(event);
+    if (!pointers.has(event.pointerId)) {
+      const h = hit(event); const tile = h.value && !h.value.other_slug ? h.tile : null;
+      if (tile !== hoverTile) { hoverTile = tile; draw(); }
+      hover(h.value, event); return;
     }
-    if (start && Math.hypot(next.x - start.x, next.y - start.y) >= 6) start.moved = true;
+    const last = pointers.get(event.pointerId); pointers.set(event.pointerId, p);
     if (pointers.size === 2) {
-      const other = [...pointers.entries()].find(([id]) => id !== event.pointerId)[1];
-      const before = Math.hypot(old.x - other.x, old.y - other.y), after = Math.hypot(next.x - other.x, next.y - other.y);
-      if (before > 0 && after > 0) { zoom(after / before, (old.x + other.x) / 2, (old.y + other.y) / 2); tx += (next.x - old.x) / 2; ty += (next.y - old.y) / 2; }
-    } else { tx += next.x - old.x; ty += next.y - old.y; }
-    pointers.set(event.pointerId, next); draw();
+      const [a, b] = [...pointers.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (start?.pinch) { const d0 = Math.hypot(start.pinch[0].x - start.pinch[1].x, start.pinch[0].y - start.pinch[1].y); if (d0) zoom(d / d0, (a.x + b.x) / 2, (a.y + b.y) / 2); start.pinch = [a, b]; }
+      gesture = true; return;
+    }
+    if (Math.hypot(p.x - start.x, p.y - start.y) > 3) start.moved = true;
+    if (start.moved) { panBy(-(p.x - last.x), -(p.y - last.y)); draw(); }
   });
   function release(event, cancelled = false) {
-    const p = point(event);
-    if (!cancelled && !gesture && start && !start.moved && performance.now() - start.time < 400 && Math.hypot(p.x - start.x, p.y - start.y) < 6) {
-      const h = hit(event); if (h.value) select(h.value, event);
-    }
-    pointers.delete(event.pointerId); start = null; if (!pointers.size) gesture = false;
+    pointers.delete(event.pointerId);
+    if (!cancelled && start && !start.moved && !gesture && pointers.size === 0) { const h = hit(event); if (h.value) select(h.value, event); }
+    if (pointers.size === 0) { start = null; gesture = false; }
   }
-  canvas.addEventListener('pointerup', e => release(e));
-  canvas.addEventListener('pointercancel', e => release(e, true));
-  canvas.addEventListener('lostpointercapture', e => { pointers.delete(e.pointerId); start = null; });
-  canvas.addEventListener('pointerleave', () => { if (!pointers.size) { hoverDistrict = null; highlighted = null; draw(); hover(null); } });
-  new ResizeObserver(resize).observe(canvas.parentElement);
-  let viewBook = null;
+  canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', e => release(e, true));
+  canvas.addEventListener('pointerleave', () => { if (!pointers.size) { hoverTile = null; highlighted = null; draw(); hover(null); } });
+
+  setCentre(world.tiles.find(t => t.kind === 'name')?.centre || [1, 0, 0]);
   return {
     resize, zoom, fit,
     get viewBook() { return viewBook; },
-    async setView(book) {
-      if (book === viewBook && layout) return;
-      const next = await data.flowers(book);
-      viewBook = book; prepare(next); scale = fitScale = 0; resize(); fit();
+    // Centre the map on a direction (the globe camera) or on a book; same routine for any point.
+    async setView(bookOrDirection) {
+      if (Array.isArray(bookOrDirection)) setCentre(bookOrDirection);
+      else { const t = nameTiles.find(t => world.books[t.book]?.book_id === bookOrDirection); if (t) setCentre(t.centre); }
+      resize(); fit();
     },
     render(entity, nextSpots = []) { spots = nextSpots; highlighted = null; draw(); },
     highlight(slug) { highlighted = slug; draw(); },
-    // Test hooks (client pixels).
-    screenOf(id) { const i = world.districtIndex.get(id), r = canvas.getBoundingClientRect(); return i == null || !layout ? null : { x: r.left + sx(xy(i)[0]), y: r.top + sy(xy(i)[1]) }; },
+    screenOf(id) { const t = world.tileOf.get(id), r = canvas.getBoundingClientRect(); const q = t && project(t.centre); return q ? { x: r.left + sx(q[0]), y: r.top + sy(q[1]) } : null; },
     firstSpot() { const p = placed.find(item => item.spot.other_slug), r = canvas.getBoundingClientRect(); return p ? { x: r.left + p.x, y: r.top + p.y, other_slug: p.spot.other_slug } : null; },
   };
 }
