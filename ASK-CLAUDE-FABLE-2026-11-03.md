@@ -17,6 +17,12 @@ numbers, not a wall of jargon. He is also frustrated right now, and he has
 good reasons. His own questions are in section 6, as close to his words as I
 can honestly reproduce them.
 
+Formatting request, because Nir copies and pastes this whole conversation by
+hand: please answer in plain text. Do NOT use tables. Do NOT use collapsible
+or fold-out sections. Do NOT use specially formatted math. If you need a
+formula, write it as LaTeX source code in a code block, so it survives a
+copy and paste. Short headings and bullet lists are fine.
+
 Terms used below:
 
 - "reader" = the free local model, Qwen `qwen3.8:27b`, served by Ollama on
@@ -114,38 +120,37 @@ write, resolved rows to `HARRISON-22-resolved.jsonl` after each entry.
 
 Measured state at the time of writing:
 
-| Item | Value |
-| --- | --- |
-| Index pages parsed | 230 / 230 complete |
-| Parsed entries | 14,840 |
-| Non-see entries to resolve | 13,922 |
-| See entries | 918 |
-| Terms classified | 13,878 / 13,878, pending 0 |
-| Non-see entries resolved | 4,350 |
-| Entity decisions among those | 2,680 |
-| Reader calls among those | 2,196 (82% of entity decisions; 50% of all entries) |
-| Entities in Neo4j | 2,517 (1,384 disease, 905 treatment, 228 symptom) |
-| Distinct lit spots in Neo4j | 12,632 |
-| Tests | 170 pass |
+- Index pages parsed: 230 of 230, complete.
+- Parsed entries: 14,840.
+- Non-see entries to resolve: 13,922.
+- See entries: 918.
+- Terms classified: 13,878 of 13,878, pending 0.
+- Non-see entries resolved: 4,350.
+- Entity decisions among those: 2,680.
+- Reader calls among those: 2,196. That is 82% of entity decisions and 50%
+  of all entries.
+- Entities in Neo4j: 2,517, made of 1,384 diseases, 905 treatments and 228
+  symptoms.
+- Distinct lit spots in Neo4j: 12,632.
+- Tests: 170 pass.
 
-Wall-clock, supervised foreground chunks run today (timeout wrapper, resumable):
+Wall-clock, supervised foreground chunks run today (timeout wrapper, resumable).
+Each line is: chunk number, entries, seconds, seconds per entry.
 
-| Chunk | Entries | Seconds | s/entry |
-| --- | --- | --- | --- |
-| 1 (cold model load) | 25 | 98.9 | 3.96 |
-| 2 | 25 | 36.2 | 1.45 |
-| 3 | 100 | 262.6 | 2.63 |
-| 4 | 100 | 251.5 | 2.51 |
-| 5 | 200 | 431.3 | 2.16 |
-| 6 | 300 | 824.8 | 2.75 |
-| 7 | 400 | 1,125.1 | 2.81 |
-| 8 | 400 | 1,130.3 | 2.83 |
-| 9 | 400 | 1,216.9 | 3.04 |
-| 10 | 400 | 1,044.9 | 2.61 |
-| 11 | 400 | 1,325.5 | 3.31 |
-| 12 | 400 | 1,150.3 | 2.88 |
-| 13 | 400 | 1,254.4 | 3.14 |
-| 14 | 400 | 1,213.4 | 3.03 |
+- Chunk 1, cold model load: 25 entries, 98.9 s, 3.96 s/entry.
+- Chunk 2: 25 entries, 36.2 s, 1.45 s/entry.
+- Chunk 3: 100 entries, 262.6 s, 2.63 s/entry.
+- Chunk 4: 100 entries, 251.5 s, 2.51 s/entry.
+- Chunk 5: 200 entries, 431.3 s, 2.16 s/entry.
+- Chunk 6: 300 entries, 824.8 s, 2.75 s/entry.
+- Chunk 7: 400 entries, 1,125.1 s, 2.81 s/entry.
+- Chunk 8: 400 entries, 1,130.3 s, 2.83 s/entry.
+- Chunk 9: 400 entries, 1,216.9 s, 3.04 s/entry.
+- Chunk 10: 400 entries, 1,044.9 s, 2.61 s/entry.
+- Chunk 11: 400 entries, 1,325.5 s, 3.31 s/entry.
+- Chunk 12: 400 entries, 1,150.3 s, 2.88 s/entry.
+- Chunk 13: 400 entries, 1,254.4 s, 3.14 s/entry.
+- Chunk 14: 400 entries, 1,213.4 s, 3.03 s/entry.
 
 Total: about 11,366 seconds for 4,000 entries, average 2.84 s/entry. The
 remaining 9,572 entries project to roughly 7-9 hours at the same pace. The
@@ -168,14 +173,13 @@ Reader diagnostics measured just now:
   so it cannot simply be swapped globally without breaking the page-image
   work.
 
-Reader-call share is rising as the registry grows:
+Reader-call share is rising as the registry grows. These are reader calls per
+100 entity decisions:
 
-| Stage | Reader calls per 100 entity decisions |
-| --- | --- |
-| First 50-entry trial (before today) | 24 |
-| Today, early chunks | 45-55 |
-| Today, later chunks | 53-57 |
-| Measured overall over all 2,680 entity decisions | 82 |
+- First 50-entry trial, before today: 24.
+- Today, early chunks: 45 to 55.
+- Today, later chunks: 53 to 57.
+- Measured overall over all 2,680 entity decisions: 82.
 
 The last row is measured from the saved decision file (2,196 rows contain a
 model answer), not estimated. The earlier 24% figure in the handoff was from
@@ -328,6 +332,9 @@ you think we are asking the wrong questions, say so and ask better ones.
 - Where you are unsure, say so explicitly, and describe the smallest
   experiment that would settle it.
 - Do not assume authority to change the BIBLE. Recommend; Nir decides.
+- Formatting: no tables, no collapsible sections, no specially formatted
+  math. If you need a formula, write it as LaTeX source code in a code
+  block. Nir will copy and paste your whole answer by hand.
 
 ## 11. Code and data pointers (public repository)
 
