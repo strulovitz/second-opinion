@@ -40,6 +40,23 @@ valid for everything not changed below.
    never read or print it.
 3. Section 11.2 junk names, 11.3 stale tests.
 
+## GAP FOUND 3 Nov night (Nir's core goal, not covered by Part 0 yet)
+
+Nir's goal is the blue/yellow PATHS: symptom -> disease -> treatment (blue)
+and treatment -> harm/disease -> symptoms (yellow), drawn on the 2D view,
+from the books AND from ingested articles (example: headache -> drug, and a
+paper says the drug damages the liver -> yellow drug -> liver disease ->
+its symptoms). Today there are NO edges at all: only entities and lit spots.
+The edge reading of old Phase B was cancelled and Part 0 did not replace it;
+section 10 files claims but no typed edges. Plan to propose to Nir (measure
+a trial and state hours and dollars first):
+  a. Book edges: code finds sentences in the FTS text where two entities of
+     different groups co-occur; a cheap cloud model types them in batches
+     (PRESENTS_WITH, TREATED_BY, HARMS, LEADS_TO + frequency words).
+  b. Ingestion (section 10) also outputs typed edges, same schema.
+  c. Viewer: draw real edges (blue/yellow) in 2D for the chosen entity.
+Tell Nir honestly: the system is NOT complete until a-c are done.
+
 ## Cost rules (Nir, repeated)
 
 Save money: no screenshots (Nir is the eyes), one-shot fixes, short
