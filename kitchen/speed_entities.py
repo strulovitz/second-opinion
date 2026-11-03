@@ -129,9 +129,11 @@ def main():
     rows = con.execute("SELECT book_id, headword, see, refs, sub_refs, page FROM terms").fetchall()
     ents = {}
     see_links = []
+    junk = re.compile(r"^(?:in|for|with|of|and|due to|from|as|by|on|to|after|during|versus|vs)\b|\b\d{2,4}[tfb]?\b|\bsee\b", re.I)
     for bid, head, see, refs, sub_refs, page in rows:
+        head = re.sub(r"[,;:]?\s+(?:and|or|in|of|for|with|the)$", "", head.strip())
         key = norm(head)
-        if not key:
+        if not key or junk.search(head) or len(head) > 90 or len(key.split()) > 7:
             continue
         e = ents.setdefault(key, {"names": Counter(), "aliases": set(), "spots": defaultdict(set), "books": set()})
         e["names"][head] += 1

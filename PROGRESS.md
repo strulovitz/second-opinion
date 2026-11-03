@@ -1,7 +1,26 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-3 NOV 2026 (LATEST: SPEED CHARTER ADOPTED; OLD RESOLVER RETIRED):
+3 NOV 2026 EVENING (LATEST: STAGES 1-3 OF PART 0 DONE FOR THE WHOLE LIBRARY):
+speed_text.py: 37 books, 135,325 pages to kitchen/logs/library.sqlite with
+FTS5 in about 6 minutes (8 jobs). speed_index.py: code parser; 16 books have
+a usable back-of-book index in the PDF (70,643 terms, Harrison 15,852 with
+91 percent of references captured and 90.6 percent of headwords identical to
+the retired Qwen parse); 21 books have no index inside the PDF (checked by
+sample) and get page links from full-text search only. speed_entities.py:
+35,734 entities (code merge, embedding-neighbour groups from Harrison's saved
+labels), 1,575,925 DISCUSSED_IN lit spots in Neo4j (115,714 index, the rest
+full-text), page offsets found by code for 27/37 books; the 10 without an
+offset (BENZON, BOLOGNIA, FIRESTEIN, GRAY, GUYTON, MURRAY, ROSEN, SABISTON,
+THOMPSON, YOUMANS) have no full-text links yet. speed_export.py: 35,734
+entity JSON files and search.json written to site/data in 27 seconds
+(gitignored, served from this laptop). Whole library: about 12 minutes of
+compute. No cloud model call was needed so far. Known noise: some subentry
+fragments survive as entity names; duplicates by synonym are intentional.
+Next: 2D map redesign (Part 0 section 6), ingestion system (stage 4),
+kitchen/worker.py for the cheap cloud tier when a model step appears.
+
+3 NOV 2026 (SPEED CHARTER ADOPTED; OLD RESOLVER RETIRED):
 Nir approved D1-D4 (BIBLE/part-00-speed-charter.md, section 9). Matching
 with index_resolve.py ran today to 4,350 / 13,922 entries (2,517 entities,
 12,632 lit spots in Neo4j) at 2.84 s/entry; measured 82 percent of entity

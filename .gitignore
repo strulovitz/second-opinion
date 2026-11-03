@@ -27,3 +27,5 @@ data/export/geography/territories.csv
 .DS_Store
 Thumbs.db
 kitchen/logs/library.sqlite
+site/data/entities/
+site/data/search.json
