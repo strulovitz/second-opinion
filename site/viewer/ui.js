@@ -1,4 +1,4 @@
-import { COLOUR, RELATION_COLOUR } from './geo.js?v=acbb2f3-202611031541';
+import { COLOUR, RELATION_COLOUR } from './geo.js?v=686363d-202611031550';
 
 export const groups = ['symptoms-and-signs', 'diseases-and-conditions', 'treatments-and-drugs'];
 export function text(tag, value = '', className) {

@@ -104,7 +104,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--no-neo4j", action="store_true")
     ap.add_argument("--fts-cap", type=int, default=30)
-    ap.add_argument("--min-fts-len", type=int, default=7)
+    ap.add_argument("--min-fts-len", type=int, default=4)
     a = ap.parse_args()
     con = sqlite3.connect(DB)
     t0 = time.time()

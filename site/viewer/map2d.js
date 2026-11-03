@@ -5,7 +5,7 @@
 //   are no stretched poles, and dragging simply moves the centre: any place on the
 //   globe can be the middle of the map. Same tiles as the globe (honeycomb.json), so a
 //   click means the same chapter in both views.
-import { radiusPx, drawSpot } from './geo.js?v=acbb2f3-202611031541';
+import { radiusPx, drawSpot } from './geo.js?v=686363d-202611031550';
 
 const LIMIT = Math.PI * 0.62;                         // how far from the centre tiles are still drawn (radians)
 const neon = hex => { const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;

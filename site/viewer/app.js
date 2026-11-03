@@ -1,7 +1,7 @@
-import * as data from './data.js?v=acbb2f3-202611031541';
-import { createMap } from './map2d.js?v=acbb2f3-202611031541';
-import { normalize, parseRoute, spotsFor } from './geo.js?v=acbb2f3-202611031541';
-import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=acbb2f3-202611031541';
+import * as data from './data.js?v=686363d-202611031550';
+import { createMap } from './map2d.js?v=686363d-202611031550';
+import { normalize, parseRoute, spotsFor } from './geo.js?v=686363d-202611031550';
+import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=686363d-202611031550';
 
 const $ = id => document.getElementById(id);
 const state = { route: 'globe', slug: null, entity: null, territoryId: null, hover: null, group: groups[0], query: '' };
@@ -122,15 +122,18 @@ function elevator() {
     const other = groups.find(g => rows.some(row => row.group === g && hit(row)));
     if (other) { state.group = other; for (const b of document.querySelectorAll('[data-group]')) b.setAttribute('aria-pressed', String(b.dataset.group === other)); }
   }
-  const matches = rows.filter(row => row.group === state.group && hit(row))
-    .sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity) || (a.altitude ?? Infinity) - (b.altitude ?? Infinity) || a.canonical_name.localeCompare(b.canonical_name));
+  // Ranking (Nir, 3 Nov 2026): exact name first, then names starting with the word, then the
+  // most-discussed; names with no chapter at all are hidden.
+  const score = row => { const n = normalize(row.canonical_name); return n === query ? 0 : n.startsWith(query) ? 1 : 2; };
+  const matches = rows.filter(row => row.group === state.group && row.lit_spot_count > 0 && hit(row))
+    .sort((a, b) => score(a) - score(b) || b.lit_spot_count - a.lit_spot_count || a.canonical_name.localeCompare(b.canonical_name));
   $('results').replaceChildren();
   $('result-count').textContent = `${matches.length} results${matches.length > 300 ? ' · type to narrow (showing 300)' : ''}`;
   const max = matches.reduce((n, r) => Math.max(n, Math.log1p(r.edge_count)), 1);
   for (const row of matches.slice(0, 300)) {
     const item = text('li'), target = link(row.canonical_name, mapURL(row.slug, globe ? '3d' : mode));   // results always open on the globe (Nir, 3 Nov)
     const bar = text('span', '', 'edge-bar'); bar.style.width = `${60 * Math.log1p(row.edge_count) / max}px`;
-    target.append(text('small', `Altitude ${Number.isFinite(row.altitude) ? row.altitude.toFixed(3) : 'not assigned'} · ${row.edge_count} connections${row.has_text ? '' : ' · no text yet'}`), bar);
+    target.append(text('small', `${row.lit_spot_count} chapters in ${row.books ?? '?'} books`), bar);
     item.append(target); $('results').append(item);
   }
   $('places').replaceChildren();
@@ -189,7 +192,7 @@ async function start() {
   } catch (error) { console.error(error); }
   legend($('legend'), wording);
   try {
-    const { createGlobe } = await import('./globe3d.js?v=acbb2f3-202611031541');
+    const { createGlobe } = await import('./globe3d.js?v=686363d-202611031550');
     const params = new URLSearchParams(location.search);
     const look = params.get('look') || localStorage.getItem('second-opinion-look') || 'sand';
     globe = await createGlobe($('globe'), world, select, hover, { style: look === 'atlas' ? 'atlas' : 'sand', wording });
