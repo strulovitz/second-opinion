@@ -1,6 +1,28 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+3 NOV 2026 LATE (Claude Opus 5.5, triage 11.1 done differently, at Nir's
+request "all books first"): the single page offset per book was replaced in
+speed_entities.py by a PER-CHAPTER page map. Each chapter title is searched
+in the FTS; the first page of a run of hits is a candidate opener; the
+longest chain of openers whose PDF gaps equal the TOC gaps plus 0-40 pages
+per chapter (e-pages, inserts) is kept; gaps take the previous offset.
+TOC tails like ", 1042" are stripped from titles. Index references (printed)
+go through a per-page folio map read from the page text (3+ neighbouring
+pages must agree). Finding: the old single offset was WRONG for books whose
+TOC is in PDF pages (CAMPBELL 235, MANDELL 213, STAHL 21, WILLIAMS-ENDO 273,
+NELSON 38 were applied as offsets; the true value is 0) and could not follow
+variable offsets (DEVITA, SABISTON, YOUMANS, BRAUNWALD drift by hundreds).
+Result: all 37/37 books have full-text links (was 27); chapters placed by
+their own opener: 3,935 of 4,763 (BRANT-5 weakest, 28/83, offset 0
+assumed elsewhere). Lit spots 1,821,171 -> 2,368,229; entities 35,845
+(unchanged). Index spots are now DROPPED for six PDF-page books without
+printed folios in the text (BRANT, HAZZARD, IRWIN-RIPPE, KAPLAN, ROCKWOOD,
+WILLIAMS-OBSTETRICS); before they were mapped as if printed = PDF page,
+which was wrong; their full-text links remain. MIDDLETON index spots: 19
+only (folio map weak). Check: speed_entities.py --offsets-only (15 s).
+Measured: speed_entities 349 s, speed_export 43 s.
+
 3 NOV 2026 NIGHT: restart point is HANDOFF-2026-11-03-EVENING.md. Viewer
 columns, persistent columns, chapter cards, generic 2D map, ranked search
 all live; 35,845 entities, 1,821,171 lit spots. Next: stage 4 ingestion.
