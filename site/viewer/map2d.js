@@ -4,8 +4,8 @@
 // neighbours as petals; flowers never touch. The layouts are computed once in the
 // kitchen (kitchen/flower_map.py) and read from site/data/geography/flowers/<BOOK>.json,
 // so the same book always gives exactly the same picture.
-import { radiusPx, drawSpot } from './geo.js';
-import * as data from './data.js';
+import { radiusPx, drawSpot } from './geo.js?v=d667144-202611031525';
+import * as data from './data.js?v=d667144-202611031525';
 
 const SQRT3 = Math.sqrt(3);
 const HEX = Array.from({ length: 6 }, (_, i) => { const a = Math.PI / 180 * (60 * i + 30); return [Math.cos(a) / SQRT3, Math.sin(a) / SQRT3]; });

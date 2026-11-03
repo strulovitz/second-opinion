@@ -6,11 +6,11 @@
 // The planet never turns by itself; only the camera moves (BIBLE 8.5).
 import * as THREE from 'three';
 import { OrbitControls } from '../assets/three/OrbitControls.js';
-import { lonLatToXYZ } from './geo.js';
-import { buildAtlas } from './atlas.js';
-import { buildSandTable } from './sandtable.js';
-import { createLayers } from './layers.js';
-import { createLabels } from './labels.js';
+import { lonLatToXYZ } from './geo.js?v=d667144-202611031525';
+import { buildAtlas } from './atlas.js?v=d667144-202611031525';
+import { buildSandTable } from './sandtable.js?v=d667144-202611031525';
+import { createLayers } from './layers.js?v=d667144-202611031525';
+import { createLabels } from './labels.js?v=d667144-202611031525';
 
 function stars(count, seed) {
   let s = seed; const rand = () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);

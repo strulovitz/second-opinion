@@ -1,7 +1,7 @@
-import * as data from './data.js';
-import { createMap } from './map2d.js';
-import { normalize, parseRoute, spotsFor } from './geo.js';
-import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js';
+import * as data from './data.js?v=d667144-202611031525';
+import { createMap } from './map2d.js?v=d667144-202611031525';
+import { normalize, parseRoute, spotsFor } from './geo.js?v=d667144-202611031525';
+import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=d667144-202611031525';
 
 const $ = id => document.getElementById(id);
 const state = { route: 'globe', slug: null, entity: null, territoryId: null, hover: null, group: groups[0], query: '' };
@@ -109,7 +109,12 @@ async function route() {
 }
 function elevator() {
   const query = normalize(state.query.trim());
-  const matches = rows.filter(row => row.group === state.group && (!query || [row.canonical_name, ...(row.aliases || [])].some(name => normalize(name).includes(query))))
+  const hit = row => !query || [row.canonical_name, ...(row.aliases || [])].some(name => normalize(name).includes(query));
+  if (query && !rows.some(row => row.group === state.group && hit(row))) {   // Enter on "lung cancer" under Symptoms: jump to the tab that has it
+    const other = groups.find(g => rows.some(row => row.group === g && hit(row)));
+    if (other) { state.group = other; for (const b of document.querySelectorAll('[data-group]')) b.setAttribute('aria-pressed', String(b.dataset.group === other)); }
+  }
+  const matches = rows.filter(row => row.group === state.group && hit(row))
     .sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity) || (a.altitude ?? Infinity) - (b.altitude ?? Infinity) || a.canonical_name.localeCompare(b.canonical_name));
   $('results').replaceChildren();
   $('result-count').textContent = `${matches.length} results${matches.length > 300 ? ' · type to narrow (showing 300)' : ''}`;
@@ -176,7 +181,7 @@ async function start() {
   } catch (error) { console.error(error); }
   legend($('legend'), wording);
   try {
-    const { createGlobe } = await import('./globe3d.js');
+    const { createGlobe } = await import('./globe3d.js?v=d667144-202611031525');
     const params = new URLSearchParams(location.search);
     const look = params.get('look') || localStorage.getItem('second-opinion-look') || 'sand';
     globe = await createGlobe($('globe'), world, select, hover, { style: look === 'atlas' ? 'atlas' : 'sand', wording });
