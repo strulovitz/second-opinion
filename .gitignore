@@ -29,3 +29,4 @@ Thumbs.db
 kitchen/logs/library.sqlite
 site/data/entities/
 site/data/search.json
+site/data/districts/

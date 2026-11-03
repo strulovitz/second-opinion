@@ -1,7 +1,7 @@
-import * as data from './data.js?v=d667144-202611031525';
-import { createMap } from './map2d.js?v=d667144-202611031525';
-import { normalize, parseRoute, spotsFor } from './geo.js?v=d667144-202611031525';
-import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=d667144-202611031525';
+import * as data from './data.js?v=91504f1-202611031531';
+import { createMap } from './map2d.js?v=91504f1-202611031531';
+import { normalize, parseRoute, spotsFor } from './geo.js?v=91504f1-202611031531';
+import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=91504f1-202611031531';
 
 const $ = id => document.getElementById(id);
 const state = { route: 'globe', slug: null, entity: null, territoryId: null, hover: null, group: groups[0], query: '' };
@@ -74,6 +74,13 @@ async function route() {
   if (parsed.route === 'district' && !world.byId.has(parsed.territoryId)) { history.replaceState(null, '', '#/globe'); parsed.route = 'globe'; }
   if (parsed.route === 'map3d' && !globe) {
     history.replaceState(null, '', mapURL(parsed.slug)); parsed.route = 'map';
+  }
+  if (parsed.route === 'district' && state.entity && globe) {
+    // Nir, 3 Nov 2026: opening a chapter while an entity is shown keeps its columns on the globe.
+    state.route = 'district'; state.territoryId = parsed.territoryId; document.body.dataset.route = 'district';
+    const territory = world.byId.get(parsed.territoryId);
+    await showMode('3d'); globe.focus(territory); globe.mark(territory); await showDistrict(parsed.territoryId); openPanel();
+    return;
   }
   Object.assign(state, { route: parsed.route, slug: parsed.slug || null, territoryId: parsed.territoryId || null, entity: null, hover: null });
   document.body.dataset.route = state.route; delete document.body.dataset.selected;
@@ -181,7 +188,7 @@ async function start() {
   } catch (error) { console.error(error); }
   legend($('legend'), wording);
   try {
-    const { createGlobe } = await import('./globe3d.js?v=d667144-202611031525');
+    const { createGlobe } = await import('./globe3d.js?v=91504f1-202611031531');
     const params = new URLSearchParams(location.search);
     const look = params.get('look') || localStorage.getItem('second-opinion-look') || 'sand';
     globe = await createGlobe($('globe'), world, select, hover, { style: look === 'atlas' ? 'atlas' : 'sand', wording });

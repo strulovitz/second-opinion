@@ -39,12 +39,28 @@ def main():
             e[key] = e.get(key) or []
         for key in FIELDS:
             e.setdefault(key, None)
-        e.update({"text_quote_count": 0, "text_status": "none", "books_total": 37, "quotes_total": 0, "edges": []})
         e["lit_spots"] = sorted(spots.get(slug, []), key=lambda s: (s["district_id"], s["book_id"]))
+        e.update({"text_quote_count": 0, "text_status": "none", "books_total": 37, "quotes_total": 0, "edges": [],
+                  "ordering_value": len({s["book_id"] for s in e["lit_spots"]})})
         (OUT / "entities" / f"{slug}.json").write_text(json.dumps(e, ensure_ascii=False, separators=(",", ":")))
         search.append({"slug": slug, "group": e["group"], "canonical_name": e["canonical_name"], "aliases": e["aliases"],
                        "altitude": None, "rank": None, "lit_spot_count": len(e["lit_spots"]), "edge_count": 0, "has_text": False,
                        "books": len({s["book_id"] for s in e["lit_spots"]})})
+    # per-district files: which entities are discussed in this chapter (index mentions first)
+    (OUT / "districts").mkdir(exist_ok=True)
+    by_district = defaultdict(list)
+    for slug, lst in spots.items():
+        e = ents.get(slug)
+        if not e:
+            continue
+        for s in lst:
+            by_district[s["district_id"]].append({"slug": slug, "canonical_name": e["canonical_name"], "group": e["group"],
+                                                   "edges_here": 0, "mentions": len(s["pages"]), "pages": s["pages"],
+                                                   "index": "index" in s["sources"]})
+    for did, lst in by_district.items():
+        lst.sort(key=lambda r: (not r["index"], -r["mentions"], r["canonical_name"]))
+        (OUT / "districts" / f"{did}.json").write_text(json.dumps({"territory_id": did, "entities": lst}, ensure_ascii=False, separators=(",", ":")))
+    print(f"wrote {len(by_district)} district files")
     search.sort(key=lambda s: (s["group"], s["canonical_name"]))
     (OUT / "search.json").write_text(json.dumps(search, ensure_ascii=False, separators=(",", ":")))
     print(f"wrote {len(search)} entity files + search.json in {time.time() - t0:.0f}s")
