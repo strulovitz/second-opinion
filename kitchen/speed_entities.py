@@ -106,6 +106,10 @@ def folio_map(con, bid):
     agree on the same PDF-minus-printed difference, so stray numbers drop out
     and variable offsets (e-pages, inserts) are followed. Missing printed
     numbers take the difference of the nearest lower known one."""
+    saved = ROOT / "kitchen" / "logs" / f"{bid}-folios.json"  # from epub_folios.py (print markers)
+    if saved.exists():
+        d = json.loads(saved.read_text())
+        return {"printed": d["printed"], "pdf": d["pdf"], "pages": len(d["printed"])}
     cands = {}
     for pg, t in con.execute("SELECT page, text FROM pages WHERE book_id=?", (bid,)):
         ls = [l.strip() for l in t.split("\n") if l.strip()]

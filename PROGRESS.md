@@ -1,6 +1,16 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+3 NOV 2026 LATE (2): BRANT-5 index links restored from the publisher EPUB
+Nir downloaded (kept as kitchen/books/BRANT-5-print-markers.epub). The EPUB
+carries print page markers (1,722 pages); kitchen/epub_folios.py matches the
+first words after each marker in the PDF text: 1,347 mapped, 1,340/1,346 in
+order, 6 s. speed_entities.folio_map uses kitchen/logs/<BOOK>-folios.json
+when present. BRANT index spots 0 -> 4,241; all lit spots 2,376,084. The
+same tool works for the other five calibre books if Nir finds their EPUBs.
+The downloaded Brant PDF (a8ec627c...) is the same calibre conversion as
+the current one and was not used.
+
 3 NOV 2026 LATE (Claude Opus 5.5, triage 11.1 done differently, at Nir's
 request "all books first"): the single page offset per book was replaced in
 speed_entities.py by a PER-CHAPTER page map. Each chapter title is searched
