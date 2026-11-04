@@ -1,7 +1,32 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-4 NOV 2026 NOON (Nir): BIBLE Part 0 section 12. Book connections (step C) CANCELLED;
+4 NOV 2026 NIGHT (Claude Opus 5.5): THE SYSTEM IS BUILT AND FILLED (commits 6128cb0, a4d9074).
+Done this session, per BIBLE Part 0 sections 12-13:
+- kitchen/rough_heights.py: rough heights by code (4 s, no model). Causes underground
+  0.30-0.95, diseases on the hexagons (1.00), symptoms in the air 1.02-1.50, treatments in
+  orbit 1.52-2.98; common = chapters + books that mention the thing; common low, rare high.
+- data/golden/facts.json: 70 golden facts entered by hand from Nir's sources S001-S005,
+  every quote verbatim; 26 new things added by hand (e.g. CIMAvax-EGF, type 2 diabetes
+  mellitus, acute liver failure, food allergy, leaky gut, GM potatoes, Bt toxin, glyphosate).
+- kitchen/golden_load.py: validates (slugs, legal relation, quote found verbatim in the
+  source), F-scale and severity (Part 4 8.3/8.4), loads into Neo4j (source "article",
+  idempotent), new type SAME_CHEMICAL; --find helper for slugs.
+- kitchen/speed_export.py: writes site/data/golden.json and the edges of each entity
+  (--golden = fast golden-only export).
+- Viewer: site/viewer/paths.js (blue walk from a symptom, yellow walk from a treatment
+  including the prescription cascade, grey mistaken-for, green same chemical; curved
+  2-D arrows with arrowheads, cloud / satellite / hexagon / underground marks, hover shows
+  sentence + source) and paths3d.js (3-D arcs over the surface, arrowheads at the end and
+  along the way, only the shells on the walk, nothing moves). Cards show each connection
+  as an arrow line with sentence, source, price, approval. All 9 browser checks pass.
+Nir's rules from this session: his facts are TRUE (never "test" facts); never enter the
+S003 sentence "celiac disease, severe stress, poor diet, microbiome imbalance -> leaky gut";
+keep the Diseases tab.
+NEXT: when Nir brings new golden facts (articles), follow the "STATE 4 Nov night" block of
+NEXT-SESSION-PROMPT-2026-11-05.md. Optional, only if Nir asks: a "Causes" search tab.
+
+(Older, kept:) 4 NOV 2026 NOON (Nir): BIBLE Part 0 section 12. Book connections (step C) CANCELLED;
 connections (paths) come only from golden facts the MANAGER enters BY HAND from
 articles Nir gives (about 20) into data/golden/facts.json; no automatic reader, no
 API key. Paths are curved ARROWS: blue walk from a symptom (symptom -> disease -> treatment),
