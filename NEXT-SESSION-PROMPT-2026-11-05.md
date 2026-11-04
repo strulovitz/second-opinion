@@ -1,10 +1,34 @@
 # NEXT SESSION PROMPT -- Second Opinion (written 4 Nov 2026 afternoon by Claude Opus 5.5 for itself)
 
-CORRECTION 4 Nov 2026 evening: BIBLE Part 0 section 13 wins over this file. Diseases
-are the HEXAGONS (not layers inside the planet); causes are underground; heights are
-rough by a code rule (no model, no question to Nir about the treatment order). Where
-sections 2-4 below say otherwise (glass planet, "ask Nir how to do the treatment
-heaviness"), section 13 wins.
+## RESTART 4 Nov 2026 evening (READ THIS BLOCK FIRST, after the whole BIBLE)
+
+BIBLE Part 0 section 13 (Nir corrected the world model) wins over everything below.
+State: all pushed (fdbaaec), tree clean. Nothing of the build is started.
+Nir's orders for this session: read the WHOLE BIBLE yourself; then BUILD, cheaply,
+exactly as he planned; much code, little documentation (no long notes, no clerk work);
+Nir is the eyes (never look at screenshots); grunt work -> give a short handoff to the
+cheap model Nir switches to, then he switches back. Tell Nir in max 4 short lines
+that you are ready, then wait for "go".
+
+THE BUILD (replaces section 4 below where they differ):
+1. Rough heights by code, seconds, no model. "Common" = number of chapters+books
+   that mention the thing; the further from the Earth's centre, the more rare.
+   Symptoms: air 1.02-1.50 (common low). Treatments: orbit 1.52-2.98 (common low).
+   Diseases: ON the hexagons (surface; anchor = chapter discussing it most; lit =
+   every chapter discussing it). Causes: underground (common deep, rare near the
+   surface); a thing is a cause when a fact says "X causes disease Y" (X = cause).
+2. data/golden/facts.json + kitchen/golden_load.py (Part 0 12.3; validate quotes
+   verbatim against data/golden/sources/; F-scale/severity from Part 4 8.3/8.4;
+   idempotent; SAME_CHEMICAL type).
+3. Export site/data/golden.json + edges in entity files (kitchen/speed_export.py).
+4. Viewer: site/viewer/paths.js; curved arrows with arrowheads in 2D and 3D; blue
+   walk from a symptom, yellow walk from a treatment; disease = lit hexagon, symptom =
+   cartoon cloud, treatment = cartoon satellite, cause = mark underground; hover/tap
+   shows sentence + source; only the things on the walk are shown; NO glass planet
+   for diseases. Keep each JS file under 400 lines; run kitchen/stamp_viewer.py.
+5. Test with DEMO mode, text output only. 6. Enter the facts of section 6 (one short
+   line each to Nir for approval), load, export, push.
+Open for Nir: S003 "GM potatoes" is food, not one of the groups -- ask where it goes.
 
 This file REPLACES NEXT-SESSION-PROMPT-2026-11-04.md and HANDOFF-2026-11-04-MORNING.md
 (both deleted: they were wrong). READ THE WHOLE BIBLE FIRST (section 1), then this file.
