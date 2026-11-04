@@ -1,5 +1,17 @@
 # NEXT SESSION PROMPT -- Second Opinion (written 4 Nov 2026 afternoon by Claude Opus 5.5 for itself)
 
+## STATE 4 Nov 2026 night (commit 6128cb0): THE BUILD (steps 1-6 below) IS DONE
+- 70 golden facts from S001-S005 in data/golden/facts.json (26 new things added by hand).
+  Nir: his facts are TRUE; never call them "test" facts; never invent facts.
+- NEVER enter "celiac disease, severe stress, poor diet, microbiome imbalance -> leaky gut"
+  (S003 "What Science Says Today"; Nir: establishment lie; celiac is hereditary).
+- Keep the Diseases tab (Nir). Causes = group "causes" or a thing that LEADS_TO and is
+  caused by nothing entered (kitchen/rough_heights.py).
+- New article: save verbatim as data/golden/sources/S0NN-*.md, add facts to facts.json,
+  then: golden_load.py (validates quotes, loads, heights) ; speed_export.py --golden ;
+  commit + push. Slug helper: golden_load.py --find "name".
+- Viewer: site/viewer/paths.js (walks, 2D) + paths3d.js (3D arcs, arrowheads along the way).
+
 ## RESTART 4 Nov 2026 evening (READ THIS BLOCK FIRST, after the whole BIBLE)
 
 BIBLE Part 0 section 13 (Nir corrected the world model) wins over everything below.
