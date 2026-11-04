@@ -144,3 +144,8 @@ def golden():
 
 if __name__ == "__main__":
     golden() if "--golden" in sys.argv else main()
+    # THE SITE FOLDER LAW (BIBLE Part 9 section 9.S): the export is not finished until
+    # site/ is committed and pushed. This prints exactly what is still missing on GitHub.
+    import subprocess
+    print("\nSite Folder Law check (commit + push site/, then run kitchen/check_published.py again):")
+    subprocess.run([sys.executable, str(ROOT / "kitchen" / "check_published.py")])
