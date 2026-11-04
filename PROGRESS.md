@@ -1,8 +1,17 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
-4 NOV 2026: work order = NEXT-SESSION-PROMPT-2026-11-04.md (edges first: zero edges
-exist; then the article reader). Steps A-E are ticked here as they finish.
+4 NOV 2026 NOON (Nir): BIBLE Part 0 section 12. Book connections (step C) CANCELLED;
+connections (paths) come only from golden facts the MANAGER enters BY HAND from
+articles Nir gives (about 20) into data/golden/facts.json; no automatic reader, no
+API key. Paths are curved ARROWS: blue walk from a symptom (symptom -> disease -> treatment),
+yellow walk from a treatment (treatment -> disease it causes -> its symptoms); only
+the relevant shells are shown. The wrong attempt (kitchen/worker.py,
+kitchen/speed_edges.py, tables edge_candidates/edge_results) was DELETED. Next: build 12.3 loader + 12.5 display, only
+when Nir says go.
+
+4 NOV 2026 AFTERNOON: work order = NEXT-SESSION-PROMPT-2026-11-05.md (the 11-04 prompt
+and the 11-04 morning handoff were wrong and are deleted).
 
 3 NOV 2026 LATE (2): BRANT-5 index links restored from the publisher EPUB
 Nir downloaded (kept as kitchen/books/BRANT-5-print-markers.epub). The EPUB

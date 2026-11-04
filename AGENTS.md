@@ -1,9 +1,14 @@
-# Second Opinion -- standing orders for the manager
+4 NOV 2026 EVENING (Nir): BIBLE Part 0 section 13 CORRECTS THE WORLD MODEL and wins
+over section 12.5(d) and every older part: CAUSES underground, DISEASES ARE THE
+HEXAGONS, SYMPTOMS are clouds in the air, TREATMENTS are satellites in orbit; heights
+are ROUGH, by a code rule, no AI model; no glass planet, no disease onion layers.
 
-4 NOV 2026: FIRST READ AND FOLLOW NEXT-SESSION-PROMPT-2026-11-04.md (work order to
-finish the product: blue/yellow edges from the books, then the article
-reader with edges, prices and approvals). Then BIBLE/part-00-speed-charter.md.
-
+4 NOV 2026 AFTERNOON (Nir, final): FIRST READ THE WHOLE BIBLE YOURSELF, EVERY WORD,
+EVERY FILE IN BIBLE/. ONLY THEN read NEXT-SESSION-PROMPT-2026-11-05.md and follow
+it. (BIBLE Part 0 section 12 wins over
+everything: golden facts entered BY HAND by the manager from articles Nir gives;
+paths are curved ARROWS; blue walk from a symptom, yellow walk from a treatment;
+nothing from the internet; do nothing unasked).
 
 3 NOV 2026 (Claude Fable, with Nir's explicit permission to rewrite the
 BIBLE): READ BIBLE/part-00-speed-charter.md FIRST. It overrides every older

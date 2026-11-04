@@ -240,3 +240,199 @@ Written: 3 November 2026 by Claude Fable, at Nir's explicit request and with
      quotes, names ending in a single stray letter after a comma (OCR
      tails like ", Z" or ", l"), and names whose key is a single stopword.
 11.3 Stale tests (flower map, resolver) are deleted or skipped, not fixed.
+
+================================================================================
+12. THE PURPOSE OF THE PROJECT AND HOW IT IS SHOWN (it was always this; the
+    manager, Claude Opus 5.5, misunderstood it on 4 Nov 2026 and wrote it
+    here at Nir's order). THIS SECTION WINS OVER EVERY OTHER PART, OVER
+    LAW 1, OVER PART 1 SECTION 3.6, OVER PART 7 ADDITION A11, OVER SECTION
+    10 OF THIS PART, AND OVER EVERY HANDOFF OR PROMPT FILE. What Nir
+    says is binding, not a recommendation.
+================================================================================
+12.1 The purpose. Second Opinion shows knowledge the establishment hides:
+     cascading side effects, better cures that are not approved, and the
+     same chemical sold elsewhere at a fraction of the price. The core
+     message, and the non-trivial part: a treatment that people believe is
+     GOOD causes something BAD. The arrow from the good thing to the bad
+     thing is what the visitor must see.
+
+12.2 The books are the establishment's view and only the SKELETON: the
+     list of medical things (35,845 entities), each thing's own altitude,
+     and the chapters where the books discuss it (2.4 M mentions). NO
+     connections are taken from the books. NEXT-SESSION-PROMPT step C is
+     CANCELLED. The wrong attempt of 4 Nov morning (kitchen/speed_edges.py,
+     kitchen/worker.py, SQLite tables edge_candidates and edge_results) was
+     DELETED at Nir's order. Do not rebuild it.
+
+12.3 GOLDEN FACTS ARE ENTERED BY HAND. Nir hands the manager an article
+     (Chinese research, an Indian market price, a Cuban clinic report,
+     anything he chooses); about 20 articles in total, not thousands. The
+     MANAGER (the chat model in OpenCode) reads the article itself, picks
+     its golden facts, and writes each fact by hand as one record in the
+     committed file data/golden/facts.json. There is NO automatic article
+     reader, NO OpenRouter key in the system, NO upload page on the
+     website, and NOTHING from the internet, ever. Section 10 of this part
+     (automatic ingestion) is CANCELLED.
+     One fact record:
+       id            "G001", "G002", ...
+       relation      HARMS (treatment -> the bad thing it causes; subtype
+                     CONTRAINDICATED_IN allowed), LEADS_TO (disease ->
+                     disease), PRESENTS_WITH (disease -> symptom),
+                     TREATED_BY (disease or symptom -> treatment),
+                     MISTAKEN_FOR (disease <-> disease), or SAME_CHEMICAL
+                     (treatment <-> treatment: the same active chemical
+                     under another name or from another country)
+       from, to      entity slugs from the registry
+       quote         the article's own sentence, verbatim
+       frequency_phrase, severity_phrase   the article's own words or ""
+       price, availability, approval       free text for treatments (for
+                     example "approved in Cuba 2011, not FDA approved"),
+                     or ""
+       source        {title, origin (country or institution), year, file
+                     or url as Nir gave it, kind (study, review, news,
+                     price list, official), strength (trial,
+                     observational, review, case, opinion, official)}
+       entered_by, entered_date
+     A thing missing from the registry is added by hand in the same file
+     (section "new_entities": name, group, aliases) and gets its altitude
+     by the insertion rule of Part 5 section 8; nothing else moves.
+     A script (kitchen/golden_load.py) loads the file into Neo4j: the
+     connections as the relationship types above with source "article"
+     and the source fields; F-scale and severity from the Part 4 tables.
+     The export writes them into the entity files. From here everything is
+     AUTOMATIC DISPLAY ONLY: the website never analyzes anything.
+
+12.4 Words. Say "connection" or "path", never "links" or "edges" to Nir:
+     he hears "links" as automatic internet scraping. Nir switches the chat
+     model in OpenCode himself; the manager never compares models or shows
+     price tables.
+
+12.5 HOW CONNECTIONS ARE SHOWN (automatic, from the database only)
+  (a) A PATH IS AN ARROW. Every connection is drawn as a smooth curved line
+      (a spline) WITH AN ARROWHEAD from A to B, so the direction is
+      obvious. This REPLACES Part 1 section 3.6 "no lines" and Part 7 A11
+      "lines forbidden". The chapter lights (where the books discuss a
+      thing) stay, as faint dots under the paths.
+  (b) TWO DIRECTIONS, TWO COLOURS (Nir, 4 Nov 2026). The colour and the
+      arrow direction belong to the WALK the visitor starts, not to the
+      stored fact:
+      BLUE walk = the normal medical knowledge, starting from a SYMPTOM:
+        symptom -> disease (that presents with it) -> treatment (for that
+        disease). All arrows blue.
+      YELLOW walk = the opposite direction, the hidden harm, starting from
+        a TREATMENT: treatment -> disease it CAUSES (a different disease:
+        the headache pill -> liver damage) -> that disease's symptoms
+        (jaundice, tiredness). All arrows yellow.
+      So one stored fact (liver damage presents with jaundice) is drawn
+      blue in a blue walk and yellow in a yellow walk. Grey = MISTAKEN_FOR
+      and green = SAME_CHEMICAL (two arrowheads) are shown with any walk.
+      Thickness = frequency (F-scale; thicker = more common); dashed =
+      frequency not stated; a red glow = the source's severity words
+      (fatal, life-threatening ...). Each arrow carries the other thing's
+      name at its end. Hover or tap an arrow: the verbatim sentence, the
+      source title, country, year and evidence strength.
+  (c) 2D. The clicked thing glows; the arrows of its walk go out to
+      labelled nodes; the next step of the chain is drawn fainter, so the
+      whole chain (headache pill -> liver damage -> jaundice, tiredness) is
+      visible at once. ONLY TWO INPUTS EXIST: a symptom (starts a blue
+      walk) and a treatment (starts a yellow walk). A disease is never an
+      input; it is only the middle of a walk (Nir: "there is no such
+      thing"). The end of one walk is the input of the other: clicking the
+      symptom at the end of a yellow walk starts its blue walk; clicking
+      the treatment at the end of a blue walk starts its yellow walk. A
+      node sits on the chapter tile where the books discuss that thing
+      most (its drawing anchor only; Law 8 still holds for the lights).
+  (d) 3D. NOTHING MOVES; this is not a flight. The camera stays where the
+      visitor put it. The same arrows are simply DRAWN in 3D between the
+      heights: a curve from the point on A's shell (A's altitude, above
+      A's anchor tile) to the point on B's shell, crossing the layers in
+      between, with the arrowhead at B. Example: from a drug's shell among
+      the satellites, an arrow is drawn down into the glass planet to
+      liver damage's depth, and from there an arrow up into the
+      atmosphere to jaundice. The visitor turns and zooms the globe by
+      hand, as now.
+  (e) ONLY RELEVANT LAYERS. There are thousands of symptom altitudes and
+      thousands of treatment altitudes. Never draw them all. Draw ONLY the
+      shells of the clicked thing and of the things on its paths, each as
+      a thin translucent shell or ring with its name; every other shell
+      is hidden. The decoration (clouds, satellites, bands) stays faint so
+      the visitor still sees where the atmosphere and the orbits are.
+  (f) Cards and pages: each connection as text with its arrow
+      ("Drug X -> causes -> liver damage"), the sentence and the source.
+      A treatment's card lists "Same chemical, other names and countries"
+      with prices, and "Approval" (where approved, where not).
+
+12.6 Unchanged: the geography, the globe and its looks, the altitude rule
+     (one altitude per thing, shared by every chapter that discusses it),
+     search, and the book lists and pages.
+
+12.7 Behaviour. Answer short and simple. Do NOTHING until Nir explicitly
+     says to do it and approves it.
+================================================================================
+
+================================================================================
+13. THE WORLD MODEL, CORRECTED BY NIR (4 Nov 2026 evening; written by the
+    manager, Claude Opus 5.5, at Nir's explicit order "please correct the
+    BIBLE"). THIS SECTION WINS OVER SECTION 12.5(d), OVER PART 1 SECTIONS
+    3.3-3.4, OVER PART 5, OVER PART 7 A6/A6b, AND OVER EVERY HANDOFF OR
+    PROMPT FILE.
+================================================================================
+13.1 What Fable got wrong. Fable put "diseases and conditions" in one group
+     and drew them as onion layers INSIDE the planet, deep = "discussed in
+     many books". Nir never meant that. Nir meant: under the diseases there
+     are DEEPER things, the CONDITIONS that CAUSE the diseases. Example:
+     lack of vitamin C (a cause) -> scurvy (a disease) -> bleeding gums (a
+     symptom). The onion of 22,000 disease layers inside a glass planet is
+     CANCELLED; nobody can see it.
+
+13.2 The four places, from the inside out:
+     UNDERGROUND (inside the planet): the CAUSES, the conditions under the
+       diseases (lack of vitamin C, leaky gut, ...).
+     SURFACE: the DISEASES ARE THE HEXAGONS. A hexagon is a chapter; most
+       chapters are about a disease. A disease lights up EVERY hexagon
+       (chapter) whose chapter discusses it. Nothing is merged: every
+       chapter stays its own hexagon.
+     AIR (atmosphere): the SYMPTOMS, drawn as cartoon CLOUDS above the
+       hexagons.
+     ORBITS: the TREATMENTS, drawn as cartoon SATELLITES above the air.
+     Example walk: lack of vitamin C (underground) -> scurvy (hexagon) ->
+     bleeding gums (cloud). Arrows (section 12.5 a-b) go between these
+     places: from a satellite down to a hexagon, from a hexagon up to a
+     cloud, from an underground cause up to a hexagon.
+
+13.3 Heights are ROUGH. The visitor cannot see thousands of levels and does
+     not care. Heights only put a thing in the right place (underground,
+     surface, air, orbit) and roughly lower or higher inside it. They are
+     computed by a simple code rule in seconds; NO AI model, NO measured
+     trial, NO question to Nir about the exact order. The detailed ordering
+     rules of Part 1 3.4 and Part 5 are not important and must not cost
+     time or money.
+
+13.4 Only what is clicked is shown (section 12.5 e stands): never all
+     things at once. After a click, only the thing and the few things on
+     its walk are marked at their rough height: a lit hexagon for a
+     disease, a cartoon cloud for a symptom, a cartoon satellite for a
+     treatment, a marked spot under the surface for a cause. Hovering or
+     tapping the mark shows its information. There is NO glass planet for
+     diseases any more (they are on the surface).
+
+13.5 Decided by Nir (4 Nov 2026 evening):
+     (a) CAUSE OR DISEASE: like cause and effect. The cause happens FIRST
+         (lack of vitamin C); AFTERWARDS the problem in the body happens
+         (scurvy). In practice: when a fact says "X causes disease Y", X is
+         the cause and is drawn underground; Y is the disease, a hexagon.
+     (b) ONE ORDER FOR EVERYTHING: COMMON VERSUS RARE. The further a thing
+         is from the centre of the Earth, the more rare ("exotic") it is.
+         This holds for causes (common deep, rare near the surface),
+         symptoms (common low in the air, rare high) and treatments
+         (common low orbit, rare high orbit). Diseases stay on the ground,
+         the hexagons; common versus rare is used for them only where it
+         is relevant. This REPLACES "heaviness" (Part 1 3.4, Part 5 4-5),
+         "specificity" and "breadth" as ordering keys.
+     (c) The rough code rule (13.3) for "common": the number of chapters
+         and books that mention the thing (more mentions = more common).
+
+13.6 Lesson for the manager. When the BIBLE and Nir disagree, Nir is right;
+     say plainly that the BIBLE (or the manager) was wrong, without
+     defending it, and help him do it right.
+================================================================================
