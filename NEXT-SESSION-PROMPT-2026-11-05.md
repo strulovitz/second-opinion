@@ -28,7 +28,8 @@ THE BUILD (replaces section 4 below where they differ):
    for diseases. Keep each JS file under 400 lines; run kitchen/stamp_viewer.py.
 5. Test with DEMO mode, text output only. 6. Enter the facts of section 6 (one short
    line each to Nir for approval), load, export, push.
-Open for Nir: S003 "GM potatoes" is food, not one of the groups -- ask where it goes.
+Answered by Nir: GM food (GM potatoes, Bt toxin, glyphosate) = a CAUSE, underground,
+like asbestos -> cancer; it causes many diseases (BIBLE Part 0 13.5 d).
 
 This file REPLACES NEXT-SESSION-PROMPT-2026-11-04.md and HANDOFF-2026-11-04-MORNING.md
 (both deleted: they were wrong). READ THE WHOLE BIBLE FIRST (section 1), then this file.

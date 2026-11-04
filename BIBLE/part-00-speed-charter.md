@@ -431,6 +431,10 @@ Written: 3 November 2026 by Claude Fable, at Nir's explicit request and with
          "specificity" and "breadth" as ordering keys.
      (c) The rough code rule (13.3) for "common": the number of chapters
          and books that mention the thing (more mentions = more common).
+     (d) POISONS AND HARMFUL EXPOSURES ARE CAUSES (Nir): GM food (GM
+         potatoes, Bt toxin, glyphosate) is like a poison, like asbestos
+         that causes cancer. It is NOT a disease; it causes many diseases
+         (allergies, cancer ...). Drawn underground as a cause.
 
 13.6 Lesson for the manager. When the BIBLE and Nir disagree, Nir is right;
      say plainly that the BIBLE (or the manager) was wrong, without
