@@ -1,5 +1,7 @@
 # NEXT SESSION PROMPT -- Second Opinion (written 4 Nov 2026 afternoon by Claude Opus 5.5 for itself)
 
+**LAW 16, THE SITE FOLDER LAW (4 Nov 2026, BIBLE Part 9 section 9.S): site/ must be complete on GitHub (the desktop serves it); never say "pushed" until `kitchen/check_published.py` prints OK.**
+
 ## STATE 4 Nov 2026 night (commit 6128cb0): THE BUILD (steps 1-6 below) IS DONE
 - 70 golden facts from S001-S005 in data/golden/facts.json (26 new things added by hand).
   Nir: his facts are TRUE; never call them "test" facts; never invent facts.

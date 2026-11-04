@@ -1,3 +1,7 @@
+4 NOV 2026 (Nir, furious, rightly): LAW 16 THE SITE FOLDER LAW (BIBLE Part 9 section 9.S).
+The website in site/ must be COMPLETE on GitHub; the desktop serves it half the time or more.
+Never say "pushed" until kitchen/check_published.py prints OK. Push only what Nir asks for.
+
 4 NOV 2026 EVENING (Nir): BIBLE Part 0 section 13 CORRECTS THE WORLD MODEL and wins
 over section 12.5(d) and every older part: CAUSES underground, DISEASES ARE THE
 HEXAGONS, SYMPTOMS are clouds in the air, TREATMENTS are satellites in orbit; heights
@@ -160,6 +164,18 @@ LOCAL, ignored by Git. Keep local Qwen; NIR chooses the operator model himself.
   LAW 15. WHEN UNCLEAR, STOP AND ASK. Restates section 0.3 because it is
   the law most often broken: never invent, never guess, never substitute.
   Write the question in PROGRESS.md under "QUESTIONS FOR HUMAN" and stop.
+
+  LAW 16. THE SITE FOLDER LAW (Nir, 4 Nov 2026; BIBLE Part 9 section
+  9.S). Everything the public website serves lives in site/ and is
+  tracked by git and PUSHED to GitHub. After a plain git pull or a fresh
+  clone on ANY computer (laptop or desktop; the desktop serves the sites
+  half of the time or more), the website is complete and working.
+  .gitignore holds only kitchen/.env and *.pdf; never a path under site/.
+  Add only the paths Nir asks for, by name (never git add -A). Never say
+  "pushed", "published" or "done" until kitchen/check_published.py prints
+  OK; after changing site/ data also run the fresh-clone test
+  (kitchen/test_published_clone.mjs). If it fails, say "NOT pushed" and
+  what is missing. Looking is the manager's job, not git's.
 
   CONTINENT      one book = one field; a spherical Voronoi cell around a
                  Fibonacci-sphere point; ID Cnn.

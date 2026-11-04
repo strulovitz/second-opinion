@@ -67,6 +67,74 @@ E5. WHAT THE PUBLIC SEES ON 24 OCT 2026
 CLAUDE OPUS 5.5 ADDITION END -- PART 9
 ================================================================================
 
+================================================================================
+9.S THE SITE FOLDER LAW (LAW 16) -- written 4 Nov 2026 by Claude Opus 5.5
+on Nir's order. WINS over every other publishing text in this BIBLE.
+================================================================================
+S1. THE LAW
+  Everything the public website serves lives in site/ and is tracked by
+  git and PUSHED to GitHub. After a plain `git pull` (or a fresh `git
+  clone`) on ANY computer, the laptop or the desktop, the website is
+  complete and working. Nothing under site/ may ever be hidden from
+  GitHub by .gitignore or by forgetting to add it.
+
+S2. WHY (the incident, 3-4 Nov 2026)
+  Nir serves www.strulovitz.org from TWO computers, one at a time: the
+  laptop and the desktop (the desktop serves half of the time or more,
+  because it can run day and night without overheating). Each one serves
+  its own ~/second-opinion/site, which comes from GitHub.
+  On 3 Nov 2026 an AI session on the laptop added these three lines to
+  .gitignore: site/data/entities/, site/data/search.json,
+  site/data/districts/. That hid the whole medical data of the website
+  (38,488 entity files, 4,759 district files, the search list) from
+  GitHub. The laptop showed a working site, so the AI said "pushed" and
+  "done" without ever checking what GitHub really had. The desktop
+  pulled and got a site where "hernia" finds nothing and no columns rise:
+  https://www.strulovitz.org/2nd-opinion/data/search.json returned 404.
+  Nir was furious, and rightly so. The AI is responsible for LOOKING;
+  "git said nothing to push" is never an excuse.
+  Fixed 4 Nov 2026: commits b4f1b18 .. e102aa3 put all 43,248 files in
+  GitHub; a fresh clone was served and "hernia" (Diseases) gave 43
+  results and the 3-D columns.
+
+S3. .gitignore (Nir's order, 4 Nov 2026)
+  .gitignore contains ONLY two lines: kitchen/.env and *.pdf. Nothing
+  else, and never a path under site/. Because the list is short, the
+  manager NEVER runs `git add -A` or `git add .`: it adds only the paths
+  Nir asked for (site/ always belongs to them), by name. Never add the
+  books (any format), book page images, library.sqlite, logs or .venv.
+
+S4. THE CHECK: kitchen/check_published.py
+  Exits 1 and prints every problem if: a required file is missing
+  (site/index.html, site/viewer/index.html, site/data/search.json,
+  golden.json, wording.json, entities/, districts/, geography/); any file
+  under site/ is ignored, untracked, or changed but not committed; this
+  computer has commits not yet on GitHub; any file under site/ is over
+  90 MB (GitHub refuses 100 MB; never use git LFS, Caddy would serve the
+  LFS pointer files). `--live` also compares the live search.json with
+  the local one (the hosting computer must have pulled).
+  kitchen/speed_export.py runs it at the end of every export. On success
+  it prints "OK: site/ is complete and fully tracked and pushed".
+
+S5. THE PROOF FROM A BLANK SLATE: kitchen/test_published_clone.mjs
+  rm -rf /tmp/opencode/so-test
+  git clone https://github.com/strulovitz/second-opinion.git /tmp/opencode/so-test
+  (cd /tmp/opencode/so-test/site && python3 -m http.server 8799 &)
+  node /tmp/opencode/so-test/kitchen/test_published_clone.mjs
+  It must print PASS for the "hernia" search and open "Hernias" on the
+  3-D globe; look at the screenshot (columns visible). Then stop the
+  server and delete the clone.
+
+S6. DEFINITION OF "PUBLISHED" / "PUSHED" / "DONE"
+  The manager may say these words to Nir ONLY when check_published.py
+  prints OK. After any change to site/ data, it also runs the clone test
+  of S5. If the check fails, the manager says plainly: "NOT pushed: <what
+  is missing>". Never "pushed" on git's word alone.
+
+S7. ADDED TO THE LIVE CHECKLIST (section 8): line 11: check_published.py
+  prints OK AND a fresh clone shows search results for "hernia".
+================================================================================
+
 0. PURPOSE AND AMENDMENTS
 --------------------------------------------------------------------------------
 0.1 Purpose
@@ -454,6 +522,9 @@ CLAUDE OPUS 5.5 ADDITION END -- PART 9
       continuing: <k> of <N> books read"; NEXT STEP names the next book
       or the next BIBLE step.
   10. The five-minute audit of Part 8 section 7 passes.
+  11. (Site Folder Law, 9.S) kitchen/check_published.py prints OK AND a
+      fresh `git clone` of GitHub, served, shows search results for
+      "hernia" and the columns on the 3-D globe.
   Being live does NOT mean finished. Phase B continues for months; each
   publish updates the numbers. The site is honest about this at every
   stage (section 4.2 items 6 and 7).

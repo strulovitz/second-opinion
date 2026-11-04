@@ -226,6 +226,18 @@ CLAUDE OPUS 5.5 ADDITION END -- PART 1
   the law most often broken: never invent, never guess, never substitute.
   Write the question in PROGRESS.md under "QUESTIONS FOR HUMAN" and stop.
 
+  LAW 16. THE SITE FOLDER LAW (Nir, 4 Nov 2026; BIBLE Part 9 section
+  9.S). Everything the public website serves lives in site/ and is
+  tracked by git and PUSHED to GitHub. After a plain git pull or a fresh
+  clone on ANY computer (laptop or desktop; the desktop serves the sites
+  half of the time or more), the website is complete and working.
+  .gitignore holds only kitchen/.env and *.pdf; never a path under site/.
+  Add only the paths Nir asks for, by name (never git add -A). Never say
+  "pushed", "published" or "done" until kitchen/check_published.py prints
+  OK; after changing site/ data also run the fresh-clone test
+  (kitchen/test_published_clone.mjs). If it fails, say "NOT pushed" and
+  what is missing. Looking is the manager's job, not git's.
+
 3. THE WORLD MODEL
 --------------------------------------------------------------------------------
   Every later part refers to these definitions by name.

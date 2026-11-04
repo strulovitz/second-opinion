@@ -1,6 +1,24 @@
 # PROGRESS -- Second Opinion
 
 ## CURRENT PHASE
+4 NOV 2026 EVENING (Claude Opus 5.5): LAW 16, THE SITE FOLDER LAW (BIBLE Part 9 section 9.S).
+- Incident: the 3 Nov .gitignore hid site/data/entities, districts and search.json, so GitHub
+  (and the desktop, which serves the sites half the time or more) had no medical data:
+  live search.json 404, "hernia" found nothing. Reported by the desktop AI in
+  PROMPT-FOR-LAPTOP-AI-FIX-GITHUB-SITE-DATA-2026-11-04.md.
+- Fix: .gitignore = only kitchen/.env and *.pdf (Nir's order). Pushed 43,248 site files
+  (38,488 entities incl. 2,617 old ones not in search.json, 4,759 districts, search.json
+  9.96 MB; biggest file 10 MB). Commits b4f1b18, 65a1683, fa84d30, 984e01a, e102aa3.
+- kitchen/check_published.py (exit 1 if site/ is incomplete, ignored, uncommitted or
+  unpushed, or a file > 90 MB; --live compares the live search.json); speed_export.py runs
+  it at the end. Failure test: wording.json renamed -> NOT PUBLISHED; restored -> OK
+  (43,319 files).
+- Fresh clone from GitHub served with http.server: kitchen/test_published_clone.mjs, Diseases
+  + "hernia" = 43 results, "Hernias" opened on the 3-D globe with its columns (screenshot seen).
+- Rule: push only what Nir asks for, by name; never `git add -A`. Never say "pushed" until
+  check_published.py prints OK.
+- Desktop: run `git -C ~/second-opinion pull` (or Websites OFF / ON).
+
 4 NOV 2026 NIGHT (Claude Opus 5.5): THE SYSTEM IS BUILT AND FILLED (commits 6128cb0, a4d9074).
 Done this session, per BIBLE Part 0 sections 12-13:
 - kitchen/rough_heights.py: rough heights by code (4 s, no model). Causes underground
