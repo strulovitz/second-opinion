@@ -1,4 +1,5 @@
-import { COLOUR, RELATION_COLOUR } from './geo.js?v=686363d-202611031550';
+import { COLOUR, RELATION_COLOUR } from './geo.js?v=8dfde9d-202611041435';
+import { VERB, goldenNode } from './paths.js?v=8dfde9d-202611041435';
 
 export const groups = ['symptoms-and-signs', 'diseases-and-conditions', 'treatments-and-drugs'];
 export function text(tag, value = '', className) {
@@ -47,7 +48,8 @@ export function entityCard(panel, entity, spots, mode, wording, highlight) {
   const links = text('p', '', 'card-links');
   links.append(link('Read the page', `../pages/${encodeURIComponent(entity.slug)}.html`), link(mode === '3d' ? 'Open in 2-D' : 'Open in 3-D', mapURL(entity.slug, mode === '3d' ? '2d' : '3d')), link('Back to globe', '#/globe'));
   panel.append(links);
-  if (!(entity.edges || []).length) panel.append(text('p', `No relation from the books has been read for this entity yet; it appears in the index of ${new Set((entity.lit_spots || []).map(s => s.district_id)).size} chapters (white dots).`, 'notice'));
+  if (!(entity.edges || []).length) panel.append(text('p', `No connection has been entered for this yet. The books discuss it in ${new Set((entity.lit_spots || []).map(s => s.district_id)).size} chapters (the lit hexagons).`, 'notice'));
+  approval(panel, entity);
   const sections = new Map();
   for (const edge of entity.edges || []) {
     const key = sectionKey(edge);
@@ -61,8 +63,28 @@ export function entityCard(panel, entity, spots, mode, wording, highlight) {
     target.addEventListener('focus', () => highlight(edge.other_slug)); target.addEventListener('blur', () => highlight(null));
     item.append(target, text('span', fLabel(edge.f_scale, wording), `fbadge f${edge.f_scale}`));
     if (edge.severity) item.append(text('span', wording.severity || 'serious', 'severe'));
-    item.append(text('small', `${edge.statements?.length || 0} sentences`)); sections.get(key).append(item);
+    item.append(text('small', `${edge.statements?.length || 0} sentences`));
+    for (const st of edge.statements || []) if (st.quote) item.append(statement(entity, edge, st));
+    sections.get(key).append(item);
   }
+}
+// BIBLE Part 0 12.5(f): each connection as text with its arrow, the sentence and the source.
+function arrowLine(rel, a, b) { return rel === 'SAME_CHEMICAL' || rel === 'MISTAKEN_FOR' ? `${a} ↔ ${VERB[rel]} ↔ ${b}` : `${a} → ${VERB[rel] || rel} → ${b}`; }
+function sourceLine(src = {}) { return [src.title, [src.origin, src.year].filter(Boolean).join(' '), [src.kind, src.strength].filter(Boolean).join(', ')].filter(Boolean).join(' · '); }
+function statement(entity, edge, st) {
+  const box = text('div', '', 'golden');
+  const [a, b] = edge.direction === 'in' ? [edge.other_name, entity.canonical_name] : [entity.canonical_name, edge.other_name];
+  box.append(text('div', arrowLine(edge.relation, a, b), 'arrow-line'), text('q', st.quote), text('div', sourceLine(st.source), 'muted'));
+  for (const [k, label] of [['frequency_phrase', 'How often'], ['price', 'Price'], ['availability', 'Availability'], ['approval', 'Approval'], ['note', 'Note']]) if (st[k]) box.append(text('div', `${label}: ${st[k]}`));
+  return box;
+}
+function approval(panel, entity) {
+  if (entity.group !== 'treatments-and-drugs') return;
+  const lines = new Set();
+  for (const e of entity.edges || []) for (const st of e.statements || []) for (const k of ['approval', 'availability']) if (st[k]) lines.add(st[k]);
+  if (!lines.size) return;
+  const list = text('ul'); for (const l of lines) list.append(text('li', l));
+  panel.append(text('h3', 'Approval'), list);
 }
 export function districtCard(panel, territory, world, detail, wording, mode, entity) {
   const chain = [];
@@ -94,6 +116,19 @@ export function districtCard(panel, territory, world, detail, wording, mode, ent
 }
 export function tooltipContent(node, value, world, wording, entity) {
   node.replaceChildren();
+  if (value.walkArrow) {
+    const a = value.walkArrow, c = a.conn, from = goldenNode(c.from)?.name || c.from, to = goldenNode(c.to)?.name || c.to;
+    node.append(text('strong', arrowLine(c.rel, from, to)), text('q', c.quote), text('div', sourceLine(c.source)));
+    if (c.frequency_phrase) node.append(text('div', `How often: ${c.frequency_phrase}`));
+    if (c.severity) node.append(text('span', c.severity_phrase || wording.severity || 'serious', 'severe'));
+    for (const k of ['price', 'approval']) if (c[k]) node.append(text('div', c[k]));
+    return;
+  }
+  if (value.walkNode) {
+    const n = value.walkNode, hint = n.group === 'symptoms-and-signs' ? 'Click: start its blue walk' : n.group === 'treatments-and-drugs' ? 'Click: start its yellow walk' : 'Click to open';
+    node.append(text('strong', n.name), text('small', wording.group_labels?.[n.group] || n.group), text('div', hint));
+    return;
+  }
   if (value.other_slug) {
     node.append(text('strong', value.other_name), text('small', wording.group_labels?.[value.other_group] || value.other_group), text('div', sectionTitle(value, wording)), text('div', fLabel(value.f, wording)));
     const s = value.statement;

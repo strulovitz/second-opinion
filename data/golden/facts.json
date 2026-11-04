@@ -1,0 +1,961 @@
+{
+ "sources": {
+  "S001": {
+   "title": "CIMAvax: why American lung cancer patients travel to Cuba (Google AI Overview)",
+   "origin": "Cuba / USA",
+   "year": 2026,
+   "file": "S001-cimavax-ai-overview.md",
+   "kind": "review",
+   "strength": "review"
+  },
+  "S002": {
+   "title": "Revlimid (lenalidomide): US price versus India (Google AI Overview)",
+   "origin": "USA / India",
+   "year": 2026,
+   "file": "S002-revlimid-ai-overview.md",
+   "kind": "price list",
+   "strength": "review"
+  },
+  "S003": {
+   "title": "Dr. Arpad Pusztai's GM potato experiments (Google AI Overview)",
+   "origin": "Rowett Research Institute, Scotland",
+   "year": 1998,
+   "file": "S003-pusztai-ai-overview.md",
+   "kind": "study",
+   "strength": "trial"
+  },
+  "S004": {
+   "title": "Headache pills and the liver (Google AI Overview)",
+   "origin": "USA",
+   "year": 2026,
+   "file": "S004-headache-pills-liver-ai-overview.md",
+   "kind": "review",
+   "strength": "review"
+  },
+  "S005": {
+   "title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+   "origin": "Israel",
+   "year": 2026,
+   "file": "S005-madhoney-chapter-04-pharma.md",
+   "kind": "book",
+   "strength": "review"
+  }
+ },
+ "new_entities": [
+  {
+   "name": "CIMAvax-EGF",
+   "group": "treatments-and-drugs",
+   "aliases": [
+    "CIMAvax"
+   ]
+  },
+  {
+   "name": "Vaxira",
+   "group": "treatments-and-drugs",
+   "aliases": []
+  },
+  {
+   "name": "Generic lenalidomide (India)",
+   "group": "treatments-and-drugs",
+   "aliases": []
+  },
+  {
+   "name": "Ozempic",
+   "group": "treatments-and-drugs",
+   "aliases": []
+  },
+  {
+   "name": "Indian generic semaglutide",
+   "group": "treatments-and-drugs",
+   "aliases": [
+    "Semanat (Natco)",
+    "Semasize (Alkem)",
+    "Noveltreat (Sun Pharma)",
+    "Sematrinity (Sun Pharma)",
+    "Obeda (Dr. Reddy's)"
+   ]
+  },
+  {
+   "name": "Chinese generic semaglutide",
+   "group": "treatments-and-drugs",
+   "aliases": [
+    "Huadong Pharmaceutical",
+    "CSPC Pharmaceutical"
+   ]
+  },
+  {
+   "name": "High-dose intravenous vitamin C",
+   "group": "treatments-and-drugs",
+   "aliases": [
+    "IV vitamin C"
+   ]
+  },
+  {
+   "name": "Acute liver failure",
+   "group": "diseases-and-conditions",
+   "aliases": []
+  },
+  {
+   "name": "Type 2 diabetes mellitus",
+   "group": "diseases-and-conditions",
+   "aliases": [
+    "new-onset type 2 diabetes"
+   ]
+  },
+  {
+   "name": "Post-SSRI sexual dysfunction",
+   "group": "diseases-and-conditions",
+   "aliases": [
+    "PSSD"
+   ]
+  },
+  {
+   "name": "Food allergy",
+   "group": "diseases-and-conditions",
+   "aliases": [
+    "food allergies"
+   ]
+  },
+  {
+   "name": "Inflammation",
+   "group": "diseases-and-conditions",
+   "aliases": [
+    "chronic inflammation"
+   ]
+  },
+  {
+   "name": "Stomach damage",
+   "group": "diseases-and-conditions",
+   "aliases": []
+  },
+  {
+   "name": "Kidney damage",
+   "group": "diseases-and-conditions",
+   "aliases": []
+  },
+  {
+   "name": "Thickened stomach and intestinal lining",
+   "group": "diseases-and-conditions",
+   "aliases": [
+    "thickening of the stomach and intestinal lining (mucosa)"
+   ]
+  },
+  {
+   "name": "Stunted growth",
+   "group": "symptoms-and-signs",
+   "aliases": []
+  },
+  {
+   "name": "Gastrointestinal distress",
+   "group": "symptoms-and-signs",
+   "aliases": []
+  },
+  {
+   "name": "Loss of muscle mass and grip strength",
+   "group": "symptoms-and-signs",
+   "aliases": []
+  },
+  {
+   "name": "Genital numbness",
+   "group": "symptoms-and-signs",
+   "aliases": []
+  },
+  {
+   "name": "Loss of libido",
+   "group": "symptoms-and-signs",
+   "aliases": []
+  },
+  {
+   "name": "Absent orgasm",
+   "group": "symptoms-and-signs",
+   "aliases": [
+    "pleasureless orgasm"
+   ]
+  },
+  {
+   "name": "Emotional blunting",
+   "group": "symptoms-and-signs",
+   "aliases": []
+  },
+  {
+   "name": "GM potatoes",
+   "group": "causes",
+   "aliases": [
+    "genetically modified potatoes (snowdrop GNA lectin)"
+   ]
+  },
+  {
+   "name": "Bt toxin",
+   "group": "causes",
+   "aliases": [
+    "Bacillus thuringiensis toxin"
+   ]
+  },
+  {
+   "name": "Glyphosate",
+   "group": "causes",
+   "aliases": [
+    "herbicide residues"
+   ]
+  },
+  {
+   "name": "Leaky gut",
+   "group": "causes",
+   "aliases": [
+    "increased intestinal permeability"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "id": "G001",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-non-small-cell-lung-cancer",
+   "to": "treatments-and-drugs-cimavax-egf",
+   "quote": "Some American patients with stage 4 lung cancer travel to Cuba to receive CIMAvax , a therapeutic immunotherapy vaccine developed by Cuba's Center of Molecular Immunology.",
+   "source": "S001",
+   "approval": "Developed by Cuba's Center of Molecular Immunology. Not approved by the US FDA.",
+   "availability": "The US embargo bans the import of Cuban medicines; patients travel through third countries or carry refrigerated doses back. US clinical trials at Roswell Park, Buffalo, New York.",
+   "note": "Targets the epidermal growth factor (EGF) that lung cancer cells need; manages the cancer as a chronic condition, without the toxicity of chemotherapy.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G002",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-hematologic-malignancies",
+   "to": "treatments-and-drugs-revlimid",
+   "quote": "Revlimid (lenalidomide), a critical medication used to treat blood cancer.",
+   "source": "S002",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G003",
+   "relation": "SAME_CHEMICAL",
+   "from": "treatments-and-drugs-revlimid",
+   "to": "treatments-and-drugs-lenalidomide",
+   "quote": "Revlimid (lenalidomide)",
+   "source": "S002",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G004",
+   "relation": "SAME_CHEMICAL",
+   "from": "treatments-and-drugs-revlimid",
+   "to": "treatments-and-drugs-generic-lenalidomide-india",
+   "quote": "Chemically identical generic versions manufactured in India sell for as low as $0.30 to $3.00 per pill.",
+   "source": "S002",
+   "price": "US brand Revlimid: $900 to $1,000 per pill. Indian generic: $0.30 to $3.00 per pill.",
+   "approval": "The US FDA approves generic lenalidomide and many Indian plants; patents and market exclusivity, not chemistry, keep the generic out of the US.",
+   "availability": "Some American patients order through Canadian pharmacies that route orders to Indian manufacturers.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G005",
+   "relation": "LEADS_TO",
+   "from": "causes-gm-potatoes",
+   "to": "symptoms-and-signs-stunted-growth",
+   "quote": "Pusztai reported that the rats fed these GM potatoes experienced stunted growth, a suppressed immune system, and a thickening of the stomach and intestinal lining (mucosa).",
+   "source": "S003",
+   "note": "Rats, Dr. Arpad Pusztai, Rowett Research Institute, Scotland, 1998; partly published in The Lancet, 1999. Rats fed normal potatoes mixed with the same snowdrop lectin were not affected. Pusztai was suspended, his data confiscated, and he was banned from speaking publicly.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G006",
+   "relation": "LEADS_TO",
+   "from": "causes-gm-potatoes",
+   "to": "diseases-and-conditions-immunosuppression",
+   "quote": "Pusztai reported that the rats fed these GM potatoes experienced stunted growth, a suppressed immune system, and a thickening of the stomach and intestinal lining (mucosa).",
+   "source": "S003",
+   "note": "Rats, Dr. Arpad Pusztai, Rowett Research Institute, Scotland, 1998; partly published in The Lancet, 1999. Rats fed normal potatoes mixed with the same snowdrop lectin were not affected. Pusztai was suspended, his data confiscated, and he was banned from speaking publicly.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G007",
+   "relation": "LEADS_TO",
+   "from": "causes-gm-potatoes",
+   "to": "diseases-and-conditions-thickened-stomach-and-intestinal-lining",
+   "quote": "Pusztai reported that the rats fed these GM potatoes experienced stunted growth, a suppressed immune system, and a thickening of the stomach and intestinal lining (mucosa).",
+   "source": "S003",
+   "note": "Rats, Dr. Arpad Pusztai, Rowett Research Institute, Scotland, 1998; partly published in The Lancet, 1999. Rats fed normal potatoes mixed with the same snowdrop lectin were not affected. Pusztai was suspended, his data confiscated, and he was banned from speaking publicly.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G008",
+   "relation": "LEADS_TO",
+   "from": "causes-leaky-gut",
+   "to": "diseases-and-conditions-inflammation",
+   "quote": "When the immune system detects these stray proteins, it mounts an attack, which can contribute to inflammation and hypersensitivity.",
+   "source": "S003",
+   "strength": "review",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G009",
+   "relation": "LEADS_TO",
+   "from": "causes-leaky-gut",
+   "to": "diseases-and-conditions-hypersensitivity",
+   "quote": "When the immune system detects these stray proteins, it mounts an attack, which can contribute to inflammation and hypersensitivity.",
+   "source": "S003",
+   "strength": "review",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G010",
+   "relation": "TREATED_BY",
+   "from": "symptoms-and-signs-headache",
+   "to": "treatments-and-drugs-acetaminophen",
+   "quote": "Headache pills—particularly those containing acetaminophen (also known as paracetamol or Tylenol) or nonsteroidal anti-inflammatory drugs (NSAIDs) like ibuprofen—can cause liver damage",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G011",
+   "relation": "TREATED_BY",
+   "from": "symptoms-and-signs-headache",
+   "to": "treatments-and-drugs-nsaids",
+   "quote": "Headache pills—particularly those containing acetaminophen (also known as paracetamol or Tylenol) or nonsteroidal anti-inflammatory drugs (NSAIDs) like ibuprofen—can cause liver damage",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G012",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-acetaminophen",
+   "to": "diseases-and-conditions-drug-induced-liver-injury",
+   "quote": "In large amounts, NAPQI builds up and causes oxidative stress, leading to sudden (acute) liver injury or failure.",
+   "source": "S004",
+   "frequency_phrase": "usually when taken in excess, combined with alcohol, or used long-term",
+   "note": "Drinking alcohol makes lower doses harmful. Acetaminophen is an active ingredient in more than 600 other medicines (cold, flu, sinus), so a hidden double dose is easy.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G013",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-nsaids",
+   "to": "diseases-and-conditions-drug-induced-liver-injury",
+   "quote": "heavy, chronic, or daily use can still strain or damage the liver",
+   "source": "S004",
+   "note": "Ibuprofen, naproxen, aspirin.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G014",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-nsaids",
+   "to": "diseases-and-conditions-stomach-damage",
+   "quote": "They can also affect the stomach and kidneys.",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G015",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-nsaids",
+   "to": "diseases-and-conditions-kidney-damage",
+   "quote": "They can also affect the stomach and kidneys.",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G016",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-drug-induced-liver-injury",
+   "to": "symptoms-and-signs-nausea-and-vomiting",
+   "quote": "Nausea or vomiting",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G017",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-drug-induced-liver-injury",
+   "to": "symptoms-and-signs-abdominal-pain",
+   "quote": "Upper abdominal or stomach pain (especially on the right side)",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G018",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-drug-induced-liver-injury",
+   "to": "symptoms-and-signs-jaundice",
+   "quote": "Jaundice (yellowing of the skin or eyes)",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G019",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-drug-induced-liver-injury",
+   "to": "symptoms-and-signs-fatigue",
+   "quote": "Extreme fatigue or confusion",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G020",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-drug-induced-liver-injury",
+   "to": "symptoms-and-signs-confusion",
+   "quote": "Extreme fatigue or confusion",
+   "source": "S004",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G021",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-acetaminophen",
+   "to": "diseases-and-conditions-acute-liver-failure",
+   "quote": "Acetaminophen, sold to the American consumer as Tylenol, is the single largest cause of acute liver failure in the United States. It is responsible for nearly fifty percent of all reported cases. It kills approximately five hundred Americans every year.",
+   "source": "S005",
+   "frequency_phrase": "nearly fifty percent of all reported cases",
+   "numeric_pct": 50,
+   "severity_phrase": "kills approximately five hundred Americans every year",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G022",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-hepatotoxicity-acetaminophen-induced",
+   "to": "treatments-and-drugs-n-acetylcysteine",
+   "quote": "N-acetylcysteine is the only effective antidote, and only if administered before extensive liver damage has occurred.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G023",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-acute-liver-failure",
+   "to": "treatments-and-drugs-n-acetylcysteine",
+   "quote": "N-acetylcysteine is the only effective antidote, and only if administered before extensive liver damage has occurred.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G024",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-statins",
+   "to": "symptoms-and-signs-muscle-pain",
+   "quote": "Nine to twenty percent of outpatients report muscle pain and weakness.",
+   "source": "S005",
+   "frequency_phrase": "Nine to twenty percent",
+   "numeric_pct": 20,
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G025",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-statins",
+   "to": "symptoms-and-signs-muscle-weakness",
+   "quote": "Nine to twenty percent of outpatients report muscle pain and weakness.",
+   "source": "S005",
+   "frequency_phrase": "Nine to twenty percent",
+   "numeric_pct": 20,
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G026",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-statins",
+   "to": "symptoms-and-signs-loss-of-muscle-mass-and-grip-strength",
+   "quote": "Ten-year longitudinal studies indicate accelerated decline in muscle function and mass, including measurable decrease in grip strength, in patients on continuous statin therapy.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G027",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-statins",
+   "to": "symptoms-and-signs-amnesia",
+   "quote": "The FDA requires statin labels to warn about potential memory loss and confusion.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G028",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-statins",
+   "to": "symptoms-and-signs-confusion",
+   "quote": "The FDA requires statin labels to warn about potential memory loss and confusion.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G029",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-statins",
+   "to": "diseases-and-conditions-type-2-diabetes-mellitus",
+   "quote": "Statins carry a small dose-dependent increased risk of new-onset type 2 diabetes.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G030",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-type-2-diabetes-mellitus",
+   "to": "treatments-and-drugs-metformin",
+   "quote": "He develops it. He is now prescribed metformin.",
+   "source": "S005",
+   "note": "The prescription cascade (Mad Honey 6B).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G031",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-metformin",
+   "to": "symptoms-and-signs-gastrointestinal-distress",
+   "quote": "The metformin causes him gastrointestinal distress — common, documented, dose-limiting.",
+   "source": "S005",
+   "frequency_phrase": "common",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G032",
+   "relation": "TREATED_BY",
+   "from": "symptoms-and-signs-gastrointestinal-distress",
+   "to": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "quote": "prescribes a proton pump inhibitor for the reflux symptoms. He is told to take it for four weeks and reassess. He takes it for six years",
+   "source": "S005",
+   "note": "The prescription cascade (Mad Honey 6B).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G033",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-dementia",
+   "quote": "Long-term use is associated with a twenty-two to forty-four percent increased risk of dementia with cumulative exposure.",
+   "source": "S005",
+   "frequency_phrase": "twenty-two to forty-four percent increased risk",
+   "note": "Nexium, Prilosec, Prevacid.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G034",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+   "quote": "Long-term use is associated with vitamin B12 deficiency, which itself produces cognitive symptoms that are routinely misdiagnosed as early dementia.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G035",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-hip-fractures",
+   "quote": "Long-term use is associated with increased risk of hip, spine, and other fractures due to impaired calcium absorption.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G036",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-vertebral-fractures",
+   "quote": "Long-term use is associated with increased risk of hip, spine, and other fractures due to impaired calcium absorption.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G037",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-chronic-kidney-disease-ckd",
+   "quote": "Long-term use is associated with chronic kidney disease and acute kidney injury.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G038",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-acute-kidney-injury-aki",
+   "quote": "Long-term use is associated with chronic kidney disease and acute kidney injury.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G039",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-hypomagnesemia",
+   "quote": "Long-term use is associated with hypomagnesemia, iron deficiency, and increased risk of Clostridium difficile infection.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G040",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-iron-deficiency",
+   "quote": "Long-term use is associated with hypomagnesemia, iron deficiency, and increased risk of Clostridium difficile infection.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G041",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+   "to": "diseases-and-conditions-clostridium-difficile-infections",
+   "quote": "Long-term use is associated with hypomagnesemia, iron deficiency, and increased risk of Clostridium difficile infection.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G042",
+   "relation": "MISTAKEN_FOR",
+   "from": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+   "to": "diseases-and-conditions-dementia",
+   "quote": "Long-term use is associated with vitamin B12 deficiency, which itself produces cognitive symptoms that are routinely misdiagnosed as early dementia.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G043",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+   "to": "symptoms-and-signs-confusion",
+   "quote": "The B12 deficiency produces cognitive symptoms — confusion, fatigue, mild memory issues.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G044",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+   "to": "symptoms-and-signs-fatigue",
+   "quote": "The B12 deficiency produces cognitive symptoms — confusion, fatigue, mild memory issues.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G045",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+   "to": "symptoms-and-signs-amnesia",
+   "quote": "The B12 deficiency produces cognitive symptoms — confusion, fatigue, mild memory issues.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G046",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-hip-fractures",
+   "to": "treatments-and-drugs-opioids",
+   "quote": "The orthopedic surgeon repairs the hip. He is prescribed opioids for post-surgical pain.",
+   "source": "S005",
+   "note": "The prescription cascade (Mad Honey 6B).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G047",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-opioids",
+   "to": "diseases-and-conditions-opioid-use-disorder",
+   "quote": "The opioids are, per the clinical literature Purdue Pharma itself disseminated through its sales force, non-addictive in roughly ninety-nine percent of patients. He is in the other one percent.",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G048",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-oxycontin",
+   "to": "diseases-and-conditions-opioid-use-disorder",
+   "quote": "Purdue Pharma, the manufacturer of OxyContin, trained its sales representatives to tell American doctors that the risk of addiction from OxyContin was \"less than one percent.\"",
+   "source": "S005",
+   "note": "\"Less than one percent\" was Purdue's sales script. Between 1999 and 2021 about 645,000 Americans died from opioid-related causes.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G049",
+   "relation": "HARMS",
+   "from": "treatments-and-drugs-selective-serotonin-reuptake-inhibitors-ssris",
+   "to": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+   "quote": "A 2023 study estimated the risk of persistent dysfunction at approximately 0.46% of males taking serotonergic antidepressants.",
+   "source": "S005",
+   "frequency_phrase": "approximately 0.46% of males",
+   "severity_phrase": "in documented cases for over two decades",
+   "approval": "Label warnings required by the European Medicines Agency (2019), Health Canada (2021), Australia's TGA (2024); the UK MHRA tracks PSSD with a MedDRA code. The US FDA has done none of this (2018 citizen petition unanswered; Public Citizen lawsuit, May 2024).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G050",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+   "to": "symptoms-and-signs-genital-numbness",
+   "quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G051",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+   "to": "symptoms-and-signs-loss-of-libido",
+   "quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G052",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+   "to": "symptoms-and-signs-absent-orgasm",
+   "quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G053",
+   "relation": "PRESENTS_WITH",
+   "from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+   "to": "symptoms-and-signs-emotional-blunting",
+   "quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G054",
+   "relation": "LEADS_TO",
+   "from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+   "to": "diseases-and-conditions-erectile-dysfunction",
+   "quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G055",
+   "relation": "LEADS_TO",
+   "from": "causes-bt-toxin",
+   "to": "causes-leaky-gut",
+   "quote": "cumulative exposure to Bt toxin and to other genetic engineering byproducts — combined with the herbicide residues (glyphosate) that accompany genetically engineered crops designed to tolerate those herbicides — may contribute to increased intestinal permeability in humans.",
+   "source": "S005",
+   "strength": "opinion",
+   "note": "A hypothesis; I have not proven it (Nir).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G056",
+   "relation": "LEADS_TO",
+   "from": "causes-glyphosate",
+   "to": "causes-leaky-gut",
+   "quote": "cumulative exposure to Bt toxin and to other genetic engineering byproducts — combined with the herbicide residues (glyphosate) that accompany genetically engineered crops designed to tolerate those herbicides — may contribute to increased intestinal permeability in humans.",
+   "source": "S005",
+   "strength": "opinion",
+   "note": "A hypothesis; I have not proven it (Nir).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G057",
+   "relation": "LEADS_TO",
+   "from": "causes-leaky-gut",
+   "to": "diseases-and-conditions-food-allergy",
+   "quote": "The result, across a population, is the emergence of widespread food allergies.",
+   "source": "S005",
+   "strength": "opinion",
+   "note": "A hypothesis; I have not proven it (Nir).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G058",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-cancer",
+   "to": "treatments-and-drugs-high-dose-intravenous-vitamin-c",
+   "quote": "Recent research has quietly confirmed that intravenous vitamin C, administered at high doses, reaches blood concentrations sufficient to kill cancer cells in combination with chemotherapy, and is being retried in multiple oncology centers as of 2025.",
+   "source": "S005",
+   "note": "Linus Pauling and Ewan Cameron reported better survival in terminally ill cancer patients in the 1970s. Mayo Clinic trials used oral vitamin C instead and failed.",
+   "approval": "Never seriously evaluated by the US FDA.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G059",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-common-cold",
+   "to": "treatments-and-drugs-ascorbic-acid",
+   "quote": "argued in his 1970 book *Vitamin C and the Common Cold* that high doses of vitamin C, far above the scurvy-prevention minimum, could reduce the incidence and duration of common colds.",
+   "source": "S005",
+   "note": "Linus Pauling, 1970.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G060",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-inflammation",
+   "to": "treatments-and-drugs-omega-3-fatty-acids",
+   "quote": "adequate omega-3 intake reduces chronic inflammation, supports cardiovascular health, and protects cognitive function is actually robust",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G061",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-cardiovascular-disease-cvd",
+   "to": "treatments-and-drugs-omega-3-fatty-acids",
+   "quote": "adequate omega-3 intake reduces chronic inflammation, supports cardiovascular health, and protects cognitive function is actually robust",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G062",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-depression",
+   "to": "treatments-and-drugs-cognitive-behavioral-therapy",
+   "quote": "cognitive behavioral therapy has roughly comparable efficacy to SSRIs for mild to moderate depression",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G063",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-depression",
+   "to": "treatments-and-drugs-exercise",
+   "quote": "exercise at forty-five minutes three times per week has published effect sizes comparable to first-line SSRI treatment",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G064",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-non-small-cell-lung-cancer",
+   "to": "treatments-and-drugs-cimavax-egf",
+   "quote": "CIMAvax was approved in Cuba in 2011. It has since been approved in Argentina, Colombia, Peru, and Paraguay.",
+   "source": "S005",
+   "approval": "Approved in Cuba (2011), Argentina, Colombia, Peru and Paraguay. Not approved by the US FDA.",
+   "availability": "Only legal US access: clinical trials at Roswell Park, Buffalo, New York (also combined with nivolumab). Americans have smuggled it in through Canada or Mexico.",
+   "note": "Indicated for advanced non-small cell lung cancer after first-line chemotherapy.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G065",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-cancer",
+   "to": "treatments-and-drugs-vaxira",
+   "quote": "Cuba has developed a second therapeutic cancer vaccine called Vaxira, also from the Center of Molecular Immunology, also available outside the United States, also not approved by the FDA.",
+   "source": "S005",
+   "approval": "Not approved by the US FDA; available outside the United States.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G066",
+   "relation": "SAME_CHEMICAL",
+   "from": "treatments-and-drugs-ozempic",
+   "to": "treatments-and-drugs-semaglutide",
+   "quote": "for the exact same molecule that Novo Nordisk sells in the United States as Ozempic for approximately one thousand dollars per month",
+   "source": "S005",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G067",
+   "relation": "SAME_CHEMICAL",
+   "from": "treatments-and-drugs-ozempic",
+   "to": "treatments-and-drugs-indian-generic-semaglutide",
+   "quote": "Natco's product is branded Semanat. Alkem's is Semasize. Sun Pharma sells two versions, Noveltreat and Sematrinity. Dr. Reddy's is Obeda.",
+   "source": "S005",
+   "price": "India generic: $14 to $20 a month (1,300 to 1,800 rupees). US Ozempic: about $1,000 a month.",
+   "approval": "Indian patent on semaglutide expired on 20 March 2026; over forty legal Indian manufacturers.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G068",
+   "relation": "SAME_CHEMICAL",
+   "from": "treatments-and-drugs-ozempic",
+   "to": "treatments-and-drugs-chinese-generic-semaglutide",
+   "quote": "Huadong Pharmaceutical and CSPC Pharmaceutical are preparing \"day-one\" launches of Chinese generic semaglutide.",
+   "source": "S005",
+   "price": "Expected $15 to $30 a month.",
+   "approval": "Chinese patent expired on 20 March 2026.",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G069",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-mantle-cell-lymphoma-mcl",
+   "to": "treatments-and-drugs-zanubrutinib",
+   "quote": "The next day, the doctor sees a patient with relapsed mantle cell lymphoma. Six months ago he would have prescribed Imbruvica. Today he prescribes Brukinsa.",
+   "source": "S005",
+   "note": "Brukinsa (zanubrutinib, BeiGene, now BeOne Medicines) is the Chinese-developed alternative to Imbruvica (ibrutinib).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  },
+  {
+   "id": "G070",
+   "relation": "TREATED_BY",
+   "from": "diseases-and-conditions-mantle-cell-lymphoma-mcl",
+   "to": "treatments-and-drugs-ibrutinib",
+   "quote": "The next day, the doctor sees a patient with relapsed mantle cell lymphoma. Six months ago he would have prescribed Imbruvica. Today he prescribes Brukinsa.",
+   "source": "S005",
+   "note": "Brukinsa (zanubrutinib, BeiGene, now BeOne Medicines) is the Chinese-developed alternative to Imbruvica (ibrutinib).",
+   "entered_by": "Claude Opus 5.5 (manager), from Nir's source",
+   "entered_date": "2026-11-04"
+  }
+ ]
+}

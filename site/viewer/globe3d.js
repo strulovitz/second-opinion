@@ -6,11 +6,12 @@
 // The planet never turns by itself; only the camera moves (BIBLE 8.5).
 import * as THREE from 'three';
 import { OrbitControls } from '../assets/three/OrbitControls.js';
-import { lonLatToXYZ } from './geo.js?v=686363d-202611031550';
-import { buildAtlas } from './atlas.js?v=686363d-202611031550';
-import { buildSandTable } from './sandtable.js?v=686363d-202611031550';
-import { createLayers } from './layers.js?v=686363d-202611031550';
-import { createLabels } from './labels.js?v=686363d-202611031550';
+import { lonLatToXYZ } from './geo.js?v=8dfde9d-202611041435';
+import { buildAtlas } from './atlas.js?v=8dfde9d-202611041435';
+import { buildSandTable } from './sandtable.js?v=8dfde9d-202611041435';
+import { createLayers } from './layers.js?v=8dfde9d-202611041435';
+import { createLabels } from './labels.js?v=8dfde9d-202611041435';
+import { createPaths3d } from './paths3d.js?v=8dfde9d-202611041435';
 
 function stars(count, seed) {
   let s = seed; const rand = () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
@@ -40,6 +41,7 @@ export async function createGlobe(canvas, world, select, hover, { style = 'sand'
   Object.assign(controls, { enableDamping: true, dampingFactor: 0.08, minDistance: 1.18, maxDistance: 12, enablePan: false });
   const sky = stars(2600, 7); scene.add(sky);
   const layers = createLayers(scene, world);
+  const paths = createPaths3d(scene, world);
   const looks = {};
   const look = name => (looks[name] ||= name === 'atlas' ? buildAtlas(world) : buildSandTable(world));
   let current = null, layersOn = false, motion = !matchMedia('(prefers-reduced-motion: reduce)').matches, cut = false;
@@ -56,7 +58,7 @@ export async function createGlobe(canvas, world, select, hover, { style = 'sand'
     current = look(name); scene.add(current.group);
     current.layers.visible = layersOn;
     current.setHover(hoverTile?.index, hoverTile?.book); current.setSelected(selectedTile?.index);
-    current.setGlass(!!layers.active && layers.active.altitude < 1);
+    current.setGlass(false);   // BIBLE 13.4: no glass planet
     current.setClipping(cut ? layers.planes : null);
     layers.setBead(name === 'sand'); layers.setInteriorPalette(current.interiorPalette);
     if (layers.active) layers.highlight(null);
@@ -73,7 +75,7 @@ export async function createGlobe(canvas, world, select, hover, { style = 'sand'
     if (!rect.width || !rect.height) return;
     renderer.setSize(rect.width, rect.height, false);
     camera.aspect = rect.width / rect.height; camera.updateProjectionMatrix();
-    layers.resize(rect.height, camera.fov); requestRender();
+    layers.resize(rect.height, camera.fov); paths.resize(rect.height, camera.fov); requestRender();
   }
   function surface(event) {
     const rect = canvas.getBoundingClientRect();
@@ -99,6 +101,7 @@ export async function createGlobe(canvas, world, select, hover, { style = 'sand'
   }
   function hit(event) {
     const { hit: h, tile } = surface(event);
+    const onWalk = paths.pick(raycaster, camera); if (onWalk) return { value: onWalk, tile: null };
     if (layers.active) { const spot = layers.pick(raycaster, camera, h); if (spot) return { value: spot.spot, tile: spot.tile }; }
     if (!tile || tile.kind === 'pole') return { value: null, tile: null };
     return { value: world.territoryOfTile(tile), tile };
@@ -184,16 +187,19 @@ export async function createGlobe(canvas, world, select, hover, { style = 'sand'
     fit() { focus({ territory_id: null, lon: 0, lat: 15 }, false, fitDistance()); },
     home(territory) { focus(territory, false, fitDistance()); },
     showGlobe() {
-      layers.clear(); current.setGlass(false); controls.minDistance = 1.18; requestRender();
+      layers.clear(); paths.clear(); current.setGlass(false); controls.minDistance = 1.18; requestRender();
     },
-    showShell(entity, spots) {
+    showShell(entity, spots, walk = null) {
       // Part 0 (3 Nov 2026): no altitude yet means the entity lives on the surface; the lit
       // chapters are shown as columns. The glowing shell appears only once an altitude exists.
-      if (!Number.isFinite(entity.altitude) || entity.altitude <= 0 || entity.altitude > 3) entity = { ...entity, altitude: 1, noShell: true };
+      if (!Number.isFinite(entity.altitude) || entity.altitude <= 1 || entity.altitude > 3) entity = { ...entity, altitude: 1, noShell: true };
       layers.show(entity, spots, t => (t ? current.top(t) : 1));
       const rect = canvas.getBoundingClientRect(); layers.resize(rect.height, camera.fov);
-      current.setGlass(entity.altitude < 1);
-      controls.minDistance = Math.max(1.18, entity.altitude + 0.15);
+      current.setGlass(false);
+      paths.show(walk, t => current.top(t)); paths.resize(rect.height, camera.fov);
+      controls.minDistance = 1.18;
+      // BIBLE 12.5(d): with a walk NOTHING moves; the camera stays where the visitor put it.
+      if (walk?.arrows.length) { requestRender(); return; }
       const target = [...spots].sort((a, b) => (b.f ?? -1) - (a.f ?? -1))[0];
       const territory = target ? world.byId.get(target.district_id) : null;
       focus(territory || { lon: 0, lat: 15 }, false, Math.max(camera.position.length(), entity.altitude + 1.8, fitDistance()));

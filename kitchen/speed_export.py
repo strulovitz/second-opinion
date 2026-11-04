@@ -41,10 +41,10 @@ def main():
             e.setdefault(key, None)
         e["lit_spots"] = sorted(spots.get(slug, []), key=lambda s: (s["district_id"], s["book_id"]))
         e.update({"text_quote_count": 0, "text_status": "none", "books_total": 37, "quotes_total": 0, "edges": [],
-                  "ordering_value": len({s["book_id"] for s in e["lit_spots"]})})
+                  "ordering_value": e.get("common")})
         (OUT / "entities" / f"{slug}.json").write_text(json.dumps(e, ensure_ascii=False, separators=(",", ":")))
         search.append({"slug": slug, "group": e["group"], "canonical_name": e["canonical_name"], "aliases": e["aliases"],
-                       "altitude": None, "rank": None, "lit_spot_count": len(e["lit_spots"]), "edge_count": 0, "has_text": False,
+                       "altitude": e.get("altitude"), "rank": e.get("rank"), "place": e.get("place"), "lit_spot_count": len(e["lit_spots"]), "edge_count": 0, "has_text": False,
                        "books": len({s["book_id"] for s in e["lit_spots"]})})
     # per-district files: which entities are discussed in this chapter (index mentions first)
     (OUT / "districts").mkdir(exist_ok=True)
@@ -64,7 +64,83 @@ def main():
     search.sort(key=lambda s: (s["group"], s["canonical_name"]))
     (OUT / "search.json").write_text(json.dumps(search, ensure_ascii=False, separators=(",", ":")))
     print(f"wrote {len(search)} entity files + search.json in {time.time() - t0:.0f}s")
+    golden()
+
+
+REL_KEYS = ("frequency_phrase", "numeric_pct", "f_scale", "severity", "severity_phrase", "subtype", "price",
+            "availability", "approval", "note")
+
+
+def golden():
+    """Part 0 12.3/12.5: write site/data/golden.json and the edges of every entity on a golden connection."""
+    rows = run("""MATCH (a:Entity)-[r]->(b:Entity) WHERE r.source = 'article'
+        RETURN type(r) AS rel, r { .* } AS r, a.slug AS a, b.slug AS b ORDER BY r.id""")
+    slugs = sorted({x for r in rows for x in (r["a"], r["b"])})
+    nodes = {r["slug"]: r for r in run("""MATCH (e:Entity) WHERE e.slug IN $s
+        RETURN e.slug AS slug, e.canonical_name AS name, e.group AS group, e.place AS place,
+               e.altitude AS altitude, coalesce(e.common, 0) AS common, e.aliases AS aliases""", s=slugs)}
+    best = {}
+    for r in run("""MATCH (e:Entity)-[l:DISCUSSED_IN]->(d:Territory) WHERE e.slug IN $s
+            RETURN e.slug AS slug, d.territory_id AS did, count(*) AS n""", s=slugs):
+        if r["n"] > best.get(r["slug"], ("", 0))[1]:
+            best[r["slug"]] = (r["did"], r["n"])
+    for s, n in nodes.items():
+        n["anchor"] = best.get(s, (None,))[0]
+        n["aliases"] = (n["aliases"] or [])[:8]
+    conns = []
+    for r in rows:
+        x = r["r"]
+        c = {"id": x["id"], "rel": r["rel"], "from": r["a"], "to": r["b"], "quote": x["quote"],
+             "source": {k: x.get(k2) for k, k2 in (("id", "source_id"), ("title", "source_title"), ("origin", "origin"),
+                        ("year", "year"), ("kind", "kind"), ("strength", "strength"), ("file", "file"))}}
+        c.update({k: x.get(k) for k in REL_KEYS})
+        conns.append(c)
+    for _ in range(3):  # a thing no book discusses sits on the tile of the thing it connects to
+        for c in conns:
+            a, b = nodes[c["from"]], nodes[c["to"]]
+            a["anchor"] = a["anchor"] or b["anchor"]
+            b["anchor"] = b["anchor"] or a["anchor"]
+    old = OUT / "golden.json"
+    stale = set(json.loads(old.read_text())["nodes"]) - set(nodes) if old.exists() else set()
+    for slug in stale:
+        p = OUT / "entities" / f"{slug}.json"
+        if p.exists():
+            e = json.loads(p.read_text()); e["edges"] = []
+            p.write_text(json.dumps(e, ensure_ascii=False, separators=(",", ":")))
+    (OUT / "golden.json").write_text(json.dumps({"nodes": nodes, "connections": conns}, ensure_ascii=False, indent=0))
+    edges = defaultdict(dict)
+    for c in conns:
+        for me, other, direction in ((c["from"], c["to"], "out"), (c["to"], c["from"], "in")):
+            if c["rel"] in ("MISTAKEN_FOR", "SAME_CHEMICAL"):
+                direction = "both"
+            o = nodes[other]
+            key = (c["rel"], direction, c["subtype"], other)
+            e = edges[me].setdefault(key, {"relation": c["rel"], "direction": direction, "subtype": c["subtype"],
+                                           "other_slug": other, "other_name": o["name"], "other_group": o["group"],
+                                           "f_scale": 0, "severity": False, "statements": []})
+            e["f_scale"] = max(e["f_scale"], c["f_scale"] or 0)
+            e["severity"] = e["severity"] or bool(c["severity"])
+            e["statements"].append(c)
+    search_p = OUT / "search.json"
+    search = json.loads(search_p.read_text())
+    have = {s["slug"] for s in search}
+    for slug in slugs:
+        p = OUT / "entities" / f"{slug}.json"
+        n = nodes[slug]
+        e = json.loads(p.read_text()) if p.exists() else {"slug": slug, "group": n["group"], "canonical_name": n["name"],
+                                                          "aliases": n["aliases"], "lit_spots": []}
+        e.update({"edges": list(edges[slug].values()), "altitude": n["altitude"], "place": n["place"]})
+        p.write_text(json.dumps(e, ensure_ascii=False, separators=(",", ":")))
+        if slug not in have:
+            search.append({"slug": slug, "group": n["group"], "canonical_name": n["name"], "aliases": n["aliases"],
+                           "altitude": n["altitude"], "rank": None, "place": n["place"], "lit_spot_count": 0,
+                           "edge_count": 0, "has_text": False, "books": 0})
+    ec = {s: sum(len(e["statements"]) for e in v.values()) for s, v in edges.items()}
+    for s in search:
+        s["edge_count"] = ec.get(s["slug"], 0)
+    search_p.write_text(json.dumps(search, ensure_ascii=False, separators=(",", ":")))
+    print(f"golden.json: {len(conns)} connections, {len(nodes)} things")
 
 
 if __name__ == "__main__":
-    main()
+    golden() if "--golden" in sys.argv else main()

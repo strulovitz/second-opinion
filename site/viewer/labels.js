@@ -2,8 +2,8 @@
 // Book names sit on each book's name tile (Atlas) or summit flag (Sand table); chapter
 // names appear only when you fly close; band and orbit names appear with the layers.
 import * as THREE from 'three';
-import { BANDS, SUBBANDS } from './geo.js?v=686363d-202611031550';
-import { ORBIT_TILTS } from './atlas.js?v=686363d-202611031550';
+import { BANDS, SUBBANDS } from './geo.js?v=8dfde9d-202611041435';
+import { ORBIT_TILTS } from './atlas.js?v=8dfde9d-202611041435';
 
 export function createLabels(stage, world, camera, wording) {
   const root = document.createElement('div'); root.id = 'labels'; stage.append(root);

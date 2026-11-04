@@ -1,8 +1,8 @@
 // Opus 5.5 addition: the ATLAS style ("the topographic map for experts").
 // Flat honeycomb tiles on a lit ball, crisp lines, glass layer guides.
 import * as THREE from 'three';
-import { tileMaterial, tileColour, lineKind, glowMaterial } from './materials.js?v=686363d-202611031550';
-import { BANDS, SUBBANDS } from './geo.js?v=686363d-202611031550';
+import { tileMaterial, tileColour, lineKind, glowMaterial } from './materials.js?v=8dfde9d-202611041435';
+import { BANDS, SUBBANDS } from './geo.js?v=8dfde9d-202611041435';
 
 // Shared by both styles: one fan of triangles per tile. top(tile) gives the radius
 // of the tile's top face; walls(tile, i) may add column walls (sand table only).

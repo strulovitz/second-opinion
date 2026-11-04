@@ -1,7 +1,8 @@
-import * as data from './data.js?v=686363d-202611031550';
-import { createMap } from './map2d.js?v=686363d-202611031550';
-import { normalize, parseRoute, spotsFor } from './geo.js?v=686363d-202611031550';
-import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=686363d-202611031550';
+import * as data from './data.js?v=8dfde9d-202611041435';
+import { createMap } from './map2d.js?v=8dfde9d-202611041435';
+import { normalize, parseRoute, spotsFor } from './geo.js?v=8dfde9d-202611041435';
+import { loadGolden, walkFor, litDistricts } from './paths.js?v=8dfde9d-202611041435';
+import { text, link, groups, mapURL, districtURL, intro, entityCard, districtCard, tooltipContent, legend } from './ui.js?v=8dfde9d-202611041435';
 
 const $ = id => document.getElementById(id);
 const state = { route: 'globe', slug: null, entity: null, territoryId: null, hover: null, group: groups[0], query: '' };
@@ -99,10 +100,15 @@ async function route() {
   try {
     const entity = await data.entity(state.slug); if (token !== generation) return;
     const spots = spotsFor(entity, world); state.entity = entity;
-    map.render(entity, spots);
+    const walk = walkFor(state.slug), lit = walk?.arrows.length ? await litDistricts(walk, data.entity) : new Set();
+    if (token !== generation) return;
+    const tiles = walk?.arrows.length ? walk.nodes.map(n => world.tileOf.get(n.anchor)).filter(Boolean) : [];
+    const mean = [0, 1, 2].map(i => tiles.reduce((v, t) => v + t.centre[i], 0));
+    if (mode === '2d' && tiles.length) await map.setView(Math.hypot(...mean) > 0.2 * tiles.length ? mean : tiles[0].centre);   // the 2-D map opens on the walk
+    map.render(entity, spots, walk, lit);
     status(fallbackMessage);
     if (mode === '3d') {
-      try { globe.showShell(entity, spots); }
+      try { globe.showShell(entity, spots, walk); }
       catch (error) { showMode('2d'); history.replaceState(null, '', mapURL(state.slug)); state.route = 'map'; report(error); }
     }
     entityCard($('info'), entity, spots, mode, wording, highlight);
@@ -125,8 +131,8 @@ function elevator() {
   // Ranking (Nir, 3 Nov 2026): exact name first, then names starting with the word, then the
   // most-discussed; names with no chapter at all are hidden.
   const score = row => { const n = normalize(row.canonical_name); return n === query ? 0 : n.startsWith(query) ? 1 : 2; };
-  const matches = rows.filter(row => row.group === state.group && row.lit_spot_count > 0 && hit(row))
-    .sort((a, b) => score(a) - score(b) || b.lit_spot_count - a.lit_spot_count || a.canonical_name.localeCompare(b.canonical_name));
+  const matches = rows.filter(row => row.group === state.group && (row.lit_spot_count > 0 || row.edge_count > 0) && hit(row))
+    .sort((a, b) => score(a) - score(b) || Number(b.edge_count > 0) - Number(a.edge_count > 0) || b.lit_spot_count - a.lit_spot_count || a.canonical_name.localeCompare(b.canonical_name));
   $('results').replaceChildren();
   $('result-count').textContent = `${matches.length} results${matches.length > 300 ? ' · type to narrow (showing 300)' : ''}`;
   const max = matches.reduce((n, r) => Math.max(n, Math.log1p(r.edge_count)), 1);
@@ -182,6 +188,7 @@ async function start() {
   $('counts').textContent = `${world.territories.filter(t => t.level === 'continent').length} books · ${world.territories.filter(t => t.level === 'district').length.toLocaleString()} chapter districts`;
   map = await createMap($('map'), world, select, hover);
   try { wording = await data.wording(); } catch (error) { report(error); }
+  await loadGolden();
   try { rows = await data.search(); $('registry-state').textContent = `${rows.length.toLocaleString()} entities exported`; }
   catch (error) { $('registry-state').textContent = 'Medical registry not exported yet'; console.error(error); }
   // The ledger is optional until Part 9; its absence does not block geography.
@@ -192,7 +199,7 @@ async function start() {
   } catch (error) { console.error(error); }
   legend($('legend'), wording);
   try {
-    const { createGlobe } = await import('./globe3d.js?v=686363d-202611031550');
+    const { createGlobe } = await import('./globe3d.js?v=8dfde9d-202611041435');
     const params = new URLSearchParams(location.search);
     const look = params.get('look') || localStorage.getItem('second-opinion-look') || 'sand';
     globe = await createGlobe($('globe'), world, select, hover, { style: look === 'atlas' ? 'atlas' : 'sand', wording });

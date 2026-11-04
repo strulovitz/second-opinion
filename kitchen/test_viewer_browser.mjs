@@ -73,6 +73,16 @@ try {
     await click(spot);
     await until(() => evaluate(`location.hash === ${JSON.stringify('#/map/' + spot.other_slug)}`), 'cascade to the other entity');
   });
+  await check('golden walks draw arrows in 2-D and 3-D and the card shows the sentence', async () => {
+    const slug = await evaluate("fetch('../data/golden.json').then(r => r.json()).then(g => Object.values(g.nodes).find(n => n.group === 'treatments-and-drugs')?.slug || '')");
+    assert.ok(slug, 'golden.json has a treatment');
+    await go(`#/map/${slug}`, 'map');
+    assert.ok(await evaluate("document.querySelectorAll('#info .golden').length") >= 1, 'card lists the connection with its sentence');
+    assert.equal(await evaluate("document.getElementById('status').hidden || !/Could not/.test(document.getElementById('status').textContent)"), true);
+    assert.ok(await evaluate('window.secondOpinion.map.walkCount()') >= 1, 'arrows drawn on the 2-D map');
+    await shot('walk-2d');
+    await go(`#/map/${slug}/3d`, 'map3d'); await shot('walk-3d');
+  });
   await check('Look inside and layers toggle without errors', async () => {
     await go('#/globe', 'globe');
     await evaluate("document.getElementById('cutaway').click()"); await delay(800); await shot('cutaway');

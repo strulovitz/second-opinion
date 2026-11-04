@@ -96,3 +96,8 @@ input[type="search"] { width:100%; min-width:0; padding:10px; background:#0b1220
 body[data-mode="2d"] #labels, body[data-mode="2d"] #gauge { display:none; }
 
 @media (max-width:900px) { #labels .book { font-size:11px !important; } }
+
+/* BIBLE Part 0 12.5(f): golden connections on the card */
+.golden { margin: .35em 0 .6em; padding: .35em .6em; border-left: 3px solid #ffc21a; background: rgba(255, 194, 26, .08); font-size: .92em; }
+.golden .arrow-line { font-weight: 600; }
+.golden q, #tooltip q { display: block; font-style: italic; margin: .2em 0; }

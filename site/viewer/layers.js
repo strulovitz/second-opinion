@@ -6,8 +6,8 @@
 //  - cutaway(on): opens a wedge of the planet towards the viewer and shows the
 //    disease strata inside (deep = multisystem, near the crust = local).
 import * as THREE from 'three';
-import { radiusPx, drawSpot, COLOUR, GROUP_TINT, BANDS } from './geo.js?v=686363d-202611031550';
-import { glowMaterial } from './materials.js?v=686363d-202611031550';
+import { radiusPx, drawSpot, COLOUR, GROUP_TINT, BANDS } from './geo.js?v=8dfde9d-202611041435';
+import { glowMaterial } from './materials.js?v=8dfde9d-202611041435';
 
 function spotCanvas(spot, highlight, bead) {
   const image = document.createElement('canvas'); image.width = image.height = 96;

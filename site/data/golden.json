@@ -1,0 +1,2818 @@
+{
+"nodes": {
+"causes-bt-toxin": {
+"slug": "causes-bt-toxin",
+"name": "Bt toxin",
+"group": "causes",
+"place": "underground",
+"altitude": 0.3,
+"common": 0,
+"aliases": [
+"Bt toxin",
+"Bacillus thuringiensis toxin"
+],
+"anchor": "C36.P03.D015"
+},
+"causes-glyphosate": {
+"slug": "causes-glyphosate",
+"name": "Glyphosate",
+"group": "causes",
+"place": "underground",
+"altitude": 0.516667,
+"common": 0,
+"aliases": [
+"Glyphosate",
+"herbicide residues"
+],
+"anchor": "C36.P03.D015"
+},
+"causes-gm-potatoes": {
+"slug": "causes-gm-potatoes",
+"name": "GM potatoes",
+"group": "causes",
+"place": "underground",
+"altitude": 0.733333,
+"common": 0,
+"aliases": [
+"GM potatoes",
+"genetically modified potatoes (snowdrop GNA lectin)"
+],
+"anchor": "C35.P02.D003"
+},
+"causes-leaky-gut": {
+"slug": "causes-leaky-gut",
+"name": "Leaky gut",
+"group": "causes",
+"place": "underground",
+"altitude": 0.95,
+"common": 0,
+"aliases": [
+"Leaky gut",
+"increased intestinal permeability"
+],
+"anchor": "C36.P03.D015"
+},
+"diseases-and-conditions-acute-kidney-injury-aki": {
+"slug": "diseases-and-conditions-acute-kidney-injury-aki",
+"name": "Acute kidney injury (AKI)",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 255,
+"aliases": [
+"Acute kidney injury (AKI)",
+"Acute kidney injury",
+"AKI",
+"ATN (acute tubular necrosis)",
+"Acute renal failure",
+"Acute tubular necrosis (ATN)"
+],
+"anchor": "C01.P09.D321"
+},
+"diseases-and-conditions-acute-liver-failure": {
+"slug": "diseases-and-conditions-acute-liver-failure",
+"name": "Acute liver failure",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 0,
+"aliases": [
+"Acute liver failure"
+],
+"anchor": "C17.P08.D052"
+},
+"diseases-and-conditions-cancer": {
+"slug": "diseases-and-conditions-cancer",
+"name": "cancer",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 116,
+"aliases": [
+"cancer",
+"Cancer"
+],
+"anchor": "C19.P01.D000"
+},
+"diseases-and-conditions-cardiovascular-disease-cvd": {
+"slug": "diseases-and-conditions-cardiovascular-disease-cvd",
+"name": "Cardiovascular disease (CVD)",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 208,
+"aliases": [
+"Cardiovascular disease (CVD)",
+"Cardiovascular disease",
+"cardiovascular disease",
+"CVD",
+"Heart disease"
+],
+"anchor": "C20.P04.D036"
+},
+"diseases-and-conditions-chronic-kidney-disease-ckd": {
+"slug": "diseases-and-conditions-chronic-kidney-disease-ckd",
+"name": "Chronic kidney disease (CKD)",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 306,
+"aliases": [
+"Chronic kidney disease (CKD)",
+"chronic kidney disease",
+"Chronic kidney disease (CDK)",
+"CDK",
+"CKD"
+],
+"anchor": "C37.P04.D020"
+},
+"diseases-and-conditions-clostridium-difficile-infections": {
+"slug": "diseases-and-conditions-clostridium-difficile-infections",
+"name": "Clostridium difficile infections",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 81,
+"aliases": [
+"Clostridium difficile infections"
+],
+"anchor": "C22.P18.D084"
+},
+"diseases-and-conditions-cobalamin-vitamin-b12-deficiency": {
+"slug": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+"name": "Cobalamin (vitamin B12) deficiency",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 25,
+"aliases": [
+"Cobalamin (vitamin B12) deficiency"
+],
+"anchor": "C01.P04.D104"
+},
+"diseases-and-conditions-common-cold": {
+"slug": "diseases-and-conditions-common-cold",
+"name": "Common cold",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 89,
+"aliases": [
+"Common cold"
+],
+"anchor": "C14.P02.D058"
+},
+"diseases-and-conditions-dementia": {
+"slug": "diseases-and-conditions-dementia",
+"name": "Dementia",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 158,
+"aliases": [
+"Dementia",
+"dementia"
+],
+"anchor": "C09.P01.D001"
+},
+"diseases-and-conditions-depression": {
+"slug": "diseases-and-conditions-depression",
+"name": "depression",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 149,
+"aliases": [
+"depression",
+"Depression"
+],
+"anchor": "C05.P03.D014"
+},
+"diseases-and-conditions-drug-induced-liver-injury": {
+"slug": "diseases-and-conditions-drug-induced-liver-injury",
+"name": "Drug-induced liver injury",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 68,
+"aliases": [
+"Drug-induced liver injury",
+"Liver injury, drug-induced"
+],
+"anchor": "C07.P07.D088"
+},
+"diseases-and-conditions-erectile-dysfunction": {
+"slug": "diseases-and-conditions-erectile-dysfunction",
+"name": "erectile dysfunction",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 198,
+"aliases": [
+"erectile dysfunction",
+"Erectile dysfunction",
+"Erectile dysfunction (ED)",
+"ED"
+],
+"anchor": "C12.P05.D017"
+},
+"diseases-and-conditions-food-allergy": {
+"slug": "diseases-and-conditions-food-allergy",
+"name": "Food allergy",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 0,
+"aliases": [
+"Food allergy",
+"food allergies"
+],
+"anchor": "C36.P03.D015"
+},
+"diseases-and-conditions-hematologic-malignancies": {
+"slug": "diseases-and-conditions-hematologic-malignancies",
+"name": "Hematologic malignancies",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 259,
+"aliases": [
+"Hematologic malignancies"
+],
+"anchor": "C06.P03.D057"
+},
+"diseases-and-conditions-hepatotoxicity-acetaminophen-induced": {
+"slug": "diseases-and-conditions-hepatotoxicity-acetaminophen-induced",
+"name": "Hepatotoxicity, acetaminophen-induced",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 3,
+"aliases": [
+"Hepatotoxicity, acetaminophen-induced"
+],
+"anchor": "C11.P04.D044"
+},
+"diseases-and-conditions-hip-fractures": {
+"slug": "diseases-and-conditions-hip-fractures",
+"name": "Hip fractures",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 176,
+"aliases": [
+"Hip fractures"
+],
+"anchor": "C17.P04.D031"
+},
+"diseases-and-conditions-hypersensitivity": {
+"slug": "diseases-and-conditions-hypersensitivity",
+"name": "Hypersensitivity",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 265,
+"aliases": [
+"Hypersensitivity"
+],
+"anchor": "C36.P03.D015"
+},
+"diseases-and-conditions-hypomagnesemia": {
+"slug": "diseases-and-conditions-hypomagnesemia",
+"name": "Hypomagnesemia",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 225,
+"aliases": [
+"Hypomagnesemia",
+"hypomagnesemia"
+],
+"anchor": "C12.P09.D027"
+},
+"diseases-and-conditions-immunosuppression": {
+"slug": "diseases-and-conditions-immunosuppression",
+"name": "Immunosuppression",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 195,
+"aliases": [
+"Immunosuppression",
+"immunosuppression"
+],
+"anchor": "C35.P02.D003"
+},
+"diseases-and-conditions-inflammation": {
+"slug": "diseases-and-conditions-inflammation",
+"name": "Inflammation",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 0,
+"aliases": [
+"Inflammation",
+"chronic inflammation"
+],
+"anchor": "C09.P02.D030"
+},
+"diseases-and-conditions-iron-deficiency": {
+"slug": "diseases-and-conditions-iron-deficiency",
+"name": "Iron deficiency",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 234,
+"aliases": [
+"Iron deficiency",
+"iron deficiency"
+],
+"anchor": "C30.P04.D045"
+},
+"diseases-and-conditions-kidney-damage": {
+"slug": "diseases-and-conditions-kidney-damage",
+"name": "Kidney damage",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 0,
+"aliases": [
+"Kidney damage"
+],
+"anchor": "C08.P03.D013"
+},
+"diseases-and-conditions-mantle-cell-lymphoma-mcl": {
+"slug": "diseases-and-conditions-mantle-cell-lymphoma-mcl",
+"name": "Mantle cell lymphoma (MCL)",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 64,
+"aliases": [
+"Mantle cell lymphoma (MCL)",
+"mantle cell lymphoma",
+"Mantle cell lymphoma",
+"MCL"
+],
+"anchor": "C37.P02.D013"
+},
+"diseases-and-conditions-non-small-cell-lung-cancer": {
+"slug": "diseases-and-conditions-non-small-cell-lung-cancer",
+"name": "non-small-cell lung cancer",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 148,
+"aliases": [
+"non-small-cell lung cancer",
+"Non-small-cell lung cancer (NSCLC)",
+"Non-small-cell lung cancer",
+"NSCLC"
+],
+"anchor": "C01.P04.D083"
+},
+"diseases-and-conditions-opioid-use-disorder": {
+"slug": "diseases-and-conditions-opioid-use-disorder",
+"name": "Opioid use disorder",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 78,
+"aliases": [
+"Opioid use disorder",
+"opioid use disorder"
+],
+"anchor": "C09.P01.D011"
+},
+"diseases-and-conditions-post-ssri-sexual-dysfunction": {
+"slug": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+"name": "Post-SSRI sexual dysfunction",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 0,
+"aliases": [
+"Post-SSRI sexual dysfunction",
+"PSSD"
+],
+"anchor": "C09.P01.D002"
+},
+"diseases-and-conditions-stomach-damage": {
+"slug": "diseases-and-conditions-stomach-damage",
+"name": "Stomach damage",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 0,
+"aliases": [
+"Stomach damage"
+],
+"anchor": "C08.P03.D013"
+},
+"diseases-and-conditions-thickened-stomach-and-intestinal-lining": {
+"slug": "diseases-and-conditions-thickened-stomach-and-intestinal-lining",
+"name": "Thickened stomach and intestinal lining",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 0,
+"aliases": [
+"Thickened stomach and intestinal lining",
+"thickening of the stomach and intestinal lining (mucosa)"
+],
+"anchor": "C35.P02.D003"
+},
+"diseases-and-conditions-type-2-diabetes-mellitus": {
+"slug": "diseases-and-conditions-type-2-diabetes-mellitus",
+"name": "Type 2 diabetes mellitus",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 0,
+"aliases": [
+"Type 2 diabetes mellitus",
+"new-onset type 2 diabetes"
+],
+"anchor": "C12.P10.D038"
+},
+"diseases-and-conditions-vertebral-fractures": {
+"slug": "diseases-and-conditions-vertebral-fractures",
+"name": "Vertebral fractures",
+"group": "diseases-and-conditions",
+"place": "surface",
+"altitude": 1.0,
+"common": 133,
+"aliases": [
+"Vertebral fractures",
+"Lumbar fractures"
+],
+"anchor": "C17.P04.D031"
+},
+"symptoms-and-signs-abdominal-pain": {
+"slug": "symptoms-and-signs-abdominal-pain",
+"name": "Abdominal pain",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.038194,
+"common": 337,
+"aliases": [
+"Abdominal pain",
+"abdominal pain"
+],
+"anchor": "C37.P03.D017"
+},
+"symptoms-and-signs-absent-orgasm": {
+"slug": "symptoms-and-signs-absent-orgasm",
+"name": "Absent orgasm",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.475636,
+"common": 0,
+"aliases": [
+"Absent orgasm",
+"pleasureless orgasm"
+],
+"anchor": "C09.P01.D002"
+},
+"symptoms-and-signs-amnesia": {
+"slug": "symptoms-and-signs-amnesia",
+"name": "Amnesia",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.083599,
+"common": 170,
+"aliases": [
+"Amnesia",
+"amnesia"
+],
+"anchor": "C32.P02.D008"
+},
+"symptoms-and-signs-confusion": {
+"slug": "symptoms-and-signs-confusion",
+"name": "Confusion",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.048952,
+"common": 284,
+"aliases": [
+"Confusion",
+"confusion"
+],
+"anchor": "C09.P01.D002"
+},
+"symptoms-and-signs-emotional-blunting": {
+"slug": "symptoms-and-signs-emotional-blunting",
+"name": "Emotional blunting",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.480699,
+"common": 0,
+"aliases": [
+"Emotional blunting"
+],
+"anchor": "C09.P01.D002"
+},
+"symptoms-and-signs-fatigue": {
+"slug": "symptoms-and-signs-fatigue",
+"name": "Fatigue",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.054806,
+"common": 265,
+"aliases": [
+"Fatigue",
+"fatigue",
+"Fatigue (FACT-R)",
+"FACT-R",
+"asthenia"
+],
+"anchor": "C09.P01.D001"
+},
+"symptoms-and-signs-gastrointestinal-distress": {
+"slug": "symptoms-and-signs-gastrointestinal-distress",
+"name": "Gastrointestinal distress",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.482914,
+"common": 0,
+"aliases": [
+"Gastrointestinal distress"
+],
+"anchor": "C12.P10.D034"
+},
+"symptoms-and-signs-genital-numbness": {
+"slug": "symptoms-and-signs-genital-numbness",
+"name": "Genital numbness",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.483072,
+"common": 0,
+"aliases": [
+"Genital numbness"
+],
+"anchor": "C09.P01.D002"
+},
+"symptoms-and-signs-headache": {
+"slug": "symptoms-and-signs-headache",
+"name": "headache",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.079486,
+"common": 182,
+"aliases": [
+"headache",
+"headaches",
+"Headache"
+],
+"anchor": "C10.P04.D009"
+},
+"symptoms-and-signs-jaundice": {
+"slug": "symptoms-and-signs-jaundice",
+"name": "Jaundice",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.038352,
+"common": 337,
+"aliases": [
+"Jaundice",
+"jaundice"
+],
+"anchor": "C37.P03.D018"
+},
+"symptoms-and-signs-loss-of-libido": {
+"slug": "symptoms-and-signs-loss-of-libido",
+"name": "Loss of libido",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.485761,
+"common": 0,
+"aliases": [
+"Loss of libido"
+],
+"anchor": "C09.P01.D002"
+},
+"symptoms-and-signs-loss-of-muscle-mass-and-grip-strength": {
+"slug": "symptoms-and-signs-loss-of-muscle-mass-and-grip-strength",
+"name": "Loss of muscle mass and grip strength",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.48592,
+"common": 0,
+"aliases": [
+"Loss of muscle mass and grip strength"
+],
+"anchor": "C12.P10.D038"
+},
+"symptoms-and-signs-muscle-pain": {
+"slug": "symptoms-and-signs-muscle-pain",
+"name": "Muscle pain",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.076163,
+"common": 190,
+"aliases": [
+"Muscle pain"
+],
+"anchor": "C10.P12.D045"
+},
+"symptoms-and-signs-muscle-weakness": {
+"slug": "symptoms-and-signs-muscle-weakness",
+"name": "Muscle weakness",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.032024,
+"common": 382,
+"aliases": [
+"Muscle weakness"
+],
+"anchor": "C32.P02.D024"
+},
+"symptoms-and-signs-nausea-and-vomiting": {
+"slug": "symptoms-and-signs-nausea-and-vomiting",
+"name": "nausea and vomiting",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.031233,
+"common": 387,
+"aliases": [
+"nausea and vomiting",
+"Nausea and vomiting",
+"nausea/vomiting",
+"Vomiting"
+],
+"anchor": "C13.P03.D014"
+},
+"symptoms-and-signs-stunted-growth": {
+"slug": "symptoms-and-signs-stunted-growth",
+"name": "Stunted growth",
+"group": "symptoms-and-signs",
+"place": "air",
+"altitude": 1.496994,
+"common": 0,
+"aliases": [
+"Stunted growth"
+],
+"anchor": "C35.P02.D003"
+},
+"treatments-and-drugs-acetaminophen": {
+"slug": "treatments-and-drugs-acetaminophen",
+"name": "Acetaminophen",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.540308,
+"common": 348,
+"aliases": [
+"Acetaminophen"
+],
+"anchor": "C17.P08.D052"
+},
+"treatments-and-drugs-ascorbic-acid": {
+"slug": "treatments-and-drugs-ascorbic-acid",
+"name": "Ascorbic acid",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.638733,
+"common": 162,
+"aliases": [
+"Ascorbic acid"
+],
+"anchor": "C25.P06.D048"
+},
+"treatments-and-drugs-chinese-generic-semaglutide": {
+"slug": "treatments-and-drugs-chinese-generic-semaglutide",
+"name": "Chinese generic semaglutide",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.888885,
+"common": 0,
+"aliases": [
+"Chinese generic semaglutide",
+"Huadong Pharmaceutical",
+"CSPC Pharmaceutical"
+],
+"anchor": "C12.P10.D038"
+},
+"treatments-and-drugs-cimavax-egf": {
+"slug": "treatments-and-drugs-cimavax-egf",
+"name": "CIMAvax-EGF",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.889698,
+"common": 0,
+"aliases": [
+"CIMAvax-EGF",
+"CIMAvax"
+],
+"anchor": "C01.P04.D083"
+},
+"treatments-and-drugs-cognitive-behavioral-therapy": {
+"slug": "treatments-and-drugs-cognitive-behavioral-therapy",
+"name": "cognitive behavioral therapy",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.60069,
+"common": 207,
+"aliases": [
+"cognitive behavioral therapy",
+"Cognitive behavioral therapy (CBT)",
+"Cognitive behavioral therapy",
+"Behavioral therapy",
+"CBT"
+],
+"anchor": "C09.P01.D002"
+},
+"treatments-and-drugs-exercise": {
+"slug": "treatments-and-drugs-exercise",
+"name": "Exercise",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.691398,
+"common": 121,
+"aliases": [
+"Exercise",
+"exercise",
+"physical activity"
+],
+"anchor": "C16.P03.D009"
+},
+"treatments-and-drugs-generic-lenalidomide-india": {
+"slug": "treatments-and-drugs-generic-lenalidomide-india",
+"name": "Generic lenalidomide (India)",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.914744,
+"common": 0,
+"aliases": [
+"Generic lenalidomide (India)"
+],
+"anchor": "C25.P11.D106"
+},
+"treatments-and-drugs-high-dose-intravenous-vitamin-c": {
+"slug": "treatments-and-drugs-high-dose-intravenous-vitamin-c",
+"name": "High-dose intravenous vitamin C",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.919753,
+"common": 0,
+"aliases": [
+"High-dose intravenous vitamin C",
+"IV vitamin C"
+],
+"anchor": "C19.P01.D000"
+},
+"treatments-and-drugs-ibrutinib": {
+"slug": "treatments-and-drugs-ibrutinib",
+"name": "Ibrutinib",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.757331,
+"common": 88,
+"aliases": [
+"Ibrutinib"
+],
+"anchor": "C25.P11.D091"
+},
+"treatments-and-drugs-indian-generic-semaglutide": {
+"slug": "treatments-and-drugs-indian-generic-semaglutide",
+"name": "Indian generic semaglutide",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.924492,
+"common": 0,
+"aliases": [
+"Indian generic semaglutide",
+"Semanat (Natco)",
+"Semasize (Alkem)",
+"Noveltreat (Sun Pharma)",
+"Sematrinity (Sun Pharma)",
+"Obeda (Dr. Reddy's)"
+],
+"anchor": "C12.P10.D038"
+},
+"treatments-and-drugs-lenalidomide": {
+"slug": "treatments-and-drugs-lenalidomide",
+"name": "Lenalidomide",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.736888,
+"common": 96,
+"aliases": [
+"Lenalidomide",
+"lenalidomide"
+],
+"anchor": "C25.P05.D028"
+},
+"treatments-and-drugs-metformin": {
+"slug": "treatments-and-drugs-metformin",
+"name": "Metformin",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.591484,
+"common": 221,
+"aliases": [
+"Metformin",
+"metformin"
+],
+"anchor": "C12.P10.D034"
+},
+"treatments-and-drugs-n-acetylcysteine": {
+"slug": "treatments-and-drugs-n-acetylcysteine",
+"name": "N-Acetylcysteine",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.643878,
+"common": 158,
+"aliases": [
+"N-Acetylcysteine",
+"N-acetylcysteine (NAC)",
+"N-acetylcysteine",
+"NAC"
+],
+"anchor": "C29.P19.D138"
+},
+"treatments-and-drugs-nsaids": {
+"slug": "treatments-and-drugs-nsaids",
+"name": "NSAIDs",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.55845,
+"common": 293,
+"aliases": [
+"NSAIDs",
+"NSAIDs (nonsteroidal anti- inflammatory drugs)"
+],
+"anchor": "C08.P03.D013"
+},
+"treatments-and-drugs-omega-3-fatty-acids": {
+"slug": "treatments-and-drugs-omega-3-fatty-acids",
+"name": "Omega-3 fatty acids",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.682192,
+"common": 127,
+"aliases": [
+"Omega-3 fatty acids",
+"Omega-3 fatty acids (fish oils)",
+"omega-3 fatty acids",
+"Fish oils"
+],
+"anchor": "C09.P02.D030"
+},
+"treatments-and-drugs-opioids": {
+"slug": "treatments-and-drugs-opioids",
+"name": "Opioids",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.638056,
+"common": 163,
+"aliases": [
+"Opioids",
+"Opioid(s)",
+"Opioid",
+"opioids",
+"Narcotic analgesics",
+"Narcotics"
+],
+"anchor": "C09.P01.D001"
+},
+"treatments-and-drugs-oxycontin": {
+"slug": "treatments-and-drugs-oxycontin",
+"name": "OxyContin",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.919253,
+"common": 45,
+"aliases": [
+"OxyContin",
+"OxyContin®"
+],
+"anchor": "C17.P08.D052"
+},
+"treatments-and-drugs-ozempic": {
+"slug": "treatments-and-drugs-ozempic",
+"name": "Ozempic",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.951975,
+"common": 0,
+"aliases": [
+"Ozempic"
+],
+"anchor": "C12.P10.D038"
+},
+"treatments-and-drugs-proton-pump-inhibitors-ppis": {
+"slug": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"name": "Proton pump inhibitors (PPIs)",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.550597,
+"common": 319,
+"aliases": [
+"Proton pump inhibitors (PPIs)",
+"Proton pump inhibitor",
+"Proton pump inhibitors",
+"proton pump inhibitors",
+"PPIs"
+],
+"anchor": "C22.P18.D085"
+},
+"treatments-and-drugs-revlimid": {
+"slug": "treatments-and-drugs-revlimid",
+"name": "Revlimid",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.210061,
+"common": 16,
+"aliases": [
+"Revlimid"
+],
+"anchor": "C25.P11.D106"
+},
+"treatments-and-drugs-selective-serotonin-reuptake-inhibitors-ssris": {
+"slug": "treatments-and-drugs-selective-serotonin-reuptake-inhibitors-ssris",
+"name": "Selective serotonin reuptake inhibitors (SSRIs)",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.557231,
+"common": 297,
+"aliases": [
+"Selective serotonin reuptake inhibitors (SSRIs)",
+"Selective serotonin-reuptake inhibitors (SSRIs)",
+"SSRIs"
+],
+"anchor": "C09.P01.D002"
+},
+"treatments-and-drugs-semaglutide": {
+"slug": "treatments-and-drugs-semaglutide",
+"name": "Semaglutide",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.914108,
+"common": 46,
+"aliases": [
+"Semaglutide"
+],
+"anchor": "C12.P10.D038"
+},
+"treatments-and-drugs-statins": {
+"slug": "treatments-and-drugs-statins",
+"name": "Statins",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 1.543151,
+"common": 340,
+"aliases": [
+"Statins",
+"statins",
+"HMG-CoA reductase inhibitors"
+],
+"anchor": "C12.P10.D038"
+},
+"treatments-and-drugs-vaxira": {
+"slug": "treatments-and-drugs-vaxira",
+"name": "Vaxira",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.977428,
+"common": 0,
+"aliases": [
+"Vaxira"
+],
+"anchor": "C19.P01.D000"
+},
+"treatments-and-drugs-zanubrutinib": {
+"slug": "treatments-and-drugs-zanubrutinib",
+"name": "Zanubrutinib",
+"group": "treatments-and-drugs",
+"place": "orbit",
+"altitude": 2.099993,
+"common": 24,
+"aliases": [
+"Zanubrutinib"
+],
+"anchor": "C25.P11.D108"
+}
+},
+"connections": [
+{
+"id": "G001",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-non-small-cell-lung-cancer",
+"to": "treatments-and-drugs-cimavax-egf",
+"quote": "Some American patients with stage 4 lung cancer travel to Cuba to receive CIMAvax , a therapeutic immunotherapy vaccine developed by Cuba's Center of Molecular Immunology.",
+"source": {
+"id": "S001",
+"title": "CIMAvax: why American lung cancer patients travel to Cuba (Google AI Overview)",
+"origin": "Cuba / USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S001-cimavax-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "The US embargo bans the import of Cuban medicines; patients travel through third countries or carry refrigerated doses back. US clinical trials at Roswell Park, Buffalo, New York.",
+"approval": "Developed by Cuba's Center of Molecular Immunology. Not approved by the US FDA.",
+"note": "Targets the epidermal growth factor (EGF) that lung cancer cells need; manages the cancer as a chronic condition, without the toxicity of chemotherapy."
+},
+{
+"id": "G002",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-hematologic-malignancies",
+"to": "treatments-and-drugs-revlimid",
+"quote": "Revlimid (lenalidomide), a critical medication used to treat blood cancer.",
+"source": {
+"id": "S002",
+"title": "Revlimid (lenalidomide): US price versus India (Google AI Overview)",
+"origin": "USA / India",
+"year": 2026,
+"kind": "price list",
+"strength": "review",
+"file": "S002-revlimid-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G003",
+"rel": "SAME_CHEMICAL",
+"from": "treatments-and-drugs-revlimid",
+"to": "treatments-and-drugs-lenalidomide",
+"quote": "Revlimid (lenalidomide)",
+"source": {
+"id": "S002",
+"title": "Revlimid (lenalidomide): US price versus India (Google AI Overview)",
+"origin": "USA / India",
+"year": 2026,
+"kind": "price list",
+"strength": "review",
+"file": "S002-revlimid-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G004",
+"rel": "SAME_CHEMICAL",
+"from": "treatments-and-drugs-revlimid",
+"to": "treatments-and-drugs-generic-lenalidomide-india",
+"quote": "Chemically identical generic versions manufactured in India sell for as low as $0.30 to $3.00 per pill.",
+"source": {
+"id": "S002",
+"title": "Revlimid (lenalidomide): US price versus India (Google AI Overview)",
+"origin": "USA / India",
+"year": 2026,
+"kind": "price list",
+"strength": "review",
+"file": "S002-revlimid-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "US brand Revlimid: $900 to $1,000 per pill. Indian generic: $0.30 to $3.00 per pill.",
+"availability": "Some American patients order through Canadian pharmacies that route orders to Indian manufacturers.",
+"approval": "The US FDA approves generic lenalidomide and many Indian plants; patents and market exclusivity, not chemistry, keep the generic out of the US.",
+"note": ""
+},
+{
+"id": "G005",
+"rel": "LEADS_TO",
+"from": "causes-gm-potatoes",
+"to": "symptoms-and-signs-stunted-growth",
+"quote": "Pusztai reported that the rats fed these GM potatoes experienced stunted growth, a suppressed immune system, and a thickening of the stomach and intestinal lining (mucosa).",
+"source": {
+"id": "S003",
+"title": "Dr. Arpad Pusztai's GM potato experiments (Google AI Overview)",
+"origin": "Rowett Research Institute, Scotland",
+"year": 1998,
+"kind": "study",
+"strength": "trial",
+"file": "S003-pusztai-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Rats, Dr. Arpad Pusztai, Rowett Research Institute, Scotland, 1998; partly published in The Lancet, 1999. Rats fed normal potatoes mixed with the same snowdrop lectin were not affected. Pusztai was suspended, his data confiscated, and he was banned from speaking publicly."
+},
+{
+"id": "G006",
+"rel": "LEADS_TO",
+"from": "causes-gm-potatoes",
+"to": "diseases-and-conditions-immunosuppression",
+"quote": "Pusztai reported that the rats fed these GM potatoes experienced stunted growth, a suppressed immune system, and a thickening of the stomach and intestinal lining (mucosa).",
+"source": {
+"id": "S003",
+"title": "Dr. Arpad Pusztai's GM potato experiments (Google AI Overview)",
+"origin": "Rowett Research Institute, Scotland",
+"year": 1998,
+"kind": "study",
+"strength": "trial",
+"file": "S003-pusztai-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Rats, Dr. Arpad Pusztai, Rowett Research Institute, Scotland, 1998; partly published in The Lancet, 1999. Rats fed normal potatoes mixed with the same snowdrop lectin were not affected. Pusztai was suspended, his data confiscated, and he was banned from speaking publicly."
+},
+{
+"id": "G007",
+"rel": "LEADS_TO",
+"from": "causes-gm-potatoes",
+"to": "diseases-and-conditions-thickened-stomach-and-intestinal-lining",
+"quote": "Pusztai reported that the rats fed these GM potatoes experienced stunted growth, a suppressed immune system, and a thickening of the stomach and intestinal lining (mucosa).",
+"source": {
+"id": "S003",
+"title": "Dr. Arpad Pusztai's GM potato experiments (Google AI Overview)",
+"origin": "Rowett Research Institute, Scotland",
+"year": 1998,
+"kind": "study",
+"strength": "trial",
+"file": "S003-pusztai-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Rats, Dr. Arpad Pusztai, Rowett Research Institute, Scotland, 1998; partly published in The Lancet, 1999. Rats fed normal potatoes mixed with the same snowdrop lectin were not affected. Pusztai was suspended, his data confiscated, and he was banned from speaking publicly."
+},
+{
+"id": "G008",
+"rel": "LEADS_TO",
+"from": "causes-leaky-gut",
+"to": "diseases-and-conditions-inflammation",
+"quote": "When the immune system detects these stray proteins, it mounts an attack, which can contribute to inflammation and hypersensitivity.",
+"source": {
+"id": "S003",
+"title": "Dr. Arpad Pusztai's GM potato experiments (Google AI Overview)",
+"origin": "Rowett Research Institute, Scotland",
+"year": 1998,
+"kind": "study",
+"strength": "review",
+"file": "S003-pusztai-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G009",
+"rel": "LEADS_TO",
+"from": "causes-leaky-gut",
+"to": "diseases-and-conditions-hypersensitivity",
+"quote": "When the immune system detects these stray proteins, it mounts an attack, which can contribute to inflammation and hypersensitivity.",
+"source": {
+"id": "S003",
+"title": "Dr. Arpad Pusztai's GM potato experiments (Google AI Overview)",
+"origin": "Rowett Research Institute, Scotland",
+"year": 1998,
+"kind": "study",
+"strength": "review",
+"file": "S003-pusztai-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G010",
+"rel": "TREATED_BY",
+"from": "symptoms-and-signs-headache",
+"to": "treatments-and-drugs-acetaminophen",
+"quote": "Headache pills—particularly those containing acetaminophen (also known as paracetamol or Tylenol) or nonsteroidal anti-inflammatory drugs (NSAIDs) like ibuprofen—can cause liver damage",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G011",
+"rel": "TREATED_BY",
+"from": "symptoms-and-signs-headache",
+"to": "treatments-and-drugs-nsaids",
+"quote": "Headache pills—particularly those containing acetaminophen (also known as paracetamol or Tylenol) or nonsteroidal anti-inflammatory drugs (NSAIDs) like ibuprofen—can cause liver damage",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G012",
+"rel": "HARMS",
+"from": "treatments-and-drugs-acetaminophen",
+"to": "diseases-and-conditions-drug-induced-liver-injury",
+"quote": "In large amounts, NAPQI builds up and causes oxidative stress, leading to sudden (acute) liver injury or failure.",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "usually when taken in excess, combined with alcohol, or used long-term",
+"numeric_pct": null,
+"f_scale": 5,
+"severity": true,
+"severity_phrase": "failure",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Drinking alcohol makes lower doses harmful. Acetaminophen is an active ingredient in more than 600 other medicines (cold, flu, sinus), so a hidden double dose is easy."
+},
+{
+"id": "G013",
+"rel": "HARMS",
+"from": "treatments-and-drugs-nsaids",
+"to": "diseases-and-conditions-drug-induced-liver-injury",
+"quote": "heavy, chronic, or daily use can still strain or damage the liver",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Ibuprofen, naproxen, aspirin."
+},
+{
+"id": "G014",
+"rel": "HARMS",
+"from": "treatments-and-drugs-nsaids",
+"to": "diseases-and-conditions-stomach-damage",
+"quote": "They can also affect the stomach and kidneys.",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G015",
+"rel": "HARMS",
+"from": "treatments-and-drugs-nsaids",
+"to": "diseases-and-conditions-kidney-damage",
+"quote": "They can also affect the stomach and kidneys.",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G016",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-drug-induced-liver-injury",
+"to": "symptoms-and-signs-nausea-and-vomiting",
+"quote": "Nausea or vomiting",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G017",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-drug-induced-liver-injury",
+"to": "symptoms-and-signs-abdominal-pain",
+"quote": "Upper abdominal or stomach pain (especially on the right side)",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G018",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-drug-induced-liver-injury",
+"to": "symptoms-and-signs-jaundice",
+"quote": "Jaundice (yellowing of the skin or eyes)",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G019",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-drug-induced-liver-injury",
+"to": "symptoms-and-signs-fatigue",
+"quote": "Extreme fatigue or confusion",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G020",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-drug-induced-liver-injury",
+"to": "symptoms-and-signs-confusion",
+"quote": "Extreme fatigue or confusion",
+"source": {
+"id": "S004",
+"title": "Headache pills and the liver (Google AI Overview)",
+"origin": "USA",
+"year": 2026,
+"kind": "review",
+"strength": "review",
+"file": "S004-headache-pills-liver-ai-overview.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G021",
+"rel": "HARMS",
+"from": "treatments-and-drugs-acetaminophen",
+"to": "diseases-and-conditions-acute-liver-failure",
+"quote": "Acetaminophen, sold to the American consumer as Tylenol, is the single largest cause of acute liver failure in the United States. It is responsible for nearly fifty percent of all reported cases. It kills approximately five hundred Americans every year.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "nearly fifty percent of all reported cases",
+"numeric_pct": 50,
+"f_scale": 4,
+"severity": true,
+"severity_phrase": "kills approximately five hundred Americans every year",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G022",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-hepatotoxicity-acetaminophen-induced",
+"to": "treatments-and-drugs-n-acetylcysteine",
+"quote": "N-acetylcysteine is the only effective antidote, and only if administered before extensive liver damage has occurred.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G023",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-acute-liver-failure",
+"to": "treatments-and-drugs-n-acetylcysteine",
+"quote": "N-acetylcysteine is the only effective antidote, and only if administered before extensive liver damage has occurred.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G024",
+"rel": "HARMS",
+"from": "treatments-and-drugs-statins",
+"to": "symptoms-and-signs-muscle-pain",
+"quote": "Nine to twenty percent of outpatients report muscle pain and weakness.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "Nine to twenty percent",
+"numeric_pct": 20,
+"f_scale": 4,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G025",
+"rel": "HARMS",
+"from": "treatments-and-drugs-statins",
+"to": "symptoms-and-signs-muscle-weakness",
+"quote": "Nine to twenty percent of outpatients report muscle pain and weakness.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "Nine to twenty percent",
+"numeric_pct": 20,
+"f_scale": 4,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G026",
+"rel": "HARMS",
+"from": "treatments-and-drugs-statins",
+"to": "symptoms-and-signs-loss-of-muscle-mass-and-grip-strength",
+"quote": "Ten-year longitudinal studies indicate accelerated decline in muscle function and mass, including measurable decrease in grip strength, in patients on continuous statin therapy.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G027",
+"rel": "HARMS",
+"from": "treatments-and-drugs-statins",
+"to": "symptoms-and-signs-amnesia",
+"quote": "The FDA requires statin labels to warn about potential memory loss and confusion.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G028",
+"rel": "HARMS",
+"from": "treatments-and-drugs-statins",
+"to": "symptoms-and-signs-confusion",
+"quote": "The FDA requires statin labels to warn about potential memory loss and confusion.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G029",
+"rel": "HARMS",
+"from": "treatments-and-drugs-statins",
+"to": "diseases-and-conditions-type-2-diabetes-mellitus",
+"quote": "Statins carry a small dose-dependent increased risk of new-onset type 2 diabetes.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G030",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-type-2-diabetes-mellitus",
+"to": "treatments-and-drugs-metformin",
+"quote": "He develops it. He is now prescribed metformin.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "The prescription cascade (Mad Honey 6B)."
+},
+{
+"id": "G031",
+"rel": "HARMS",
+"from": "treatments-and-drugs-metformin",
+"to": "symptoms-and-signs-gastrointestinal-distress",
+"quote": "The metformin causes him gastrointestinal distress — common, documented, dose-limiting.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "common",
+"numeric_pct": null,
+"f_scale": 4,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G032",
+"rel": "TREATED_BY",
+"from": "symptoms-and-signs-gastrointestinal-distress",
+"to": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"quote": "prescribes a proton pump inhibitor for the reflux symptoms. He is told to take it for four weeks and reassess. He takes it for six years",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "The prescription cascade (Mad Honey 6B)."
+},
+{
+"id": "G033",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-dementia",
+"quote": "Long-term use is associated with a twenty-two to forty-four percent increased risk of dementia with cumulative exposure.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "twenty-two to forty-four percent increased risk",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Nexium, Prilosec, Prevacid."
+},
+{
+"id": "G034",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+"quote": "Long-term use is associated with vitamin B12 deficiency, which itself produces cognitive symptoms that are routinely misdiagnosed as early dementia.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G035",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-hip-fractures",
+"quote": "Long-term use is associated with increased risk of hip, spine, and other fractures due to impaired calcium absorption.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G036",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-vertebral-fractures",
+"quote": "Long-term use is associated with increased risk of hip, spine, and other fractures due to impaired calcium absorption.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G037",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-chronic-kidney-disease-ckd",
+"quote": "Long-term use is associated with chronic kidney disease and acute kidney injury.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G038",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-acute-kidney-injury-aki",
+"quote": "Long-term use is associated with chronic kidney disease and acute kidney injury.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G039",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-hypomagnesemia",
+"quote": "Long-term use is associated with hypomagnesemia, iron deficiency, and increased risk of Clostridium difficile infection.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G040",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-iron-deficiency",
+"quote": "Long-term use is associated with hypomagnesemia, iron deficiency, and increased risk of Clostridium difficile infection.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G041",
+"rel": "HARMS",
+"from": "treatments-and-drugs-proton-pump-inhibitors-ppis",
+"to": "diseases-and-conditions-clostridium-difficile-infections",
+"quote": "Long-term use is associated with hypomagnesemia, iron deficiency, and increased risk of Clostridium difficile infection.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G042",
+"rel": "MISTAKEN_FOR",
+"from": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+"to": "diseases-and-conditions-dementia",
+"quote": "Long-term use is associated with vitamin B12 deficiency, which itself produces cognitive symptoms that are routinely misdiagnosed as early dementia.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G043",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+"to": "symptoms-and-signs-confusion",
+"quote": "The B12 deficiency produces cognitive symptoms — confusion, fatigue, mild memory issues.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G044",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+"to": "symptoms-and-signs-fatigue",
+"quote": "The B12 deficiency produces cognitive symptoms — confusion, fatigue, mild memory issues.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G045",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-cobalamin-vitamin-b12-deficiency",
+"to": "symptoms-and-signs-amnesia",
+"quote": "The B12 deficiency produces cognitive symptoms — confusion, fatigue, mild memory issues.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G046",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-hip-fractures",
+"to": "treatments-and-drugs-opioids",
+"quote": "The orthopedic surgeon repairs the hip. He is prescribed opioids for post-surgical pain.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "The prescription cascade (Mad Honey 6B)."
+},
+{
+"id": "G047",
+"rel": "HARMS",
+"from": "treatments-and-drugs-opioids",
+"to": "diseases-and-conditions-opioid-use-disorder",
+"quote": "The opioids are, per the clinical literature Purdue Pharma itself disseminated through its sales force, non-addictive in roughly ninety-nine percent of patients. He is in the other one percent.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G048",
+"rel": "HARMS",
+"from": "treatments-and-drugs-oxycontin",
+"to": "diseases-and-conditions-opioid-use-disorder",
+"quote": "Purdue Pharma, the manufacturer of OxyContin, trained its sales representatives to tell American doctors that the risk of addiction from OxyContin was \"less than one percent.\"",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "\"Less than one percent\" was Purdue's sales script. Between 1999 and 2021 about 645,000 Americans died from opioid-related causes."
+},
+{
+"id": "G049",
+"rel": "HARMS",
+"from": "treatments-and-drugs-selective-serotonin-reuptake-inhibitors-ssris",
+"to": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+"quote": "A 2023 study estimated the risk of persistent dysfunction at approximately 0.46% of males taking serotonergic antidepressants.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "approximately 0.46% of males",
+"numeric_pct": 0.46,
+"f_scale": 2,
+"severity": true,
+"severity_phrase": "in documented cases for over two decades",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "Label warnings required by the European Medicines Agency (2019), Health Canada (2021), Australia's TGA (2024); the UK MHRA tracks PSSD with a MedDRA code. The US FDA has done none of this (2018 citizen petition unanswered; Public Citizen lawsuit, May 2024).",
+"note": ""
+},
+{
+"id": "G050",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+"to": "symptoms-and-signs-genital-numbness",
+"quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G051",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+"to": "symptoms-and-signs-loss-of-libido",
+"quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G052",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+"to": "symptoms-and-signs-absent-orgasm",
+"quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G053",
+"rel": "PRESENTS_WITH",
+"from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+"to": "symptoms-and-signs-emotional-blunting",
+"quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G054",
+"rel": "LEADS_TO",
+"from": "diseases-and-conditions-post-ssri-sexual-dysfunction",
+"to": "diseases-and-conditions-erectile-dysfunction",
+"quote": "Post-SSRI Sexual Dysfunction is an iatrogenic condition characterized by persistent genital numbness, loss of libido, pleasureless or absent orgasm, erectile dysfunction, vaginal dryness, and emotional blunting",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G055",
+"rel": "LEADS_TO",
+"from": "causes-bt-toxin",
+"to": "causes-leaky-gut",
+"quote": "cumulative exposure to Bt toxin and to other genetic engineering byproducts — combined with the herbicide residues (glyphosate) that accompany genetically engineered crops designed to tolerate those herbicides — may contribute to increased intestinal permeability in humans.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "opinion",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "A hypothesis; I have not proven it (Nir)."
+},
+{
+"id": "G056",
+"rel": "LEADS_TO",
+"from": "causes-glyphosate",
+"to": "causes-leaky-gut",
+"quote": "cumulative exposure to Bt toxin and to other genetic engineering byproducts — combined with the herbicide residues (glyphosate) that accompany genetically engineered crops designed to tolerate those herbicides — may contribute to increased intestinal permeability in humans.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "opinion",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "A hypothesis; I have not proven it (Nir)."
+},
+{
+"id": "G057",
+"rel": "LEADS_TO",
+"from": "causes-leaky-gut",
+"to": "diseases-and-conditions-food-allergy",
+"quote": "The result, across a population, is the emergence of widespread food allergies.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "opinion",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "A hypothesis; I have not proven it (Nir)."
+},
+{
+"id": "G058",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-cancer",
+"to": "treatments-and-drugs-high-dose-intravenous-vitamin-c",
+"quote": "Recent research has quietly confirmed that intravenous vitamin C, administered at high doses, reaches blood concentrations sufficient to kill cancer cells in combination with chemotherapy, and is being retried in multiple oncology centers as of 2025.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "Never seriously evaluated by the US FDA.",
+"note": "Linus Pauling and Ewan Cameron reported better survival in terminally ill cancer patients in the 1970s. Mayo Clinic trials used oral vitamin C instead and failed."
+},
+{
+"id": "G059",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-common-cold",
+"to": "treatments-and-drugs-ascorbic-acid",
+"quote": "argued in his 1970 book *Vitamin C and the Common Cold* that high doses of vitamin C, far above the scurvy-prevention minimum, could reduce the incidence and duration of common colds.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Linus Pauling, 1970."
+},
+{
+"id": "G060",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-inflammation",
+"to": "treatments-and-drugs-omega-3-fatty-acids",
+"quote": "adequate omega-3 intake reduces chronic inflammation, supports cardiovascular health, and protects cognitive function is actually robust",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G061",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-cardiovascular-disease-cvd",
+"to": "treatments-and-drugs-omega-3-fatty-acids",
+"quote": "adequate omega-3 intake reduces chronic inflammation, supports cardiovascular health, and protects cognitive function is actually robust",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G062",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-depression",
+"to": "treatments-and-drugs-cognitive-behavioral-therapy",
+"quote": "cognitive behavioral therapy has roughly comparable efficacy to SSRIs for mild to moderate depression",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G063",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-depression",
+"to": "treatments-and-drugs-exercise",
+"quote": "exercise at forty-five minutes three times per week has published effect sizes comparable to first-line SSRI treatment",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G064",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-non-small-cell-lung-cancer",
+"to": "treatments-and-drugs-cimavax-egf",
+"quote": "CIMAvax was approved in Cuba in 2011. It has since been approved in Argentina, Colombia, Peru, and Paraguay.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "Only legal US access: clinical trials at Roswell Park, Buffalo, New York (also combined with nivolumab). Americans have smuggled it in through Canada or Mexico.",
+"approval": "Approved in Cuba (2011), Argentina, Colombia, Peru and Paraguay. Not approved by the US FDA.",
+"note": "Indicated for advanced non-small cell lung cancer after first-line chemotherapy."
+},
+{
+"id": "G065",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-cancer",
+"to": "treatments-and-drugs-vaxira",
+"quote": "Cuba has developed a second therapeutic cancer vaccine called Vaxira, also from the Center of Molecular Immunology, also available outside the United States, also not approved by the FDA.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "Not approved by the US FDA; available outside the United States.",
+"note": ""
+},
+{
+"id": "G066",
+"rel": "SAME_CHEMICAL",
+"from": "treatments-and-drugs-ozempic",
+"to": "treatments-and-drugs-semaglutide",
+"quote": "for the exact same molecule that Novo Nordisk sells in the United States as Ozempic for approximately one thousand dollars per month",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": ""
+},
+{
+"id": "G067",
+"rel": "SAME_CHEMICAL",
+"from": "treatments-and-drugs-ozempic",
+"to": "treatments-and-drugs-indian-generic-semaglutide",
+"quote": "Natco's product is branded Semanat. Alkem's is Semasize. Sun Pharma sells two versions, Noveltreat and Sematrinity. Dr. Reddy's is Obeda.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "India generic: $14 to $20 a month (1,300 to 1,800 rupees). US Ozempic: about $1,000 a month.",
+"availability": "",
+"approval": "Indian patent on semaglutide expired on 20 March 2026; over forty legal Indian manufacturers.",
+"note": ""
+},
+{
+"id": "G068",
+"rel": "SAME_CHEMICAL",
+"from": "treatments-and-drugs-ozempic",
+"to": "treatments-and-drugs-chinese-generic-semaglutide",
+"quote": "Huadong Pharmaceutical and CSPC Pharmaceutical are preparing \"day-one\" launches of Chinese generic semaglutide.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "Expected $15 to $30 a month.",
+"availability": "",
+"approval": "Chinese patent expired on 20 March 2026.",
+"note": ""
+},
+{
+"id": "G069",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-mantle-cell-lymphoma-mcl",
+"to": "treatments-and-drugs-zanubrutinib",
+"quote": "The next day, the doctor sees a patient with relapsed mantle cell lymphoma. Six months ago he would have prescribed Imbruvica. Today he prescribes Brukinsa.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Brukinsa (zanubrutinib, BeiGene, now BeOne Medicines) is the Chinese-developed alternative to Imbruvica (ibrutinib)."
+},
+{
+"id": "G070",
+"rel": "TREATED_BY",
+"from": "diseases-and-conditions-mantle-cell-lymphoma-mcl",
+"to": "treatments-and-drugs-ibrutinib",
+"quote": "The next day, the doctor sees a patient with relapsed mantle cell lymphoma. Six months ago he would have prescribed Imbruvica. Today he prescribes Brukinsa.",
+"source": {
+"id": "S005",
+"title": "Mad Honey, chapter 4: the pharmaceutical machine (Nir Strulovitz)",
+"origin": "Israel",
+"year": 2026,
+"kind": "book",
+"strength": "review",
+"file": "S005-madhoney-chapter-04-pharma.md"
+},
+"frequency_phrase": "",
+"numeric_pct": null,
+"f_scale": 0,
+"severity": false,
+"severity_phrase": "",
+"subtype": null,
+"price": "",
+"availability": "",
+"approval": "",
+"note": "Brukinsa (zanubrutinib, BeiGene, now BeOne Medicines) is the Chinese-developed alternative to Imbruvica (ibrutinib)."
+}
+]
+}

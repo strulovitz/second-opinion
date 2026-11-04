@@ -5,7 +5,8 @@
 //   are no stretched poles, and dragging simply moves the centre: any place on the
 //   globe can be the middle of the map. Same tiles as the globe (honeycomb.json), so a
 //   click means the same chapter in both views.
-import { radiusPx, drawSpot } from './geo.js?v=686363d-202611031550';
+import { radiusPx, drawSpot } from './geo.js?v=8dfde9d-202611041435';
+import { drawWalk2d, hitWalk2d, anchorsOf } from './paths.js?v=8dfde9d-202611041435';
 
 const LIMIT = Math.PI * 0.62;                         // how far from the centre tiles are still drawn (radians)
 const neon = hex => { const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
@@ -16,6 +17,7 @@ export async function createMap(canvas, world, select, hover) {
   let width = 1, height = 1, scale = 1, fitScale = 1;
   let centre = [1, 0, 0], east = [0, 0, 1], north = [0, 1, 0];
   let spots = [], placed = [], highlighted = null, hoverTile = null, start = null, gesture = false, viewBook = null;
+  let walk = null, walkPlaces = new Map(), walkLit = new Set(), walkHits = null, hoveredArrow = null;
   const pointers = new Map();
   const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
   const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
@@ -89,10 +91,18 @@ export async function createMap(canvas, world, select, hover) {
     // lit chapters: the whole tile glows in its book's neon colour (the 2-D twin of the 3-D columns)
     const litTiles = new Map();
     for (const s of spots) if (s.lit) { const t = world.tileOf.get(s.district_id); if (t) litTiles.set(t.index, t); }
+    context.save(); if (walk) context.globalAlpha = 0.35;   // BIBLE 12.5(a): chapter lights stay, faint, under the paths
+    for (const id of walkLit) { const t = world.tileOf.get(id); if (t) litTiles.set(t.index, t); }
     for (const t of litTiles.values()) {
       const p = new Path2D(); if (!tilePath(p, t)) continue;
       context.fillStyle = neon(world.books[t.book]?.colour_hex || '#ffffff'); context.fill(p);
       context.strokeStyle = '#ffffff'; context.lineWidth = 1.5; context.stroke(p);
+    }
+    context.restore();
+    if (walk) for (const n of walk.nodes) {                 // a disease on the walk = its hexagon, lit
+      const place = walkPlaces.get(n.slug); if (n.place !== 'surface' || !place) continue;
+      const p = new Path2D(); if (!tilePath(p, place.tile)) continue;
+      context.fillStyle = 'rgba(255,122,80,.85)'; context.fill(p); context.strokeStyle = '#fff4e0'; context.lineWidth = 2.5; context.stroke(p);
     }
     if (hoverTile) { const p = new Path2D(); if (tilePath(p, hoverTile)) { context.fillStyle = 'rgba(255,255,255,.45)'; context.fill(p); } }
     if (scale > 900) {                                   // chapter names when zoomed in
@@ -120,6 +130,13 @@ export async function createMap(canvas, world, select, hover) {
       drawSpot(context, spot, cx, cy, highlighted === spot || highlighted === spot.other_slug);
       placed.push({ x: cx, y: cy, spot, radius: spot.lit ? 8 : radiusPx(spot.f) + 6 });
     }
+    walkHits = walk ? drawWalk2d(context, walk, walkPos, hoveredArrow) : null;
+  }
+  function walkPos(slug) {
+    const place = walkPlaces.get(slug); if (!place) return null;
+    const q = project(place.tile.centre); if (!q) return null;   // the whole chain is drawn, even beyond the tiles
+    const a = place.k * 2.39996, r = place.k ? 26 * Math.sqrt(place.k) : 0;
+    return [sx(q[0]) + r * Math.cos(a), sy(q[1]) + r * Math.sin(a)];
   }
   function fit() { scale = fitScale; draw(); }
   function resize() {
@@ -135,6 +152,7 @@ export async function createMap(canvas, world, select, hover) {
   const point = event => { const r = canvas.getBoundingClientRect(); return { x: event.clientX - r.left, y: event.clientY - r.top }; };
   function hit(event) {
     const { x, y } = point(event);
+    const onWalk = walkHits && hitWalk2d(walkHits, x, y); if (onWalk) return { value: onWalk, tile: null };
     let best = null, bd = Infinity;
     for (const item of placed) { const d = Math.hypot(item.x - x, item.y - y); if (d <= item.radius && d < bd) { bd = d; best = item.spot; } }
     if (best) return { value: best, tile: world.tileOf.get(best.district_id) };
@@ -163,7 +181,8 @@ export async function createMap(canvas, world, select, hover) {
     const p = point(event);
     if (!pointers.has(event.pointerId)) {
       const h = hit(event); const tile = h.value && !h.value.other_slug ? h.tile : null;
-      if (tile !== hoverTile) { hoverTile = tile; draw(); }
+      const arrow = h.value?.walkArrow?.arrow || h.value?.walkArrow || null;
+      if (tile !== hoverTile || arrow !== hoveredArrow) { hoverTile = tile; hoveredArrow = arrow; draw(); }
       hover(h.value, event); return;
     }
     const last = pointers.get(event.pointerId); pointers.set(event.pointerId, p);
@@ -193,8 +212,12 @@ export async function createMap(canvas, world, select, hover) {
       else { const t = nameTiles.find(t => world.books[t.book]?.book_id === bookOrDirection); if (t) setCentre(t.centre); }
       resize(); fit();
     },
-    render(entity, nextSpots = []) { spots = nextSpots; highlighted = null; draw(); },
+    render(entity, nextSpots = [], nextWalk = null, lit = new Set()) {
+      spots = nextSpots; highlighted = null; walk = nextWalk?.arrows.length ? nextWalk : null; walkLit = walk ? lit : new Set();
+      walkPlaces = walk ? anchorsOf(walk, world) : new Map(); hoveredArrow = null; draw();
+    },
     highlight(slug) { highlighted = slug; draw(); },
+    walkCount() { return walkHits ? walkHits.arrows.length : 0; },   // test hook
     screenOf(id) { const t = world.tileOf.get(id), r = canvas.getBoundingClientRect(); const q = t && project(t.centre); return q ? { x: r.left + sx(q[0]), y: r.top + sy(q[1]) } : null; },
     firstSpot() { const p = placed.find(item => item.spot.other_slug), r = canvas.getBoundingClientRect(); return p ? { x: r.left + p.x, y: r.top + p.y, other_slug: p.spot.other_slug } : null; },
   };

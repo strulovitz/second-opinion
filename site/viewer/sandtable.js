@@ -5,9 +5,9 @@
 // treatment orbits. Clouds and satellites are DECORATION that shows where the bands
 // are; real entity lights never move (they are drawn by layers.js at fixed places).
 import * as THREE from 'three';
-import { tileMaterial, tileColour, glowMaterial } from './materials.js?v=686363d-202611031550';
-import { tileGeometry, ORBIT_TILTS } from './atlas.js?v=686363d-202611031550';
-import { BANDS, SUBBANDS } from './geo.js?v=686363d-202611031550';
+import { tileMaterial, tileColour, glowMaterial } from './materials.js?v=8dfde9d-202611041435';
+import { tileGeometry, ORBIT_TILTS } from './atlas.js?v=8dfde9d-202611041435';
+import { BANDS, SUBBANDS } from './geo.js?v=8dfde9d-202611041435';
 
 function random(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
 export function toonRamp() {
